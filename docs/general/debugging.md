@@ -72,6 +72,4 @@ ESLint help making all developer follow the same coding format. Please also sett
 
 ## Have another question?
 
-Submit an [issue](https://github.com/react-boilerplate/react-boilerplate/issues),
-hop onto the [Gitter channel](https://gitter.im/mxstbr/react-boilerplate)
-or contact Max direct on [twitter](https://twitter.com/mxstbr)!
+Submit an [issue](https://github.com/OmniLayer/omniexplorer/issues)

@@ -1,16 +1,26 @@
 {
-  "name": "react-boilerplate",
+  "name": "omniexplorer",
   "version": "3.5.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "description": "Omni Explorer is a Block Explorer and Analytics Platform for Omni",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "https://github.com/omniLayer/omniexplorer.git"
   },
   "engines": {
     "npm": ">=3",
     "node": ">=5"
   },
-  "author": "Max Stoiber",
+  "author": "OmniLayer Team",
+  "contributors": [
+    {
+      "name" : "Adam chamely",
+      "url" : "https://github.com/achamely"
+    },
+    {
+      "name" : "Germán Ferreyra",
+      "url" : "https://github.com/germanf"
+    }
+  ],
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
@@ -284,12 +294,14 @@
     "lint-staged": "3.5.1",
     "ngrok": "2.2.9",
     "node-plop": "0.7.0",
+    "node-sass": "^4.7.2",
     "null-loader": "0.1.1",
     "offline-plugin": "4.8.1",
     "plop": "1.8.0",
     "pre-commit": "1.2.2",
     "react-test-renderer": "15.6.1",
     "rimraf": "2.6.1",
+    "sass-loader": "^6.0.6",
     "shelljs": "0.7.7",
     "style-loader": "0.18.1",
     "url-loader": "0.5.8",
