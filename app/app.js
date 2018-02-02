@@ -45,6 +45,9 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-styles';
 
+// Import bootstrap styles
+import 'bootstrap/dist/css/bootstrap.css';
+
 // Create redux store with history
 const initialState = {};
 const history = createHistory();
