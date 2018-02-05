@@ -22,31 +22,34 @@ import {
   NavItem,
   NavLink,
   Row,
-  UncontrolledDropdown
+  UncontrolledDropdown,
 } from 'reactstrap';
+
+import SearchBox from 'components/SearchBox';
 
 const IMG = styled.img`
   padding-bottom: 3px;
   padding-right: 9px;
 `;
 
+
 // function Header(props) {
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
-  
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
     });
   }
-  
+
   render() {
     return (
       <Navbar color="faded" light expand="md">
@@ -59,20 +62,12 @@ export default class Header extends React.Component {
               </NavbarBrand>
             </Col>
             <Col>
-              <form className="navbar-form" role="search">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Search" name="srch-term" id="srch-term"/>
-                  <div className="input-group-btn">
-                    <button className="btn btn-default" type="submit">asdf<i className="glyphicon glyphicon-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
+              <SearchBox />
             </Col>
           </Row>
           <Row className="clearfix">
             <Col xs="12">
-              <NavbarToggler onClick={this.toggle}/>
+              <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
@@ -89,7 +84,7 @@ export default class Header extends React.Component {
                       <DropdownItem>
                         Option 2
                       </DropdownItem>
-                      <DropdownItem divider/>
+                      <DropdownItem divider />
                       <DropdownItem>
                         Reset
                       </DropdownItem>
@@ -106,7 +101,7 @@ export default class Header extends React.Component {
                       <DropdownItem>
                         Option 2
                       </DropdownItem>
-                      <DropdownItem divider/>
+                      <DropdownItem divider />
                       <DropdownItem>
                         Reset
                       </DropdownItem>
@@ -123,7 +118,7 @@ export default class Header extends React.Component {
                       <DropdownItem>
                         Option 2
                       </DropdownItem>
-                      <DropdownItem divider/>
+                      <DropdownItem divider />
                       <DropdownItem>
                         Reset
                       </DropdownItem>
