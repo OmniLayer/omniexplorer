@@ -1,7 +1,7 @@
 ## Removing `sanitize.css`
 
 To remove `sanitize.css` you will need to remove it from both:
-- [`app.js`](../../app/app.js)
+- [`app.js`](../../app/app.jsx)
 ```diff
 import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
