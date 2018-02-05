@@ -22,7 +22,7 @@ import {
   NavItem,
   NavLink,
   Row,
-  UncontrolledDropdown,
+  UncontrolledDropdown
 } from 'reactstrap';
 
 const IMG = styled.img`
@@ -34,120 +34,127 @@ const IMG = styled.img`
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
-
+  
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
     });
   }
-
+  
   render() {
     return (
-      <div>
-        <Navbar color="faded" light expand="md">
-          <Container>
-            <Row>
-              <Col>
-                <NavbarBrand href="/" className="navbar-brand">
-                  <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
-                  OMNIEXPLORER.INFO
-                </NavbarBrand>
-              </Col>
-              <Col>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs="12">
-                <NavbarToggler onClick={this.toggle} />
-                <Collapse isOpen={this.state.isOpen} navbar>
-                  <Nav className="ml-auto" navbar>
-                    <NavItem>
-                      <NavLink href="/">Home</NavLink>
-                    </NavItem>
-                    <UncontrolledDropdown nav inNavbar>
-                      <DropdownToggle nav caret>
-                        Exchange
-                      </DropdownToggle>
-                      <DropdownMenu >
-                        <DropdownItem>
-                          Option 1
-                        </DropdownItem>
-                        <DropdownItem>
-                          Option 2
-                        </DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem>
-                          Reset
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                    <UncontrolledDropdown nav inNavbar>
-                      <DropdownToggle nav caret>
-                        API
-                      </DropdownToggle>
-                      <DropdownMenu >
-                        <DropdownItem>
-                          Option 1
-                        </DropdownItem>
-                        <DropdownItem>
-                          Option 2
-                        </DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem>
-                          Reset
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                    <UncontrolledDropdown nav inNavbar>
-                      <DropdownToggle nav caret>
-                        Smart Property
-                      </DropdownToggle>
-                      <DropdownMenu >
-                        <DropdownItem>
-                          Option 1
-                        </DropdownItem>
-                        <DropdownItem>
-                          Option 2
-                        </DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem>
-                          Reset
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                    <NavItem>
-                      <NavLink href="/">Usage Graphs</NavLink>
-                    </NavItem>
-                    <UncontrolledDropdown nav inNavbar>
-                      <DropdownToggle nav caret>
-                        MISC
-                      </DropdownToggle>
-                      <DropdownMenu >
-                        <DropdownItem>
-                          Option 1
-                        </DropdownItem>
-                        <DropdownItem>
-                          Option 2
-                        </DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem>
-                          Reset
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  </Nav>
-                </Collapse>
-              </Col>
-            </Row>
-          </Container>
-        </Navbar>
-      </div>
+      <Navbar color="faded" light expand="md">
+        <Container className="d-block">
+          <Row className="clearfix">
+            <Col>
+              <NavbarBrand href="/" className="navbar-brand">
+                <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
+                OMNIEXPLORER.INFO
+              </NavbarBrand>
+            </Col>
+            <Col>
+              <form className="navbar-form" role="search">
+                <div className="input-group">
+                  <input type="text" className="form-control" placeholder="Search" name="srch-term" id="srch-term"/>
+                  <div className="input-group-btn">
+                    <button className="btn btn-default" type="submit">asdf<i className="glyphicon glyphicon-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </Col>
+          </Row>
+          <Row className="clearfix">
+            <Col xs="12">
+              <NavbarToggler onClick={this.toggle}/>
+              <Collapse isOpen={this.state.isOpen} navbar>
+                <Nav className="ml-auto" navbar>
+                  <NavItem>
+                    <NavLink href="/">Home</NavLink>
+                  </NavItem>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Exchange
+                    </DropdownToggle>
+                    <DropdownMenu >
+                      <DropdownItem>
+                        Option 1
+                      </DropdownItem>
+                      <DropdownItem>
+                        Option 2
+                      </DropdownItem>
+                      <DropdownItem divider/>
+                      <DropdownItem>
+                        Reset
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      API
+                    </DropdownToggle>
+                    <DropdownMenu >
+                      <DropdownItem>
+                        Option 1
+                      </DropdownItem>
+                      <DropdownItem>
+                        Option 2
+                      </DropdownItem>
+                      <DropdownItem divider/>
+                      <DropdownItem>
+                        Reset
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Smart Property
+                    </DropdownToggle>
+                    <DropdownMenu >
+                      <DropdownItem>
+                        Option 1
+                      </DropdownItem>
+                      <DropdownItem>
+                        Option 2
+                      </DropdownItem>
+                      <DropdownItem divider/>
+                      <DropdownItem>
+                        Reset
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <NavItem>
+                    <NavLink href="/">Usage Graphs</NavLink>
+                  </NavItem>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      MISC
+                    </DropdownToggle>
+                    <DropdownMenu >
+                      <DropdownItem>
+                        Option 1
+                      </DropdownItem>
+                      <DropdownItem>
+                        Option 2
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem>
+                        Reset
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </Nav>
+              </Collapse>
+            </Col>
+          </Row>
+        </Container>
+      </Navbar>
     );
   }
 }
