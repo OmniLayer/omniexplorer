@@ -10,15 +10,48 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import styled from 'styled-components';
+
+import {
+  Row,
+  Col,
+} from 'reactstrap';
+
+import ServiceBlock from 'components/ServiceBlock';
+import HeaderMessage from 'components/HeaderMessage';
+import TransactionHistory from 'components/TransactionHistory';
+import TransactionList from 'components/TransactionList';
+
+// import { FormattedMessage } from 'react-intl';
+// import messages from './messages';
+const Layout = styled.div`
+  background-color: #F5F5F5;
+  padding: 0;
+`;
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>
-        body
-      </div>
+      <Layout className="container-fluid">
+        <Row noGutters>
+          <Col>
+            <HeaderMessage />
+          </Col>
+        </Row>
+        <Row>
+          <Col md="5">
+            <ServiceBlock />
+          </Col>
+          <Col md="7">
+            <TransactionHistory />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TransactionList />
+          </Col>
+        </Row>
+      </Layout>
     );
   }
 }
