@@ -239,6 +239,7 @@
     "react-router-dom": "4.1.1",
     "react-router-redux": "5.0.0-alpha.6",
     "react-transition-group": "^2.2.0",
+    "react-vis": "^1.8.3",
     "reactstrap": "^5.0.0-beta",
     "redux": "3.6.0",
     "redux-immutable": "4.0.0",

@@ -40,6 +40,9 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 // Import bootstrap styles
 import 'bootstrap/dist/css/bootstrap.css';
 
+// Import react-vis styles
+import 'react-vis/dist/style.css';
+
 import configureStore from './configureStore';
 
 // Import i18n messages

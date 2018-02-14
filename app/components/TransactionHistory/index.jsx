@@ -1,27 +1,36 @@
 /**
-*
-* TransactionHistory
-*
-*/
+ *
+ * TransactionHistory
+ *
+ */
 
 import React from 'react';
+import { HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis';
 // import styled from 'styled-components';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 
 class TransactionHistory extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>
-        <FormattedMessage {...messages.header} />
-      </div>
+      <XYPlot
+        width={600}
+        height={230}
+      >
+        <HorizontalGridLines />
+        <LineSeries
+          data={[
+            { x: 1, y: 10 },
+            { x: 2, y: 5 },
+            { x: 3, y: 15 },
+          ]}
+        />
+        <XAxis />
+        <YAxis />
+      </XYPlot>
     );
   }
 }
 
-TransactionHistory.propTypes = {
-
-};
+TransactionHistory.propTypes = {};
 
 export default TransactionHistory;
