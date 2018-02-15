@@ -5,19 +5,22 @@
 */
 
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Container } from 'reactstrap';
 // import styled from 'styled-components';
 
 import TransactionListHeader from 'components/TransactionListHeader';
-import { FormattedMessage } from 'react-intl';
+import ListPagination from 'components/ListPagination';
 import messages from './messages';
 
 class TransactionList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>
+      <Container fluid>
         <TransactionListHeader />
+        <ListPagination />
         <FormattedMessage {...messages.header} />
-      </div>
+      </Container>
     );
   }
 }

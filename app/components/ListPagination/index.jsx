@@ -60,4 +60,4 @@ Pagination.propTypes = {
   // tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 };
 
-export default Pagination;
+export default ListPagination;
