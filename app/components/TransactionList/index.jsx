@@ -7,7 +7,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Container } from 'reactstrap';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 import TransactionListHeader from 'components/TransactionListHeader';
 import ListPagination from 'components/ListPagination';

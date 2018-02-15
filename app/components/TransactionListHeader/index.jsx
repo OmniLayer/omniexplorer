@@ -36,7 +36,7 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
     const HeaderTitle = styled.span`
       font-weight: 300;
     `;
-    
+
     return (
       <StyledRow className="align-items-center pt-2 pb-2">
         <Col>

@@ -1,52 +1,53 @@
 /**
-*
-* Pagination
-*
-*/
+ *
+ * Pagination
+ *
+ */
 
 import React from 'react';
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-
+const StyledPaginationLink = styled(PaginationLink)`
+  border-radius: 3.2px;
+  margin-left: 1px;
+`;
 
 class ListPagination extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <Pagination>
+      <Pagination className="pagination-sm justify-content-end mt-2 mb-2">
         <PaginationItem>
-          <PaginationLink previous href="#" />
+          <StyledPaginationLink previous href="#" />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#">
+          <StyledPaginationLink href="#">
             1
-          </PaginationLink>
+          </StyledPaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#">
+          <StyledPaginationLink href="#">
             2
-          </PaginationLink>
+          </StyledPaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#">
+          <StyledPaginationLink href="#">
             3
-          </PaginationLink>
+          </StyledPaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#">
+          <StyledPaginationLink href="#">
             4
-          </PaginationLink>
+          </StyledPaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#">
+          <StyledPaginationLink href="#">
             5
-          </PaginationLink>
+          </StyledPaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink next href="#" />
+          <StyledPaginationLink next href="#" />
         </PaginationItem>
       </Pagination>
     );
