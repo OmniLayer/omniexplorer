@@ -28,6 +28,8 @@ const ReactBoilerplate = {
         'ip',
         'minimist',
         'sanitize.css',
+        'bootstrap',
+        'react-icons', //https://github.com/react-boilerplate/react-boilerplate/issues/1405
       ],
 
       /**
