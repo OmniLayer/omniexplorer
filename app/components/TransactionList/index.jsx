@@ -5,22 +5,35 @@
 */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { Container } from 'reactstrap';
 import styled from 'styled-components';
 
 import TransactionListHeader from 'components/TransactionListHeader';
 import ListPagination from 'components/ListPagination';
-import messages from './messages';
+import Transaction from 'components/Transaction';
+// import messages from './messages';
 
 class TransactionList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const StyledContainer = styled(Container)`
+      background-color: #F0F3F4;
+    `;
+
     return (
-      <Container fluid>
+      <StyledContainer fluid>
         <TransactionListHeader />
         <ListPagination />
-        <FormattedMessage {...messages.header} />
-      </Container>
+        <ul className="result-list">
+          <Transaction />
+          <Transaction />
+          <Transaction />
+          <Transaction />
+          <Transaction />
+          <Transaction />
+          <Transaction />
+        </ul>
+      </StyledContainer>
     );
   }
 }

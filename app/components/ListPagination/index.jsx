@@ -47,6 +47,26 @@ class ListPagination extends React.PureComponent { // eslint-disable-line react/
           </StyledPaginationLink>
         </PaginationItem>
         <PaginationItem>
+          <StyledPaginationLink href="#">
+            6
+          </StyledPaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <StyledPaginationLink href="#">
+            7
+          </StyledPaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <StyledPaginationLink href="#">
+            9
+          </StyledPaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <StyledPaginationLink href="#">
+            10
+          </StyledPaginationLink>
+        </PaginationItem>
+        <PaginationItem>
           <StyledPaginationLink next href="#" />
         </PaginationItem>
       </Pagination>
