@@ -257,6 +257,4 @@ More information is available in the [official documents](https://github.com/sty
 
 ## Have another question?
 
-Submit an [issue](https://github.com/react-boilerplate/react-boilerplate/issues),
-hop onto the [Gitter channel](https://gitter.im/mxstbr/react-boilerplate)
-or contact Max direct on [twitter](https://twitter.com/mxstbr)!
+Submit an [issue](https://github.com/OmniLayer/omniexplorer/issues)
