@@ -1,4 +1,4 @@
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { LOAD_TRANSACTIONS } from 'containers/Transactions/constants';
 import { transactionsLoaded, transactionsLoadingError } from 'containers/Transactions/actions';
 
