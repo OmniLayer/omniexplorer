@@ -34,7 +34,10 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
       color: white;
     `;
     const HeaderTitle = styled.span`
-      font-weight: 300;
+      	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.1rem;
+        font-weight: 300;
     `;
 
     return (
