@@ -27,11 +27,12 @@ import {
 
 import SearchBox from 'components/SearchBox';
 
+import './header.scss';
+
 const IMG = styled.img`
   padding-bottom: 3px;
   padding-right: 9px;
 `;
-
 
 // function Header(props) {
 export default class Header extends React.Component {
