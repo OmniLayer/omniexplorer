@@ -21,6 +21,11 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
+
+// Import DevTools, only for dev environment
+import DevTools from 'utils/devTools';
+const isDev = process.env.NODE_ENV !== 'production';
+
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
   margin: 0 auto;
@@ -46,6 +51,10 @@ export default function App() {
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
+      { isDev
+        ? <DevTools />
+        : null
+      }
     </AppWrapper>
   );
 }

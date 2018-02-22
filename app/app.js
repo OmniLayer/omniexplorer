@@ -52,10 +52,11 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-styles';
 
-
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
 const openSansObserver = new FontFaceObserver('Open Sans', {});
+
+const isProd = process.env.NODE_ENV === 'production';
 
 // When Open Sans is loaded, add a font-family using Open Sans to the body
 openSansObserver.load().then(() => {
@@ -112,6 +113,6 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
