@@ -1,45 +1,34 @@
 /**
-*
-* TransactionList
-*
-*/
+ *
+ * TransactionList
+ *
+ */
 
 import React from 'react';
-// import { FormattedMessage } from 'react-intl';
-import { Container } from 'reactstrap';
-import styled from 'styled-components';
-
-import TransactionListHeader from 'components/TransactionListHeader';
-import ListPagination from 'components/ListPagination';
+import PropTypes from 'prop-types';
 import Transaction from 'components/Transaction';
-// import messages from './messages';
 
 class TransactionList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const StyledContainer = styled(Container)`
-      background-color: #F0F3F4;
-    `;
+    const repeatTransactions = (trxs) => (trxs || []).map((trx, idx) => <Transaction key={trx.txid} transaction={trx} />);
+
+    if (!this.props.transactions || this.props.transactions.length === 0) {
+      return (
+        <h4>Loading...</h4>
+      );
+    }
 
     return (
-      <StyledContainer fluid>
-        <TransactionListHeader />
-        <ListPagination />
-        <ul className="result-list">
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-        </ul>
-      </StyledContainer>
+      <ul className="result-list">
+        {repeatTransactions(this.props.transactions)}
+      </ul>
     );
   }
 }
 
 TransactionList.propTypes = {
-
+  transactions: PropTypes.array.isRequired,
+  pageCount: PropTypes.number.isRequired,
 };
 
 export default TransactionList;

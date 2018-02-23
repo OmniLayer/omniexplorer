@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Container } from 'reactstrap';
+import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -19,6 +21,8 @@ import reducer from './reducer';
 import saga from './saga';
 import { loadTransactions } from './actions';
 
+import TransactionListHeader from 'components/TransactionListHeader';
+import ListPagination from 'components/ListPagination';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -26,12 +30,23 @@ export class Transactions extends React.Component { // eslint-disable-line react
   }
 
   render() {
-    return (<TransactionList />);
+    const StyledContainer = styled(Container)`
+      background-color: #F0F3F4;
+    `;
+
+    return (
+      <StyledContainer fluid>
+        <TransactionListHeader />
+        <ListPagination />
+        <TransactionList transactions={this.props.transactions.transactions} pageCount={this.props.transactions.pageCount} />
+      </StyledContainer>
+    );
   }
 }
 
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
+  transactions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

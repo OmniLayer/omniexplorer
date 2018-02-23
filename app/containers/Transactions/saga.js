@@ -13,7 +13,7 @@ export function* getTransactions() {
     };
 
     const transactions = yield call(request, requestURL, headers);
-    yield put(transactionsLoaded(transactions));
+    yield put(transactionsLoaded(transactions.data, transactions.pages));
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }

@@ -22,9 +22,8 @@ import {
 const initialState = fromJS({
   loading: false,
   error: false,
-  data: {
-    transactions: false,
-  },
+  transactions: [],
+  pageCount: 0,
 });
 
 function transactionsReducer(state = initialState, action) {
@@ -33,10 +32,12 @@ function transactionsReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false)
-        .setIn(['data', 'transactions'], false);
+        .set('transactions', [])
+        .set('pageCount', 0);
     case LOAD_TRANSACTIONS_SUCCESS:
       return state
-        .setIn(['data', 'transactions'], action.transactions)
+        .set('transactions', action.transactions)
+        .set('pageCount', action.pages)
         .set('loading', false);
     case LOAD_TRANSACTIONS_ERROR:
       return state
