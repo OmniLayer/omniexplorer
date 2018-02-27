@@ -19,6 +19,7 @@ import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
+  SET_PAGE,
 } from './constants';
 
 /**
@@ -39,11 +40,12 @@ export function loadTransactions() {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS_SUCCESS passing the transactions
  */
-export function transactionsLoaded(transactions, pages) {
+export function transactionsLoaded(transactions, pages, currentPage) {
   return {
     type: LOAD_TRANSACTIONS_SUCCESS,
     transactions,
     pages,
+    currentPage,
   };
 }
 
@@ -58,5 +60,19 @@ export function transactionsLoadingError(error) {
   return {
     type: LOAD_TRANSACTIONS_ERROR,
     error,
+  };
+}
+
+/**
+ * Dispatched when the page change
+ *
+ * @param  {number} page The page number
+ *
+ * @return {object} An action object with the page
+ */
+export function setPage(page) {
+  return {
+    type: SET_PAGE,
+    page,
   };
 }

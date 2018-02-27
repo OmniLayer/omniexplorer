@@ -1,11 +1,12 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { LOAD_TRANSACTIONS } from 'containers/Transactions/constants';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { LOAD_TRANSACTIONS, SET_PAGE } from 'containers/Transactions/constants';
 import { transactionsLoaded, transactionsLoadingError } from 'containers/Transactions/actions';
 
 import request from 'utils/request';
 
-export function* getTransactions() {
-  const requestURL = '/api/v1/transaction/general/';
+function* getTransactions(action = {}) {
+  const page = action.page || 0;
+  const requestURL = `/api/v1/transaction/general/${page}`;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -13,20 +14,22 @@ export function* getTransactions() {
     };
 
     const transactions = yield call(request, requestURL, headers);
-    yield put(transactionsLoaded(transactions.data, transactions.pages));
+    yield put(transactionsLoaded(transactions.data, transactions.pages, page));
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }
 }
 
+export function* setPageGenerator(action) {
+  return yield getTransactions(action);
+}
 
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* get() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
-  yield takeLatest(LOAD_TRANSACTIONS, getTransactions);
+export default function* root() {
+  yield all([
+    takeLatest(SET_PAGE, setPageGenerator),
+    takeLatest(LOAD_TRANSACTIONS, getTransactions),
+  ]);
 }
