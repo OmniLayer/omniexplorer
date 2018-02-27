@@ -16,15 +16,16 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_ERROR,
+  SET_PAGE,
 } from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
   loading: false,
   error: false,
-  data: {
-    transactions: false,
-  },
+  transactions: [],
+  pageCount: 0,
+  currentPage: 0,
 });
 
 function transactionsReducer(state = initialState, action) {
@@ -33,15 +34,22 @@ function transactionsReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false)
-        .setIn(['data', 'transactions'], false);
+        .set('transactions', [])
+        .set('pageCount', 0)
+        .set('currentPage', 0);
     case LOAD_TRANSACTIONS_SUCCESS:
       return state
-        .setIn(['data', 'transactions'], action.transactions)
+        .set('transactions', action.transactions)
+        .set('pageCount', action.pages)
         .set('loading', false);
     case LOAD_TRANSACTIONS_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);
+    case SET_PAGE:
+      return state
+        .set('loading', true)
+        .set('currentPage', action.page);
     default:
       return state;
   }

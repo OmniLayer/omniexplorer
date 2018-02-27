@@ -6,12 +6,12 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import DevTools from 'utils/devTools';
 import createReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
 // Import DevTools, only for dev environment
-import DevTools from 'utils/devTools';
 const isDev = process.env.NODE_ENV !== 'production';
 
 export default function configureStore(initialState = {}, history) {

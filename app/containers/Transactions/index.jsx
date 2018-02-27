@@ -9,16 +9,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Container } from 'reactstrap';
+import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import TransactionList from 'components/TransactionList';
+import TransactionListHeader from 'components/TransactionListHeader';
+import ListPagination from 'components/ListPagination';
+import LoadingIndicator from 'components/LoadingIndicator';
 
+import { makeSelectLoading } from 'containers/App/selectors';
 import makeSelectTransactions from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { loadTransactions } from './actions';
-
+import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -26,22 +31,47 @@ export class Transactions extends React.Component { // eslint-disable-line react
   }
 
   render() {
-    return (<TransactionList />);
+    const StyledContainer = styled(Container)`
+      background-color: #F0F3F4;
+    `;
+    //
+    // if (this.props.loading || !this.props.transactions.transactions || this.props.transactions.transactions.length === 0) {
+    //   return (
+    //     <StyledContainer fluid>
+    //       <TransactionListHeader />
+    //       <LoadingIndicator />
+    //     </StyledContainer>
+    //   );
+    // }
+
+    return (
+      <StyledContainer fluid>
+        <TransactionListHeader />
+        <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+        <TransactionList {...this.props.transactions} />
+        <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+      </StyledContainer>
+    );
   }
 }
 
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
+  transactions: PropTypes.object.isRequired,
+  onSetPage: PropTypes.func,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   transactions: makeSelectTransactions(),
+  loading: makeSelectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     loadTransactions: () => dispatch(loadTransactions()),
     dispatch,
+    onSetPage: (p) => dispatch(setPage(p)),
   };
 }
 

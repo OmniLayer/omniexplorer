@@ -43,6 +43,10 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
+    global: () => fromJS({
+      loading: false,
+      error: false,
+    }),
     ...injectedReducers,
   });
 }
