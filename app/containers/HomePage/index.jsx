@@ -20,7 +20,7 @@ import {
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
-import Transactions from 'containers/Transactions';
+import Transactions from 'containers/Transactions/Loadable';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 

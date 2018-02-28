@@ -19,7 +19,12 @@ const makeSelectTransactions = () => createSelector(
   (substate) => substate.toJS()
 );
 
-export default makeSelectTransactions;
-export {
+const makeSelectLoading = () => createSelector(
   selectTransactionsDomain,
+  (substate) => substate.get('loading')
+);
+
+export {
+  makeSelectTransactions,
+  makeSelectLoading,
 };
