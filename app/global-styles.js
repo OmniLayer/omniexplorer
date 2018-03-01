@@ -30,4 +30,18 @@ injectGlobal`
   div.card .card-text {
 	  font-family: inherit;
   }
+  
+  h1 small,h2 small,h3 small,h4 small,h5 small,h6 small {
+    font-size: 60%;
+    font-weight: 300;
+    color: #7c7f83
+  }
+  
+  a {
+    transition: color 100ms ease-in-out;
+    -o-transition: color 100ms ease-in-out;
+    -ms-transition: color 100ms ease-in-out;
+    -moz-transition: color 100ms ease-in-out;
+    -webkit-transition: color 100ms ease-in-out
+  }
 `;
