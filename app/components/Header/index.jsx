@@ -125,10 +125,10 @@ export default class Header extends React.Component {
                         <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink href="/">Wallets</NavLink>
+                        <NavLink href="http://omniexplorer.info/wallets.aspx">Wallets</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink href="/">Help</NavLink>
+                        <NavLink href="http://support.omniwallet.org">Help</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
