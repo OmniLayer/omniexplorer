@@ -14,6 +14,12 @@ const StyledPaginationLink = styled(PaginationLink)`
   border-radius: 3.2px;
   margin-left: 1px;
 `;
+const StyledPaginationItem = styled(PaginationItem)`
+  &.active > .page-link {
+      background-color: #3498db;
+    }
+`;
+
 const ListPagination = (props) => {
   if ((props.transactions || []).length < 10) {
     return null;
@@ -45,11 +51,11 @@ const ListPagination = (props) => {
           const isCurrent = v === props.currentPage;
 
           return (
-            <PaginationItem onClick={() => setPage(v)} className={isCurrent ? 'page-item active' : 'page-item'} key={v}>
+            <StyledPaginationItem onClick={() => setPage(v)} className={isCurrent ? 'page-item active' : 'page-item'} key={v}>
               <StyledPaginationLink href="#">
                 {v + 1}
               </StyledPaginationLink>
-            </PaginationItem>
+            </StyledPaginationItem>
           );
         })
       }
