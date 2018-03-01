@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import ArrowIcon from 'react-icons/lib/io/arrow-right-c';
 import tokenLogo from 'images/token31.png';
 import './transaction.scss';
+import { CONFIRMATIONS } from 'containers/Transactions/constants';
 
 
 const IMG = styled.img`
@@ -22,8 +23,12 @@ const IMG = styled.img`
 
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const status = this.props.confirmations < 6 ? 'UNCONFIRMED' : 'CONFIRMED';
-    
+    const status = (
+      this.props.confirmations < CONFIRMATIONS
+        ? `CONFIRMING (${this.props.confirmations} of ${CONFIRMATIONS})`
+        : 'CONFIRMED'
+    );
+
     return (
       <Row className="transation-result mx-auto">
         <Col xs="9">
@@ -44,7 +49,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   >
                     { this.props.txid.slice(0, 48) }...
                   </a>&nbsp;&nbsp;&nbsp;
-                    { status }
+                  { status }
                 </div>
               </Row>
             </Col>
