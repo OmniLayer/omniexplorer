@@ -6,9 +6,6 @@ injectGlobal`
   body {
     height: 100%;
     width: 100%;
-  }
-
-  body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
   }
@@ -28,5 +25,9 @@ injectGlobal`
   label {
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
+  }
+  
+  div.card .card-text {
+	  font-family: inherit;
   }
 `;
