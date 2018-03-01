@@ -35,8 +35,7 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('transactions', [])
-        .set('pageCount', 0)
-        .set('currentPage', 0);
+        .set('pageCount', 0);
     case LOAD_TRANSACTIONS_SUCCESS:
       return state
         .set('transactions', action.transactions)

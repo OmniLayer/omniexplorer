@@ -19,35 +19,41 @@ const ListPagination = (props) => {
     return null;
   }
 
-  const range = [];
-  for (let i = 0; (i < 10 && i < props.pageCount); ++i) {
-    range.push(i);
-  }
-
+  const pageNumber = Math.floor(props.currentPage / 10) * 10;
+  const range = [...Array(10).keys()].map((x) => x + pageNumber);
   const setPage = (page) => props.onSetPage(page);
+
+  const getPrevious = () => (
+    props.currentPage > 0
+      ? props.currentPage - 1
+      : props.currentPage
+  );
+
+  const getNext = () => (
+    props.currentPage < props.pageCount
+      ? props.currentPage + 1
+      : props.currentPage
+  );
 
   return (
     <Pagination className="pagination-sm justify-content-end mt-2 mb-2">
-      <PaginationItem>
+      <PaginationItem onClick={() => setPage(getPrevious())} key={'previous'}>
         <StyledPaginationLink previous href="#" />
       </PaginationItem>
       {
-          range.map((v) => {
-            const isCurrent = v === props.currentPage;
-            const onClick = (ev) => {
-              ev.preventDefault();
-              setPage(v);
-            };
-            return (
-              <PaginationItem onClick={onClick} className={isCurrent ? 'page-item active' : 'page-item'} key={v} >
-                <StyledPaginationLink href="#">
-                  {v + 1}
-                </StyledPaginationLink>
-              </PaginationItem>
-            );
-          })
-        }
-      <PaginationItem>
+        range.map((v) => {
+          const isCurrent = v === props.currentPage;
+
+          return (
+            <PaginationItem onClick={() => setPage(v)} className={isCurrent ? 'page-item active' : 'page-item'} key={v}>
+              <StyledPaginationLink href="#">
+                {v + 1}
+              </StyledPaginationLink>
+            </PaginationItem>
+          );
+        })
+      }
+      <PaginationItem onClick={() => setPage(getNext())} key={'next'}>
         <StyledPaginationLink next href="#" />
       </PaginationItem>
     </Pagination>
@@ -55,10 +61,6 @@ const ListPagination = (props) => {
 };
 
 Pagination.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  size: PropTypes.string,
-  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   currentPage: PropTypes.number,
   transactions: PropTypes.array,
 };
