@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table, Progress } from 'reactstrap';
 import styled from 'styled-components';
 
 import tokenLogo from 'images/token31.png';
@@ -124,7 +124,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td className="field" style={{ paddingTop: '12px' }}>Status</td>
                   <td>
                     <div
-                      className="progress progress-striped"
+                      className="progress"
                       style={{ height: '20px', width: '300px', marginBottom: '4px', marginTop: '4px' }}
                     >
                       <div className="progress-bar progress-bar-success" style={{ width: '100%', paddingTop: '1px' }}>
