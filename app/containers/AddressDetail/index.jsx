@@ -11,6 +11,16 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import styled from 'styled-components';
+import {
+  Container,
+  Row,
+  Col,
+} from 'reactstrap';
+
+import Transactions from 'containers/Transactions';
+import Wallet from 'components/Wallet';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectAddressDetail from './selectors';
@@ -20,10 +30,24 @@ import messages from './messages';
 
 export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const Layout = styled(Container)`
+      background-color: white;
+      padding: 0;
+    `;
+
     return (
-      <div>
-        <FormattedMessage {...messages.header} />
-      </div>
+      <Layout fluid>
+        <Row>
+          <Col>
+            <Wallet />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Transactions />
+          </Col>
+        </Row>
+      </Layout>
     );
   }
 }
