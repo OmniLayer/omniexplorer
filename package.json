@@ -176,7 +176,9 @@
       "express",
       "ip",
       "minimist",
-      "sanitize.css"
+      "sanitize.css",
+      "bootstrap",
+      "react-icons"
     ],
     "include": [
       "core-js",
@@ -228,6 +230,7 @@
     "ip": "1.1.5",
     "lodash": "4.17.4",
     "minimist": "1.2.0",
+    "moment": "^2.20.1",
     "prop-types": "^15.5.8",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -235,6 +238,7 @@
     "react-icons": "^2.2.7",
     "react-intl": "2.3.0",
     "react-loadable": "4.0.3",
+    "react-moment": "^0.7.0",
     "react-popper": "^0.7.2",
     "react-redux": "5.0.5",
     "react-router-dom": "4.1.1",
