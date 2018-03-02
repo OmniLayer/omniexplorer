@@ -6,14 +6,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
 
 import ArrowIcon from 'react-icons/lib/io/arrow-right-c';
 import tokenLogo from 'images/token31.png';
-import './transaction.scss';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-
+import './transaction.scss';
 
 const IMG = styled.img`
   width: 48px;
@@ -56,7 +56,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           </Row>
           <Row>
             <Col>
-              <p className="desc" >
+              <p className="desc">
                 <a href="#" className="btn btn-add m-r-5 m-b-5">
                   { this.props.sendingaddress }
                 </a>
@@ -82,13 +82,16 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             </Col>
           </Row>
           <Row>
-            <Col className="btn-group btn-group-sm">
-              <a
-                href="#"
+            <Col className="btn-group">
+              <Link
                 className="btn btn-primary btn-block btn-blue font-weight-light"
+                to={{
+                  pathname: '/trx',
+                  state: { transaction: this.props },
+                }}
               >
                 { status }
-              </a>
+              </Link>
             </Col>
           </Row>
         </Col>

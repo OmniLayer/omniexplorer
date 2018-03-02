@@ -42,7 +42,7 @@ const ListPagination = (props) => {
   );
 
   return (
-    <Pagination className="pagination-sm justify-content-end mt-2 mb-2">
+    <Pagination className="pagination justify-content-end mt-2 mb-2">
       <PaginationItem onClick={() => setPage(getPrevious())} key={'previous'}>
         <StyledPaginationLink previous href="#" />
       </PaginationItem>

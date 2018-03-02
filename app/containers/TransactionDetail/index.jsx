@@ -9,16 +9,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table, Progress } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table } from 'reactstrap';
 import styled from 'styled-components';
+import Moment from 'react-moment';
 
+import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import tokenLogo from 'images/token31.png';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectTransactionDetail from './selectors';
 import reducer from './reducer';
-import saga from './saga';
 
 export class TransactionDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -59,6 +60,14 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         color: #6cc0e5;
       }
     ;`;
+
+    const trxDetail = this.props.location.state.transaction;
+    const status = (
+      trxDetail.confirmations < CONFIRMATIONS
+        ? `CONFIRMING (${trxDetail.confirmations} of ${CONFIRMATIONS})`
+        : 'CONFIRMED'
+    );
+
     return (
       <StyledContainer fluid>
         <Row>
@@ -97,10 +106,9 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
               <tbody>
                 <tr className="highlight">
                   <td className="field">Amount</td>
-                  <td><strong><span id="lamount">9848.5321999</span></strong></td>
-                </tr>
-                <tr className="divider">
-                  <td colSpan={2}></td>
+                  <td><strong><span id="lamount">
+                    { trxDetail.amount }
+                  </span></strong></td>
                 </tr>
                 <tr>
                   <td className="field">Token</td>
@@ -108,76 +116,87 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 </tr>
                 <tr>
                   <td className="field">Sender</td>
-                  <td><a href="lookupadd.aspx?address=1KFFbhc3NpE1RChvKfuXy6rVSdK7ARdwTq">1KFFbhc3NpE1RChvKfuXy6rVSdK7ARdwTq</a>
+                  <td>
+                    <a href="/address">
+                      { trxDetail.sendingaddress }
+                    </a>
                   </td>
                 </tr>
                 <tr>
                   <td className="field">Recipient</td>
-                  <td><a href="lookupadd.aspx?address=1DcKsGnjpD38bfj6RMxz945YwohZUTVLby">1DcKsGnjpD38bfj6RMxz945YwohZUTVLby</a>
+                  <td>
+                    <a href="/address">
+                      { trxDetail.referenceaddress }
+                    </a>
                   </td>
-                </tr>
-
-                <tr className="divider">
-                  <td colSpan={2}></td>
                 </tr>
                 <tr className="highlight">
                   <td className="field" style={{ paddingTop: '12px' }}>Status</td>
                   <td>
+                    <div className="text-left small">{ status }</div>
                     <div
                       className="progress"
                       style={{ height: '20px', width: '300px', marginBottom: '4px', marginTop: '4px' }}
                     >
-                      <div className="progress-bar progress-bar-success" style={{ width: '100%', paddingTop: '1px' }}>
-                      CONFIRMED
-                    </div>
+                      <div className="progress-bar progress-bar-success" style={{ width: `${(trxDetail.confirmations / 6) * 100}%`, paddingTop: '1px' }}>
+                      </div>
                     </div>
                   </td>
                 </tr>
-                <tr className="divider">
-                  <td colSpan={2}></td>
-                </tr>
                 <tr>
                   <td className="field">Date/Time</td>
-                  <td><span id="ldatetime">15 hours and 40 minutes ago</span></td>
+                  <td>
+                    <span id="ldatetime">
+                      <Moment unix>
+                        { trxDetail.blocktime }
+                      </Moment>
+                    </span>
+                  </td>
                 </tr>
                 <tr>
                   <td className="field">Block</td>
-                  <td><span id="lblocknum">511429</span></td>
+                  <td>
+                    <span id="lblocknum">
+                      { trxDetail.block }
+                    </span>
+                  </td>
                 </tr>
                 <tr>
                   <td className="field">Bitcoin Fees</td>
-                  <td><span id="lfees">0.0000136 BTC</span></td>
+                  <td><span id="lfees">{ trxDetail.fee } BTC</span></td>
                 </tr>
                 <tr>
                   <td className="field">Omni Fees</td>
                   <td><span id="lomnifees">0.00 OMNI</span></td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Payload</td>
                   <td><span id="lpayloadsize">16</span> bytes</td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Size</td>
                   <td><span id="ltxsize">N/A</span></td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Class</td>
                   <td><span id="lclass">C (nulldata)</span></td>
                 </tr>
                 <tr>
                   <td className="field">Type/Version</td>
-                  <td><span id="ltypever">Type 0, Version 0</span></td>
+                  <td><span id="ltypever">Type { trxDetail.type_int }, Version { trxDetail.version }</span></td>
                 </tr>
                 <tr>
                   <td colSpan="2">
                     <A
-                      href="#collapseRawData" color="primary" onClick={this.toggleRawData}
+                      href="#collapseRawData"
+                      color="primary"
+                      onClick={this.toggleRawData}
                       style={{ marginBottom: '1rem' }}
                     >Raw Omni Data</A>
                     <Collapse isOpen={this.collapseOmniData}>
                       <span id="lrawgettx">
                         <a
-                          href="ask.aspx?api=gettx&amp;txid=261fd6ab6b37ee6bfa1d7e18496c7e8e85a76073007869432b149c4006446387"
+                          href="/rawtransaction"
                         >
                         Click here for raw transaction...
                       </a>
@@ -188,15 +207,17 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr>
                   <td colSpan="2">
                     <A
-                      href="#collapseRawData" color="primary" onClick={this.toggleDecoded}
+                      href="#collapseRawData"
+                      color="primary"
+                      onClick={this.toggleDecoded}
                       style={{ marginBottom: '1rem' }}
                     >Decoded Raw Payload</A>
                     <Collapse isOpen={this.collapseDecoded}>
                       <span id="lrawgettx">
                         <a
-                          href="ask.aspx?api=gettx&amp;txid=261fd6ab6b37ee6bfa1d7e18496c7e8e85a76073007869432b149c4006446387"
+                          href="/rawpayload"
                         >
-                        Click here for raw transaction...
+                        Click here for raw payload...
                       </a>
                       </span>
                     </Collapse>
@@ -207,7 +228,6 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
           </Col>
         </DetailRow>
         <Row>
-
         </Row>
       </StyledContainer>
     );
@@ -216,6 +236,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
 TransactionDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -231,10 +252,8 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'transactionDetail', reducer });
-const withSaga = injectSaga({ key: 'transactionDetail', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(TransactionDetail);

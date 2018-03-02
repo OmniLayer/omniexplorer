@@ -22,10 +22,14 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
+import DevTools from 'utils/devTools';
+import Moment from 'react-moment';
 
 // Import DevTools, only for dev environment
-import DevTools from 'utils/devTools';
 const isDev = process.env.NODE_ENV !== 'production';
+
+// Set Moment Global locale
+Moment.globalLocale = 'en';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
