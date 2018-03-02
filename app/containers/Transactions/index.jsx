@@ -17,10 +17,10 @@ import injectReducer from 'utils/injectReducer';
 import TransactionList from 'components/TransactionList';
 import TransactionListHeader from 'components/TransactionListHeader';
 import ListPagination from 'components/ListPagination';
+
 import LoadingIndicator from 'components/LoadingIndicator';
 
-import { makeSelectLoading } from 'containers/App/selectors';
-import makeSelectTransactions from './selectors';
+import { makeSelectTransactions, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { loadTransactions, setPage } from './actions';
@@ -34,15 +34,15 @@ export class Transactions extends React.Component { // eslint-disable-line react
     const StyledContainer = styled(Container)`
       background-color: #F0F3F4;
     `;
-    //
-    // if (this.props.loading || !this.props.transactions.transactions || this.props.transactions.transactions.length === 0) {
-    //   return (
-    //     <StyledContainer fluid>
-    //       <TransactionListHeader />
-    //       <LoadingIndicator />
-    //     </StyledContainer>
-    //   );
-    // }
+
+    if (this.props.loading) {
+      return (
+        <StyledContainer fluid>
+          <TransactionListHeader />
+          <LoadingIndicator />
+        </StyledContainer>
+      );
+    }
 
     return (
       <StyledContainer fluid>
@@ -59,7 +59,7 @@ Transactions.propTypes = {
   loadTransactions: PropTypes.func,
   transactions: PropTypes.object.isRequired,
   onSetPage: PropTypes.func,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({

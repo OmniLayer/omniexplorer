@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for Transaction List
+ * Asynchronously loads the component for Transactions
  *
  */
 
