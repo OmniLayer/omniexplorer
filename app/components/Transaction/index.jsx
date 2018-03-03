@@ -44,12 +44,14 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
               </Row>
               <Row>
                 <div className="location">
-                  <a
-                    href="#"
+                  <Link
+                    to={{
+                      pathname: `/trx/${this.props.txid}`,
+                      state: { transaction: this.props },
+                    }}
                   >
                     { this.props.txid.slice(0, 48) }...
-                  </a>&nbsp;&nbsp;&nbsp;
-                  { status }
+                  </Link>
                 </div>
               </Row>
             </Col>
@@ -57,13 +59,23 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col>
               <p className="desc">
-                <a href="#" className="btn btn-add m-r-5 m-b-5">
+                <Link
+                  className="btn btn-add m-r-5 m-b-5"
+                  to={{
+                    pathname: `/wallet/${this.props.sendingaddress}`,
+                  }}
+                >
                   { this.props.sendingaddress }
-                </a>
+                </Link>
                 <ArrowIcon size={20} color="gray" className="transaction-arrow-icon" />
-                <a href="#" className="btn btn-add m-r-5 m-b-5">
+                <Link
+                  className="btn btn-add m-r-5 m-b-5"
+                  to={{
+                    pathname: `/wallet/${this.props.referenceaddress}`,
+                  }}
+                >
                   { this.props.referenceaddress }
-                </a>
+                </Link>
               </p>
             </Col>
           </Row>
@@ -86,7 +98,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
               <Link
                 className="btn btn-primary btn-block btn-blue font-weight-light"
                 to={{
-                  pathname: '/trx',
+                  pathname: `/trx/${this.props.txid}`,
                   state: { transaction: this.props },
                 }}
               >

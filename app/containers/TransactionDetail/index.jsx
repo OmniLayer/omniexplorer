@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table } from 'reactstrap';
@@ -97,7 +98,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <th>
                     <h4>Simple Send
                     <SubtitleDetail>
-                      261fd6ab6b37ee6bfa1d7e18496c7e8e85a76073007869432b149c4006446387
+                      { trxDetail.txid }
                     </SubtitleDetail>
                     </h4>
                   </th>
@@ -112,22 +113,30 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 </tr>
                 <tr>
                   <td className="field">Token</td>
-                  <td><a href="lookupsp.aspx?sp=31"><strong>TetherUS (#31)</strong></a></td>
+                  <td><a href="/asset"><strong>TetherUS (#31)</strong></a></td>
                 </tr>
                 <tr>
                   <td className="field">Sender</td>
                   <td>
-                    <a href="/address">
+                    <Link
+                      to={{
+                        pathname: `/wallet/${trxDetail.sendingaddress}`,
+                      }}
+                    >
                       { trxDetail.sendingaddress }
-                    </a>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
                   <td className="field">Recipient</td>
                   <td>
-                    <a href="/address">
+                    <Link
+                      to={{
+                        pathname: `/wallet/${trxDetail.referenceaddress}`,
+                      }}
+                    >
                       { trxDetail.referenceaddress }
-                    </a>
+                    </Link>
                   </td>
                 </tr>
                 <tr className="highlight">

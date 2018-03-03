@@ -18,6 +18,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
+import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
@@ -52,7 +53,8 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/trx" component={TransactionDetail} />
+        <Route path="/trx/:trx" component={TransactionDetail} />
+        <Route path="/wallet/:address" component={AddressDetail} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
