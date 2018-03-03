@@ -27,7 +27,7 @@ import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.props.loadTransactions();
+    this.props.loadTransactions(this.props.addr);
   }
 
   render() {
@@ -60,6 +60,7 @@ Transactions.propTypes = {
   transactions: PropTypes.object.isRequired,
   onSetPage: PropTypes.func,
   loading: PropTypes.bool,
+  addr: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -69,7 +70,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadTransactions: () => dispatch(loadTransactions()),
+    loadTransactions: (addr) => dispatch(loadTransactions(addr)),
     dispatch,
     onSetPage: (p) => dispatch(setPage(p)),
   };

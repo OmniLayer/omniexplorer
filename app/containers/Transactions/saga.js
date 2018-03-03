@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { LOAD_TRANSACTIONS, SET_PAGE } from 'containers/Transactions/constants';
 import { transactionsLoaded, transactionsLoadingError } from 'containers/Transactions/actions';
 
@@ -6,14 +6,24 @@ import request from 'utils/request';
 
 function* getTransactions(action = {}) {
   const page = action.page || 0;
-  const requestURL = `/api/v1/transaction/general/${page}`;
+  const requestURL = (action.addr ? `/api/v1/transaction/address/${page}` : `/api/v1/transaction/general/${page}`);
 
   try {
-    // Call our request helper (see 'utils/request')
-    const headers = {
-    };
+    const options = (action.addr ?
+    {
+      method: 'POST',
+    }
+        : null
+    );
 
-    const transactions = yield call(request, requestURL, headers);
+    const body = (action.addr ?
+        JSON.stringify({
+          addr: action.addr,
+        })
+        : null
+    );
+
+    const transactions = yield call(request, requestURL, options, body);
     yield put(transactionsLoaded(transactions.data, transactions.pages, page));
   } catch (err) {
     yield put(transactionsLoadingError(err));
