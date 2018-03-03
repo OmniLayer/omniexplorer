@@ -232,6 +232,7 @@
     "minimist": "1.2.0",
     "moment": "^2.20.1",
     "prop-types": "^15.5.8",
+    "qrcode.react": "^0.8.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-helmet": "5.1.3",

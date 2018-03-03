@@ -7,6 +7,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Col, Container, Row, Table } from 'reactstrap';
+import QRCode from 'qrcode.react';
+
 import btcLogo from 'images/token0.png';
 import omniLogo from 'images/token1.png';
 import tetherLogo from 'images/token31.png';
@@ -28,7 +30,7 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
       <Container fluid>
         <DetailRow>
           <Col className="col-auto mr-auto" sm="2">
-            <img width={153} src={tetherLogo} alt="Simple Send" className="img-thumbnail" />
+            <QRCode value="1DcKsGnjpD38bfj6RMxz945YwohZUTVLby" />
           </Col>
           <Col>
             <Table className="table-profile">
