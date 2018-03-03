@@ -5,15 +5,22 @@
  */
 
 import { fromJS } from 'immutable';
+
 import {
-  DEFAULT_ACTION,
+  LOAD_ADDRESS,
+  LOAD_ADDRESS_SUCCESS,
+  LOAD_ADDRESS_ERROR,
 } from './constants';
 
 const initialState = fromJS({});
 
 function addressDetailReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
+    case LOAD_ADDRESS:
+      return state;
+    case LOAD_ADDRESS_SUCCESS:
+      return state;
+    case LOAD_ADDRESS_ERROR:
       return state;
     default:
       return state;

@@ -25,10 +25,15 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectAddressDetail from './selectors';
 import reducer from './reducer';
+import { loadAddress } from './actions';
 import saga from './saga';
 import messages from './messages';
 
 export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  componentDidMount() {
+    this.props.loadAddress(this.props.match.params.address);
+  }
+  
   render() {
     const Layout = styled(Container)`
       background-color: white;
@@ -44,7 +49,7 @@ export class AddressDetail extends React.Component { // eslint-disable-line reac
         </Row>
         <Row>
           <Col>
-            <Transactions />
+            <Transactions addr={this.props.match.params.address} />
           </Col>
         </Row>
       </Layout>
@@ -54,6 +59,7 @@ export class AddressDetail extends React.Component { // eslint-disable-line reac
 
 AddressDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  loadAddress: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -62,6 +68,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    loadAddress: (addr) => dispatch(loadAddress(addr)),
     dispatch,
   };
 }

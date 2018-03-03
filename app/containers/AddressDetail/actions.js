@@ -1,15 +1,62 @@
 /*
+ * App Actions
  *
- * AddressDetail actions
+ * Actions change things in your application
+ * Since this boilerplate uses a uni-directional data flow, specifically redux,
+ * we have these actions which are the only way your application interacts with
+ * your application state. This guarantees that your state is up to date and nobody
+ * messes it up weirdly somewhere.
  *
+ * To add a new Action:
+ * 1) Import your constant
+ * 2) Add a function like this:
+ *    export function yourAction(var) {
+ *        return { type: YOUR_ACTION_CONSTANT, var: var }
+ *    }
  */
 
 import {
-  DEFAULT_ACTION,
+  LOAD_ADDRESS,
+  LOAD_ADDRESS_SUCCESS,
+  LOAD_ADDRESS_ERROR,
 } from './constants';
 
-export function defaultAction() {
+/**
+ * Load the transactions, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS
+ */
+export function loadAddress(addr) {
   return {
-    type: DEFAULT_ACTION,
+    type: LOAD_ADDRESS,
+    addr,
+  };
+}
+
+/**
+ * Dispatched when the transactions are loaded by the request saga
+ *
+ * @param  {array} Address The transactions data
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS_SUCCESS passing the transactions
+ */
+export function addressLoaded(address) {
+  return {
+    type: LOAD_ADDRESS_SUCCESS,
+    address,
+  };
+}
+
+/**
+ * Dispatched when loading the transactions fails
+ *
+ * @param  {object} error The error
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS_ERROR passing the error
+ */
+export function addressLoadingError(error) {
+  return {
+    type: LOAD_ADDRESS_ERROR,
+    error,
   };
 }
