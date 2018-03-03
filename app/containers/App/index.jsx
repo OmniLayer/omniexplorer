@@ -53,8 +53,8 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/trx/:trx" component={TransactionDetail} />
-        <Route path="/wallet/:address" component={AddressDetail} />
+        <Route path="/tx/:tx" component={TransactionDetail} />
+        <Route path="/address/:address" component={AddressDetail} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
