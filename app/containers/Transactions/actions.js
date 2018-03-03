@@ -27,9 +27,10 @@ import {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS
  */
-export function loadTransactions() {
+export function loadTransactions(addr = null) {
   return {
     type: LOAD_TRANSACTIONS,
+    addr,
   };
 }
 
