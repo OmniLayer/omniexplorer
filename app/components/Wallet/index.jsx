@@ -10,30 +10,9 @@ import styled from 'styled-components';
 import { Col, Container, Row, Table } from 'reactstrap';
 import QRCode from 'qrcode.react';
 
-import btcLogo from 'images/token0.png';
-import omniLogo from 'images/token1.png';
-import tetherLogo from 'images/token31.png';
+import Token from 'components/Token';
 
 class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-
-    this.tokens = {
-      0: {
-        name: 'Bitcoin',
-        logo: btcLogo,
-      },
-      1: {
-        name: 'Omni',
-        logo: omniLogo,
-      },
-      31: {
-        name: 'Tether',
-        logo: tetherLogo,
-      },
-    };
-  }
-
   render() {
     const DetailRow = styled(Row)`
       margin-top: 2rem;
@@ -45,9 +24,8 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
     const StyledTH = styled.th`
       border: none !important;
     `;
-
+    
     return (
-
       <Container fluid>
         <DetailRow>
           <Col className="col-auto mr-auto" sm="2">
@@ -80,30 +58,7 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
                         </tr>
                       </thead>
                       <tbody>
-                        { this.props.address.balance.map((balance) => (
-                          <tr key={balance.id}>
-                            <td style={{ width: '56px' }}>
-                              <img
-                                style={{ width: '24px', height: '24px' }}
-                                src={this.tokens[balance.id].logo}
-                              />
-                            </td>
-                            <td style={{ paddingTop: '13px' }}>
-                              { balance.id }
-                            </td>
-                            <td style={{ paddingTop: '13px' }}>
-                              {this.tokens[balance.id].name}
-                            </td>
-                            <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-                              { balance.reserved }
-                            </td>
-                            <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-                              <strong>
-                                { (balance.value - balance.pendingneg) / 1e8 }
-                              </strong>
-                            </td>
-                          </tr>
-                    ))}
+                        { this.props.address.balance.map((balance) => <Token {...balance} key={balance.id}/>) }
                       </tbody>
                     </table>
                   </StyledTD>
