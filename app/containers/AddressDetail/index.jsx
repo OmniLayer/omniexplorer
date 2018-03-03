@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -27,13 +27,14 @@ import makeSelectAddressDetail from './selectors';
 import reducer from './reducer';
 import { loadAddress } from './actions';
 import saga from './saga';
-import messages from './messages';
+// import messages from './messages';
 
 export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.props.loadAddress(this.props.match.params.address);
+    this.address = this.props.match.params.address;
+    this.props.loadAddress(this.address);
   }
-  
+
   render() {
     const Layout = styled(Container)`
       background-color: white;
@@ -44,12 +45,12 @@ export class AddressDetail extends React.Component { // eslint-disable-line reac
       <Layout fluid>
         <Row>
           <Col>
-            <Wallet />
+            <Wallet {...this.props.addressdetail} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <Transactions addr={this.props.match.params.address} />
+            <Transactions addr={this.address} />
           </Col>
         </Row>
       </Layout>
@@ -60,6 +61,7 @@ export class AddressDetail extends React.Component { // eslint-disable-line reac
 AddressDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadAddress: PropTypes.func,
+  addressdetail: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

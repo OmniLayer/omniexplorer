@@ -21,7 +21,7 @@ function* getTransactions(action = {}) {
     );
 
     const transactions = yield call(request, requestURL, options);
-    yield put(transactionsLoaded(transactions.data, transactions.pages, page));
+    yield put(transactionsLoaded(transactions.transactions, transactions.pages, page));
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }

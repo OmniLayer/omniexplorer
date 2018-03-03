@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Col, Container, Row, Table } from 'reactstrap';
 import QRCode from 'qrcode.react';
@@ -14,6 +15,25 @@ import omniLogo from 'images/token1.png';
 import tetherLogo from 'images/token31.png';
 
 class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+
+    this.tokens = {
+      0: {
+        name: 'Bitcoin',
+        logo: btcLogo,
+      },
+      1: {
+        name: 'Omni',
+        logo: omniLogo,
+      },
+      31: {
+        name: 'Tether',
+        logo: tetherLogo,
+      },
+    };
+  }
+
   render() {
     const DetailRow = styled(Row)`
       margin-top: 2rem;
@@ -25,8 +45,9 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
     const StyledTH = styled.th`
       border: none !important;
     `;
-    
+
     return (
+
       <Container fluid>
         <DetailRow>
           <Col className="col-auto mr-auto" sm="2">
@@ -40,12 +61,6 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
                   <StyledTH>
                     <h4>
                       <span className="d-block" id="laddress">1DcKsGnjpD38bfj6RMxz945YwohZUTVLby</span>
-                      <small className="d-block">
-                        <span style={{ fontSize: '10px' }}>
-                          This address was first seen
-                          <span id="lfirstseen">10/28/2017 10:32:49 AM</span>
-                        </span>
-                      </small>
                     </h4>
                   </StyledTH>
                 </tr>
@@ -65,39 +80,33 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td style={{ width: '56px' }}>
-                            <img style={{ width: '24px', height: '24px' }} src={btcLogo} /></td>
-                          <td style={{ paddingTop: '13px' }}>-</td>
-                          <td style={{ paddingTop: '13px' }}>Bitcoin</td>
-                          <td style={{ textAlign: 'right', paddingTop: '13px' }}>-</td>
-                          <td style={{ textAlign: 'right', paddingTop: '13px' }}><strong><span
-                            id="totalbtc"
-                          >1672.30059697</span></strong></td>
-                        </tr>
-
-                        <tr>
-                          <td style={{ width: '56px' }}>
-                            <img style={{ width: '24px', height: '24px' }} src={omniLogo} /></td>
-                          <td style={{ paddingTop: '13px' }}><a href="lookupsp.aspx?sp=1">1</a></td>
-                          <td style={{ paddingTop: '13px' }}><a href="lookupsp.aspx?sp=1">Omni</a></td>
-                          <td style={{ textAlign: 'right', paddingTop: '13px' }}>0
-
-                      </td>
-                          <td style={{ textAlign: 'right', paddingTop: '13px' }}><strong>0</strong></td>
-                        </tr>
-
-                        <tr>
-                          <td style={{ width: '56px' }}>
-                            <img style={{ width: '24px', height: '24px' }} src={tetherLogo} /></td>
-                          <td style={{ paddingTop: '13px' }}><a href="lookupsp.aspx?sp=31">31</a></td>
-                          <td style={{ paddingTop: '13px' }}><a href="lookupsp.aspx?sp=31">TetherUS</a></td>
-                          <td style={{ textAlign: 'right', paddingTop: '13px' }}>0.00
-
-                      </td>
-                          <td style={{ textAlign: 'right', paddingTop: '13px' }}><strong>31973144.20480474</strong></td>
-                        </tr>
-
+                        { this.props.address.balance.map((balance) => (
+                          <tr key={balance.id}>
+                            <td style={{ width: '56px' }}>
+                              <img
+                                style={{ width: '24px', height: '24px' }}
+                                src={this.tokens[balance.id].logo}
+                              />
+                            </td>
+                            <td style={{ paddingTop: '13px' }}><a href="lookupsp.aspx?sp=1">
+                              { balance.id }
+                            </a>
+                            </td>
+                            <td style={{ paddingTop: '13px' }}>
+                              <a href="lookupsp.aspx?sp=1">
+                                {this.tokens[balance.id].name}
+                              </a>
+                            </td>
+                            <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+                              { balance.reserved }
+                            </td>
+                            <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+                              <strong>
+                                { (balance.value - balance.pendingneg) / 1e8 }
+                              </strong>
+                            </td>
+                          </tr>
+                    ))}
                       </tbody>
                     </table>
                   </StyledTD>
@@ -114,6 +123,8 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
   }
 }
 
-Wallet.propTypes = {};
+Wallet.propTypes = {
+  address: PropTypes.object.isRequired,
+};
 
 export default Wallet;
