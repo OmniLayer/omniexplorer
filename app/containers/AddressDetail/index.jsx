@@ -30,8 +30,12 @@ import saga from './saga';
 // import messages from './messages';
 
 export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.address = this.props.match.params.address;
+  }
+
+  componentDidMount() {
     this.props.loadAddress(this.address);
   }
 
@@ -45,7 +49,7 @@ export class AddressDetail extends React.Component { // eslint-disable-line reac
       <Layout fluid>
         <Row>
           <Col>
-            <Wallet {...this.props.addressdetail} />
+            <Wallet {...this.props.addressdetail} addr={this.address} />
           </Col>
         </Row>
         <Row>

@@ -51,7 +51,7 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
       <Container fluid>
         <DetailRow>
           <Col className="col-auto mr-auto" sm="2">
-            <QRCode value="1DcKsGnjpD38bfj6RMxz945YwohZUTVLby" />
+            <QRCode value={this.props.addr} />
           </Col>
           <Col>
             <Table className="table-profile">
@@ -60,7 +60,7 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
                   <StyledTH></StyledTH>
                   <StyledTH>
                     <h4>
-                      <span className="d-block" id="laddress">1DcKsGnjpD38bfj6RMxz945YwohZUTVLby</span>
+                      <span className="d-block" id="laddress">{this.props.addr}</span>
                     </h4>
                   </StyledTH>
                 </tr>
@@ -88,14 +88,11 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
                                 src={this.tokens[balance.id].logo}
                               />
                             </td>
-                            <td style={{ paddingTop: '13px' }}><a href="lookupsp.aspx?sp=1">
+                            <td style={{ paddingTop: '13px' }}>
                               { balance.id }
-                            </a>
                             </td>
                             <td style={{ paddingTop: '13px' }}>
-                              <a href="lookupsp.aspx?sp=1">
-                                {this.tokens[balance.id].name}
-                              </a>
+                              {this.tokens[balance.id].name}
                             </td>
                             <td style={{ textAlign: 'right', paddingTop: '13px' }}>
                               { balance.reserved }
@@ -125,6 +122,7 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
 
 Wallet.propTypes = {
   address: PropTypes.object.isRequired,
+  addr: PropTypes.string.isRequired,
 };
 
 export default Wallet;
