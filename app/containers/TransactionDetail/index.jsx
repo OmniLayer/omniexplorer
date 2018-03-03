@@ -69,23 +69,30 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         : 'CONFIRMED'
     );
 
+    let warningMessage = null;
+    if (trxDetail.confirmations === 0) {
+      warningMessage = (<Row>
+        <Col>
+          <StyledCard inverse>
+            <CardHeader>Unconfirmed Transaction Warning</CardHeader>
+            <StyledCardBody>
+              <CardText>This transaction is unconfirmed. It is impossible to know the validity of an Omni
+                transaction
+                before
+                it is confirmed in the blockchain. This is because the Omni Layer relies on the order of
+                transactions
+                within
+                the blockchain to determine validity. Once the transaction is confirmed, balances will be updated
+                accordingly and you will be able to verify its validity.</CardText>
+            </StyledCardBody>
+          </StyledCard>
+        </Col>
+      </Row>);
+    }
+
     return (
       <StyledContainer fluid>
-        <Row>
-          <Col>
-            <StyledCard inverse>
-              <CardHeader>Unconfirmed Transaction Warning</CardHeader>
-              <StyledCardBody>
-                <CardText>This transaction is unconfirmed. It is impossible to know the validity of an Omni transaction
-                  before
-                  it is confirmed in the blockchain. This is because the Omni Layer relies on the order of transactions
-                  within
-                  the blockchain to determine validity. Once the transaction is confirmed, balances will be updated
-                  accordingly and you will be able to verify its validity.</CardText>
-              </StyledCardBody>
-            </StyledCard>
-          </Col>
-        </Row>
+        { warningMessage }
         <DetailRow>
           <Col className="col-auto mr-auto">
             <img src={tokenLogo} alt="Simple Send" className="img-thumbnail" />
@@ -120,7 +127,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td>
                     <Link
                       to={{
-                        pathname: `/wallet/${trxDetail.sendingaddress}`,
+                        pathname: `/address/${trxDetail.sendingaddress}`,
                       }}
                     >
                       { trxDetail.sendingaddress }
@@ -132,7 +139,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td>
                     <Link
                       to={{
-                        pathname: `/wallet/${trxDetail.referenceaddress}`,
+                        pathname: `/address/${trxDetail.referenceaddress}`,
                       }}
                     >
                       { trxDetail.referenceaddress }

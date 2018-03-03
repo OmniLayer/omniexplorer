@@ -46,7 +46,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <div className="location">
                   <Link
                     to={{
-                      pathname: `/trx/${this.props.txid}`,
+                      pathname: `/tx/${this.props.txid}`,
                       state: { transaction: this.props },
                     }}
                   >
@@ -62,7 +62,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <Link
                   className="btn btn-add m-r-5 m-b-5"
                   to={{
-                    pathname: `/wallet/${this.props.sendingaddress}`,
+                    pathname: `/address/${this.props.sendingaddress}`,
                   }}
                 >
                   { this.props.sendingaddress }
@@ -71,7 +71,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <Link
                   className="btn btn-add m-r-5 m-b-5"
                   to={{
-                    pathname: `/wallet/${this.props.referenceaddress}`,
+                    pathname: `/address/${this.props.referenceaddress}`,
                   }}
                 >
                   { this.props.referenceaddress }
@@ -98,7 +98,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
               <Link
                 className="btn btn-primary btn-block btn-blue font-weight-light"
                 to={{
-                  pathname: `/trx/${this.props.txid}`,
+                  pathname: `/tx/${this.props.txid}`,
                   state: { transaction: this.props },
                 }}
               >
