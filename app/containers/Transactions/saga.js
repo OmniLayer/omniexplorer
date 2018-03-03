@@ -12,18 +12,15 @@ function* getTransactions(action = {}) {
     const options = (action.addr ?
     {
       method: 'POST',
-    }
-        : null
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `${encodeURIComponent('addr')}=${encodeURIComponent(action.addr)}`,
+    } :
+        null
     );
 
-    const body = (action.addr ?
-        JSON.stringify({
-          addr: action.addr,
-        })
-        : null
-    );
-
-    const transactions = yield call(request, requestURL, options, body);
+    const transactions = yield call(request, requestURL, options);
     yield put(transactionsLoaded(transactions.data, transactions.pages, page));
   } catch (err) {
     yield put(transactionsLoadingError(err));

@@ -20,7 +20,7 @@ import ListPagination from 'components/ListPagination';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 
-import { makeSelectTransactions, makeSelectLoading } from './selectors';
+import { makeSelectLoading, makeSelectTransactions } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { loadTransactions, setPage } from './actions';
@@ -33,23 +33,36 @@ export class Transactions extends React.Component { // eslint-disable-line react
   render() {
     const StyledContainer = styled(Container)`
       background-color: #F0F3F4;
+      overflow: auto;
+    `;
+    const StyledH3 = styled.h3`
+      padding: 3rem 0;
     `;
 
+    let content;
+
     if (this.props.loading) {
-      return (
-        <StyledContainer fluid>
-          <TransactionListHeader />
-          <LoadingIndicator />
-        </StyledContainer>
+      content = (
+        <LoadingIndicator />
+      );
+    } else if (!this.props.loading && !this.props.transactions.pageCount) {
+      content = (
+        <StyledH3 className="lead text-center">No transactions found</StyledH3>
+      );
+    } else {
+      content = (
+        <div>
+          <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+          <TransactionList {...this.props.transactions} />
+          <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+        </div>
       );
     }
 
     return (
       <StyledContainer fluid>
         <TransactionListHeader />
-        <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
-        <TransactionList {...this.props.transactions} />
-        <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+        { content }
       </StyledContainer>
     );
   }
