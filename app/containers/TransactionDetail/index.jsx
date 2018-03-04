@@ -15,12 +15,15 @@ import styled from 'styled-components';
 import Moment from 'react-moment';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import tokenLogo from 'images/token31.png';
-
-import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+
 import makeSelectTransactionDetail from './selectors';
+import saga from './saga';
+import { loadTransaction } from './actions';
 import reducer from './reducer';
+
+import LoadingIndicator from 'components/LoadingIndicator';
 
 export class TransactionDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -30,9 +33,24 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     this.collapseDecoded = false;
     this.toggleRawData = () => (this.collapseOmniData = !this.collapseOmniData);
     this.toggleDecoded = () => (this.collapseDecoded = !this.collapseDecoded);
+
+    this.txid = this.props.match.params.tx;
+  }
+
+  componentDidMount() {
+    this.props.loadTransaction(this.txid);
   }
 
   render() {
+    if (this.props.txdetail.loading) {
+      return (
+        <Container>
+          <LoadingIndicator />
+        </Container>
+      );
+    }
+
+
     const StyledContainer = styled(Container)`
       background-color: white;
     `;
@@ -61,16 +79,14 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         color: #6cc0e5;
       }
     ;`;
-
-    const trxDetail = this.props.location.state.transaction;
     const status = (
-      trxDetail.confirmations < CONFIRMATIONS
-        ? `CONFIRMING (${trxDetail.confirmations} of ${CONFIRMATIONS})`
+      this.props.txdetail.transaction.confirmations < CONFIRMATIONS
+        ? `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})`
         : 'CONFIRMED'
     );
 
     let warningMessage = null;
-    if (trxDetail.confirmations === 0) {
+    if (this.props.txdetail.transaction.confirmations === 0) {
       warningMessage = (<Row>
         <Col>
           <StyledCard inverse>
@@ -89,13 +105,23 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Col>
       </Row>);
     }
+    let logo;
+    try {
+      logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
+    } catch (e) {
+      logo = require('images/tokendefault.png');
+    }
 
     return (
       <StyledContainer fluid>
         { warningMessage }
         <DetailRow>
           <Col className="col-auto mr-auto">
-            <img src={tokenLogo} alt="Simple Send" className="img-thumbnail" />
+            <img
+              src={logo}
+              alt="Simple Send"
+              className="img-thumbnail"
+            />
           </Col>
           <Col>
             <Table className="table-profile">
@@ -105,7 +131,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <th>
                     <h4>Simple Send
                     <SubtitleDetail>
-                      { trxDetail.txid }
+                      { this.props.txdetail.transaction.txid }
                     </SubtitleDetail>
                     </h4>
                   </th>
@@ -115,7 +141,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr className="highlight">
                   <td className="field">Amount</td>
                   <td><strong><span id="lamount">
-                    { trxDetail.amount }
+                    { this.props.txdetail.transaction.amount }
                   </span></strong></td>
                 </tr>
                 <tr>
@@ -127,10 +153,10 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td>
                     <Link
                       to={{
-                        pathname: `/address/${trxDetail.sendingaddress}`,
+                        pathname: `/address/${this.props.txdetail.transaction.sendingaddress}`,
                       }}
                     >
-                      { trxDetail.sendingaddress }
+                      { this.props.txdetail.transaction.sendingaddress }
                     </Link>
                   </td>
                 </tr>
@@ -139,10 +165,10 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td>
                     <Link
                       to={{
-                        pathname: `/address/${trxDetail.referenceaddress}`,
+                        pathname: `/address/${this.props.txdetail.transaction.referenceaddress}`,
                       }}
                     >
-                      { trxDetail.referenceaddress }
+                      { this.props.txdetail.transaction.referenceaddress }
                     </Link>
                   </td>
                 </tr>
@@ -154,7 +180,13 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                       className="progress"
                       style={{ height: '20px', width: '300px', marginBottom: '4px', marginTop: '4px' }}
                     >
-                      <div className="progress-bar progress-bar-success" style={{ width: `${(trxDetail.confirmations / 6) * 100}%`, paddingTop: '1px' }}>
+                      <div
+                        className="progress-bar progress-bar-success"
+                        style={{
+                          width: `${(this.props.txdetail.transaction.confirmations / 6) * 100}%`,
+                          paddingTop: '1px',
+                        }}
+                      >
                       </div>
                     </div>
                   </td>
@@ -164,7 +196,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td>
                     <span id="ldatetime">
                       <Moment unix>
-                        { trxDetail.blocktime }
+                        { this.props.txdetail.transaction.blocktime }
                       </Moment>
                     </span>
                   </td>
@@ -173,13 +205,13 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td className="field">Block</td>
                   <td>
                     <span id="lblocknum">
-                      { trxDetail.block }
+                      { this.props.txdetail.transaction.block }
                     </span>
                   </td>
                 </tr>
                 <tr>
                   <td className="field">Bitcoin Fees</td>
-                  <td><span id="lfees">{ trxDetail.fee } BTC</span></td>
+                  <td><span id="lfees">{ this.props.txdetail.transaction.fee } BTC</span></td>
                 </tr>
                 <tr>
                   <td className="field">Omni Fees</td>
@@ -199,7 +231,10 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 </tr>
                 <tr>
                   <td className="field">Type/Version</td>
-                  <td><span id="ltypever">Type { trxDetail.type_int }, Version { trxDetail.version }</span></td>
+                  <td><span
+                    id="ltypever"
+                  >Type { this.props.txdetail.transaction.type_int }, Version { this.props.txdetail.transaction.version }</span>
+                  </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
@@ -253,23 +288,27 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 TransactionDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.object,
+  loadTransaction: PropTypes.func,
 };
-
-const mapStateToProps = createStructuredSelector({
-  transactiondetail: makeSelectTransactionDetail(),
-});
 
 function mapDispatchToProps(dispatch) {
   return {
+    loadTransaction: (addr) => dispatch(loadTransaction(addr)),
     dispatch,
   };
 }
 
+const mapStateToProps = createStructuredSelector({
+  txdetail: makeSelectTransactionDetail(),
+});
+
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'transactionDetail', reducer });
+const withSaga = injectSaga({ key: 'transactions', saga });
 
 export default compose(
   withReducer,
+  withSaga,
   withConnect,
 )(TransactionDetail);

@@ -22,7 +22,7 @@ import {
 } from './constants';
 
 /**
- * Load the transactions, this action starts the request saga
+ * Load the address, this action starts the request saga
  *
  * @return {object} An action object with a type of LOAD_ADDRESS
  */
@@ -34,11 +34,11 @@ export function loadAddress(addr) {
 }
 
 /**
- * Dispatched when the transactions are loaded by the request saga
+ * Dispatched when the address are loaded by the request saga
  *
- * @param  {array} Address The transactions data
+ * @param  {array} Address The address data
  *
- * @return {object} An action object with a type of LOAD_ADDRESS_SUCCESS passing the transactions
+ * @return {object} An action object with a type of LOAD_ADDRESS_SUCCESS passing the address
  */
 export function addressLoaded(address) {
   return {
@@ -48,7 +48,7 @@ export function addressLoaded(address) {
 }
 
 /**
- * Dispatched when loading the transactions fails
+ * Dispatched when loading the address fails
  *
  * @param  {object} error The error
  *

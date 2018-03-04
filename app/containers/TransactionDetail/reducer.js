@@ -5,16 +5,29 @@
  */
 
 import { fromJS } from 'immutable';
-import {
-  DEFAULT_ACTION,
-} from './constants';
+import { LOAD_TRANSACTION, LOAD_TRANSACTION_ERROR, LOAD_TRANSACTION_SUCCESS } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  loading: true,
+});
+
 
 function transactionDetailReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case LOAD_TRANSACTION:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('transaction', {});
+    case LOAD_TRANSACTION_SUCCESS:
+      return state
+        .set('transaction', action.transaction)
+        .set('error', false)
+        .set('loading', false);
+    case LOAD_TRANSACTION_ERROR:
+      return state
+        .set('error', action.error)
+        .set('loading', false);
     default:
       return state;
   }
