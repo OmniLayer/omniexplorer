@@ -40,7 +40,7 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { (this.props.value - this.props.pendingneg) / 1e8 }
+            { (this.props.value) / 1e8 }
           </strong>
         </td>
       </tr>
