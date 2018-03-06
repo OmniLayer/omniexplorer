@@ -1,7 +1,7 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
-import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/actions';
 import { API_URL_BASE } from 'containers/App/constants';
+import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/actions';
 
 import request from 'utils/request';
 
