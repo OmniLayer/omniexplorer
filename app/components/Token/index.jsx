@@ -17,35 +17,39 @@ import { startFetch } from './actions';
 // import saga from './saga';
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  componentDidMount() {
-    this.props.getProperty(this.props.id.toString());
-  }
-
-  render() {
-    const getLogo = (id) => {
+  constructor(props){
+    super(props);
+  
+    this.getLogo = () => {
       let logo;
       try {
-        logo = require(`images/token${id}.png`);
+        logo = require(`images/token${this.props.id}.png`);
       } catch (e) {
         logo = require('images/tokendefault.png');
       }
       return logo;
     };
-    const token = this.props.properties.get('tokens').get(this.props.id.toString());
-    
+    this.getTokenName = () => (this.props.properties.get('tokens').get(this.props.id.toString())||{name:''}).name;
+  }
+  componentDidMount() {
+    console.log('token did mount');
+    this.props.getProperty(this.props.id.toString());
+  }
+
+  render() {
     return (
       <tr>
         <td style={{ width: '56px' }}>
           <img
             style={{ width: '24px', height: '24px' }}
-            src={getLogo(this.props.id)}
+            src={this.getLogo()}
           />
         </td>
         <td style={{ paddingTop: '13px' }}>
           { this.props.id }
         </td>
         <td style={{ paddingTop: '13px' }}>
-          { (token ? token.name : '') }
+          { this.getTokenName() }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           { this.props.reserved }

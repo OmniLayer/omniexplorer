@@ -12,19 +12,19 @@ import QRCode from 'qrcode.react';
 
 import Token from 'components/Token';
 
-class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    const DetailRow = styled(Row)`
+const DetailRow = styled(Row)`
       margin-top: 2rem;
       margin-bottom: 2rem;
     `;
-    const StyledTD = styled.td`
+const StyledTD = styled.td`
       border-top: none;
     `;
-    const StyledTH = styled.th`
+const StyledTH = styled.th`
       border: none !important;
     `;
-    
+
+class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  render() {
     return (
       <Container fluid>
         <DetailRow>
