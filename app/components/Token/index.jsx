@@ -5,20 +5,20 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectProperties } from './selectors';
-// import { makeSelectProperty, makeSelectProperties } from './selectors';
 import reducer from './reducer';
 import { startFetch } from './actions';
 import saga from './saga';
 
-class Token extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.props.getProperty(this.props.id);
+    this.props.getProperty(this.props.id.toString());
   }
 
   render() {
@@ -31,7 +31,8 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
       }
       return logo;
     };
-    const tokenName = this.props.properties.get('tokens').get(this.props.id);
+    const token = this.props.properties.get('tokens').get(this.props.id.toString());
+    
     return (
       <tr>
         <td style={{ width: '56px' }}>
@@ -44,7 +45,7 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
           { this.props.id }
         </td>
         <td style={{ paddingTop: '13px' }}>
-          token #{ tokenName }
+          { (token ? token.name : '') }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           { this.props.reserved }
@@ -60,7 +61,7 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
 }
 
 Token.propTypes = {
-
+  getProperty: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
