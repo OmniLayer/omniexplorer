@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { Container } from 'reactstrap';
 import styled from 'styled-components';
 
-import injectSaga from 'utils/injectSaga';
+// import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import TransactionList from 'components/TransactionList';
 import TransactionListHeader from 'components/TransactionListHeader';
@@ -22,7 +22,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 
 import { makeSelectLoading, makeSelectTransactions } from './selectors';
 import reducer from './reducer';
-import saga from './saga';
+// import saga from './saga';
 import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -92,10 +92,10 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'transactions', reducer });
-const withSaga = injectSaga({ key: 'transactions', saga });
+// const withSaga = injectSaga({ key: 'transactions', saga });
 
 export default compose(
   withReducer,
-  withSaga,
+  // withSaga,
   withConnect,
 )(Transactions);

@@ -23,16 +23,21 @@ import Wallet from 'components/Wallet';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+
+import sagaToken from 'components/Token/saga';
+import sagaTransactions from 'containers/Transactions/saga';
 import makeSelectAddressDetail from './selectors';
 import reducer from './reducer';
 import { loadAddress } from './actions';
-import saga from './saga';
+import sagaAddress from './saga';
+
 // import messages from './messages';
+
 
 export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.address = this.props.match.params.address;
+    this.address = this.props.match.params.address.toString();
   }
 
   componentDidMount() {
@@ -82,10 +87,18 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'addressDetail', reducer });
-const withSaga = injectSaga({ key: 'addressDetail', saga });
+// const withSaga = injectSaga({ key: 'addressDetail', [saga]: saga });
+// const withSagaToken = injectSaga({ key: 'tokenDetail', saga: sagaToken });
+
+const withSagaAddress = injectSaga({ key: 'addressDetail', saga: sagaAddress });
+const withSagaToken = injectSaga({ key: 'tokenDetail', saga: sagaToken });
+const withSagaTransaction = injectSaga({ key: 'transactions', saga: sagaTransactions });
+
 
 export default compose(
   withReducer,
-  withSaga,
+  withSagaToken,
+  withSagaAddress,
+  withSagaTransaction,
   withConnect,
 )(AddressDetail);

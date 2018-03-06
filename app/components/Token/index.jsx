@@ -5,11 +5,22 @@
 */
 
 import React from 'react';
-// import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
+import { makeSelectProperties } from './selectors';
+import reducer from './reducer';
+import { startFetch } from './actions';
+// import saga from './saga';
 
-import { FormattedMessage } from 'react-intl';
+class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  componentDidMount() {
+    this.props.getProperty(this.props.id.toString());
+  }
 
-class Token extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const getLogo = (id) => {
       let logo;
@@ -20,7 +31,8 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
       }
       return logo;
     };
-
+    const token = this.props.properties.get('tokens').get(this.props.id.toString());
+    
     return (
       <tr>
         <td style={{ width: '56px' }}>
@@ -33,14 +45,14 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
           { this.props.id }
         </td>
         <td style={{ paddingTop: '13px' }}>
-          token #{this.props.propoertyid}
+          { (token ? token.name : '') }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           { this.props.reserved }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { (this.props.value - this.props.pendingneg) / 1e8 }
+            { (this.props.value) / 1e8 }
           </strong>
         </td>
       </tr>
@@ -49,7 +61,28 @@ class Token extends React.Component { // eslint-disable-line react/prefer-statel
 }
 
 Token.propTypes = {
-
+  getProperty: PropTypes.func,
 };
 
-export default Token;
+const mapStateToProps = createStructuredSelector({
+  properties: makeSelectProperties(),
+  // property: makeSelectProperty(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getProperty: (propertyId) => dispatch(startFetch(propertyId)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+const withReducer = injectReducer({ key: 'tokenDetail', reducer });
+// const withSaga = injectSaga({ key: 'tokenDetail', saga });
+
+export default compose(
+  withReducer,
+  // withSaga,
+  withConnect,
+)(Token);
