@@ -19,7 +19,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import makeSelectTransactionDetail from './selectors';
-import saga from './saga';
+import sagaTxDetail from './saga';
 import { loadTransaction } from './actions';
 import reducer from './reducer';
 
@@ -68,6 +68,12 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
   componentDidMount() {
     this.props.loadTransaction(this.txid);
+  }
+  
+  componentWillReceiveProps(newProps){
+    if (newProps.match.params.tx !== this.props.match.params.tx) {
+      this.props.loadTransaction(this.props.match.params.tx);
+    }
   }
 
   render() {
@@ -289,6 +295,7 @@ TransactionDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.object,
   loadTransaction: PropTypes.func,
+  txdetail: PropTypes.object,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -305,7 +312,7 @@ const mapStateToProps = createStructuredSelector({
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'transactionDetail', reducer });
-const withSaga = injectSaga({ key: 'transactions', saga });
+const withSaga = injectSaga({ key: 'transactionDetail', saga: sagaTxDetail });
 
 export default compose(
   withReducer,

@@ -54,7 +54,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/tx/:tx" component={TransactionDetail} />
-        <Route path="/address/:address" component={AddressDetail} />
+        <Route path="/address/:address" component={AddressDetail} key={location.pathname} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
