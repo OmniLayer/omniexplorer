@@ -23,8 +23,6 @@ const propertyReducer = (state = initialState, action = {}) => {
         .set('error', null);
     }
     case LOAD_PROPERTY_SUCCESS:
-      console.log(LOAD_PROPERTY_SUCCESS);
-      console.log(payload);
       return state
         .set('isFetching', false)
         .set('lastFetched', Date.now())

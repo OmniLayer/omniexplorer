@@ -14,7 +14,7 @@ import injectReducer from 'utils/injectReducer';
 import { makeSelectProperties } from './selectors';
 import reducer from './reducer';
 import { startFetch } from './actions';
-import saga from './saga';
+// import saga from './saga';
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -79,10 +79,10 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'tokenDetail', reducer });
-const withSaga = injectSaga({ key: 'tokenDetail', saga });
+// const withSaga = injectSaga({ key: 'tokenDetail', saga });
 
 export default compose(
   withReducer,
-  withSaga,
+  // withSaga,
   withConnect,
 )(Token);

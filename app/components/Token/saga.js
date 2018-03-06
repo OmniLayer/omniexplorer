@@ -10,7 +10,6 @@ function* fetchProperty(action) {
       const property = yield call(request, requestURL);
       yield put(updateFetch(property));
   } catch (err) {
-    console.log(err);
     yield put(errorFetch(err));
   }
 }
