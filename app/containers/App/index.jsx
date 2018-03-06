@@ -30,7 +30,7 @@ import Moment from 'react-moment';
 const isDev = process.env.NODE_ENV !== 'production';
 
 // Set Moment Global locale
-Moment.globalLocale = 'en';
+Moment.globalLocale = 'en-gb';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
@@ -61,7 +61,7 @@ export default function App() {
       <Footer />
       { isDev
         ? <DevTools />
-        : null
+        : <div></div>
       }
     </AppWrapper>
   );
