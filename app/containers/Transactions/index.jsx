@@ -28,6 +28,7 @@ import { loadTransactions, setPage } from './actions';
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     this.props.loadTransactions(this.props.addr);
+    console.log('Transactions did mount');
   }
 
   render() {
@@ -45,7 +46,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
       content = (
         <LoadingIndicator />
       );
-    } else if (!this.props.loading && !this.props.transactions.pageCount) {
+    } else if (!this.props.loading && (this.props.transactions.transactions||[]).length === 0) {
       content = (
         <StyledH3 className="lead text-center">No transactions found</StyledH3>
       );
