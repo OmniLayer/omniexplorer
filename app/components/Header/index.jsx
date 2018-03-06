@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -57,9 +58,11 @@ export default class Header extends React.Component {
         <Container className="d-block">
           <Row className="clearfix">
             <Col>
-              <NavbarBrand href="/" className="navbar-brand">
-                <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
-                OMNIEXPLORER.INFO
+              <NavbarBrand>
+                <Link to="/" className="navbar-brand">
+                  <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
+                  OMNIEXPLORER.INFO
+                </Link>
               </NavbarBrand>
             </Col>
             <Col>
