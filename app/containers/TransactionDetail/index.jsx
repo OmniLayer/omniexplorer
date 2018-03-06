@@ -25,6 +25,35 @@ import reducer from './reducer';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 
+const StyledContainer = styled(Container)`
+      background-color: white;
+    `;
+const StyledCard = styled(Card)`
+      background-color: #2A72B5;
+      border-color: #2A72B5;
+    `;
+const StyledCardBody = styled(CardBody)`
+      background-color: #348FE2;
+      border-color: #348FE2;
+    `;
+const DetailRow = styled(Row)`
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    `;
+const SubtitleDetail = styled.small`
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      margin-top: 5px;
+    `;
+const A = styled.a`
+      color: #41addd;
+
+      &:hover {
+        color: #6cc0e5;
+      }
+    ;`;
+
 export class TransactionDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -49,36 +78,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Container>
       );
     }
-
-
-    const StyledContainer = styled(Container)`
-      background-color: white;
-    `;
-    const StyledCard = styled(Card)`
-      background-color: #2A72B5;
-      border-color: #2A72B5;
-    `;
-    const StyledCardBody = styled(CardBody)`
-      background-color: #348FE2;
-      border-color: #348FE2;
-    `;
-    const DetailRow = styled(Row)`
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-    `;
-    const SubtitleDetail = styled.small`
-      display: block;
-      font-size: 10px;
-      font-weight: 400;
-      margin-top: 5px;
-    `;
-    const A = styled.a`
-      color: #41addd;
-
-      &:hover {
-        color: #6cc0e5;
-      }
-    ;`;
+    
     const status = (
       this.props.txdetail.transaction.confirmations < CONFIRMATIONS
         ? `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})`

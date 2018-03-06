@@ -102,8 +102,9 @@ module.exports = (options) => ({
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
+    // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/),
     new webpack.NamedModulesPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]),
   resolve: {

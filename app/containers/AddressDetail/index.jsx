@@ -32,24 +32,24 @@ import { loadAddress } from './actions';
 import sagaAddress from './saga';
 
 // import messages from './messages';
+const Layout = styled(Container)`
+      background-color: white;
+      padding: 0;
+    `;
 
-
-export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class AddressDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.address = this.props.match.params.address.toString();
   }
 
   componentDidMount() {
+    console.log('address detail did mount');
     this.props.loadAddress(this.address);
   }
 
   render() {
-    const Layout = styled(Container)`
-      background-color: white;
-      padding: 0;
-    `;
-
+    console.log('address detail render');
     return (
       <Layout fluid>
         <Row>
