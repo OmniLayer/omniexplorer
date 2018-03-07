@@ -1,6 +1,6 @@
 import { injectGlobal } from 'styled-components';
 
-/* eslint no-unused-expressions: 0 */
+/* eslint no-unused-expressions: 0 no-tabs: 0 */
 injectGlobal`
   html,
   body {
