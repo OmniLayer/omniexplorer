@@ -114,12 +114,19 @@ export default class Header extends React.Component {
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  <NavItem>
-                    <NavLink href="/">Usage Graphs (coming soon)</NavLink>
-                  </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
-                      MISC
+                      Usage Graphs
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <NavLink href="/">Coming soon</NavLink>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Misc
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
