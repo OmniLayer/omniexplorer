@@ -60,8 +60,10 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     this.collapseOmniData = false;
     this.collapseDecoded = false;
+    this.collapseAmount = false;
     this.toggleRawData = () => (this.collapseOmniData = !this.collapseOmniData);
     this.toggleDecoded = () => (this.collapseDecoded = !this.collapseDecoded);
+    this.toggleAmount  = () => (this.collapseAmount = !this.collapseAmount);
 
     this.txid = this.props.match.params.tx;
   }
@@ -115,7 +117,11 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     try {
       logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
     } catch (e) {
-      logo = require('images/tokendefault.png');
+      if (this.props.txdetail.transaction.type_int === 4) {
+        logo = require('images/sendall.png');
+      } else {
+        logo = require('images/tokendefault.png');
+      }
     }
 
     return (
@@ -125,7 +131,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
           <Col className="col-auto mr-auto">
             <img
               src={logo}
-              alt="Simple Send"
+              alt={ this.props.txdetail.transaction.type }
               className="img-thumbnail"
             />
           </Col>
@@ -135,7 +141,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr>
                   <th></th>
                   <th>
-                    <h4>Simple Send
+                    <h4>{ this.props.txdetail.transaction.type }
                     <SubtitleDetail>
                       { this.props.txdetail.transaction.txid }
                     </SubtitleDetail>
@@ -147,12 +153,27 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr className="highlight">
                   <td className="field">Amount</td>
                   <td><strong><span id="lamount">
-                    { this.props.txdetail.transaction.amount }
+                    if (this.props.txdetail.transaction.type_int === 4) {
+                      <A
+                        href="#collapseAmountData"
+                        color="primary"
+                        onClick={this.toggleAmount}
+                        style={{ marginBottom: '1rem' }}
+                      >Click to show subsends of SendAll</A>
+                      <Collapse isOpen={this.collapseAmount}>
+                        <span id="lrawtxamount">
+                          { this.props.txdetail.transaction.subsends }
+                        </a>
+                        </span>
+                      </Collapse>
+                    } else {
+                      { this.props.txdetail.transaction.amount }
+                    }
                   </span></strong></td>
                 </tr>
                 <tr>
                   <td className="field">Token</td>
-                  <td><a href="/asset"><strong>TetherUS (#31)</strong></a></td>
+                  <td><a href="/asset"><strong>TokenName ({ this.props.txdetail.transaction.propertyid })</strong></a></td>
                 </tr>
                 <tr>
                   <td className="field">Sender</td>
@@ -255,7 +276,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                         <a
                           href="/rawtransaction"
                         >
-                        Click here for raw transaction...
+                        (Coming Soon) Click here for raw transaction...
                       </a>
                       </span>
                     </Collapse>
@@ -274,7 +295,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                         <a
                           href="/rawpayload"
                         >
-                        Click here for raw payload...
+                        (Coming Soon) Click here for raw payload...
                       </a>
                       </span>
                     </Collapse>
