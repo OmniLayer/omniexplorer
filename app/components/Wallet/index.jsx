@@ -58,7 +58,7 @@ class Wallet extends React.PureComponent { // eslint-disable-line react/prefer-s
                         </tr>
                       </thead>
                       <tbody>
-                        { this.props.address.balance.map((balance) => <Token {...balance} key={balance.id}/>) }
+                        { (this.props.address.balance||[]).map((balance) => <Token {...balance} key={balance.id}/>) }
                       </tbody>
                     </table>
                   </StyledTD>
