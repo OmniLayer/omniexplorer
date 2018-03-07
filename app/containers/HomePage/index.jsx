@@ -20,16 +20,20 @@ import {
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
-import TransactionList from 'components/TransactionList';
-
+import Transactions from 'containers/Transactions';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
+
+import { compose } from 'redux';
+import injectSaga from 'utils/injectSaga';
+import sagaTransactions from 'containers/Transactions/saga';
+
 const Layout = styled.div`
   background-color: #F5F5F5;
   padding: 0;
 `;
 
-export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <Layout className="container-fluid">
@@ -48,10 +52,16 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
         </Row>
         <Row>
           <Col>
-            <TransactionList />
+            <Transactions />
           </Col>
         </Row>
       </Layout>
     );
   }
 }
+
+const withSagaTransaction = injectSaga({ key: 'transactions', saga: sagaTransactions });
+
+export default compose(
+  withSagaTransaction,
+)(HomePage);

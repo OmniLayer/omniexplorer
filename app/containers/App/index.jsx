@@ -17,9 +17,20 @@ import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import TransactionDetail from 'containers/TransactionDetail';
+import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
+
+import DevTools from 'utils/devTools';
+import Moment from 'react-moment';
+
+// Import DevTools, only for dev environment
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Set Moment Global locale
+Moment.globalLocale = 'en-gb';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
@@ -42,10 +53,16 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route path="/tx/:tx" component={TransactionDetail} />
+        <Route path="/address/:address" component={AddressDetail} key={location.pathname} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
+      { isDev
+        ? <DevTools />
+        : <div></div>
+      }
     </AppWrapper>
   );
 }

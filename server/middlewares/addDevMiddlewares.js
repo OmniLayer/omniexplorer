@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const proxy = require('http-proxy-middleware');
 
 function createWebpackMiddleware(compiler, publicPath) {
   return webpackDevMiddleware(compiler, {
@@ -9,6 +10,7 @@ function createWebpackMiddleware(compiler, publicPath) {
     publicPath,
     silent: true,
     stats: 'errors-only',
+    headers: { 'Access-Control-Allow-Origin': '*' },
   });
 }
 
@@ -22,6 +24,20 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   // Since webpackDevMiddleware uses memory-fs internally to store build
   // artifacts, we use it instead
   const fs = middleware.fileSystem;
+
+  // Setup proxy
+  // `/api/lorum/ipsum` -> `http://localhost:3000/lorum/ipsum`
+  app.use(
+    '/api',
+    proxy({
+      target: 'https://api.omniwallet.org/',
+      changeOrigin: true,
+      logLevel: 'debug',
+      pathRewrite: {
+        '^/api/v1/': '/v1/',
+      },
+    }),
+  );
 
   app.get('*', (req, res) => {
     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {

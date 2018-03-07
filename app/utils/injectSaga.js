@@ -17,11 +17,14 @@ import getInjectors from './sagaInjectors';
  */
 export default ({ key, saga, mode }) => (WrappedComponent) => {
   class InjectSaga extends React.Component {
+
+    /* eslint-disable no-undef, no-unused-vars */
     static WrappedComponent = WrappedComponent;
     static contextTypes = {
       store: PropTypes.object.isRequired,
     };
     static displayName = `withSaga(${(WrappedComponent.displayName || WrappedComponent.name || 'Component')})`;
+    /* eslint-enable no-undef, no-unused-vars */
 
     componentWillMount() {
       const { injectSaga } = this.injectors;
@@ -35,7 +38,7 @@ export default ({ key, saga, mode }) => (WrappedComponent) => {
       ejectSaga(key);
     }
 
-    injectors = getInjectors(this.context.store);
+    injectors = getInjectors(this.context.store); // eslint-disable-line no-undef
 
     render() {
       return <WrappedComponent {...this.props} />;
