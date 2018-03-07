@@ -58,12 +58,10 @@ export default class Header extends React.Component {
         <Container className="d-block">
           <Row className="clearfix">
             <Col>
-              <NavbarBrand>
                 <Link to="/" className="navbar-brand">
                   <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
                   OMNIEXPLORER.INFO
                 </Link>
-              </NavbarBrand>
             </Col>
             <Col>
               <SearchBox />
