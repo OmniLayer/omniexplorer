@@ -10,20 +10,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
 import styled from 'styled-components';
 import Moment from 'react-moment';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
+import { API_URL_BASE } from 'containers/App/constants';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import makeSelectTransactionDetail from './selectors';
 import sagaTxDetail from './saga';
 import { loadTransaction } from './actions';
 import reducer from './reducer';
-
-import LoadingIndicator from 'components/LoadingIndicator';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -65,16 +66,16 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     this.toggleDecoded = () => (this.collapseDecoded = !this.collapseDecoded);
     this.toggleAmount  = () => (this.collapseAmount = !this.collapseAmount);
 
-    this.txid = this.props.match.params.tx;
+    this.txid = this.props.match.params.tx.toString();
   }
 
   componentDidMount() {
     this.props.loadTransaction(this.txid);
   }
-  
-  componentWillReceiveProps(newProps){
-    if (newProps.match.params.tx !== this.props.match.params.tx) {
-      this.props.loadTransaction(this.props.match.params.tx);
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.match.params.tx !== this.txid) {
+      this.props.loadTransaction(this.txid);
     }
   }
 
@@ -86,12 +87,38 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Container>
       );
     }
-    
-    const status = (
-      this.props.txdetail.transaction.confirmations < CONFIRMATIONS
-        ? `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})`
-        : 'CONFIRMED'
-    );
+
+    if (this.props.txdetail.transaction.notFound) {
+      return (
+        <Container>
+          <h1> Transaction
+            <small> { this.txid.slice(0, 24) }... </small>
+            not found
+          </h1>
+        </Container>
+      );
+    }
+
+    const isValid = this.props.txdetail.transaction.valid;
+    const progressColor = (isValid ? 'info' : 'danger');
+    const progressPercent = Math.floor(((this.props.txdetail.transaction.confirmations / CONFIRMATIONS) * 100));
+    const getStatus = (tx) => {
+      if (tx.valid) {
+        return (tx.confirmations < CONFIRMATIONS ?
+            `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})` :
+            'CONFIRMED'
+        );
+      }
+      return 'INVALID';
+    };
+    const invalidReason = `Reason: ${this.props.txdetail.transaction.invalidreason || ''}`;
+    const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${this.txid}`;
+    let logo;
+    try {
+      logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
+    } catch (e) {
+      logo = require('images/tokendefault.png');
+    }
 
     let warningMessage = null;
     if (this.props.txdetail.transaction.confirmations === 0) {
@@ -113,27 +140,18 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Col>
       </Row>);
     }
-    let logo;
-    try {
-      logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
-    } catch (e) {
-      if (this.props.txdetail.transaction.type_int === 4) {
-        logo = require('images/sendall.png');
-      } else {
-        logo = require('images/tokendefault.png');
-      }
-    }
-
+  
     let amountDisplay;
+    let tokenName;
     if (this.props.txdetail.transaction.type_int === 4) {
       amountDisplay = (<tr className="highlight">
         <td className="field">Amount</td>
         <td><strong><span id="lamount">
           <A
-           href="#collapseAmountData"
-           color="primary"
-           onClick={this.toggleAmount}
-           style={{ marginBottom: '1rem' }}
+            href="#collapseAmountData"
+            color="primary"
+            onClick={this.toggleAmount}
+            style={{ marginBottom: '1rem' }}
           >Click to show subsends of SendAll</A>
           <Collapse isOpen={this.collapseAmount}>
             <span id="lrawtxamount">
@@ -148,18 +166,18 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         <td><strong><span id="lamount">
           { this.props.txdetail.transaction.amount }
          </span></strong></td>
-       </tr>
-       <tr>
-         <td className="field">Token</td>
-         <td><a href="/asset"><strong>TokenName &#40;{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
-       </tr>);
+      </tr>);
+      tokenName = (<tr>
+        <td className="field">Token</td>
+        <td><a href="/asset"><strong>TokenName &#40;{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
+      </tr>);
     }
 
     return (
       <StyledContainer fluid>
         { warningMessage }
         <DetailRow>
-          <Col className="col-auto mr-auto">
+          <Col className="col-auto mr-auto col-sm-2">
             <img
               src={logo}
               alt={ this.props.txdetail.transaction.type }
@@ -182,6 +200,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
               </thead>
               <tbody>
                 { amountDisplay }
+                { tokenName }
                 <tr>
                   <td className="field">Sender</td>
                   <td>
@@ -209,20 +228,9 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr className="highlight">
                   <td className="field" style={{ paddingTop: '12px' }}>Status</td>
                   <td>
-                    <div className="text-left small">{ status }</div>
-                    <div
-                      className="progress"
-                      style={{ height: '20px', width: '300px', marginBottom: '4px', marginTop: '4px' }}
-                    >
-                      <div
-                        className="progress-bar progress-bar-success"
-                        style={{
-                          width: `${(this.props.txdetail.transaction.confirmations / 6) * 100}%`,
-                          paddingTop: '1px',
-                        }}
-                      >
-                      </div>
-                    </div>
+                    <div className="text-left">{ getStatus(this.props.txdetail.transaction) }</div>
+                    <Progress color={progressColor} value={progressPercent} />
+                    <div className="text-left">{ !isValid && invalidReason }</div>
                   </td>
                 </tr>
                 <tr>
@@ -281,9 +289,9 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                     <Collapse isOpen={this.collapseOmniData}>
                       <span id="lrawgettx">
                         <a
-                          href="/rawtransaction"
+                          href={rawTransactionURL}
                         >
-                        (Coming Soon) Click here for raw transaction...
+                        Click here for raw transaction...
                       </a>
                       </span>
                     </Collapse>
@@ -321,7 +329,6 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
 TransactionDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object,
   loadTransaction: PropTypes.func,
   txdetail: PropTypes.object,
 };
