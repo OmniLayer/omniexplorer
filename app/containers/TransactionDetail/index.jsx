@@ -125,6 +125,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     }
 
     let amountDisplay;
+    let tokenName;
     if (this.props.txdetail.transaction.type_int === 4) {
       amountDisplay = (<tr className="highlight">
         <td className="field">Amount</td>
@@ -148,8 +149,8 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         <td><strong><span id="lamount">
           { this.props.txdetail.transaction.amount }
          </span></strong></td>
-       </tr>
-       <tr>
+       </tr>);
+       tokenName = (<tr>
          <td className="field">Token</td>
          <td><a href="/asset"><strong>TokenName &#40;{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
        </tr>);
@@ -182,6 +183,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
               </thead>
               <tbody>
                 { amountDisplay }
+                { tokenName }
                 <tr>
                   <td className="field">Sender</td>
                   <td>
