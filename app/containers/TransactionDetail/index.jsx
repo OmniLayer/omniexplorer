@@ -18,12 +18,12 @@ import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import makeSelectTransactionDetail from './selectors';
 import sagaTxDetail from './saga';
 import { loadTransaction } from './actions';
 import reducer from './reducer';
-
-import LoadingIndicator from 'components/LoadingIndicator';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -69,8 +69,8 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
   componentDidMount() {
     this.props.loadTransaction(this.txid);
   }
-  
-  componentWillReceiveProps(newProps){
+
+  componentWillReceiveProps(newProps) {
     if (newProps.match.params.tx !== this.props.match.params.tx) {
       this.props.loadTransaction(this.props.match.params.tx);
     }
@@ -84,7 +84,15 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Container>
       );
     }
-    
+
+    if (this.props.txdetail.transaction.notFound) {
+      return (
+        <Container>
+          <h1> Transaction <small>{ this.txid.slice(0, 24) }...</small> not found </h1>
+        </Container>
+      );
+    }
+
     const status = (
       this.props.txdetail.transaction.confirmations < CONFIRMATIONS
         ? `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})`
