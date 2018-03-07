@@ -7,7 +7,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import agorasLogoPNG from 'images/agoras-logo.png';
+import featureLogoPNG from 'images/token1.png';
 
 const IMG = styled.img`
   margin-right: 6px;
@@ -22,17 +22,17 @@ const Container = styled.div`
 `;
 
 const ContainerLogo = styled.div`
-  background-color: black;
+  background-color: #3498db;
 `;
 
 const NameLogo = () => (
   <ContainerLogo className="d-flex px-3 py-2">
     <div className="d-inline-block">
-      <IMG src={agorasLogoPNG} alt="agoras logo" className="card-img-top" />
+      <IMG src={featureLogoPNG} alt="feature logo" className="card-img-top" />
     </div>
     <div className="d-inline-block bg-inverse text-white text-nowrap">
-      <h5>IDNI Agoras</h5>
-      <span className="text-muted">Featured Token</span>
+      <h5>Omni</h5>
+      <span>Featured Token</span>
     </div>
   </ContainerLogo>
 );
