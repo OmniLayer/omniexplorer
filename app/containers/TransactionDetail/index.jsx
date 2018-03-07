@@ -173,7 +173,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 </tr>
                 <tr>
                   <td className="field">Token</td>
-                  <td><a href="/asset"><strong>TokenName (this.props.txdetail.transaction.propertyid)</strong></a></td>
+                  <td><a href="/asset"><strong>TokenName ({ this.props.txdetail.transaction.propertyid })</strong></a></td>
                 </tr>
                 <tr>
                   <td className="field">Sender</td>
