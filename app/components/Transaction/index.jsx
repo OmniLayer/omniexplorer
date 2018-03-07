@@ -11,7 +11,6 @@ import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
 
 import ArrowIcon from 'react-icons/lib/io/arrow-right-c';
-import tokenLogo from 'images/token31.png';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import './transaction.scss';
 
@@ -23,11 +22,28 @@ const IMG = styled.img`
 
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const isValid = this.props.valid;
+    const progressColor = (isValid ? 'info' : 'danger');
+    const progressPercent = Math.floor(((this.props.confirmations / CONFIRMATIONS) * 100));
     const status = (
-      this.props.confirmations < CONFIRMATIONS
-        ? `CONFIRMING (${this.props.confirmations} of ${CONFIRMATIONS})`
-        : 'CONFIRMED'
+      isValid ?
+        this.props.confirmations < CONFIRMATIONS ?
+            `CONFIRMING (${this.props.confirmations} of ${CONFIRMATIONS})` :
+            'CONFIRMED'
+      :
+        'INVALID'
     );
+
+    let tokenLogo;
+    try {
+      tokenLogo = require(`images/token${this.props.propertyid}.png`);
+    } catch (e) {
+      if (this.props.type_int === 4) {
+        tokenLogo = require('images/sendall.png');
+      } else {
+        tokenLogo = require('images/tokendefault.png');
+      }
+    }
 
     return (
       <Row className="transation-result mx-auto">
@@ -90,7 +106,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           </Row>
           <Row className="transaction-asset">
             <Col>
-              <small>TetherUS (#31)</small>
+              <small>TokenName (#this.props.propertyid)</small>
             </Col>
           </Row>
           <Row>
