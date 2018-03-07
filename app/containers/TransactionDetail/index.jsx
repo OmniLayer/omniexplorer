@@ -113,11 +113,16 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     };
     const invalidReason = `Reason: ${this.props.txdetail.transaction.invalidreason || ''}`;
     const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${this.txid}`;
+
     let logo;
     try {
       logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
     } catch (e) {
-      logo = require('images/tokendefault.png');
+      if (this.props.txdetail.transaction.type_int === 4) {
+        logo = require('images/sendall.png');
+      } else {
+        logo = require('images/tokendefault.png');
+      }
     }
 
     let warningMessage = null;
