@@ -10,11 +10,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
 import styled from 'styled-components';
 import Moment from 'react-moment';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
+import { API_URL_BASE } from 'containers/App/constants';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
@@ -88,16 +89,34 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     if (this.props.txdetail.transaction.notFound) {
       return (
         <Container>
-          <h1> Transaction <small>{ this.txid.slice(0, 24) }...</small> not found </h1>
+          <h1> Transaction
+            <small> { this.txid.slice(0, 24) }... </small>
+            not found
+          </h1>
         </Container>
       );
     }
 
-    const status = (
-      this.props.txdetail.transaction.confirmations < CONFIRMATIONS
-        ? `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})`
-        : 'CONFIRMED'
-    );
+    const isValid = this.props.txdetail.transaction.valid;
+    const progressColor = (isValid ? 'info' : 'danger');
+    const progressPercent = Math.floor(((this.props.txdetail.transaction.confirmations / CONFIRMATIONS) * 100));
+    const getStatus = (tx) => {
+      if (tx.valid) {
+        return (tx.confirmations < CONFIRMATIONS ?
+            `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})` :
+            'CONFIRMED'
+        );
+      }
+      return 'INVALID';
+    };
+    const invalidReason = `Reason: ${this.props.txdetail.transaction.invalidreason || ''}`;
+    const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${this.txid}`;
+    let logo;
+    try {
+      logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
+    } catch (e) {
+      logo = require('images/tokendefault.png');
+    }
 
     let warningMessage = null;
     if (this.props.txdetail.transaction.confirmations === 0) {
@@ -119,18 +138,12 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Col>
       </Row>);
     }
-    let logo;
-    try {
-      logo = require(`images/token${this.props.txdetail.transaction.propertyid}.png`);
-    } catch (e) {
-      logo = require('images/tokendefault.png');
-    }
 
     return (
       <StyledContainer fluid>
         { warningMessage }
         <DetailRow>
-          <Col className="col-auto mr-auto">
+          <Col className="col-auto mr-auto col-sm-2">
             <img
               src={logo}
               alt="Simple Send"
@@ -189,20 +202,9 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr className="highlight">
                   <td className="field" style={{ paddingTop: '12px' }}>Status</td>
                   <td>
-                    <div className="text-left small">{ status }</div>
-                    <div
-                      className="progress"
-                      style={{ height: '20px', width: '300px', marginBottom: '4px', marginTop: '4px' }}
-                    >
-                      <div
-                        className="progress-bar progress-bar-success"
-                        style={{
-                          width: `${(this.props.txdetail.transaction.confirmations / 6) * 100}%`,
-                          paddingTop: '1px',
-                        }}
-                      >
-                      </div>
-                    </div>
+                    <div className="text-left">{ getStatus(this.props.txdetail.transaction) }</div>
+                    <Progress color={progressColor} value={progressPercent} />
+                    <div className="text-left">{ !isValid && invalidReason }</div>
                   </td>
                 </tr>
                 <tr>
@@ -261,7 +263,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                     <Collapse isOpen={this.collapseOmniData}>
                       <span id="lrawgettx">
                         <a
-                          href="/rawtransaction"
+                          href={rawTransactionURL}
                         >
                         Click here for raw transaction...
                       </a>
