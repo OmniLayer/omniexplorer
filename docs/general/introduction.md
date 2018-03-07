@@ -1,6 +1,12 @@
-# Omni Explorer
+# The Hitchhikers Guide to `react-boilerplate`
 
-This site was build with `react-boilerplate`
+The [`README.md`](https://github.com/OmniLayer/omniexplorer#features) gives you adequate information on how to clone boilerplate files, install dependencies and launch the example app.
+
+Once you have done that, this document is intended to give you a taste of how `react-boilerplate` works. It still assumes basic knowledge of React, Redux and `react-router`. **If you're completely new to React, please refer to https://github.com/petehunt/react-howto instead!**
+
+This is a production-ready boilerplate, and as such optimized for browsers, not for beginners. It includes tools to help you manage performance, asynchrony, styling, everything you need to build a _real_ application. Before you get your hands dirty with the source code, we'd like you to go through a checklist, that will help you determine whether or not you're eligible to use this boilerplate. It's not because we're _holier-than-thou_, but we genuinely want to save you the frustration.
+
+> Opening an issue is the fastest way to draw the attention of the team, but please make it a point to read the [docs](https://github.com/OmniLayer/omniexplorer/tree/master/docs). The issues section is specifically used for pointing out defects and suggesting enhancements, if you have a question about one of the tools please refer to StackOverflow instead.
 
 ## Tech Stack
 
@@ -27,10 +33,10 @@ Here's a curated list of packages that you should have knowledge of, before star
 
 Note that while `react-boilerplate` includes a lot of features, many of them are optional and you can find instructions in the docs on how to remove...
 
-- [...`redux-saga` or `reselect`](https://github.com/omnilayer/omniexplorer/blob/master/docs/js/remove.md).
-- ...[offline-first, add to homescreen, performant web font loading and image optimisation](https://github.com/omnilayer/omniexplorer/blob/master/docs/general/remove.md)
-- [`sanitize.css`](https://github.com/omnilayer/omniexplorer/blob/master/docs/css/remove.md)
-- [i18n (i.e. `react-intl`)](https://github.com/OmniLayer/omniexplorer/blob/master/docs/js/i18n.md)
+- [...`redux-saga` or `reselect`](https://github.com/OmniLayer/omniexplorer/blob/master/docs/js/remove.md).
+- ...[offline-first, add to homescreen, performant web font loading and image optimisation](https://github.com/OmniLayer/omniexplorer/blob/master/docs/general/remove.md)
+- [`sanitize.css`](https://github.com/OmniLayer/omniexplorer/blob/master/docs/css/remove.md)
+- [i18n (i.e. `react-intl`)](https://github.com/OmniLayer/omniexplorer/blob/docs/js/i18n.md#removing-i18n-and-react-intl)
 
 ## Project Structure
 
@@ -161,7 +167,7 @@ The mental model is that a saga is like a separate thread in your application th
 
 The react-boilerplate building blocks interoperate to produce a seamless application. Let's join these pieces together.
 
-<img src="docs/general/workflow.png" alt="boilerplate workflow" align="center" />
+<img src="workflow.png" alt="boilerplate workflow" align="center" />
 
 ### Workflow
 
@@ -206,13 +212,3 @@ Quite an understandable question!
 In the example app, we're basically using a [bazooka](https://en.wikipedia.org/wiki/Bazooka) to kill a fly. The primary purpose of this boilerplate is to provide a robust and scalable infrastructure for large scale projects. Every bit of your project should be predictable. You should have granular control over all the operations. It's overkill for the example app, but not for the real world.
 
 If you want to build a mature application you're going to need a mature infrastructure. That's what this boilerplate provides.
-
-## Documentation
-
-- [Overview](docs/general): A short overview of the included tools
-- [**Commands**](docs/general/commands.md): Getting the most out of this boilerplate
-- [Testing](docs/testing): How to work with the built-in test harness
-- [Styling](docs/css): How to work with the CSS tooling
-- [Your app](docs/js): Supercharging your app with Routing, Redux, simple
-  asynchronicity helpers, etc.
-- [**Troubleshooting**](docs/general/gotchas.md): Solutions to common problems faced by developers.
