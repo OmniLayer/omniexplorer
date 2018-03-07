@@ -124,6 +124,37 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
       }
     }
 
+    let amountDisplay;
+    if (this.props.txdetail.transaction.type_int === 4) {
+      amountDisplay = (<tr className="highlight">
+        <td className="field">Amount</td>
+        <td><strong><span id="lamount">
+          <A
+           href="#collapseAmountData"
+           color="primary"
+           onClick={this.toggleAmount}
+           style={{ marginBottom: '1rem' }}
+          >Click to show subsends of SendAll</A>
+          <Collapse isOpen={this.collapseAmount}>
+            <span id="lrawtxamount">
+              { this.props.txdetail.transaction.subsends }
+            </span>
+          </Collapse>
+        </span></strong></td>
+      </tr>);
+    } else {
+      amountDisplay = (<tr className="highlight">
+        <td className="field">Amount</td>
+        <td><strong><span id="lamount">
+          { this.props.txdetail.transaction.amount }
+         </span></strong></td>
+       </tr>
+       <tr>
+         <td className="field">Token</td>
+         <td><a href="/asset"><strong>TokenName &#40;{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
+       </tr>);
+    }
+
     return (
       <StyledContainer fluid>
         { warningMessage }
@@ -150,31 +181,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 </tr>
               </thead>
               <tbody>
-                <tr className="highlight">
-                  <td className="field">Amount</td>
-                  <td><strong><span id="lamount">
-                    if (this.props.txdetail.transaction.type_int === 4) {
-                      <A
-                        href="#collapseAmountData"
-                        color="primary"
-                        onClick={this.toggleAmount}
-                        style={{ marginBottom: '1rem' }}
-                      >Click to show subsends of SendAll</A>
-                      <Collapse isOpen={this.collapseAmount}>
-                        <span id="lrawtxamount">
-                          { this.props.txdetail.transaction.subsends }
-                        </a>
-                        </span>
-                      </Collapse>
-                    } else {
-                      { this.props.txdetail.transaction.amount }
-                    }
-                  </span></strong></td>
-                </tr>
-                <tr>
-                  <td className="field">Token</td>
-                  <td><a href="/asset"><strong>TokenName ({ this.props.txdetail.transaction.propertyid })</strong></a></td>
-                </tr>
+                { amountDisplay }
                 <tr>
                   <td className="field">Sender</td>
                   <td>
