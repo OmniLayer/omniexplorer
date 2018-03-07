@@ -8,6 +8,9 @@ import { fromJS } from 'immutable';
 import { LOAD_TRANSACTION, LOAD_TRANSACTION_ERROR, LOAD_TRANSACTION_SUCCESS } from './constants';
 
 const initialState = fromJS({
+  transaction: {
+    notFound: false,
+  },
   loading: true,
 });
 
@@ -21,7 +24,7 @@ function transactionDetailReducer(state = initialState, action) {
         .set('transaction', {});
     case LOAD_TRANSACTION_SUCCESS:
       return state
-        .set('transaction', action.transaction)
+        .set('transaction', (typeof action.transaction === 'string' ? { notFound: true } : action.transaction))
         .set('error', false)
         .set('loading', false);
     case LOAD_TRANSACTION_ERROR:
