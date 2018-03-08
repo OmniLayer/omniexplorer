@@ -73,7 +73,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               >Click to show subsends of SendAll</A>
               <Collapse isOpen={this.collapseAmount}>
                 { this.props.subsends.map((send, idx) =>
-                  (<div key={idx}><span> { send.amount } </span></div>)
+                  (<div key={idx}><span>` ${ send.amount } ${ send.propertyname } (#${ send.propertyid })`</span></div>)
                 )}
               </Collapse>
               <span></span>
@@ -96,8 +96,8 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show amounts</A>
               <Collapse isOpen={this.collapseAmount}>
-                <div><span> { this.props.amountdesired } Desired</span></div>
-                <div><span> { this.props.amountforsale } For Sale</span></div>
+                <div><span> { this.props.amountdesired } { this.props.propiddesiredname } #{ this.props.propiddesired } Desired</span></div>
+                <div><span> { this.props.amountforsale } { this.props.propidforsalename } #{ this.props.propidforsale } For Sale</span></div>
               </Collapse>
               <span></span>
             </strong>

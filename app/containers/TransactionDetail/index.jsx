@@ -147,10 +147,16 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     const amountDisplay = (<TransactionAmount {...this.props.txdetail.transaction} />);
     let tokenName;
-    if (this.props.txdetail.transaction.type_int !== 4) {
+    if (![4,-22,25,26].includes(this.props.txdetail.transaction.type_int)) {
       tokenName = (<tr>
         <td className="field">Token</td>
-        <td><a href="/asset"><strong>TokenName &#40;{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
+        <td><a href="/asset"><strong>{ this.props.txdetail.transaction.propertyname } &#40;#{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
+      </tr>);
+    }
+    if ( this.props.txdetail.transaction.type_int === 28 ) {
+      tokenName = (<tr>
+        <td className="field">Ecosystem</td>
+        <td><a href="/asset"><strong>{ this.props.txdetail.transaction.ecosystem }</strong></a></td>
       </tr>);
     }
 

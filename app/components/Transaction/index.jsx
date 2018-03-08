@@ -106,7 +106,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           </Row>
           <Row className="transaction-asset">
             <Col>
-              <small>TokenName (#{ this.props.propertyid })</small>
+              <small>{ this.props.propertyname } (#{ this.props.propertyid })</small>
             </Col>
           </Row>
           <Row>
