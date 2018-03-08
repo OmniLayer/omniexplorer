@@ -104,11 +104,16 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     const getStatus = (tx) => {
       if (tx.valid) {
         return (tx.confirmations < CONFIRMATIONS ?
-            `${this.props.txdetail.transaction.confirmations} Confirmations` :
-            'Confirmed'
+                  tx.confirmations === 0 ?
+                    'UNCONFIRMED' :
+                    tx.confirmations > 1 ?
+                      `${this.props.txdetail.transaction.confirmations} CONFIRMATIONS` :
+                      `${this.props.txdetail.transaction.confirmations} CONFIRMATION` 
+                :  
+                  'CONFIRMED'
         );
       }
-      return 'Invalid';
+      return 'INVALID';
     };
     const invalidReason = `Reason: ${this.props.txdetail.transaction.invalidreason || ''}`;
     const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${this.txid}`;
