@@ -5,8 +5,13 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import styled from 'styled-components';
 
+import { makeSelectStatus } from './selectors';
 import featureLogoPNG from 'images/token1.png';
 
 const IMG = styled.img`
@@ -48,41 +53,43 @@ const BlockInfo = () => (
   </div>
 );
 
-const ContainerSummaryItem1 = styled.div`
+const StyledContainerSummary = styled.div`
+  padding: 6px;
+  margin: 0 6px;
+  font-size: 0.9rem
+`;
+
+const StyledContainerSummary1 = styled(StyledContainerSummary)`
   background-color: #348FE2;
-  padding: 6px;
-  margin: 0 6px;
-  font-size: 0.9rem
 `;
-
-const ContainerSummaryItem2 = styled.div`
+const StyledContainerSummary2 = styled(StyledContainerSummary)`
   background-color: #159E9C;
-  padding: 6px;
-  margin: 6px;
-  font-size: 0.9rem
 `;
-
-const ContainerSummaryItem3 = styled.div`
+const StyledContainerSummary3 = styled(StyledContainerSummary)`
   background-color: #727CB6;
-  padding: 6px;
-  margin: 0 6px;
-  font-size: 0.9rem
 `;
 
-const SummaryItem1 = () => (<ContainerSummaryItem1 className="text-white"><span className="d-block lead" style={{ fontSize: '0.9rem' }}>TODAY'S OMNI PRICE</span><span className="lead">0.008234</span></ContainerSummaryItem1>);
-const SummaryItem2 = () => (<ContainerSummaryItem2 className="text-white"><span className="d-block lead" style={{ fontSize: '0.9rem' }}>TODAY'S TRANSACTIONS</span><span className="lead">8975</span></ContainerSummaryItem2>);
-const SummaryItem3 = () => (<ContainerSummaryItem3 className="text-white"><span className="d-block lead" style={{ fontSize: '0.9rem' }}>OMNI PROPERTIES</span><span className="lead">342 <small>(+377 test)</small></span></ContainerSummaryItem3>);
+const SummaryItem = (props) => {
+  const StyledContainer = props.container;
 
-const Summary = () => (
-  <div>
-    <SummaryItem1 />
-    <SummaryItem2 />
-    <SummaryItem3 />
-  </div>
-);
+  return (
+    <StyledContainer className="text-white">
+      <span className="d-block lead" style={{ fontSize: '0.9rem' }}>{props.options.title}</span>
+      <span className="lead">{props.options.value}</span>
+    </StyledContainer>
+  );
+};
 
 class ServiceBlock extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const propertiesCountValue = (
+      <span>
+        { this.props.status.properties_count }
+        <small>
+          { ` (+${this.props.status.test_properties_count} test)` }
+        </small>
+      </span>
+    );
     return (
       <Container className="d-flex">
         <div className="d-inline-block">
@@ -90,15 +97,35 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
           <BlockInfo />
         </div>
         <div className="d-inline-block w-100">
-          <SummaryItem1 />
-          <SummaryItem2 />
-          <SummaryItem3 />
+          <SummaryItem
+            container={StyledContainerSummary1}
+            options={{ title: 'TODAY\'S OMNI PRICE', value: this.props.status.omni_btc }}
+          />
+          <SummaryItem
+            container={StyledContainerSummary2}
+            options={{ title: 'TODAY\'S TRANSACTIONS', value: this.props.status.txcount_24hr }}
+          />
+          <SummaryItem
+            container={StyledContainerSummary3}
+            options={{ title: 'OMNI PROPERTIES', value: propertiesCountValue }}
+          />
         </div>
       </Container>
     );
   }
 }
 
-ServiceBlock.propTypes = {};
+ServiceBlock.propTypes = {
+  getStatus: PropTypes.func,
+  status: PropTypes.object,
+};
 
-export default ServiceBlock;
+const mapStateToProps = createStructuredSelector({
+  status: makeSelectStatus(),
+});
+
+const withConnect = connect(mapStateToProps, {});
+
+export default compose(
+  withConnect,
+)(ServiceBlock);
