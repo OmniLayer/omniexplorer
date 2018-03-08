@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
@@ -7,9 +7,15 @@ import { errorFetch, updateFetch } from './actions';
 
 function* fetchProperty(action) {
   try {
-    const requestURL = `${API_URL_BASE}/property/${action.id}`;
-    const property = yield call(request, requestURL);
-    yield put(updateFetch(property));
+    // @refactoring: remove the state set
+    const state = yield select((st) => st);
+    const tokens = state.get('tokenDetail').get('tokens');
+
+    if (!tokens.get(action.id.toString())) {
+      const requestURL = `${API_URL_BASE}/property/${action.id}`;
+      const property = yield call(request, requestURL);
+      yield put(updateFetch(property));
+    }
   } catch (err) {
     yield put(errorFetch(err));
   }

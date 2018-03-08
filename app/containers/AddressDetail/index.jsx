@@ -7,16 +7,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import {
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 
 import Transactions from 'containers/Transactions';
 import Wallet from 'components/Wallet';
@@ -24,14 +19,12 @@ import Wallet from 'components/Wallet';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
-import sagaToken from 'components/Token/saga';
 import sagaTransactions from 'containers/Transactions/saga';
 import makeSelectAddressDetail from './selectors';
 import reducer from './reducer';
 import { loadAddress } from './actions';
 import sagaAddress from './saga';
 
-// import messages from './messages';
 const Layout = styled(Container)`
       background-color: white;
       padding: 0;
@@ -50,6 +43,10 @@ export class AddressDetail extends React.PureComponent { // eslint-disable-line 
 
   render() {
     console.log('address detail render');
+    if (this.props.loading) {
+      return;
+    }
+
     return (
       <Layout fluid>
         <Row>
@@ -87,17 +84,13 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'addressDetail', reducer });
-// const withSaga = injectSaga({ key: 'addressDetail', [saga]: saga });
-// const withSagaToken = injectSaga({ key: 'tokenDetail', saga: sagaToken });
 
 const withSagaAddress = injectSaga({ key: 'addressDetail', saga: sagaAddress });
-const withSagaToken = injectSaga({ key: 'tokenDetail', saga: sagaToken });
 const withSagaTransaction = injectSaga({ key: 'transactions', saga: sagaTransactions });
 
 
 export default compose(
   withReducer,
-  withSagaToken,
   withSagaAddress,
   withSagaTransaction,
   withConnect,
