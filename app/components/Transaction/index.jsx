@@ -28,10 +28,15 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
-            `${this.props.confirmations} Confirmations` :
-            'Confirmed'
+            this.props.confirmations === 0 ?
+               'UNCONFIRMED' : 
+                this.props.confirmations > 1 ?
+                   `${this.props.confirmations} CONFIRMATIONS` :
+                   `${this.props.confirmations} CONFIRMATION` 
+        : 
+            'CONFIRMED'
       :
-        'Invalid'
+        'INVALID'
     );
 
     let tokenLogo;
