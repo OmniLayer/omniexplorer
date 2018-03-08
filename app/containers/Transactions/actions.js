@@ -71,9 +71,10 @@ export function transactionsLoadingError(error) {
  *
  * @return {object} An action object with the page
  */
-export function setPage(page) {
+export function setPage(page, addr = null) {
   return {
     type: SET_PAGE,
     page,
+    addr,
   };
 }

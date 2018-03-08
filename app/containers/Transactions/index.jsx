@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Container } from 'reactstrap';
 import styled from 'styled-components';
-
 // import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import TransactionList from 'components/TransactionList';
@@ -30,7 +29,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
     this.props.loadTransactions(this.props.addr);
     console.log('Transactions did mount');
   }
-
+  
   render() {
     const StyledContainer = styled(Container)`
       background-color: #F0F3F4;
@@ -39,27 +38,28 @@ export class Transactions extends React.Component { // eslint-disable-line react
     const StyledH3 = styled.h3`
       padding: 3rem 0;
     `;
-
+    
     let content;
-
+    
     if (this.props.loading) {
       content = (
         <LoadingIndicator />
       );
-    } else if (!this.props.loading && (this.props.transactions.transactions||[]).length === 0) {
+    } else if (!this.props.loading && (this.props.transactions.transactions || []).length === 0) {
       content = (
         <StyledH3 className="lead text-center">No transactions found</StyledH3>
       );
     } else {
+      const props = { ...this.props.transactions, addr: this.props.addr };
       content = (
         <div>
-          <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+          <ListPagination {...props} onSetPage={this.props.onSetPage}/>
           <TransactionList {...this.props.transactions} />
-          <ListPagination {...this.props.transactions} onSetPage={this.props.onSetPage} />
+          <ListPagination {...props} onSetPage={this.props.onSetPage}/>
         </div>
       );
     }
-
+    
     return (
       <StyledContainer fluid>
         <TransactionListHeader />
@@ -86,7 +86,7 @@ function mapDispatchToProps(dispatch) {
   return {
     loadTransactions: (addr) => dispatch(loadTransactions(addr)),
     dispatch,
-    onSetPage: (p) => dispatch(setPage(p)),
+    onSetPage: (p, addr) => dispatch(setPage(p, addr)),
   };
 }
 
