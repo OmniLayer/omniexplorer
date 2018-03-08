@@ -105,6 +105,32 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
         </tr>
       );
     }
+    //Crowdsale Purchase
+    if (this.props.type === "Crowdsale Purchase") {
+      return (
+        <tr className="highlight">
+          <td className="field">Amount</td>
+          <td>
+            <strong id="crowdsaleamount">
+              <A
+                href="#collapseAmountData"
+                color="primary"
+                onClick={this.toggleAmount}
+                style={{ marginBottom: '1rem' }}
+              >Click to show amounts</A>
+              <Collapse isOpen={this.collapseAmount}>
+                <div><span> { this.props.amount } { this.props.propertyidname } (#{ this.props.propertyid }) Sent</span></div>
+                <div><span> { this.props.purchasedtokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased</span></div>
+                <div><span> { this.props.issuertokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer</span></div>
+              </Collapse>
+              <span></span>
+            </strong>
+          </td>
+        </tr>
+      );
+    }
+ 
+ 
     // other transactions
     return (
       <tr className="highlight">
