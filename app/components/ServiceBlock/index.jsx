@@ -10,6 +10,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
+import Moment from 'react-moment';
 
 import { makeSelectStatus } from './selectors';
 import featureLogoPNG from 'images/token1.png';
@@ -42,13 +43,21 @@ const NameLogo = () => (
   </ContainerLogo>
 );
 
-const BlockInfo = () => (
+const BlockInfo = (props) => (
   <div className="pt-3 pl-3">
     <div style={{ color: '#C4E0F3' }}>
       <span>LAST BLOCK</span>
     </div>
     <div className="text-white">
-      <span>4971644 <small>(14.4s)</small></span>
+      <span>
+        { `${props.last_block} (` }
+        <small>
+          <Moment diff={new Date().getTime()} unit="seconds">
+            { props.last_parsed }
+          </Moment>
+          { 's)' }
+        </small>
+      </span>
     </div>
   </div>
 );
@@ -82,24 +91,35 @@ const SummaryItem = (props) => {
 
 class ServiceBlock extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const propertiesCountValue = (
+    const propertiesCountValue = (props) => (
       <span>
-        { this.props.status.properties_count }
+        { props.properties_count }
         <small>
-          { ` (+${this.props.status.test_properties_count} test)` }
+          { ` (+${props.test_properties_count} test)` }
         </small>
       </span>
     );
+
+    const omniPriceValue = (props) => (
+      <span>
+        { Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 }BTC /
+        ${ Math.round((props.omni_usd + 0.00001) * 100) / 100 }
+      </span>
+    );
+
+    // wait status props loading
+    if (!this.props.status) return <div></div>;
+
     return (
       <Container className="d-flex">
         <div className="d-inline-block">
           <NameLogo />
-          <BlockInfo />
+          <BlockInfo {...this.props.status} />
         </div>
         <div className="d-inline-block w-100">
           <SummaryItem
             container={StyledContainerSummary1}
-            options={{ title: 'TODAY\'S OMNI PRICE', value: this.props.status.omni_btc }}
+            options={{ title: 'TODAY\'S OMNI PRICE', value: omniPriceValue(this.props.status) }}
           />
           <SummaryItem
             container={StyledContainerSummary2}
@@ -107,7 +127,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
           />
           <SummaryItem
             container={StyledContainerSummary3}
-            options={{ title: 'OMNI PROPERTIES', value: propertiesCountValue }}
+            options={{ title: 'OMNI PROPERTIES', value: propertiesCountValue(this.props.status) }}
           />
         </div>
       </Container>
