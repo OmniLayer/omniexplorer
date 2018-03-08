@@ -104,7 +104,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     const getStatus = (tx) => {
       if (tx.valid) {
         return (tx.confirmations < CONFIRMATIONS ?
-            `CONFIRMING (${this.props.txdetail.transaction.confirmations} of ${CONFIRMATIONS})` :
+            `${this.props.txdetail.transaction.confirmations} CONFIRMATIONS` :
             'CONFIRMED'
         );
       }
@@ -230,14 +230,6 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                     </Link>
                   </td>
                 </tr>
-                <tr className="highlight">
-                  <td className="field" style={{ paddingTop: '12px' }}>Status</td>
-                  <td>
-                    <div className="text-left">{ getStatus(this.props.txdetail.transaction) }</div>
-                    <Progress color={progressColor} value={progressPercent} />
-                    <div className="text-left">{ !isValid && invalidReason }</div>
-                  </td>
-                </tr>
                 <tr>
                   <td className="field">Date/Time</td>
                   <td>
@@ -249,11 +241,19 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   </td>
                 </tr>
                 <tr>
-                  <td className="field">Block</td>
+                  <td className="field">In Block</td>
                   <td>
                     <span id="lblocknum">
                       { this.props.txdetail.transaction.block }
                     </span>
+                  </td>
+                </tr>
+                <tr className="highlight">
+                  <td className="field" style={{ paddingTop: '12px' }}>Status</td>
+                  <td>
+                    <div className="text-left">{ getStatus(this.props.txdetail.transaction) }</div>
+                    <Progress color={progressColor} value={progressPercent} />
+                    <div className="text-left">{ !isValid && invalidReason }</div>
                   </td>
                 </tr>
                 <tr>

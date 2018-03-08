@@ -28,7 +28,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
-            `CONFIRMING (${this.props.confirmations} of ${CONFIRMATIONS})` :
+            `${this.props.confirmations} CONFIRMATIONS` :
             'CONFIRMED'
       :
         'INVALID'
