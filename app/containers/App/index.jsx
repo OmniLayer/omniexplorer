@@ -14,7 +14,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
@@ -25,6 +25,13 @@ import Header from 'components/Header';
 
 import DevTools from 'utils/devTools';
 import Moment from 'react-moment';
+
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import withLifecycleDispatch from 'utils/withLifecycleDispatch';
+import { LOAD_STATUS } from 'components/ServiceBlock/constants';
+import Sagas from './sagas';
+import Reducers from './reducers';
 
 // Import DevTools, only for dev environment
 const isDev = process.env.NODE_ENV !== 'production';
@@ -41,7 +48,13 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default function App() {
+let loadStatus;
+let dispatcher;
+
+function App(props) {
+  loadStatus = props.loadStatus;
+  dispatcher = props.dispatch;
+
   return (
     <AppWrapper>
       <Helmet
@@ -66,3 +79,23 @@ export default function App() {
     </AppWrapper>
   );
 }
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadStatus: () => dispatcher({ type: LOAD_STATUS }),
+    dispatch,
+  };
+}
+
+const AppWithLifecycle = withLifecycleDispatch({
+  componentDidMount: () => loadStatus(),
+})(App);
+
+const withConnect = connect(mapDispatchToProps);
+
+export default compose(
+  ...Reducers,
+  ...Sagas,
+  withConnect,
+)(AppWithLifecycle);
