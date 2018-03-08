@@ -20,6 +20,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import LoadingIndicator from 'components/LoadingIndicator';
+import TransactionAmount from 'components/TransactionAmount';
 
 import makeSelectTransactionDetail from './selectors';
 import sagaTxDetail from './saga';
@@ -61,10 +62,8 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     this.collapseOmniData = false;
     this.collapseDecoded = false;
-    this.collapseAmount = false;
     this.toggleRawData = () => (this.collapseOmniData = !this.collapseOmniData);
     this.toggleDecoded = () => (this.collapseDecoded = !this.collapseDecoded);
-    this.toggleAmount  = () => (this.collapseAmount = !this.collapseAmount);
 
     this.txid = this.props.match.params.tx.toString();
   }
@@ -145,33 +144,10 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         </Col>
       </Row>);
     }
-  
-    let amountDisplay;
+
+    const amountDisplay = (<TransactionAmount {...this.props.txdetail.transaction} />);
     let tokenName;
-    if (this.props.txdetail.transaction.type_int === 4) {
-      amountDisplay = (<tr className="highlight">
-        <td className="field">Amount</td>
-        <td><strong><span id="lamount">
-          <A
-            href="#collapseAmountData"
-            color="primary"
-            onClick={this.toggleAmount}
-            style={{ marginBottom: '1rem' }}
-          >Click to show subsends of SendAll</A>
-          <Collapse isOpen={this.collapseAmount}>
-            <span id="lrawtxamount">
-              { this.props.txdetail.transaction.subsends }
-            </span>
-          </Collapse>
-        </span></strong></td>
-      </tr>);
-    } else {
-      amountDisplay = (<tr className="highlight">
-        <td className="field">Amount</td>
-        <td><strong><span id="lamount">
-          { this.props.txdetail.transaction.amount }
-         </span></strong></td>
-      </tr>);
+    if (this.props.txdetail.transaction.type_int !== 4) {
       tokenName = (<tr>
         <td className="field">Token</td>
         <td><a href="/asset"><strong>TokenName &#40;{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
@@ -185,7 +161,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
           <Col className="col-auto mr-auto col-sm-2">
             <img
               src={logo}
-              alt={ this.props.txdetail.transaction.type }
+              alt={this.props.txdetail.transaction.type}
               className="img-thumbnail"
             />
           </Col>
@@ -196,9 +172,9 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <th></th>
                   <th>
                     <h4>{ this.props.txdetail.transaction.type }
-                    <SubtitleDetail>
-                      { this.props.txdetail.transaction.txid }
-                    </SubtitleDetail>
+                      <SubtitleDetail>
+                        { this.props.txdetail.transaction.txid }
+                      </SubtitleDetail>
                     </h4>
                   </th>
                 </tr>

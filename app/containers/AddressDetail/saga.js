@@ -9,12 +9,13 @@ function* getAddress(action = {}) {
   const requestURL = `${API_URL_BASE}/address/addr`;
 
   try {
+    const bodyRequest = `${encodeURIComponent('addr')}=${encodeURIComponent(action.addr)}`;
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: encodeURIComponent('addr') + '=' + encodeURIComponent(action.addr),
+      body: bodyRequest,
     };
 
     const wallet = yield call(request, requestURL, options);
