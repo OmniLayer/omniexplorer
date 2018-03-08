@@ -161,6 +161,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     }
 
     let btcDesired;
+    let specificAction;
     if ( this.props.txdetail.transaction.type_int === 20 ) {
       btcDesired = (<tr className="highlight">
         <td className="field">Bitcoin Desired</td>
@@ -172,6 +173,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
           </strong>
         </td>
       </tr>);
+      specificAction = (- { this.props.txdetail.transaction.action });
     }
 
 
@@ -192,7 +194,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                 <tr>
                   <th></th>
                   <th>
-                    <h4>{ this.props.txdetail.transaction.type } - { this.props.txdetail.transaction.action }
+                    <h4>{ this.props.txdetail.transaction.type } { specificAction }
                       <SubtitleDetail>
                         { this.props.txdetail.transaction.txid }
                       </SubtitleDetail>

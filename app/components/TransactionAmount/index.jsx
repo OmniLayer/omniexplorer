@@ -119,7 +119,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show amounts</A>
               <Collapse isOpen={this.collapseAmount}>
-                <div><span> { this.props.amount } { this.props.propertyidname } (#{ this.props.propertyid }) Sent</span></div>
+                <div><span> { this.props.amount } { this.props.propertyname } (#{ this.props.propertyid }) Sent</span></div>
                 <div><span> { this.props.purchasedtokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased</span></div>
                 <div><span> { this.props.issuertokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer</span></div>
               </Collapse>
