@@ -168,12 +168,12 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
         <td>
           <strong>
             <span id="lamount">
-              { this.props.bitcoindesired } BTC
+              { this.props.txdetail.transaction.bitcoindesired } BTC
             </span>
           </strong>
         </td>
       </tr>);
-      specificAction = (- { this.props.txdetail.transaction.action });
+      specificAction = (`- ${this.props.txdetail.transaction.action}`);
     }
 
 
