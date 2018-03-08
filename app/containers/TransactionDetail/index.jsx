@@ -156,7 +156,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     if ( this.props.txdetail.transaction.type_int === 28 ) {
       tokenName = (<tr>
         <td className="field">Ecosystem</td>
-        <td><a href="/asset"><strong>{ this.props.txdetail.transaction.ecosystem }</strong></a></td>
+        <td><strong>{ this.props.txdetail.transaction.ecosystem }</strong></td>
       </tr>);
     }
 
