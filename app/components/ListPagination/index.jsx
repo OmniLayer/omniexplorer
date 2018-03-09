@@ -14,20 +14,25 @@ const StyledPaginationLink = styled(PaginationLink)`
   border-radius: 3.2px;
   margin-left: 1px;
 `;
-const StyledPaginationItem = styled(PaginationItem)`
+const StyledPaginationButton = styled(PaginationItem)`
+  margin: 0 2px;
+`;
+
+const StyledPaginationItem = styled(StyledPaginationButton)`
   &.active > .page-link {
       background-color: #3498db;
     }
 `;
 
 const ListPagination = (props) => {
-  if ((props.transactions || []).length < 10) {
-    return null;
+  if ((props.transactions || []).length < 10 || props.pageCount < 2) {
+    return <div></div>;
   }
 
   const pageNumber = Math.floor(props.currentPage / 10) * 10;
-  const range = [...Array(10).keys()].map((x) => x + pageNumber);
-  const setPage = (page) => props.onSetPage(page);
+  const qtyPages = (props.pageCount < 10 ? props.pageCount : 10 );
+  const range = [...Array(qtyPages).keys()].map((x) => x + pageNumber);
+  const setPage = (page, addr) => props.onSetPage(page, addr);
 
   const getPrevious = () => (
     props.currentPage > 0
@@ -43,15 +48,15 @@ const ListPagination = (props) => {
 
   return (
     <Pagination className="pagination justify-content-end mt-2 mb-2">
-      <PaginationItem onClick={() => setPage(getPrevious())} key={'previous'}>
+      <StyledPaginationButton onClick={() => setPage(getPrevious(), props.addr)} key={'previous'}>
         <StyledPaginationLink previous href="#" />
-      </PaginationItem>
+      </StyledPaginationButton>
       {
         range.map((v) => {
           const isCurrent = v === props.currentPage;
 
           return (
-            <StyledPaginationItem onClick={() => setPage(v)} className={isCurrent ? 'page-item active' : 'page-item'} key={v}>
+            <StyledPaginationItem onClick={() => setPage(v, props.addr)} className={isCurrent ? 'page-item active' : 'page-item'} key={v}>
               <StyledPaginationLink href="#">
                 {v + 1}
               </StyledPaginationLink>
@@ -59,14 +64,15 @@ const ListPagination = (props) => {
           );
         })
       }
-      <PaginationItem onClick={() => setPage(getNext())} key={'next'}>
+      <StyledPaginationButton onClick={() => setPage(getNext(), props.addr)} key={'next'}>
         <StyledPaginationLink next href="#" />
-      </PaginationItem>
+      </StyledPaginationButton>
     </Pagination>
   );
 };
 
 Pagination.propTypes = {
+  addr: PropTypes.object,
   currentPage: PropTypes.number,
   transactions: PropTypes.array,
 };

@@ -1,25 +1,22 @@
 /**
-*
-* Token
-*
-*/
+ *
+ * Token
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import { makeSelectProperties } from './selectors';
-import reducer from './reducer';
+
+import { makeSelectProperty, makeSelectProperties } from './selectors';
 import { startFetch } from './actions';
-// import saga from './saga';
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props){
+  constructor(props) {
     super(props);
-  
+
     this.getLogo = () => {
       let logo;
       try {
@@ -29,8 +26,9 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
       }
       return logo;
     };
-    this.getTokenName = () => (this.props.properties.get('tokens').get(this.props.id.toString())||{name:''}).name;
+    this.getTokenName = () => (this.props.properties.get('tokens').get(this.props.id.toString()) || { name: '' }).name;
   }
+
   componentDidMount() {
     console.log('token did mount');
     this.props.getProperty(this.props.id.toString());
@@ -70,7 +68,6 @@ Token.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   properties: makeSelectProperties(),
-  // property: makeSelectProperty(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -82,11 +79,6 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'tokenDetail', reducer });
-// const withSaga = injectSaga({ key: 'tokenDetail', saga });
-
 export default compose(
-  withReducer,
-  // withSaga,
   withConnect,
 )(Token);
