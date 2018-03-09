@@ -25,12 +25,13 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 `;
 
 const ListPagination = (props) => {
-  if ((props.transactions || []).length < 10) {
-    return null;
+  if ((props.transactions || []).length < 10 || props.pageCount < 2) {
+    return <div></div>;
   }
 
   const pageNumber = Math.floor(props.currentPage / 10) * 10;
-  const range = [...Array(10).keys()].map((x) => x + pageNumber);
+  const qtyPages = (props.pageCount < 10 ? props.pageCount : 10 );
+  const range = [...Array(qtyPages).keys()].map((x) => x + pageNumber);
   const setPage = (page, addr) => props.onSetPage(page, addr);
 
   const getPrevious = () => (
