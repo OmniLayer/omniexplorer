@@ -38,25 +38,25 @@ const NameLogo = () => (
     </div>
     <div className="d-inline-block bg-inverse text-white text-nowrap">
       <h5>Omni</h5>
-      <span>Featured Token</span>
+      <span>Featured Property</span>
     </div>
   </ContainerLogo>
 );
 
 const BlockInfo = (props) => (
   <div className="pt-3 pl-3">
-    <div style={{ color: '#C4E0F3' }}>
+    <div className="text-white">
       <span>LAST UPDATE</span>
     </div>
     <div className="text-white">
       <span>
-        { `Block ${props.last_block}` }
+        { `As of Block ${props.last_block}` }
       </span>
     </div>
     <div className="text-white">
       <span>
         <small>
-            { `Timestamp ${props.last_parsed} UTC` }
+            { `${props.last_parsed} UTC` }
         </small>
       </span>
     </div>
@@ -104,7 +104,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
     const omniPriceValue = (props) => (
       <span>
         { Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 }BTC /
-        ${ Math.round((props.omni_usd + 0.00001) * 100) / 100 }
+        ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
       </span>
     );
 
