@@ -46,16 +46,17 @@ const NameLogo = () => (
 const BlockInfo = (props) => (
   <div className="pt-3 pl-3">
     <div style={{ color: '#C4E0F3' }}>
-      <span>LAST BLOCK</span>
+      <span>LAST UPDATE</span>
     </div>
     <div className="text-white">
       <span>
-        { `${props.last_block} (` }
+        { `Block ${props.last_block}` }
+      </span>
+    </div>
+    <div className="text-white">
+      <span>
         <small>
-          <Moment diff={new Date().getTime()} unit="seconds">
-            { props.last_parsed }
-          </Moment>
-          { 's)' }
+            { `Timestamp ${props.last_parsed} UTC` }
         </small>
       </span>
     </div>
@@ -119,11 +120,11 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
         <div className="d-inline-block w-100">
           <SummaryItem
             container={StyledContainerSummary1}
-            options={{ title: 'TODAY\'S OMNI PRICE', value: omniPriceValue(this.props.status) }}
+            options={{ title: 'LATEST OMNI PRICE', value: omniPriceValue(this.props.status) }}
           />
           <SummaryItem
             container={StyledContainerSummary2}
-            options={{ title: 'TODAY\'S TRANSACTIONS', value: this.props.status.txcount_24hr }}
+            options={{ title: 'TRANSACTIONS (24 hrs)', value: this.props.status.txcount_24hr }}
           />
           <SummaryItem
             container={StyledContainerSummary3}
