@@ -27,7 +27,7 @@ const IMG = styled.img`
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     const isValid = this.props.valid;
-    const progressColor = (isValid ? 'info' : 'danger');
+    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light');
     const progressPercent = Math.floor(((this.props.confirmations / CONFIRMATIONS) * 100));
     const status = (
       isValid ?
@@ -137,7 +137,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col className="btn-group">
               <Link
-                className="btn btn-primary btn-block btn-blue font-weight-light"
+                className= { statusColor }
                 to={{
                   pathname: `/tx/${this.props.txid}`,
                   state: { transaction: this.props },
