@@ -51,6 +51,7 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
                       <StyledTH></StyledTH>
                       <StyledTH>ID</StyledTH>
                       <StyledTH>Name</StyledTH>
+                      <StyledTH className="text-right">Frozen Balance</StyledTH>
                       <StyledTH className="text-right">Reserved Balance</StyledTH>
                       <StyledTH className="text-right">Available Balance</StyledTH>
                     </tr>

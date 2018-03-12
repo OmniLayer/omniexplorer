@@ -50,6 +50,9 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           { this.getTokenName() }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+          { this.props.frozen }
+        </td>
+        <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           { this.props.reserved }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
