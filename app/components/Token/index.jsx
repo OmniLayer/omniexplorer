@@ -48,6 +48,14 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
       available = this.props.value;
     }
 
+    let value;
+    if (available == 0 && frozen > 0 {
+      value = `#{ frozen } Frozen!`;
+    } else {
+      value=available;
+    }
+    
+
     return (
       <tr>
         <td style={{ width: '56px' }}>
@@ -63,14 +71,11 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           { this.getTokenName() }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-          { frozen }
-        </td>
-        <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           { reserved }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { available }
+            { value }
           </strong>
         </td>
       </tr>
