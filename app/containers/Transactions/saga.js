@@ -37,7 +37,7 @@ export function* setPageGenerator(action) {
  */
 export default function* root() {
   yield all([
-    takeLatest(SET_PAGE, setPageGenerator),
+    // takeLatest(SET_PAGE, setPageGenerator),
     takeLatest(LOAD_TRANSACTIONS, getTransactions),
   ]);
 }
