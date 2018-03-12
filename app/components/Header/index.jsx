@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
 import {

@@ -26,10 +26,11 @@ import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
+    debugger;
     const _pathname = this.props.location.get('pathname');
     const _page = _pathname.slice(_pathname.indexOf('/') + 1);
     
-    this.props.loadTransactions(this.props.addr, _page);
+    this.props.loadTransactions(this.props.addr, (isNaN(_page) ? 0 : _page));
     console.log('Transactions did mount');
   }
   
