@@ -101,7 +101,8 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     const isValid = this.props.txdetail.transaction.valid;
     const progressColor = (isValid ? 'info' : 'danger');
-    const progressPercent = Math.floor(((this.props.txdetail.transaction.confirmations / CONFIRMATIONS) * 100));
+    /* const progressPercent = Math.floor(((this.props.txdetail.transaction.confirmations / CONFIRMATIONS) * 100)); */
+    const progressPercent = 100;
     const getStatus = (tx) => {
       if (tx.valid) {
         return (tx.confirmations < CONFIRMATIONS ?
@@ -260,7 +261,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td className="field" style={{ paddingTop: '12px' }}>Status</td>
                   <td>
                     <div className="text-left">{ getStatus(this.props.txdetail.transaction) }</div>
-                    <Progress color={progressColor} value={progressPercent} />
+                    <Progress color={progressColor} value={progressPercent} style="width:30%"/>
                     <div className="text-left">{ !isValid && invalidReason }</div>
                   </td>
                 </tr>
