@@ -17,6 +17,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import Wallet from 'components/Wallet';
+import TransactionList from 'components/TransactionList';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
@@ -29,41 +30,48 @@ const Layout = styled(Container)`
       padding: 0;
     `;
 
+const StyledContainer = styled(Container)`
+      background-color: #F0F3F4;
+      overflow: auto;
+      margin: 3rem;
+    `;
+
 export class Search extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.query = props.match.params.query.toString();
   }
-  
+
   componentDidMount() {
     this.props.loadSearch(this.query);
   }
-  
-  componentWillReceiveProps(newProps) {
-    if (newProps.match.params.query !== this.query) {
-      this.props.loadSearch(this.query);
-    }
-  }
-  
+
   render() {
     let wallet = <div></div>;
     let assets = <div></div>;
     let tx = <div></div>;
     
-    if (this.props.search.address.balance.length > 0) {
-      wallet = <Wallet {...this.props.search} addr={this.query}/>;
+    if (this.props.search.address.balance && this.props.search.address.balance.length> 0) {
+      console.log(this.props.search);
+      wallet = <Wallet {...this.props.search} addr={this.query} />;
     }
-    
+
     if (this.props.search.asset.length > 0) {
       assets = <h1> assets </h1>;
     }
-    
+
     if (!isEmpty(this.props.search.tx.type)) {
-      tx = <h1> assets </h1>;
+      const transactions = [this.props.search.tx];
+      tx = (
+        <div>
+          <h3 className="text-center">Transaction detail</h3>
+          <TransactionList transactions={transactions} />
+        </div>
+      );
     }
-    
+
     return (
-      <Layout fluid>
+      <StyledContainer fluid>
         <Row>
           <Col>
             { wallet }
@@ -79,7 +87,7 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
             { tx }
           </Col>
         </Row>
-      </Layout>
+      </StyledContainer>
     );
   }
 }
