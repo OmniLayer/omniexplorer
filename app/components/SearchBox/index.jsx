@@ -1,10 +1,14 @@
 /**
-*
-* SearchBox
-*
-*/
+ *
+ * SearchBox
+ *
+ */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 import SearchIcon from 'react-icons/lib/io/search';
 
@@ -15,8 +19,7 @@ const Input = styled.input.attrs({
   placeholder: messages.placeholder.defaultMessage,
 })``;
 
-const Div = styled.div``;
-const Form = styled.form`
+const Wrapper = styled.div`
   & div.input-group > input.form-control.searchbox-input {
     outline: none;
     border-radius: 19px;
@@ -32,22 +35,42 @@ const Form = styled.form`
 `;
 
 class SearchBox extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  handleKeyUp(e) {
+    const value = e.target.value;
+    if (e.keyCode === 13 && value) {
+      this.props.changeRoute(`/search/${e.target.value}`);
+      e.target.value = '';
+    }
+  }
+
   render() {
     return (
-      <Form className="searchbox-form">
-        <Div className="input-group">
+      <Wrapper className="searchbox-form">
+        <div className="input-group">
           <Input
             className="form-control searchbox-input"
+            onKeyUp={this.handleKeyUp.bind(this)}
           ></Input>
           <SearchIcon className="searchbox-icon" size={24} />
-        </Div>
-      </Form>
+        </div>
+      </Wrapper>
     );
   }
 }
 
 SearchBox.propTypes = {
-  /* TODO: search box props */
+  changeRoute: PropTypes.func,
 };
 
-export default SearchBox;
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(routeActions.push(url)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+)(SearchBox);
