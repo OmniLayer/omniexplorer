@@ -7,17 +7,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import styled from 'styled-components';
+import { Col, Container, Row } from 'reactstrap';
+import isEmpty from 'lodash/isEmpty';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+
+import Wallet from 'components/Wallet';
+
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
 import searchSaga from './saga';
 import { loadSearch } from './actions';
-import messages from './messages';
+
+
+const Layout = styled(Container)`
+      background-color: white;
+      padding: 0;
+    `;
 
 export class Search extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -26,7 +36,6 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
   }
   
   componentDidMount() {
-    debugger;
     this.props.loadSearch(this.query);
   }
   
@@ -37,10 +46,40 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
   }
   
   render() {
+    let wallet = <div></div>;
+    let assets = <div></div>;
+    let tx = <div></div>;
+    
+    if (this.props.search.address.balance.length > 0) {
+      wallet = <Wallet {...this.props.search} addr={this.query}/>;
+    }
+    
+    if (this.props.search.asset.length > 0) {
+      assets = <h1> assets </h1>;
+    }
+    
+    if (!isEmpty(this.props.search.tx.type)) {
+      tx = <h1> assets </h1>;
+    }
+    
     return (
-      <div>
-        <FormattedMessage {...messages.header} />
-      </div>
+      <Layout fluid>
+        <Row>
+          <Col>
+            { wallet }
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            { assets }
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            { tx }
+          </Col>
+        </Row>
+      </Layout>
     );
   }
 }

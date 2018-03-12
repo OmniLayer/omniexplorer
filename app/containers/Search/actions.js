@@ -27,7 +27,6 @@ import {
  * @return {object} An action object with a type of LOAD_SEARCH
  */
 export function loadSearch(query) {
-  debugger;
   return {
     type: LOAD_SEARCH,
     query,
