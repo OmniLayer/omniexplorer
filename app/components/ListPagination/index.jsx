@@ -55,7 +55,7 @@ const ListPagination = (props) => {
       : _page
   );
 
-  const pathname = props.match.params.address ? `/address/${props.match.params.address}` : '/';
+  const pathname = props.match.params.address ? `/address/${props.match.params.address}` : '';
   const hashLink = (v) => `${pathname}/${v + 1}`;
 
   return (
