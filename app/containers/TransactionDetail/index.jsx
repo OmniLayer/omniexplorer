@@ -307,7 +307,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                     </Collapse>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td colSpan="2">
                     <A
                       href="#collapseRawData"
