@@ -50,6 +50,16 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       }
     }
 
+    let arrowcname;
+    let addresscname;
+    if ( this.props.referenceaddress !== undefined ) {
+      arrowcname = 'transaction-arrow-icon';
+      addresscname = 'btn btn-add m-r-5 m-b-5';
+    } else {
+      arrowcname = 'd-none';
+      addresscname = 'd-none';
+    }
+
     return (
       <Row className="transation-result mx-auto">
         <Col xs="9">
@@ -88,9 +98,9 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 >
                   { this.props.sendingaddress }
                 </Link>
-                <ArrowIcon size={20} color="gray" className="transaction-arrow-icon" />
+                <ArrowIcon size={20} color="gray" className={ arrowcname } />
                 <Link
-                  className="btn btn-add m-r-5 m-b-5"
+                  className={ addresscname }
                   to={{
                     pathname: `/address/${this.props.referenceaddress}`,
                   }}
