@@ -26,7 +26,7 @@ const Form = styled.form`
   
   & div.input-group > svg.searchbox-icon {
     height: auto;
-    margin-left: -2rem;
+    margin-left: -3rem;
     z-index: 999;
   }
 `;
