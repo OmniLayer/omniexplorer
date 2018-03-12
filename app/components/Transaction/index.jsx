@@ -73,7 +73,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                       pathname: `/tx/${this.props.txid}`,
                       state: { transaction: this.props },
                     }}
-                    onClick={() => this.props.changeRoute( `/tx/${this.props.txid}`)}
+                    onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                   >
                     { this.props.txid.slice(0, 48) }...
                   </Link>
@@ -147,6 +147,7 @@ Transaction.propTypes = {
   type: PropTypes.string,
   txid: PropTypes.string,
   amount: PropTypes.string,
+  changeRoute: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

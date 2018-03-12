@@ -38,7 +38,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
     } else {
       page = pathname.substr(pathname.lastIndexOf('/') + 1);
     }
-    return (isNaN(page) ? 0 : page);
+    return (!page || isNaN(page) ? 0 : page - 1);
   }
 
   render() {
