@@ -261,7 +261,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                   <td className="field" style={{ paddingTop: '12px' }}>Status</td>
                   <td>
                     <div className="text-left">{ getStatus(this.props.txdetail.transaction) }</div>
-                    <Progress color={progressColor} value={progressPercent} style="width:30%"/>
+                    <Progress color={progressColor} value={progressPercent}/>
                     <div className="text-left">{ !isValid && invalidReason }</div>
                   </td>
                 </tr>
