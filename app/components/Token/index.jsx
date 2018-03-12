@@ -35,6 +35,20 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
   }
 
   render() {
+
+    let frozen;
+    let reserved;
+    let available;
+    if ( this.props.divisible ) {
+      frozen = (this.props.frozen) / 1e8;
+      reserved = (this.props.reserved) / 1e8;
+      available = (this.props.value) / 1e8;
+    } else {
+      frozen = this.props.frozen;
+      reserved = this.props.reserved;
+      available = this.props.value;
+    }
+
     return (
       <tr>
         <td style={{ width: '56px' }}>
@@ -50,14 +64,14 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           { this.getTokenName() }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-          { this.props.frozen }
+          { frozen }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-          { this.props.reserved }
+          { reserved }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { (this.props.value) / 1e8 }
+            { available }
           </strong>
         </td>
       </tr>
