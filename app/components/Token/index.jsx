@@ -49,7 +49,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     }
 
     let value;
-    if (available == 0 && frozen > 0 {
+    if (available == 0 && frozen > 0 ) {
       value = `#{ frozen } Frozen!`;
     } else {
       value=available;
