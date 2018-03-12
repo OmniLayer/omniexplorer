@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -94,4 +95,5 @@ export default compose(
   withSagaAddress,
   withSagaTransaction,
   withConnect,
+  // withRouter,
 )(AddressDetail);
