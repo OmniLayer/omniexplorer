@@ -24,7 +24,7 @@ import { makeSelectLoading, makeSelectTransactions } from './selectors';
 // import saga from './saga';
 import { loadTransactions, setPage } from './actions';
 
-export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Transactions extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     const page = this.getCurrentPage(this.props.location.get('pathname'));
     this.props.loadTransactions(this.props.addr, page);
@@ -38,7 +38,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
     } else {
       page = pathname.substr(pathname.lastIndexOf('/') + 1);
     }
-    return (!page || isNaN(page) ? 0 : page );
+    return (!page || isNaN(page) ? 0 : page);
   }
 
   render() {

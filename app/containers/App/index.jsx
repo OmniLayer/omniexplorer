@@ -20,6 +20,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
 import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Search from 'containers/Search/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
@@ -68,6 +69,7 @@ function App(props) {
         <Route exact path="/:page?" component={HomePage} />
         <Route path="/tx/:tx" component={TransactionDetail} />
         <Route path="/address/:address/:page?" component={AddressDetail} key={location.pathname} />
+        <Route path="/search/:query" component={Search} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
