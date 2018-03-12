@@ -89,7 +89,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   to={{
                     pathname: `/address/${this.props.sendingaddress}`,
                   }}
-                  onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}/0`)}
+                  onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
                 >
                   { this.props.sendingaddress }
                 </Link>
@@ -99,7 +99,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   to={{
                     pathname: `/address/${this.props.referenceaddress}`,
                   }}
-                  onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}/0`)}
+                  onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
                 >
                   { this.props.referenceaddress }
                 </Link>
