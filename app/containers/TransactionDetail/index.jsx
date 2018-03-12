@@ -6,10 +6,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
+import { createStructuredSelector } from 'reselect';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
 import styled from 'styled-components';
 import Moment from 'react-moment';
@@ -91,7 +92,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
       return (
         <Container>
           <h1> Transaction
-            <small> { this.txid.slice(0, 24) }... </small>
+          <small> { this.txid.slice(0, 24) }... </small>
             not found
           </h1>
         </Container>
@@ -104,13 +105,13 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     const getStatus = (tx) => {
       if (tx.valid) {
         return (tx.confirmations < CONFIRMATIONS ?
-                  tx.confirmations === 0 ?
-                    'UNCONFIRMED' :
-                    tx.confirmations > 1 ?
-                      `${this.props.txdetail.transaction.confirmations} CONFIRMATIONS` :
-                      `${this.props.txdetail.transaction.confirmations} CONFIRMATION` 
-                :  
-                  'CONFIRMED'
+          tx.confirmations === 0 ?
+            'UNCONFIRMED' :
+            tx.confirmations > 1 ?
+              `${this.props.txdetail.transaction.confirmations} CONFIRMATIONS` :
+              `${this.props.txdetail.transaction.confirmations} CONFIRMATION`
+          :
+          'CONFIRMED'
         );
       }
       return 'INVALID';
@@ -152,13 +153,13 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     const amountDisplay = (<TransactionAmount {...this.props.txdetail.transaction} />);
     let tokenName;
-    if (![4,-22,25,26].includes(this.props.txdetail.transaction.type_int)) {
+    if (![4, -22, 25, 26].includes(this.props.txdetail.transaction.type_int)) {
       tokenName = (<tr>
         <td className="field">Token</td>
         <td><a href="/asset"><strong>{ this.props.txdetail.transaction.propertyname } &#40;#{ this.props.txdetail.transaction.propertyid }&#41;</strong></a></td>
       </tr>);
     }
-    if ( this.props.txdetail.transaction.type_int === 28 ) {
+    if (this.props.txdetail.transaction.type_int === 28) {
       tokenName = (<tr>
         <td className="field">Ecosystem</td>
         <td><strong>{ this.props.txdetail.transaction.ecosystem }</strong></td>
@@ -167,7 +168,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     let btcDesired;
     let specificAction;
-    if ( this.props.txdetail.transaction.type_int === 20 ) {
+    if (this.props.txdetail.transaction.type_int === 20) {
       btcDesired = (<tr className="highlight">
         <td className="field">Bitcoin Desired</td>
         <td>
@@ -218,6 +219,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                       to={{
                         pathname: `/address/${this.props.txdetail.transaction.sendingaddress}`,
                       }}
+                      onClick={() => this.props.changeRoute(`/address/${this.props.txdetail.transaction.sendingaddress}`)}
                     >
                       { this.props.txdetail.transaction.sendingaddress }
                     </Link>
@@ -230,6 +232,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                       to={{
                         pathname: `/address/${this.props.txdetail.transaction.referenceaddress}`,
                       }}
+                      onClick={() => this.props.changeRoute(`/address/${this.props.txdetail.transaction.referenceaddress}`)}
                     >
                       { this.props.txdetail.transaction.referenceaddress }
                     </Link>
@@ -302,7 +305,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                           href={rawTransactionURL}
                         >
                         Click here for raw transaction...
-                      </a>
+                        </a>
                       </span>
                     </Collapse>
                   </td>
@@ -321,7 +324,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
                           href="/rawpayload"
                         >
                         (Coming Soon) Click here for raw payload...
-                      </a>
+                        </a>
                       </span>
                     </Collapse>
                   </td>
@@ -345,7 +348,8 @@ TransactionDetail.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadTransaction: (addr) => dispatch(loadTransaction(addr)),
+    loadTransaction: (addr, page) => dispatch(loadTransaction(addr, page)),
+    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
@@ -363,4 +367,5 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
+  // withRouter,
 )(TransactionDetail);

@@ -9,7 +9,7 @@ function* fetchProperty(action) {
   try {
     // @refactoring: remove the state set
     const state = yield select((st) => st);
-    const tokens = state.get('tokenDetail').get('tokens');
+    const tokens = state.get('token').get('tokens');
 
     if (!tokens.get(action.id.toString())) {
       const requestURL = `${API_URL_BASE}/property/${action.id}`;
