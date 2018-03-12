@@ -14,12 +14,30 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import TransactionDetail from 'containers/TransactionDetail';
+import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
+
+import DevTools from 'utils/devTools';
+import Moment from 'react-moment';
+
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import withLifecycleDispatch from 'utils/withLifecycleDispatch';
+import { LOAD_STATUS } from 'components/ServiceBlock/constants';
+import Sagas from './sagas';
+import Reducers from './reducers';
+
+// Import DevTools, only for dev environment
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Set Moment Global locale
+Moment.globalLocale = 'en-gb';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
@@ -30,7 +48,13 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default function App() {
+let loadStatus;
+let dispatcher;
+
+function App(props) {
+  loadStatus = props.loadStatus;
+  dispatcher = props.dispatch;
+
   return (
     <AppWrapper>
       <Helmet
@@ -41,11 +65,38 @@ export default function App() {
       </Helmet>
       <Header />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/:page?" component={HomePage} />
+        <Route path="/tx/:tx" component={TransactionDetail} />
+        <Route path="/address/:address/:page?" component={AddressDetail} key={location.pathname} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
+      { isDev
+        ? <DevTools />
+        : <div></div>
+      }
     </AppWrapper>
   );
 }
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadStatus: () => dispatcher({ type: LOAD_STATUS }),
+    dispatch,
+  };
+}
+
+const AppWithLifecycle = withLifecycleDispatch({
+  componentDidMount: () => loadStatus(),
+})(App);
+
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  withRouter,
+  // ...Reducers,
+  ...Sagas,
+)(AppWithLifecycle);

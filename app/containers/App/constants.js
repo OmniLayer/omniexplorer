@@ -9,4 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const API_URL_BASE = 'https://api.omniwallet.org/v1';
+  // (process.env.NODE_ENV !== 'production' ? '/api/v1' : 'https://api.omniwallet.org/v1');
 export const DEFAULT_LOCALE = 'en';
