@@ -39,7 +39,7 @@ const IMG = styled.img`
 `;
 
 // function Header(props) {
-class Header extends React.Component {
+class Header extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -49,10 +49,11 @@ class Header extends React.Component {
     };
   }
 
-  toggle() {
+  toggle(e) {
     this.setState({
       isOpen: !this.state.isOpen,
     });
+    e.preventDefault();
   }
 
   render() {
@@ -181,7 +182,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(mapDispatchToProps);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,

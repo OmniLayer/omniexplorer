@@ -156,7 +156,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(mapDispatchToProps);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,

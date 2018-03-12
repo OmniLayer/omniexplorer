@@ -26,14 +26,21 @@ import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    debugger;
-    const _pathname = this.props.location.get('pathname');
-    const _page = _pathname.slice(_pathname.indexOf('/') + 1);
-    
-    this.props.loadTransactions(this.props.addr, (isNaN(_page) ? 0 : _page));
+    const page = this.getCurrentPage(this.props.location.get('pathname'));
+    this.props.loadTransactions(this.props.addr, page);
     console.log('Transactions did mount');
   }
-  
+
+  getCurrentPage(pathname) {
+    let page;
+    if (pathname.charAt(pathname.length - 1) === '/') {
+      page = pathname.slice(0, -1).substr(pathname.lastIndexOf('/') + 1);
+    } else {
+      page = pathname.substr(pathname.lastIndexOf('/') + 1);
+    }
+    return (isNaN(page) ? 0 : page);
+  }
+
   render() {
     const StyledContainer = styled(Container)`
       background-color: #F0F3F4;
@@ -42,9 +49,9 @@ export class Transactions extends React.Component { // eslint-disable-line react
     const StyledH3 = styled.h3`
       padding: 3rem 0;
     `;
-    
+
     let content;
-    
+
     if (this.props.loading) {
       content = (
         <LoadingIndicator />
@@ -57,13 +64,13 @@ export class Transactions extends React.Component { // eslint-disable-line react
       const props = { ...this.props.transactions, addr: this.props.addr };
       content = (
         <div>
-          <ListPagination {...props} onSetPage={this.props.onSetPage}/>
+          <ListPagination {...props} onSetPage={this.props.onSetPage} />
           <TransactionList {...this.props.transactions} />
-          <ListPagination {...props} onSetPage={this.props.onSetPage}/>
+          <ListPagination {...props} onSetPage={this.props.onSetPage} />
         </div>
       );
     }
-    
+
     return (
       <StyledContainer fluid>
         <TransactionListHeader />
@@ -79,6 +86,7 @@ Transactions.propTypes = {
   onSetPage: PropTypes.func,
   loading: PropTypes.bool,
   addr: PropTypes.string,
+  location: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

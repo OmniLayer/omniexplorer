@@ -92,7 +92,7 @@ const AppWithLifecycle = withLifecycleDispatch({
   componentDidMount: () => loadStatus(),
 })(App);
 
-const withConnect = connect(mapDispatchToProps);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,
