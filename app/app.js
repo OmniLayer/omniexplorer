@@ -11,10 +11,12 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
+import { syncHistory , routeReducer } from 'redux-simple-router';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -69,7 +71,12 @@ openSansObserver.load().then(() => {
 // Create redux store with history
 const initialState = {};
 const history = createHistory();
-const store = configureStore(initialState, history);
+// Sync dispatched route actions to the history
+const reduxRouterMiddleware = syncHistory(history)
+const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(configureStore);
+
+// const store = configureStore(initialState, history);
+const store = createStoreWithMiddleware(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = (messages) => {
@@ -117,3 +124,6 @@ if (!window.Intl) {
 if (isProd) {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
+
+// https://github.com/react-boilerplate/react-boilerplate/pull/98/files
+// https://github.com/react-boilerplate/react-boilerplate/pull/88/files

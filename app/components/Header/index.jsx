@@ -6,7 +6,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -36,7 +38,7 @@ const IMG = styled.img`
 `;
 
 // function Header(props) {
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
 
@@ -58,10 +60,14 @@ export default class Header extends React.Component {
         <Container className="d-block">
           <Row className="clearfix">
             <Col>
-                <Link to="/" className="navbar-brand">
-                  <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
+              <Link
+                to="/"
+                onClick={() => this.props.changeRoute('/')}
+                className="navbar-brand"
+              >
+                <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
                   OMNIEXPLORER.INFO
-                </Link>
+              </Link>
             </Col>
             <Col>
               <SearchBox />
@@ -165,3 +171,21 @@ NavbarToggler.propTypes = {
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   // pass in custom element to use
 };
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(routeActions.push(url)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  // withRouter,
+)(Header);
+
+// export default withRouter(Header);
+

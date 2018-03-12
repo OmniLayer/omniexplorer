@@ -6,7 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
 
@@ -29,11 +32,11 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
             this.props.confirmations === 0 ?
-               'UNCONFIRMED' : 
+               'UNCONFIRMED' :
                 this.props.confirmations > 1 ?
                    `${this.props.confirmations} CONFIRMATIONS` :
-                   `${this.props.confirmations} CONFIRMATION` 
-        : 
+                   `${this.props.confirmations} CONFIRMATION`
+        :
             'CONFIRMED'
       :
         'INVALID'
@@ -70,6 +73,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                       pathname: `/tx/${this.props.txid}`,
                       state: { transaction: this.props },
                     }}
+                    onClick={() => this.props.changeRoute( `/tx/${this.props.txid}`)}
                   >
                     { this.props.txid.slice(0, 48) }...
                   </Link>
@@ -85,6 +89,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   to={{
                     pathname: `/address/${this.props.sendingaddress}`,
                   }}
+                  onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
                 >
                   { this.props.sendingaddress }
                 </Link>
@@ -94,6 +99,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   to={{
                     pathname: `/address/${this.props.referenceaddress}`,
                   }}
+                  onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
                 >
                   { this.props.referenceaddress }
                 </Link>
@@ -122,6 +128,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   pathname: `/tx/${this.props.txid}`,
                   state: { transaction: this.props },
                 }}
+                onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
               >
                 { status }
               </Link>
@@ -142,4 +149,16 @@ Transaction.propTypes = {
   amount: PropTypes.string,
 };
 
-export default Transaction;
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(routeActions.push(url)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  // withRouter,
+)(Transaction);

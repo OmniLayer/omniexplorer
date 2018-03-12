@@ -21,8 +21,6 @@ import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Transactions from 'containers/Transactions';
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
 
 import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
@@ -64,4 +62,6 @@ const withSagaTransaction = injectSaga({ key: 'transactions', saga: sagaTransact
 
 export default compose(
   withSagaTransaction,
+  // withConnect,
+  // withRouter,
 )(HomePage);

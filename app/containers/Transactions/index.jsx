@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { Container } from 'reactstrap';
 import styled from 'styled-components';
 // import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+// import injectReducer from 'utils/injectReducer';
 import TransactionList from 'components/TransactionList';
 import TransactionListHeader from 'components/TransactionListHeader';
 import ListPagination from 'components/ListPagination';
@@ -20,13 +20,16 @@ import ListPagination from 'components/ListPagination';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { makeSelectLoading, makeSelectTransactions } from './selectors';
-import reducer from './reducer';
+// import reducer from './reducer';
 // import saga from './saga';
 import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.props.loadTransactions(this.props.addr);
+    const _pathname = this.props.location.get('pathname');
+    const _page = _pathname.slice(_pathname.indexOf('/') + 1);
+    
+    this.props.loadTransactions(this.props.addr, _page);
     console.log('Transactions did mount');
   }
   
@@ -80,23 +83,21 @@ Transactions.propTypes = {
 const mapStateToProps = createStructuredSelector({
   transactions: makeSelectTransactions(),
   loading: makeSelectLoading(),
+  location: (state) => state.get('route').get('location'),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadTransactions: (addr) => dispatch(loadTransactions(addr)),
     dispatch,
+    loadTransactions: (addr, page) => dispatch(loadTransactions(addr, page)),
     onSetPage: (p, addr) => dispatch(setPage(p, addr)),
   };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'transactions', reducer });
-// const withSaga = injectSaga({ key: 'transactions', saga });
-
 export default compose(
-  withReducer,
+  // withReducer,
   // withSaga,
   withConnect,
 )(Transactions);

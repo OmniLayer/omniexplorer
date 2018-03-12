@@ -14,7 +14,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
@@ -65,9 +65,9 @@ function App(props) {
       </Helmet>
       <Header />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/:page?" component={HomePage} />
         <Route path="/tx/:tx" component={TransactionDetail} />
-        <Route path="/address/:address" component={AddressDetail} key={location.pathname} />
+        <Route path="/address/:address/:page?" component={AddressDetail} key={location.pathname} />
         <Route path="" component={NotFoundPage} />
         <Route component={NotFoundPage} />
       </Switch>
@@ -95,7 +95,8 @@ const AppWithLifecycle = withLifecycleDispatch({
 const withConnect = connect(mapDispatchToProps);
 
 export default compose(
-  ...Reducers,
-  ...Sagas,
   withConnect,
+  withRouter,
+  // ...Reducers,
+  ...Sagas,
 )(AppWithLifecycle);

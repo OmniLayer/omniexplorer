@@ -10,7 +10,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { makeSelectProperty, makeSelectProperties } from './selectors';
 import { startFetch } from './actions';
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -66,9 +65,11 @@ Token.propTypes = {
   getProperty: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  properties: makeSelectProperties(),
-});
+function mapStateToProps(state) {
+  return {
+    properties: state.get('token'),
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
