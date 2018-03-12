@@ -34,13 +34,13 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
   }
 
   render() {
-
     let frozen;
     let reserved;
     let available;
-    if ( this.props.divisible ) {
+
+    if (this.props.divisible) {
       frozen = (this.props.frozen) / 1e8;
-      reserved = (this.props.reserved) / 1e8;
+      reserved = (this.props.reserved ? this.props.reserved / 1e8 : 0);
       available = (this.props.value) / 1e8;
     } else {
       frozen = this.props.frozen;
@@ -49,12 +49,12 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     }
 
     let value;
-    if (available == 0 && frozen > 0 ) {
-      value = `${ frozen } Frozen!`;
+    if (available == 0 && frozen > 0) {
+      value = `${frozen} Frozen!`;
     } else {
-      value=available;
+      value = available;
     }
-    
+
 
     return (
       <tr>

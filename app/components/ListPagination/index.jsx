@@ -30,10 +30,6 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 `;
 
 const ListPagination = (props) => {
-  if ((props.transactions || []).length < 10 || props.pageCount < 2) {
-    return <div></div>;
-  }
-
   const _page = (parseInt(props.match.params.page - 1) || props.currentPage);
   const pageNumber = Math.floor(_page / 10) * 10;
   const qtyPages = (props.pageCount < 10 ? props.pageCount : 10);
@@ -93,6 +89,7 @@ Pagination.propTypes = {
   transactions: PropTypes.array,
   location: PropTypes.object,
   match: PropTypes.object,
+  pageCount: PropTypes.number,
 };
 
 function mapDispatchToProps(dispatch) {
