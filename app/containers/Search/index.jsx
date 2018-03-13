@@ -25,6 +25,7 @@ import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
 import searchSaga from './saga';
 import { loadSearch } from './actions';
+import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -45,6 +46,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
   render() {
     let wallet = null;
+    let walletlink = null;
     let assets = null;
     let tx = null;
 
@@ -58,6 +60,14 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
     if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
       wallet = <Wallet {...this.props.search} addr={this.query} />;
+      walletlink = `<Link
+          to={{
+            pathname: `/address/${this.query}`,
+          }}
+          onClick={() => props.changeRoute(`/address/${this.query}`)}
+        >
+          Click Here for full address details.
+        </Link>`;
     }
 
     if (this.props.search.asset.length > 0) {
@@ -100,6 +110,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         <Row>
           <Col>
             { wallet }
+            { walletlink }
           </Col>
         </Row>
         <Row>
