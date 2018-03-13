@@ -54,27 +54,27 @@ function TransactionInfo(props) {
   let collapseDecoded = false;
   const toggleRawData = () => (collapseOmniData = !collapseOmniData);
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
-  
+
   const isValid = props.valid;
   const progressColor = (isValid ? 'info' : 'danger');
   const progressPercent = Math.floor(((props.confirmations / CONFIRMATIONS) * 100));
   const getStatus = (tx) => {
     if (tx.valid) {
       return (tx.confirmations < CONFIRMATIONS ?
-          tx.confirmations === 0 ?
-            'UNCONFIRMED' :
-            tx.confirmations > 1 ?
-              `${props.confirmations} CONFIRMATIONS` :
-              `${props.confirmations} CONFIRMATION`
-          :
-          'CONFIRMED'
+        tx.confirmations === 0 ?
+          'UNCONFIRMED' :
+          tx.confirmations > 1 ?
+            `${props.confirmations} CONFIRMATIONS` :
+            `${props.confirmations} CONFIRMATION`
+        :
+        'CONFIRMED'
       );
     }
     return 'INVALID';
   };
   const invalidReason = `Reason: ${props.invalidreason || ''}`;
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
-  
+
   let logo;
   try {
     logo = require(`images/token${props.propertyid}.png`);
@@ -85,7 +85,7 @@ function TransactionInfo(props) {
       logo = require('images/tokendefault.png');
     }
   }
-  
+
   let warningMessage = null;
   if (props.confirmations === 0) {
     warningMessage = (<Row>
@@ -106,7 +106,7 @@ function TransactionInfo(props) {
       </Col>
     </Row>);
   }
-  
+
   const amountDisplay = (<TransactionAmount {...props} />);
   let tokenName;
   if (![4, -22, 25, 26].includes(props.type_int)) {
@@ -121,7 +121,7 @@ function TransactionInfo(props) {
       <td><strong>{ props.ecosystem }</strong></td>
     </tr>);
   }
-  
+
   let btcDesired;
   let specificAction;
   if (props.type_int === 20) {
@@ -129,16 +129,16 @@ function TransactionInfo(props) {
       <td className="field">Bitcoin Desired</td>
       <td>
         <strong>
-            <span id="lamount">
-              { props.bitcoindesired } BTC
-            </span>
+          <span id="lamount">
+            { props.bitcoindesired } BTC
+          </span>
         </strong>
       </td>
     </tr>);
     specificAction = (`- ${props.action}`);
   }
-  
-  
+
+
   return (
     <StyledContainer fluid>
       { warningMessage }
@@ -153,138 +153,138 @@ function TransactionInfo(props) {
         <Col>
           <Table className="table-profile">
             <thead>
-            <tr>
-              <th></th>
-              <th>
-                <h4>{ props.type } { specificAction }
-                  <SubtitleDetail>
-                    { props.txid }
-                  </SubtitleDetail>
-                </h4>
-              </th>
-            </tr>
+              <tr>
+                <th></th>
+                <th>
+                  <h4>{ props.type } { specificAction }
+                    <SubtitleDetail>
+                      { props.txid }
+                    </SubtitleDetail>
+                  </h4>
+                </th>
+              </tr>
             </thead>
             <tbody>
-            { amountDisplay }
-            { tokenName }
-            { btcDesired }
-            <tr>
-              <td className="field">Sender</td>
-              <td>
-                <Link
-                  to={{
-                    pathname: `/address/${props.sendingaddress}`,
-                  }}
-                  onClick={() => props.changeRoute(`/address/${props.sendingaddress}`)}
-                >
-                  { props.sendingaddress }
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="field">Recipient</td>
-              <td>
-                <Link
-                  to={{
-                    pathname: `/address/${props.referenceaddress}`,
-                  }}
-                  onClick={() => props.changeRoute(`/address/${props.referenceaddress}`)}
-                >
-                  { props.referenceaddress }
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="field">Date/Time</td>
-              <td>
-                    <span id="ldatetime">
-                      <Moment unix>
-                        { props.blocktime }
-                      </Moment>
-                    </span>
-              </td>
-            </tr>
-            <tr>
-              <td className="field">In Block</td>
-              <td>
-                    <span id="lblocknum">
-                      { props.block }
-                    </span>
-              </td>
-            </tr>
-            <tr className="highlight">
-              <td className="field" style={{ paddingTop: '12px' }}>Status</td>
-              <td>
-                <div className="text-left">{ getStatus(props) }</div>
-                <Progress color={progressColor} value={progressPercent} />
-                <div className="text-left">{ !isValid && invalidReason }</div>
-              </td>
-            </tr>
-            <tr>
-              <td className="field">Bitcoin Fees</td>
-              <td><span id="lfees">{ props.fee } BTC</span></td>
-            </tr>
-            <tr>
-              <td className="field">Omni Fees</td>
-              <td><span id="lomnifees">0.00 OMNI</span></td>
-            </tr>
-            <tr className="d-none">
-              <td className="field">Payload</td>
-              <td><span id="lpayloadsize">16</span> bytes</td>
-            </tr>
-            <tr className="d-none">
-              <td className="field">Size</td>
-              <td><span id="ltxsize">N/A</span></td>
-            </tr>
-            <tr className="d-none">
-              <td className="field">Class</td>
-              <td><span id="lclass">C (nulldata)</span></td>
-            </tr>
-            <tr>
-              <td className="field">Type/Version</td>
-              <td><span
-                id="ltypever"
-              >Type { props.type_int }, Version { props.version }</span>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="2">
-                <A
-                  href="#collapseRawData"
-                  color="primary"
-                  onClick={toggleRawData}
-                  style={{ marginBottom: '1rem' }}
-                >Raw Omni Data</A>
-                <Collapse isOpen={collapseOmniData}>
-                      <span id="lrawgettx">
-                        <a
-                          href={rawTransactionURL}
-                        >
+              { amountDisplay }
+              { tokenName }
+              { btcDesired }
+              <tr>
+                <td className="field">Sender</td>
+                <td>
+                  <Link
+                    to={{
+                      pathname: `/address/${props.sendingaddress}`,
+                    }}
+                    onClick={() => props.changeRoute(`/address/${props.sendingaddress}`)}
+                  >
+                    { props.sendingaddress }
+                  </Link>
+                </td>
+              </tr>
+              <tr>
+                <td className="field">Recipient</td>
+                <td>
+                  <Link
+                    to={{
+                      pathname: `/address/${props.referenceaddress}`,
+                    }}
+                    onClick={() => props.changeRoute(`/address/${props.referenceaddress}`)}
+                  >
+                    { props.referenceaddress }
+                  </Link>
+                </td>
+              </tr>
+              <tr>
+                <td className="field">Date/Time</td>
+                <td>
+                  <span id="ldatetime">
+                    <Moment unix>
+                      { props.blocktime }
+                    </Moment>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td className="field">In Block</td>
+                <td>
+                  <span id="lblocknum">
+                    { props.block }
+                  </span>
+                </td>
+              </tr>
+              <tr className="highlight">
+                <td className="field" style={{ paddingTop: '12px' }}>Status</td>
+                <td>
+                  <div className="text-left">{ getStatus(props) }</div>
+                  <Progress color={progressColor} value={progressPercent} />
+                  <div className="text-left">{ !isValid && invalidReason }</div>
+                </td>
+              </tr>
+              <tr>
+                <td className="field">Bitcoin Fees</td>
+                <td><span id="lfees">{ props.fee } BTC</span></td>
+              </tr>
+              <tr>
+                <td className="field">Omni Fees</td>
+                <td><span id="lomnifees">0.00 OMNI</span></td>
+              </tr>
+              <tr className="d-none">
+                <td className="field">Payload</td>
+                <td><span id="lpayloadsize">16</span> bytes</td>
+              </tr>
+              <tr className="d-none">
+                <td className="field">Size</td>
+                <td><span id="ltxsize">N/A</span></td>
+              </tr>
+              <tr className="d-none">
+                <td className="field">Class</td>
+                <td><span id="lclass">C (nulldata)</span></td>
+              </tr>
+              <tr>
+                <td className="field">Type/Version</td>
+                <td><span
+                  id="ltypever"
+                >Type { props.type_int }, Version { props.version }</span>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="2">
+                  <A
+                    href="#collapseRawData"
+                    color="primary"
+                    onClick={toggleRawData}
+                    style={{ marginBottom: '1rem' }}
+                  >Raw Omni Data</A>
+                  <Collapse isOpen={collapseOmniData}>
+                    <span id="lrawgettx">
+                      <a
+                        href={rawTransactionURL}
+                      >
                         Click here for raw transaction...
-                        </a>
-                      </span>
-                </Collapse>
-              </td>
-            </tr>
-            <tr className="d-none">
-              <td colSpan="2">
-                <A
-                  href="#collapseRawData"
-                  color="primary"
-                  onClick={toggleDecoded}
-                  style={{ marginBottom: '1rem' }}
-                >Decoded Raw Payload</A>
-                <Collapse isOpen={collapseDecoded}>
-                      <span id="lrawgettx">
-                        <a
-                          href="/rawpayload"
-                        >
+                      </a>
+                    </span>
+                  </Collapse>
+                </td>
+              </tr>
+              <tr className="d-none">
+                <td colSpan="2">
+                  <A
+                    href="#collapseRawData"
+                    color="primary"
+                    onClick={toggleDecoded}
+                    style={{ marginBottom: '1rem' }}
+                  >Decoded Raw Payload</A>
+                  <Collapse isOpen={collapseDecoded}>
+                    <span id="lrawgettx">
+                      <a
+                        href="/rawpayload"
+                      >
                         (Coming Soon) Click here for raw payload...
-                        </a>
-                      </span>
-                </Collapse>
-              </td>
-            </tr>
+                      </a>
+                    </span>
+                  </Collapse>
+                </td>
+              </tr>
             </tbody>
           </Table>
         </Col>
