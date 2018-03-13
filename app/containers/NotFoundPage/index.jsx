@@ -10,16 +10,44 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Button, Jumbotron } from 'reactstrap';
+import { routeActions } from 'redux-simple-router';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 import messages from './messages';
 
-export default class NotFound extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class NotFound extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <h1>
-        <FormattedMessage {...messages.header} />
+        <Jumbotron className="text-center">
+          <h3 className="display-3"><FormattedMessage {...messages.header} /></h3>
+          <p className="lead">Try go back to the home and start again</p>
+          <hr className="my-2" />
+          <Button color="primary" onClick={() => this.props.changeRoute('/')}>Home sweet home</Button>
+        </Jumbotron>
       </h1>
     );
   }
 }
+
+NotFound.propTypes = {
+  changeRoute: PropTypes.function,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(routeActions.push(url)),
+    dispatch,
+  };
+}
+
+
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+)(NotFound);

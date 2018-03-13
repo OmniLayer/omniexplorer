@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
@@ -21,7 +21,6 @@ import {
   DropdownToggle,
   Nav,
   Navbar,
-  NavbarBrand,
   NavbarToggler,
   NavItem,
   NavLink,
@@ -38,7 +37,6 @@ const IMG = styled.img`
   padding-right: 9px;
 `;
 
-// function Header(props) {
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -171,7 +169,6 @@ Navbar.propTypes = {
 NavbarToggler.propTypes = {
   type: PropTypes.string,
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-  // pass in custom element to use
 };
 
 
@@ -186,8 +183,4 @@ const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,
-  // withRouter,
 )(Header);
-
-// export default withRouter(Header);
-
