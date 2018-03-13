@@ -221,8 +221,8 @@ function TransactionInfo(props) {
             </tr>
             <tr className="highlight">
               <td className="field" style={{ paddingTop: '12px' }}>Status</td>
-              <td>
-                <div className={ statusColor }>
+              <td className="field" >
+                <div className={ statusColor } style={{ width: '30%' }}>
                   { getStatus(props) }
                 </div>
                 <div className="text-left">{ !isValid && invalidReason }</div>
