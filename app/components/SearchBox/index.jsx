@@ -31,27 +31,42 @@ const Wrapper = styled.div`
     height: auto;
     margin-left: -3rem;
     z-index: 999;
+    cursor: pointer;
   }
 `;
 
 class SearchBox extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: '',
+    };
+  }
+  
+  handleDoSearch(e) {
+    this.props.changeRoute(`/search/${this.state.query}`);
+    // e.target.value = '';
+    this.setState({ query: '' });
+  }
+  
   handleKeyUp(e) {
     const value = e.target.value;
     if (e.keyCode === 13 && value) {
-      this.props.changeRoute(`/search/${e.target.value}`);
-      e.target.value = '';
+      this.handleDoSearch(e);
     }
   }
-
+  
   render() {
     return (
       <Wrapper className="searchbox-form">
         <div className="input-group">
           <Input
             className="form-control searchbox-input"
+            value={this.state.query}
+            onInput={(e) => this.setState({ query: e.target.value.trim() })}
             onKeyUp={this.handleKeyUp.bind(this)}
           ></Input>
-          <SearchIcon className="searchbox-icon" size={24} />
+          <SearchIcon className="searchbox-icon" size={24} onClick={this.handleDoSearch.bind(this)}/>
         </div>
       </Wrapper>
     );
