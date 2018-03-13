@@ -62,9 +62,9 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       wallet = <Wallet {...this.props.search} addr={this.query} />;
       walletlink = `<Link
           to={{
-            pathname: `/address/${this.query}`,
+            pathname: /address/${this.query},
           }}
-          onClick={() => props.changeRoute(`/address/${this.query}`)}
+          onClick={() => props.changeRoute(/address/${this.query})}
         >
           Click Here for full address details.
         </Link>`;
