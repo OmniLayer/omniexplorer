@@ -55,7 +55,7 @@ function TransactionInfo(props) {
   
   const isValid = props.valid;
   const progressColor = (isValid ? 'info' : 'danger');
-  const progressPercent = Math.floor(((props.confirmations / CONFIRMATIONS) * 100));
+  const progressPercent = 100;
   const getStatus = (tx) => {
     if (tx.valid) {
       return (tx.confirmations < CONFIRMATIONS ?
