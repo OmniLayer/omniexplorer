@@ -255,22 +255,13 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td colSpan="2">
-                <A
-                  href="#collapseRawData"
-                  color="primary"
-                  onClick={toggleRawData}
-                  style={{ marginBottom: '1rem' }}
-                >Raw Omni Data</A>
-                <Collapse isOpen={collapseOmniData}>
-                    <span id="lrawgettx">
-                      <a
-                        href={rawTransactionURL}
-                      >
-                        Click here for raw transaction...
-                      </a>
-                    </span>
-                </Collapse>
+              <td className="field">Raw Data</td>
+              <td >
+                <span id="lrawgettx">
+                  <a href={rawTransactionURL}>
+                    Click here for raw transaction...
+                  </a>
+                </span>
               </td>
             </tr>
             <tr className="d-none">
