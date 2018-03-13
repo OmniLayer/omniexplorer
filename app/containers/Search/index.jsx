@@ -18,6 +18,8 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import Wallet from 'components/Wallet';
+import TransactionInfo from 'components/TransactionInfo';
+import Asset from 'components/Asset';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
@@ -25,9 +27,10 @@ import searchSaga from './saga';
 import { loadSearch } from './actions';
 
 const StyledContainer = styled(Container)`
-      background-color: #F0F3F4;
+      background-color: white;
       overflow: auto;
       margin: 3rem;
+      padding: 1rem;
     `;
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -37,20 +40,17 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     this.props.loadSearch(this.query);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const loadedReady = !nextProps.search.loading;
-    if (loadedReady && !isEmpty(nextProps.search.tx.txid)) {
-      this.props.changeRoute(`/tx/${nextProps.search.tx.txid}`);
-    }
-  }
-
   render() {
     let wallet = null;
     let assets = null;
-    const tx = null;
+    let tx = null;
 
-    if (this.props.search.loading || !isEmpty(this.props.search.tx.type)) {
+    if (this.props.search.loading) {
       return null;
+    }
+
+    if (!isEmpty(this.props.search.tx.type)) {
+      tx = <TransactionInfo {...this.props.search.tx} />;
     }
 
     if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
@@ -87,7 +87,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         </Row>
         <Row>
           <Col>
-            { assets }
+            { assets.map((x) => <Asset {...x} key={x.propertyid} />) }
           </Col>
         </Row>
         <Row>
