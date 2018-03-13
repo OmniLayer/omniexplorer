@@ -25,6 +25,7 @@ import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
 import searchSaga from './saga';
 import { loadSearch } from './actions';
+import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -56,8 +57,26 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       tx = <TransactionInfo {...this.props.search.tx} />;
     }
 
+    const walletlink = () => { 
+      if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
+        return (
+          <div class="container-fluid">
+            <Link
+              to={{
+                pathname: `/address/${this.query}`,
+              }}
+              onClick={() => props.changeRoute(`/address/${this.query}`)}
+            >
+              Click Here for full address details.
+            </Link>
+          </div>
+        );
+      }
+      return null
+    }
+
     if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
-      wallet = <Wallet {...this.props.search} addr={this.query} />;
+      wallet = <Wallet {...this.props.search} addr={this.query} extra={ walletlink() }/>;
     }
 
     if (this.props.search.asset.length > 0) {
@@ -66,7 +85,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
           <thead>
             <tr>
               <StyledTH></StyledTH>
-              <StyledTH>ID</StyledTH>
+              <StyledTH>Property ID</StyledTH>
               <StyledTH>Name</StyledTH>
               <StyledTH>Issuer</StyledTH>
             </tr>
@@ -86,7 +105,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
               <div>
                 <Jumbotron className="text-center">
                   <h3 className="display-3">No results found :(</h3>
-                  <p className="lead">Try using a valid transaction id, wallet id or asset name.</p>
+                  <p className="lead">Try using a valid transaction id, address, property id or asset name.</p>
                 </Jumbotron>
               </div>
             </Col>

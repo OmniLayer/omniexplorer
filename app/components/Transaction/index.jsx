@@ -29,7 +29,6 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     const isValid = this.props.valid;
 
     const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light');
-    const progressPercent = Math.floor(((this.props.confirmations / CONFIRMATIONS) * 100));
 
     const status = (
       isValid ?

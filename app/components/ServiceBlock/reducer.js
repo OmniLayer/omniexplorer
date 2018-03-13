@@ -19,7 +19,8 @@ const statusReducer = (state = initialState, action = {}) => {
     case LOAD_STATUS: {
       return state
         .set('isFetching', true)
-        .set('error', null);
+        .set('error', null)
+        .set('status', {});
     }
     case LOAD_STATUS_SUCCESS:
       return state

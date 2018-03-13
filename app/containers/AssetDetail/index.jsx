@@ -17,6 +17,8 @@ import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
+import Moment from 'react-moment';
+
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -53,6 +55,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
   render() {
     const asset = this.props.properties(this.propertyId);
+    const rawAssetURL = `${API_URL_BASE}/property/${this.propertyId}`;
 
     if (!asset) return null;
 
@@ -66,6 +69,13 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
         logo = require('images/tokendefault.png');
       }
     }
+
+    let subtitleclass;
+    if  (asset.propertyid < 3 ) {
+      subtitleclass = 'd-none';
+    }
+
+
 
     let tokenName;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
@@ -111,7 +121,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <th>
                     <h4>
                       <strong>{ asset.name }</strong>
-                      <SubtitleDetail>
+                      <SubtitleDetail className={ subtitleclass }>
                         <span>
                         created by &nbsp;
                         </span>
@@ -141,8 +151,10 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                 <tr>
                   <td className="field">Created</td>
                   <td>
-                    <span>
-                    ...
+                    <span id="ldatetime">
+                      <Moment unix>
+                        { asset.blocktime }
+                      </Moment>
                     </span>
                   </td>
                 </tr>
@@ -214,6 +226,16 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td>
                     <span id="lblocknum">
                     Coming soon...
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="field">Raw Data</td>
+                  <td >
+                    <span id="lrawgettx">
+                      <a href={rawAssetURL}>
+                        Click here for raw asset info
+                      </a>
                     </span>
                   </td>
                 </tr>

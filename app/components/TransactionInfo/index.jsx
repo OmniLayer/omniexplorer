@@ -54,8 +54,8 @@ function TransactionInfo(props) {
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
   
   const isValid = props.valid;
-  const progressColor = (isValid ? 'info' : 'danger');
-  const progressPercent = Math.floor(((props.confirmations / CONFIRMATIONS) * 100));
+  const statusColor = (isValid ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light' : 'btn btn-group btn-primary btn-block btn-danger font-weight-light');
+
   const getStatus = (tx) => {
     if (tx.valid) {
       return (tx.confirmations < CONFIRMATIONS ?
@@ -221,9 +221,10 @@ function TransactionInfo(props) {
             </tr>
             <tr className="highlight">
               <td className="field" style={{ paddingTop: '12px' }}>Status</td>
-              <td>
-                <div className="text-left">{ getStatus(props) }</div>
-                <Progress color={progressColor} value={progressPercent}/>
+              <td className="field" >
+                <div className={ statusColor } style={{ width: '30%' }}>
+                  { getStatus(props) }
+                </div>
                 <div className="text-left">{ !isValid && invalidReason }</div>
               </td>
             </tr>
@@ -255,22 +256,13 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td colSpan="2">
-                <A
-                  href="#collapseRawData"
-                  color="primary"
-                  onClick={toggleRawData}
-                  style={{ marginBottom: '1rem' }}
-                >Raw Omni Data</A>
-                <Collapse isOpen={collapseOmniData}>
-                    <span id="lrawgettx">
-                      <a
-                        href={rawTransactionURL}
-                      >
-                        Click here for raw transaction...
-                      </a>
-                    </span>
-                </Collapse>
+              <td className="field">Raw Data</td>
+              <td >
+                <span id="lrawgettx">
+                  <a href={rawTransactionURL}>
+                    Click here for raw transaction...
+                  </a>
+                </span>
               </td>
             </tr>
             <tr className="d-none">

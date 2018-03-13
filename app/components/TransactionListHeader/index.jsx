@@ -55,13 +55,14 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
             <DropdownMenu right>
               <DropdownItem>Show All Transaction Types</DropdownItem>
               <DropdownItem divider />
+              <DropdownItem header>(Filters Coming Soon)!</DropdownItem>
               <DropdownItem header>Show Simple Send only</DropdownItem>
-              <DropdownItem>Show MetaDEx only</DropdownItem>
-              <DropdownItem>Show DEx only</DropdownItem>
-              <DropdownItem>Show Grant only</DropdownItem>
-              <DropdownItem>Show Revoke only</DropdownItem>
-              <DropdownItem>Show Property Creation only</DropdownItem>
-              <DropdownItem>Show Send To Owners only</DropdownItem>
+              <DropdownItem header>Show MetaDEx only</DropdownItem>
+              <DropdownItem header>Show DEx only</DropdownItem>
+              <DropdownItem header>Show Grant only</DropdownItem>
+              <DropdownItem header>Show Revoke only</DropdownItem>
+              <DropdownItem header>Show Property Creation only</DropdownItem>
+              <DropdownItem header>Show Send To Owners only</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </Col>
