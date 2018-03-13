@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import styled from 'styled-components';
-import { Col, Container, Row } from 'reactstrap';
+import { Container, Row, Col, Jumbotron } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import injectSaga from 'utils/injectSaga';
@@ -42,9 +42,9 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
   }
   
   render() {
-    let wallet = <div></div>;
-    let assets = <div></div>;
-    let tx = <div></div>;
+    let wallet = null;
+    let assets = null;
+    let tx = null;
     
     if (this.props.search.address.balance && this.props.search.address.balance.length> 0) {
       console.log(this.props.search);
@@ -65,6 +65,23 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
       );
     }
 
+    if(!wallet && !assets && !tx){
+      return (
+        <Container fluid>
+          <Row>
+            <Col>
+              <div>
+                <Jumbotron className="text-center">
+                  <h3 className="display-3">Not results found :(</h3>
+                  <p className="lead">Try using a valid transaction id, wallet id or asset name.</p>
+                </Jumbotron>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+          );
+    }
+    
     return (
       <StyledContainer fluid>
         <Row>
