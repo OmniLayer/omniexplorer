@@ -66,7 +66,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
           <thead>
             <tr>
               <StyledTH></StyledTH>
-              <StyledTH>ID</StyledTH>
+              <StyledTH>Property ID</StyledTH>
               <StyledTH>Name</StyledTH>
               <StyledTH>Issuer</StyledTH>
             </tr>
@@ -86,7 +86,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
               <div>
                 <Jumbotron className="text-center">
                   <h3 className="display-3">No results found :(</h3>
-                  <p className="lead">Try using a valid transaction id, wallet id or asset name.</p>
+                  <p className="lead">Try using a valid transaction id, address, property id or asset name.</p>
                 </Jumbotron>
               </div>
             </Col>
