@@ -67,6 +67,13 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       }
     }
 
+    let subtitleclass;
+    if  (asset.propertyid < 3 ) {
+      subtitleclass = 'd-none';
+    }
+
+
+
     let tokenName;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
       tokenName = (
@@ -111,7 +118,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <th>
                     <h4>
                       <strong>{ asset.name }</strong>
-                      <SubtitleDetail>
+                      <SubtitleDetail className={ subtitleclass }>
                         <span>
                         created by &nbsp;
                         </span>
