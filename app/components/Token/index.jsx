@@ -65,10 +65,24 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           />
         </td>
         <td style={{ paddingTop: '13px' }}>
-          { this.props.id }
+          <Link
+            to={{
+              pathname: `/asset/${this.props.id}`,
+            }}
+            onClick={() => props.changeRoute(`/asset/${this.props.id}`)}
+          >
+            { this.props.id }
+          </Link>
         </td>
         <td style={{ paddingTop: '13px' }}>
-          { this.getTokenName() }
+          <Link
+            to={{
+              pathname: `/asset/${this.props.id}`,
+            }}
+            onClick={() => props.changeRoute(`/asset/${this.props.id}`)}
+          >
+            { this.getTokenName() }
+          </Link>
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           { reserved }

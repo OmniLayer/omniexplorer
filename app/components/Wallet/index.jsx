@@ -36,7 +36,14 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
               <StyledTH></StyledTH>
               <StyledTH>
                 <h4>
-                  <span className="d-block" id="laddress">{props.addr}</span>
+                  <Link
+                    to={{
+                      pathname: `/address/${props.addr}`,
+                    }}
+                    onClick={() => props.changeRoute(`/address/${props.addr}`)}
+                  >
+                    <span className="d-block" id="laddress">{props.addr}</span>
+                  </Link>
                 </h4>
               </StyledTH>
             </tr>
