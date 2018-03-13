@@ -46,7 +46,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
   render() {
     let wallet = null;
-    let walletlink = null;
     let assets = null;
     let tx = null;
 
@@ -58,16 +57,26 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       tx = <TransactionInfo {...this.props.search.tx} />;
     }
 
+    const walletlink = () => { 
+      if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
+        return (
+          <div class="container-fluid">
+            <Link
+              to={{
+                pathname: `/address/${this.query}`,
+              }}
+              onClick={() => props.changeRoute(`/address/${this.query}`)}
+            >
+              Click Here for full address details.
+            </Link>
+          </div>
+        );
+      }
+      return null
+    }
+
     if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
-      wallet = <Wallet {...this.props.search} addr={this.query} />;
-      walletlink = `<Link
-          to={{
-            pathname: /address/${this.query},
-          }}
-          onClick={() => props.changeRoute(/address/${this.query})}
-        >
-          Click Here for full address details.
-        </Link>`;
+      wallet = <Wallet {...this.props.search} addr={this.query} extra={ walletlink() }/>;
     }
 
     if (this.props.search.asset.length > 0) {
@@ -110,7 +119,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         <Row>
           <Col>
             { wallet }
-            { walletlink }
           </Col>
         </Row>
         <Row>
