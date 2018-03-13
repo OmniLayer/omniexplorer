@@ -1,16 +1,18 @@
 import { createSelector } from 'reselect';
 
-const getProperties = (state) => state.get('tokenDetail');
-const getTokens = (state) => state.get('tokenDetail').get('tokens');
+const getProperties = (state) => state.get('token');
+const getTokens = (state) =>{
+  return state.get('token').get('tokens');
+}
 
 export const makeSelectProperties = () => createSelector(
   getProperties,
   (tokens) => tokens
 );
 
-export const makeSelectProperty = (id) => createSelector(
+export const makeSelectProperty = createSelector(
   getTokens,
-  (substate) => substate.get(id),
+  (substate) => (id) => substate.get(id),
 );
 
 export const hasProperty = (id) => createSelector(
