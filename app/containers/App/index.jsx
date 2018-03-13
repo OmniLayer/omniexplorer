@@ -63,9 +63,9 @@ class App extends React.Component {
         </Helmet>
         <Header />
         <Switch>
-          <Route exact path="/:page?" component={HomePage} />
+          <Route exact path="/:page(\d+)?" component={HomePage} />
           <Route path="/tx/:tx" component={TransactionDetail} />
-          <Route path="/address/:address/:page?" component={AddressDetail} key={location.pathname} />
+          <Route path="/address/:address/:page(\d+)?" component={AddressDetail} key={location.pathname} />
           <Route path="/search/:query" component={Search} key={location.pathname} />
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
