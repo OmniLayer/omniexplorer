@@ -26,8 +26,6 @@ const IMG = styled.img`
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     const isValid = this.props.valid;
-    const progressColor = (isValid ? 'info' : 'danger');
-    const progressPercent = Math.floor(((this.props.confirmations / CONFIRMATIONS) * 100));
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
@@ -136,7 +134,6 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 className="btn btn-primary btn-block btn-blue font-weight-light"
                 to={{
                   pathname: `/tx/${this.props.txid}`,
-                  state: { transaction: this.props },
                 }}
                 onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
               >
@@ -158,6 +155,7 @@ Transaction.propTypes = {
   txid: PropTypes.string,
   amount: PropTypes.string,
   changeRoute: PropTypes.func,
+  valid: PropTypes.bool,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -171,5 +169,4 @@ const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,
-  // withRouter,
 )(Transaction);
