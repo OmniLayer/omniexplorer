@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Jumbotron, Row } from 'reactstrap';
+import { Col, Container, Jumbotron, Row, Table } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import injectSaga from 'utils/injectSaga';
@@ -31,6 +31,9 @@ const StyledContainer = styled(Container)`
       overflow: auto;
       margin: 3rem;
       padding: 1rem;
+    `;
+const StyledTH = styled.th`
+      border: none !important;
     `;
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -58,7 +61,21 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     }
 
     if (this.props.search.asset.length > 0) {
-      assets = <h1> assets </h1>;
+      assets = (
+        <Table className="table-profile">
+          <thead>
+            <tr>
+              <StyledTH></StyledTH>
+              <StyledTH>ID</StyledTH>
+              <StyledTH>Name</StyledTH>
+              <StyledTH>Issuer</StyledTH>
+            </tr>
+          </thead>
+          <tbody>
+            { this.props.search.asset.map((x) => <Asset {...x} changeRoute={this.props.changeRoute} key={x[2]} />) }
+          </tbody>
+        </Table>
+      );
     }
 
     if (!wallet && !assets && !tx) {
@@ -87,7 +104,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         </Row>
         <Row>
           <Col>
-            { assets.map((x) => <Asset {...x} key={x.propertyid} />) }
+            { assets }
           </Col>
         </Row>
         <Row>
