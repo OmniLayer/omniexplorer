@@ -93,7 +93,7 @@ const SummaryItem = (props) => {
 class ServiceBlock extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     // wait status props loading
-    if (!isEmpty(this.props) || !isEmpty(this.props.status)) {
+    if (isEmpty(this.props) || isEmpty(this.props.status)) {
       return null;
     }
     
