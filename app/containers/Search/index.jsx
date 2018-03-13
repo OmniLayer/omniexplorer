@@ -6,18 +6,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { routeActions } from 'redux-simple-router';
+import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Container, Row, Col, Jumbotron } from 'reactstrap';
+import { Col, Container, Jumbotron, Row } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import Wallet from 'components/Wallet';
-import TransactionList from 'components/TransactionList';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
@@ -30,24 +30,30 @@ const StyledContainer = styled(Container)`
       margin: 3rem;
     `;
 
-export class Search extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.query = props.match.params.query.toString();
-  }
-  
-  componentDidMount() {
-    this.query = this.props.match.params.query.toString();
     this.props.loadSearch(this.query);
   }
-  
+
+  componentWillReceiveProps(nextProps) {
+    const loadedReady = !nextProps.search.loading;
+    if (loadedReady && !isEmpty(nextProps.search.tx.txid)) {
+      this.props.changeRoute(`/tx/${nextProps.search.tx.txid}`);
+    }
+  }
+
   render() {
     let wallet = null;
     let assets = null;
-    let tx = null;
-    
-    if (this.props.search.address.balance && this.props.search.address.balance.length> 0) {
-      console.log(this.props.search);
+    const tx = null;
+
+    if (this.props.search.loading || !isEmpty(this.props.search.tx.type)) {
+      return null;
+    }
+
+    if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
       wallet = <Wallet {...this.props.search} addr={this.query} />;
     }
 
@@ -55,33 +61,23 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
       assets = <h1> assets </h1>;
     }
 
-    if (!isEmpty(this.props.search.tx.type)) {
-      const transactions = [this.props.search.tx];
-      tx = (
-        <div>
-          <h3 className="text-center">Transaction detail</h3>
-          <TransactionList transactions={transactions} />
-        </div>
-      );
-    }
-
-    if(!wallet && !assets && !tx){
+    if (!wallet && !assets && !tx) {
       return (
         <Container fluid>
           <Row>
             <Col>
               <div>
                 <Jumbotron className="text-center">
-                  <h3 className="display-3">Not results found :(</h3>
+                  <h3 className="display-3">No results found :(</h3>
                   <p className="lead">Try using a valid transaction id, wallet id or asset name.</p>
                 </Jumbotron>
               </div>
             </Col>
           </Row>
         </Container>
-          );
+      );
     }
-    
+
     return (
       <StyledContainer fluid>
         <Row>
@@ -117,6 +113,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadSearch: (query) => dispatch(loadSearch(query)),
+    changeRoute: (url) => dispatch(routeActions.push(url)),
   };
 }
 

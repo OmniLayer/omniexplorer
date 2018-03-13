@@ -16,7 +16,7 @@ const initialResults = {
 };
 
 const initialState = fromJS({
-  loading: false,
+  loading: true,
   error: false,
   query: '',
   address: {
@@ -28,8 +28,8 @@ const initialState = fromJS({
 
 function searchReducer(state = initialState, action) {
   const { error, payload, type } = action;
-  
-  switch(type) {
+
+  switch (type) {
     case LOAD_SEARCH:
       return state
         .set('loading', true)
