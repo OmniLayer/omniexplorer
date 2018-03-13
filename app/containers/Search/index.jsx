@@ -24,12 +24,6 @@ import searchReducer from './reducer';
 import searchSaga from './saga';
 import { loadSearch } from './actions';
 
-
-const Layout = styled(Container)`
-      background-color: white;
-      padding: 0;
-    `;
-
 const StyledContainer = styled(Container)`
       background-color: #F0F3F4;
       overflow: auto;
@@ -41,11 +35,12 @@ export class Search extends React.PureComponent { // eslint-disable-line react/p
     super(props);
     this.query = props.match.params.query.toString();
   }
-
+  
   componentDidMount() {
+    this.query = this.props.match.params.query.toString();
     this.props.loadSearch(this.query);
   }
-
+  
   render() {
     let wallet = <div></div>;
     let assets = <div></div>;
