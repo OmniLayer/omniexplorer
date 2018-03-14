@@ -83,12 +83,10 @@ class Header extends React.PureComponent {
                     <NavLink href="/">Home</NavLink>
                   </NavItem>
                   <NavItem>
-                    <OverlayTrigger placement="top" overlay={tooltip}>
-                      <NavLink href="#" id="cs1">Exchange</NavLink>
-                      <UncontrolledTooltip placement="top" target="cs1">
-                        Coming Soon.
-                      </UncontrolledTooltip>
-                    </OverlayTrigger>
+                    <NavLink href="#" id="cs1">Exchange</NavLink>
+                    <UncontrolledTooltip placement="top" target="cs1">
+                      Coming Soon.
+                    </UncontrolledTooltip>
                   </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
@@ -117,12 +115,10 @@ class Header extends React.PureComponent {
                     </DropdownMenu>
                   </UncontrolledDropdown>
                   <NavItem>
-                    <OverlayTrigger placement="top" overlay={tooltip}>
-                      <NavLink href="#" id="cs2">Usage Graphs</NavLink>
-                      <UncontrolledTooltip placement="top" target="cs2">
-                        Coming Soon.
-                      </UncontrolledTooltip>
-                    </OverlayTrigger>
+                    <NavLink href="#" id="cs2">Usage Graphs</NavLink>
+                    <UncontrolledTooltip placement="top" target="cs2">
+                      Coming Soon.
+                    </UncontrolledTooltip>
                   </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
