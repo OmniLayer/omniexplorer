@@ -115,8 +115,8 @@ class Header extends React.PureComponent {
                       <DropdownItem>
                         <NavLink href="/search/2">Property List (Test Eco)</NavLink>
                       </DropdownItem>
-                      <DropdownItem>
-                        <NavLink href="/">Active Crowdsales</NavLink>
+                      <DropdownItem header>
+                        <NavLink href="/">Active Crowdsales (Coming Soon)</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
