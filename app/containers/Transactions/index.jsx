@@ -11,8 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Container } from 'reactstrap';
 import styled from 'styled-components';
-// import injectSaga from 'utils/injectSaga';
-// import injectReducer from 'utils/injectReducer';
 import TransactionList from 'components/TransactionList';
 import TransactionListHeader from 'components/TransactionListHeader';
 import ListPagination from 'components/ListPagination';
@@ -20,8 +18,6 @@ import ListPagination from 'components/ListPagination';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { makeSelectLoading, makeSelectTransactions } from './selectors';
-// import reducer from './reducer';
-// import saga from './saga';
 import { loadTransactions, setPage } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -38,7 +34,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
     } else {
       page = pathname.substr(pathname.lastIndexOf('/') + 1);
     }
-    return (!page || isNaN(page) ? 0 : page - 1);
+    return (!page || isNaN(page) ? 0 : page);
   }
 
   render() {
@@ -106,7 +102,5 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
-  // withReducer,
-  // withSaga,
   withConnect,
 )(Transactions);

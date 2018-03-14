@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 
 import { startFetch } from './actions';
 
@@ -34,6 +35,28 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
   }
 
   render() {
+    let frozen;
+    let reserved;
+    let available;
+
+    if (this.props.divisible) {
+      frozen = (this.props.frozen) / 1e8;
+      reserved = (this.props.reserved ? this.props.reserved / 1e8 : 0);
+      available = (this.props.value) / 1e8;
+    } else {
+      frozen = this.props.frozen;
+      reserved = this.props.reserved;
+      available = this.props.value;
+    }
+
+    let value;
+    if (available == 0 && frozen > 0) {
+      value = `${frozen} Frozen!`;
+    } else {
+      value = available;
+    }
+
+
     return (
       <tr>
         <td style={{ width: '56px' }}>
@@ -43,17 +66,31 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           />
         </td>
         <td style={{ paddingTop: '13px' }}>
-          { this.props.id }
+          <Link
+            to={{
+              pathname: `/asset/${this.props.id}`,
+            }}
+            onClick={() => props.changeRoute(`/asset/${this.props.id}`)}
+          >
+            { this.props.id }
+          </Link>
         </td>
         <td style={{ paddingTop: '13px' }}>
-          { this.getTokenName() }
+          <Link
+            to={{
+              pathname: `/asset/${this.props.id}`,
+            }}
+            onClick={() => props.changeRoute(`/asset/${this.props.id}`)}
+          >
+            { this.getTokenName() }
+          </Link>
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-          { this.props.reserved }
+          { reserved }
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { (this.props.value) / 1e8 }
+            { value }
           </strong>
         </td>
       </tr>

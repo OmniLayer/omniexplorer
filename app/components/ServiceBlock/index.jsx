@@ -10,10 +10,10 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
-import Moment from 'react-moment';
-
+import isEmpty from 'lodash/isEmpty';
 import { makeSelectStatus } from './selectors';
 import featureLogoPNG from 'images/token1.png';
+// import Moment from 'react-moment';
 
 const IMG = styled.img`
   margin-right: 6px;
@@ -56,7 +56,7 @@ const BlockInfo = (props) => (
     <div className="text-white">
       <span>
         <small>
-            { `${props.last_parsed} UTC` }
+          { `${props.last_parsed} UTC` }
         </small>
       </span>
     </div>
@@ -92,6 +92,11 @@ const SummaryItem = (props) => {
 
 class ServiceBlock extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    // wait status props loading
+    if (isEmpty(this.props) || isEmpty(this.props.status)) {
+      return null;
+    }
+
     const propertiesCountValue = (props) => (
       <span>
         { props.properties_count }
@@ -103,13 +108,10 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
 
     const omniPriceValue = (props) => (
       <span>
-        { Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 }BTC /
+        ${ Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 }BTC /
         ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
       </span>
     );
-
-    // wait status props loading
-    if (!this.props.status) return <div></div>;
 
     return (
       <Container className="d-flex">

@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
@@ -21,7 +21,6 @@ import {
   DropdownToggle,
   Nav,
   Navbar,
-  NavbarBrand,
   NavbarToggler,
   NavItem,
   NavLink,
@@ -38,7 +37,6 @@ const IMG = styled.img`
   padding-right: 9px;
 `;
 
-// function Header(props) {
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -102,7 +100,7 @@ class Header extends React.PureComponent {
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
-                        <NavLink href="https://api.omniwallet.org">Documentation</NavLink>
+                        <NavLink href="https://api.omniexplorer.info">Documentation</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
@@ -112,10 +110,10 @@ class Header extends React.PureComponent {
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
-                        <NavLink href="/">Property List (Main Eco)</NavLink>
+                        <NavLink href="/search/1">Property List (Main Eco)</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink href="/">Property List (Test Eco)</NavLink>
+                        <NavLink href="/search/2">Property List (Test Eco)</NavLink>
                       </DropdownItem>
                       <DropdownItem>
                         <NavLink href="/">Active Crowdsales</NavLink>
@@ -144,7 +142,10 @@ class Header extends React.PureComponent {
                         <NavLink href="http://www.omnilayer.org/#GetStarted">Wallets</NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink href="http://support.omniwallet.org">Help</NavLink>
+                        <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ">Help/FAQ</NavLink>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <NavLink href="https://github.com/OmniLayer/omniexplorer/issues">Report Bug</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
@@ -171,7 +172,6 @@ Navbar.propTypes = {
 NavbarToggler.propTypes = {
   type: PropTypes.string,
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-  // pass in custom element to use
 };
 
 
@@ -186,8 +186,4 @@ const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,
-  // withRouter,
 )(Header);
-
-// export default withRouter(Header);
-

@@ -30,6 +30,10 @@ injectGlobal`
   div.card .card-text {
 	  font-family: inherit;
   }
+
+  div.card .card-header {
+	  background-color: #348FE2;
+  }
   
   h1 small,h2 small,h3 small,h4 small,h5 small,h6 small {
     font-size: 60%;

@@ -30,7 +30,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   app.use(
     '/api',
     proxy({
-      target: 'https://api.omniwallet.org/',
+      target: 'https://api.omniexplorer.info/',
       changeOrigin: true,
       logLevel: 'debug',
       pathRewrite: {

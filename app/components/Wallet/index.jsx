@@ -38,6 +38,7 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
                 <h4>
                   <span className="d-block" id="laddress">{props.addr}</span>
                 </h4>
+                { props.extra }
               </StyledTH>
             </tr>
           </thead>
