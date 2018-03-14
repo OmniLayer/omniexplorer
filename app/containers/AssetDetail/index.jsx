@@ -189,7 +189,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">Divisible</td>
                   <td>
                     <span id="lblocknum">
-                      { asset.divisible }
+                      { (asset.divisible ? 'True' : 'False') }
                     </span>
                   </td>
                 </tr>
