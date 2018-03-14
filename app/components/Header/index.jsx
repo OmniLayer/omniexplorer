@@ -86,11 +86,11 @@ class Header extends React.PureComponent {
                       Exchange
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>
-                        <NavLink href="/">Bitcoin / OMNI  (data coming soon)</NavLink>
+                      <DropdownItem header>
+                        <NavLink href="/">Bitcoin / OMNI  (coming soon)</NavLink>
                       </DropdownItem>
-                      <DropdownItem>
-                        <NavLink href="/">Smart Properties (data coming soon)</NavLink>
+                      <DropdownItem header>
+                        <NavLink href="/">Smart Properties (coming soon)</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
@@ -125,7 +125,7 @@ class Header extends React.PureComponent {
                       Usage Graphs
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>
+                      <DropdownItem header>
                         <NavLink href="/">Coming soon</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
@@ -135,7 +135,7 @@ class Header extends React.PureComponent {
                       Misc
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>
+                      <DropdownItem header>
                         <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
                       </DropdownItem>
                       <DropdownItem>
