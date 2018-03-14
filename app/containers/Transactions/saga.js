@@ -1,29 +1,41 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { LOAD_TRANSACTIONS, SET_PAGE } from 'containers/Transactions/constants';
+import { LOAD_TRANSACTIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
-import { transactionsLoaded, transactionsLoadingError } from 'containers/Transactions/actions';
+import { transactionsLoaded, transactionsLoadingError } from './actions';
 
 import request from 'utils/request';
 
 function* getTransactions(action = {}) {
   const page = action.page || 0;
   const requestURL = (action.addr ? `${API_URL_BASE}/transaction/address/${page}` : `${API_URL_BASE}/transaction/general/${page}`);
-
+  
   try {
-    const options = (action.addr ?
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `${encodeURIComponent('addr')}=${encodeURIComponent(action.addr)}`,
-    } :
-        null
-    );
-
-    const transactions = yield call(request, requestURL, options);
+    const addrHeader = encodeURIComponent('addr');
+    const addrValue = encodeURIComponent(action.addr);
+    const getTransactionsOptions = {
+      type: 'cors',
+    };
+    if (action.addr) {
+      Object.assign(getTransactionsOptions,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `${addrHeader}=${addrValue}`,
+        });
+    } else {
+      Object.assign(getTransactionsOptions,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    }
+    
+    const transactions = yield call(request, requestURL, getTransactionsOptions);
     yield put(transactionsLoaded(transactions.transactions, transactions.pages, page));
-  } catch (err) {
+  } catch(err) {
     yield put(transactionsLoadingError(err));
   }
 }
