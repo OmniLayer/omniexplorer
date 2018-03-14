@@ -54,7 +54,7 @@ function TransactionInfo(props) {
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
   
   const isValid = props.valid;
-  const statusColor = (isValid ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light' : 'btn btn-group btn-primary btn-block btn-danger font-weight-light');
+  const statusColor = (isValid ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light' : ( tx.confirmations === 0 ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light' : 'btn btn-group btn-primary btn-block btn-danger font-weight-light'));
 
   const getStatus = (tx) => {
     if (tx.valid) {
@@ -68,7 +68,7 @@ function TransactionInfo(props) {
           'CONFIRMED'
       );
     }
-    return 'INVALID';
+    return (tx.confirmations === 0 ? 'UNCONFIRMED' : 'INVALID');
   };
   const invalidReason = `Reason: ${props.invalidreason || ''}`;
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
