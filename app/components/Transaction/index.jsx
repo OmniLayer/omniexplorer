@@ -28,7 +28,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
   render() {
     const isValid = this.props.valid;
 
-    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light');
+    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : ( this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
 
     const status = (
       isValid ?
@@ -41,7 +41,9 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
         :
             'CONFIRMED'
       :
-        'INVALID'
+        this.props.confirmations === 0 ?
+               'UNCONFIRMED' :
+               'INVALID'
     );
 
     let tokenLogo;
