@@ -100,7 +100,7 @@ class Header extends React.PureComponent {
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem>
-                        <NavLink href="https://api.omniwallet.org">Documentation</NavLink>
+                        <NavLink href="https://api.omniexplorer.info">Documentation</NavLink>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
