@@ -96,9 +96,9 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
     let registeredMessage;
     if (asset.registered) {
-      registeredMessage = { asset.rdata };
+      registeredMessage = (<td> { asset.rdata } </td>);
     } else {
-      registeredMessage = 'This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.';
+      registeredMessage = (<td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.</td>);
     }
 
     return (
@@ -239,7 +239,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                 </tr>
                 <tr>
                   <td className="field">Registration</td>
-                  <td>{ registeredMessage }</td>
+                  { registeredMessage }
                 </tr>
               </tbody>
             </Table>
