@@ -75,24 +75,15 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       subtitleclass = 'd-none';
     }
 
-
-
     let tokenName;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
       tokenName = (
         <tr>
           <td className="field">Token</td>
           <td>
-            <Link
-              to={{
-                pathname: `/asset/${asset.propertyid}`,
-              }}
-              onClick={() => this.props.changeRoute(`/asset/${asset.propertyid}`)}
-            >
-              <strong>
-                { asset.name || asset.propertyname || type } &#40;#{ asset.propertyid }&#41;
-              </strong>
-            </Link>
+            <strong>
+              { asset.name || asset.propertyname || type } &#40;#{ asset.propertyid }&#41;
+            </strong>
           </td>
         </tr>);
     }
@@ -195,7 +186,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                     </span>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Distribution</td>
                   <td>
                     <span id="lblocknum">
@@ -213,7 +204,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                     </a>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Price</td>
                   <td>
                     <span id="lblocknum">
@@ -221,7 +212,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                     </span>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Markets</td>
                   <td>
                     <span id="lblocknum">
