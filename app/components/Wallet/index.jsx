@@ -29,7 +29,7 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
       <Col className="col-auto mr-auto" sm="2">
         <QRCode value={props.addr} />
       </Col>
-      <Col>
+      <Col sm>
         <Table className="table-profile">
           <thead>
             <tr>

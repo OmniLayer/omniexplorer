@@ -13,7 +13,6 @@ import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
 import {
-  Col,
   Collapse,
   Container,
   DropdownItem,
@@ -21,12 +20,12 @@ import {
   DropdownToggle,
   Nav,
   Navbar,
+  NavbarBrand,
   NavbarToggler,
   NavItem,
   NavLink,
-  Row,
-  UncontrolledTooltip,
   UncontrolledDropdown,
+  UncontrolledTooltip
 } from 'reactstrap';
 
 import SearchBox from 'components/SearchBox';
@@ -41,108 +40,99 @@ const IMG = styled.img`
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
-
+    
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
-
+  
   toggle(e) {
     this.setState({
       isOpen: !this.state.isOpen,
     });
     e.preventDefault();
   }
-
+  
   render() {
     return (
       <Navbar color="faded" light expand="md">
-        <Container className="d-block">
-          <Row className="clearfix">
-            <Col>
-              <Link
-                to="/"
-                onClick={() => this.props.changeRoute('/')}
-                className="navbar-brand"
-              >
-                <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
-                  OMNIEXPLORER.INFO
-              </Link>
-            </Col>
-            <Col>
-              <SearchBox />
-            </Col>
-          </Row>
-          <Row className="clearfix">
-            <Col xs="12">
-              <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-                  <NavItem>
-                    <NavLink href="/">Home</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" id="cs1">Exchange</NavLink>
-                    <UncontrolledTooltip placement="top" target="cs1">
-                      Coming Soon.
-                    </UncontrolledTooltip>
-                  </NavItem>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      API
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>
-                        <NavLink href="https://api.omniexplorer.info">Documentation</NavLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      Smart Property
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>
-                        <NavLink href="/search/1">Property List (Main Eco)</NavLink>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <NavLink href="/search/2">Property List (Test Eco)</NavLink>
-                      </DropdownItem>
-                      <DropdownItem header>
-                        <NavLink href="/">Active Crowdsales (Coming Soon)</NavLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <NavItem>
-                    <NavLink href="#" id="cs2">Usage Graphs</NavLink>
-                    <UncontrolledTooltip placement="top" target="cs2">
-                      Coming Soon.
-                    </UncontrolledTooltip>
-                  </NavItem>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      Misc
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem header>
-                        <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <NavLink href="http://www.omnilayer.org/#GetStarted">Wallets</NavLink>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ">Help/FAQ</NavLink>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <NavLink href="https://github.com/OmniLayer/omniexplorer/issues">Report Bug</NavLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </Nav>
-              </Collapse>
-            </Col>
-          </Row>
+        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <Container className="justify-content-between">
+          <Link
+            to="/"
+            onClick={() => this.props.changeRoute('/')}
+            className="navbar-brand"
+          >
+            <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO"/>
+            OMNIEXPLORER.INFO
+          </Link>
+          <SearchBox />
+          <NavbarToggler onClick={this.toggle}/>
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#" id="cs1">Exchange</NavLink>
+                <UncontrolledTooltip placement="top" target="cs1">
+                  Coming Soon.
+                </UncontrolledTooltip>
+              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  API
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <NavLink href="https://api.omniexplorer.info">Documentation</NavLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  Smart Property
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <NavLink href="/search/1">Property List (Main Eco)</NavLink>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NavLink href="/search/2">Property List (Test Eco)</NavLink>
+                  </DropdownItem>
+                  <DropdownItem header>
+                    <NavLink href="/">Active Crowdsales (Coming Soon)</NavLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <NavItem>
+                <NavLink href="#" id="cs2">Usage Graphs</NavLink>
+                <UncontrolledTooltip placement="top" target="cs2">
+                  Coming Soon.
+                </UncontrolledTooltip>
+              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  Misc
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem header>
+                    <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NavLink href="http://www.omnilayer.org/#GetStarted">Wallets</NavLink>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ">Help/FAQ</NavLink>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NavLink href="https://github.com/OmniLayer/omniexplorer/issues">Report Bug</NavLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Nav>
+          </Collapse>
         </Container>
       </Navbar>
     );

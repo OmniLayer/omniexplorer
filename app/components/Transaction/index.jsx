@@ -69,12 +69,12 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
 
     return (
       <Row className="transation-result mx-auto">
-        <Col xs="9">
+        <Col sm="9">
           <Row className="transaction-header">
             <Col sm="1">
               <IMG src={tokenLogo} />
             </Col>
-            <Col>
+            <Col sm>
               <Row>
                 <span className="title">
                   { this.props.type }
@@ -99,7 +99,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col sm>
               <p className="desc">
                 <Link
                   className="btn btn-add m-r-5 m-b-5"
@@ -124,23 +124,23 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             </Col>
           </Row>
         </Col>
-        <Col xs="3" className="result-price text-center">
+        <Col sm="3" className="result-price text-center">
           <Row>
-            <Col>
+            <Col sm>
               <h4 className="title">
                 { this.props.amount }
               </h4>
             </Col>
           </Row>
           <Row className="transaction-asset">
-            <Col>
+            <Col sm>
               <small>{ this.props.propertyname } (#{ this.props.propertyid })</small>
             </Col>
           </Row>
           <Row>
-            <Col className="btn-group">
+            <Col sm className="btn-group">
               <Link
-                className= { statusColor }
+                className={statusColor}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
                 }}

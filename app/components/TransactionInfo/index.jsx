@@ -87,7 +87,7 @@ function TransactionInfo(props) {
   let warningMessage = null;
   if (props.confirmations === 0) {
     warningMessage = (<Row>
-      <Col>
+      <Col sm>
         <StyledCard inverse>
           <CardHeader>Unconfirmed Transaction Warning</CardHeader>
           <StyledCardBody>
@@ -150,14 +150,14 @@ function TransactionInfo(props) {
     <StyledContainer fluid>
       { warningMessage }
       <DetailRow>
-        <Col className="col-auto mr-auto col-sm-2">
+        <Col sm="2" className="col-auto mr-auto">
           <img
             src={logo}
             alt={props.type}
             className="img-thumbnail"
           />
         </Col>
-        <Col>
+        <Col sm>
           <Table className="table-profile">
             <thead>
             <tr>

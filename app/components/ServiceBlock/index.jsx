@@ -32,7 +32,7 @@ const ContainerLogo = styled.div`
 `;
 
 const NameLogo = () => (
-  <ContainerLogo className="d-flex px-3 py-2">
+  <ContainerLogo className="px-3 py-2">
     <div className="d-inline-block">
       <IMG src={featureLogoPNG} alt="feature logo" className="card-img-top" />
     </div>
@@ -114,7 +114,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
     );
 
     return (
-      <Container className="d-flex">
+      <Container>
         <div className="d-inline-block">
           <NameLogo />
           <BlockInfo {...this.props.status} />
