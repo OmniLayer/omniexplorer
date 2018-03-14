@@ -25,6 +25,7 @@ import {
   NavItem,
   NavLink,
   Row,
+  UncontrolledTooltip,
   UncontrolledDropdown,
 } from 'reactstrap';
 
@@ -81,19 +82,14 @@ class Header extends React.PureComponent {
                   <NavItem>
                     <NavLink href="/">Home</NavLink>
                   </NavItem>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      Exchange
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem header>
-                        <NavLink href="/">Bitcoin / OMNI  (coming soon)</NavLink>
-                      </DropdownItem>
-                      <DropdownItem header>
-                        <NavLink href="/">Smart Properties (coming soon)</NavLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+                  <NavItem>
+                    <OverlayTrigger placement="top" overlay={tooltip}>
+                      <NavLink href="#" id="cs1">Exchange</NavLink>
+                      <UncontrolledTooltip placement="top" target="cs1">
+                        Coming Soon.
+                      </UncontrolledTooltip>
+                    </OverlayTrigger>
+                  </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
                       API
@@ -120,16 +116,14 @@ class Header extends React.PureComponent {
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      Usage Graphs
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem header>
-                        <NavLink href="/">Coming soon</NavLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+                  <NavItem>
+                    <OverlayTrigger placement="top" overlay={tooltip}>
+                      <NavLink href="#" id="cs2">Usage Graphs</NavLink>
+                      <UncontrolledTooltip placement="top" target="cs2">
+                        Coming Soon.
+                      </UncontrolledTooltip>
+                    </OverlayTrigger>
+                  </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
                       Misc

@@ -108,7 +108,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
 
     const omniPriceValue = (props) => (
       <span>
-        ${ Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 }BTC /
+        { Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 } BTC /
         ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
       </span>
     );
@@ -126,7 +126,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
           />
           <SummaryItem
             container={StyledContainerSummary2}
-            options={{ title: 'TRANSACTIONS (24 hrs)', value: this.props.status.txcount_24hr }}
+            options={{ title: 'TOTAL TRANSACTIONS (24 hrs)', value: this.props.status.txcount_24hr }}
           />
           <SummaryItem
             container={StyledContainerSummary3}
