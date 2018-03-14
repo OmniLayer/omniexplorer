@@ -94,6 +94,13 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       </tr>);
     }
 
+    let registeredMessage;
+    if (asset.registered) {
+      registeredMessage = { asset.rdata };
+    } else {
+      registeredMessage = 'This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.';
+    }
+
     return (
       <StyledContainer fluid>
         <DetailRow>
@@ -232,9 +239,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                 </tr>
                 <tr>
                   <td className="field">Registration</td>
-                  <td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your
-                  Property</a> for further details.
-                  </td>
+                  <td>{ registeredMessage }</td>
                 </tr>
               </tbody>
             </Table>
