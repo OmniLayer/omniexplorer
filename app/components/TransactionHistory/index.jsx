@@ -21,7 +21,6 @@ class TransactionHistory extends React.PureComponent { // eslint-disable-line re
       <ContainerLogo className="px-3 pb-2">
         <div className="d-inline-block mx-auto">
           <IMG className="img-fluid" src={statsPNG} />
-          <h1 className="es-un-h1"><a href="/">a casa kit</a></h1>
         </div>
       </ContainerLogo>
     );
