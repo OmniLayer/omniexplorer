@@ -96,7 +96,7 @@ class Header extends React.PureComponent {
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    Smart Property
+                    Properties
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
@@ -125,13 +125,13 @@ class Header extends React.PureComponent {
                       <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href="http://www.omnilayer.org/#GetStarted">Wallets</NavLink>
+                      <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ">Help/FAQ</NavLink>
+                      <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ" target="_blank">Help/FAQ</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href="https://github.com/OmniLayer/omniexplorer/issues">Report Bug</NavLink>
+                      <NavLink href="https://github.com/OmniLayer/omniexplorer/issues" target="_blank">Report Bug</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>

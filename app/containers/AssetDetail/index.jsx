@@ -76,21 +76,24 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     }
     
     let tokenName;
+    let propertyID;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
       tokenName = (
         <tr>
-          <td className="field">Token</td>
+          <td className="field">Name</td>
           <td>
-            <Link
-              to={{
-                pathname: `/asset/${asset.propertyid}`,
-              }}
-              onClick={() => this.props.changeRoute(`/asset/${asset.propertyid}`)}
-            >
-              <strong>
-                { asset.name || asset.propertyname || asset.type } &#40;#{ asset.propertyid }&#41;
-              </strong>
-            </Link>
+            <strong>
+              { asset.name || asset.propertyname || asset.type };
+            </strong>
+          </td>
+        </tr>);
+      propertyID = (
+        <tr>
+          <td className="field">PropertyID</td>
+          <td>
+            <strong>
+              { asset.propertyid };
+            </strong>
           </td>
         </tr>);
     }
@@ -153,6 +156,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   </td>
                 </tr>
                 { tokenName }
+                { propertyID }
                 <tr>
                   <td className="field">Created</td>
                   <td>
@@ -212,7 +216,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">URL</td>
                   <td>
                     <a
-                      href={asset.url}
+                      href={asset.url} target="_blank"
                     >
                       { asset.url }
                     </a>
@@ -239,7 +243,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td >
                     <span id="lrawgettx">
                       <a href={rawAssetURL}>
-                        Click here for raw asset info
+                        Click here for raw info
                       </a>
                     </span>
                   </td>
