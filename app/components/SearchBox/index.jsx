@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   & div.input-group > input.form-control.searchbox-input {
     outline: none;
     border-radius: 19px;
-    max-width: calc( 100% - 38px );
+    max-width: 100%;
     padding-right: 38px;
   }
   
@@ -45,7 +45,6 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
   
   handleDoSearch(e) {
     this.props.changeRoute(`/search/${this.state.query}`);
-    // e.target.value = '';
     this.setState({ query: '' });
   }
   
@@ -64,9 +63,10 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
             className="form-control searchbox-input"
             value={this.state.query}
             onInput={(e) => this.setState({ query: e.target.value.trim() })}
-            onKeyUp={this.handleKeyUp.bind(this)}
-          ></Input>
-          <SearchIcon className="searchbox-icon" size={24} onClick={this.handleDoSearch.bind(this)}/>
+            onKeyUp={(e) => this.handleKeyUp(e)}
+          >
+          </Input>
+          <SearchIcon className="searchbox-icon" size={24} onClick={(e) => this.handleDoSearch(e)}/>
         </div>
       </Wrapper>
     );

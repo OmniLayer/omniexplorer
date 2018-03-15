@@ -21,8 +21,10 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
   constructor(props) {
     super(props);
 
-    this.collapseAmount = false;
-    this.toggleAmount = () => (this.collapseAmount = !this.collapseAmount);
+    this.toggleAmount = () => this.setState({ collapseAmount: !this.state.collapseAmount });
+    this.state = {
+      collapseAmount: false,
+    };
   }
 
   render() {
@@ -43,13 +45,13 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 onClick={this.toggleAmount}
                 style={{ marginBottom: '1rem' }}
               >Click to show purchases</A>
-              <Collapse isOpen={this.collapseAmount}>
+              <Collapse isOpen={this.state.collapseAmount}>
                 { this.props.purchases.map((purchase, idx) => (
                   <div key={idx}>
                     <div><span> { purchase.amountbought } OMNI Bought</span></div>
                     <div><span> { purchase.amountpaid } BTC Paid</span></div>
                   </div>
-                  ))
+                ))
                 }
               </Collapse>
               <span></span>
@@ -71,7 +73,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 onClick={this.toggleAmount}
                 style={{ marginBottom: '1rem' }}
               >Click to show subsends of SendAll</A>
-              <Collapse isOpen={this.collapseAmount}>
+              <Collapse isOpen={this.state.collapseAmount}>
                 { this.props.subsends.map((send, idx) =>
                   (<div key={idx}><span>{ send.amount } { send.propertyname } (#{ send.propertyid })</span></div>)
                 )}
@@ -95,7 +97,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 onClick={this.toggleAmount}
                 style={{ marginBottom: '1rem' }}
               >Click to show amounts</A>
-              <Collapse isOpen={this.collapseAmount}>
+              <Collapse isOpen={this.state.collapseAmount}>
                 <div><span> { this.props.amountdesired } { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired</span></div>
                 <div><span> { this.props.amountforsale } { this.props.propertyidforsalename } (#{ this.props.propertyidforsale }) For Sale</span></div>
               </Collapse>
@@ -105,8 +107,8 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
         </tr>
       );
     }
-    //Crowdsale Purchase
-    if (this.props.type === "Crowdsale Purchase") {
+    // Crowdsale Purchase
+    if (this.props.type === 'Crowdsale Purchase') {
       return (
         <tr className="highlight">
           <td className="field">Amount</td>
@@ -118,7 +120,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 onClick={this.toggleAmount}
                 style={{ marginBottom: '1rem' }}
               >Click to show amounts</A>
-              <Collapse isOpen={this.collapseAmount}>
+              <Collapse isOpen={this.state.collapseAmount}>
                 <div><span> { this.props.amount } { this.props.propertyname } (#{ this.props.propertyid }) Sent</span></div>
                 <div><span> { this.props.purchasedtokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased</span></div>
                 <div><span> { this.props.issuertokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer</span></div>
@@ -129,8 +131,8 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
         </tr>
       );
     }
- 
- 
+
+
     // other transactions
     return (
       <tr className="highlight">
@@ -148,7 +150,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
 }
 
 TransactionAmount.propTypes = {
-  type_int: PropTypes.number.isRequired,
+  type_int: PropTypes.number,
   subsends: PropTypes.array,
 };
 

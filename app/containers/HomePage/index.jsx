@@ -36,20 +36,20 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
     return (
       <Layout className="container-fluid">
         <Row noGutters>
-          <Col>
+          <Col sm>
             <HeaderMessage />
           </Col>
         </Row>
         <Row>
-          <Col md="5">
+          <Col sm="12" lg="5" className="text-center-down-md">
             <ServiceBlock />
           </Col>
-          <Col md="7">
+          <Col md="7" className="d-none-down-md">
             <TransactionHistory />
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm>
             <Transactions />
           </Col>
         </Row>

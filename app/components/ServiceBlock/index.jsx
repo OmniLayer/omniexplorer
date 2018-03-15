@@ -32,7 +32,7 @@ const ContainerLogo = styled.div`
 `;
 
 const NameLogo = () => (
-  <ContainerLogo className="d-flex px-3 py-2">
+  <ContainerLogo className="px-3 py-2">
     <div className="d-inline-block">
       <IMG src={featureLogoPNG} alt="feature logo" className="card-img-top" />
     </div>
@@ -108,25 +108,25 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
 
     const omniPriceValue = (props) => (
       <span>
-        ${ Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 }BTC /
+        { Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 } BTC /
         ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
       </span>
     );
-
+  
     return (
-      <Container className="d-flex">
+      <Container className="d-md-flex">
         <div className="d-inline-block">
           <NameLogo />
           <BlockInfo {...this.props.status} />
         </div>
-        <div className="d-inline-block w-100">
+          <div className="d-md-inline-block d-sm-block w-100">
           <SummaryItem
             container={StyledContainerSummary1}
             options={{ title: 'LATEST OMNI PRICE', value: omniPriceValue(this.props.status) }}
           />
           <SummaryItem
             container={StyledContainerSummary2}
-            options={{ title: 'TRANSACTIONS (24 hrs)', value: this.props.status.txcount_24hr }}
+            options={{ title: 'TOTAL TRANSACTIONS (24 hrs)', value: this.props.status.txcount_24hr }}
           />
           <SummaryItem
             container={StyledContainerSummary3}

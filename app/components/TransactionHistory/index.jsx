@@ -12,15 +12,15 @@ import styled from 'styled-components';
 const IMG = styled.img``;
 
 const ContainerLogo = styled.div`
-  background-color: #3498db;
+  background-color: #f5f5f5;
 `;
 
 class TransactionHistory extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <ContainerLogo className="d-flex px-3 py-2">
+      <ContainerLogo className="px-3 pb-2">
         <div className="d-inline-block mx-auto">
-          <IMG src={statsPNG} />
+          <IMG className="img-fluid" src={statsPNG} />
         </div>
       </ContainerLogo>
     );

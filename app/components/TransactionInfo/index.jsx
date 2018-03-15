@@ -85,9 +85,10 @@ function TransactionInfo(props) {
   }
   
   let warningMessage = null;
+  let dtheader;
   if (props.confirmations === 0) {
     warningMessage = (<Row>
-      <Col>
+      <Col sm>
         <StyledCard inverse>
           <CardHeader>Unconfirmed Transaction Warning</CardHeader>
           <StyledCardBody>
@@ -103,13 +104,16 @@ function TransactionInfo(props) {
         </StyledCard>
       </Col>
     </Row>);
-  }
+    dtheader = 'Pending Since';
+  } else {
+    dtheader = 'Date/Time';
+  }              
   
   const amountDisplay = (<TransactionAmount {...props} />);
   let tokenName;
   if (![4, -22, 25, 26].includes(props.type_int)) {
     tokenName = (<tr>
-      <td className="field">Token</td>
+      <td className="field">Property</td>
       <td>
         <Link
           to={{
@@ -150,15 +154,15 @@ function TransactionInfo(props) {
     <StyledContainer fluid>
       { warningMessage }
       <DetailRow>
-        <Col className="col-auto mr-auto col-sm-2">
+        <Col sm="2" className="col-auto mx-auto">
           <img
             src={logo}
             alt={props.type}
             className="img-thumbnail"
           />
         </Col>
-        <Col>
-          <Table className="table-profile">
+        <Col sm>
+          <Table responsive className="table-profile">
             <thead>
             <tr>
               <th></th>
@@ -202,7 +206,7 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td className="field">Date/Time</td>
+              <td className="field">{ dtheader }</td>
               <td>
                   <span id="ldatetime">
                     <Moment unix>
@@ -222,7 +226,7 @@ function TransactionInfo(props) {
             <tr className="highlight">
               <td className="field" style={{ paddingTop: '12px' }}>Status</td>
               <td className="field" >
-                <div className={ statusColor } style={{ width: '30%' }}>
+                <div className={ statusColor } style={{ width: '35%' }}>
                   { getStatus(props) }
                 </div>
                 <div className="text-left">{ !isValid && invalidReason }</div>

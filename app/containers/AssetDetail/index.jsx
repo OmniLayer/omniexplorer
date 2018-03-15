@@ -11,8 +11,8 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
 import { Col, Container, Row, Table } from 'reactstrap';
-import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
@@ -71,28 +71,29 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     }
 
     let subtitleclass;
-    if  (asset.propertyid < 3 ) {
+    if (asset.propertyid < 3) {
       subtitleclass = 'd-none';
     }
-
-
-
+    
     let tokenName;
+    let propertyID;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
       tokenName = (
         <tr>
-          <td className="field">Token</td>
+          <td className="field">Name</td>
           <td>
-            <Link
-              to={{
-                pathname: `/asset/${asset.propertyid}`,
-              }}
-              onClick={() => this.props.changeRoute(`/asset/${asset.propertyid}`)}
-            >
-              <strong>
-                { asset.name || asset.propertyname || type } &#40;#{ asset.propertyid }&#41;
-              </strong>
-            </Link>
+            <strong>
+              { asset.name || asset.propertyname || asset.type }
+            </strong>
+          </td>
+        </tr>);
+      propertyID = (
+        <tr>
+          <td className="field">PropertyID</td>
+          <td>
+            <strong>
+              { asset.propertyid }
+            </strong>
           </td>
         </tr>);
     }
@@ -103,25 +104,50 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       </tr>);
     }
 
+    let asseturl;
+    if (asset.url.includes(".")) {
+      asseturl = (
+        <td>
+          <a
+            href={asset.url} target="_blank"
+          >
+            { asset.url }
+          </a>
+        </td>);
+    } else {
+      asseturl = (
+        <td>
+          { asset.url }
+        </td>);
+    }
+
+
+    let registeredMessage;
+    if (asset.registered) {
+      registeredMessage = (<td> { asset.rdata } </td>);
+    } else {
+      registeredMessage = (<td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.</td>);
+    }
+
     return (
       <StyledContainer fluid>
         <DetailRow>
-          <Col className="col-auto mr-auto col-sm-2">
+          <Col sm="2" className="col-auto mx-auto">
             <img
               src={logo}
               alt={asset.type}
               className="img-thumbnail"
             />
           </Col>
-          <Col>
-            <Table className="table-profile">
+          <Col sm>
+            <Table responsive className="table-profile">
               <thead>
                 <tr>
                   <th></th>
                   <th>
                     <h4>
                       <strong>{ asset.name }</strong>
-                      <SubtitleDetail className={ subtitleclass }>
+                      <SubtitleDetail className={subtitleclass}>
                         <span>
                         created by &nbsp;
                         </span>
@@ -148,6 +174,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   </td>
                 </tr>
                 { tokenName }
+                { propertyID }
                 <tr>
                   <td className="field">Created</td>
                   <td>
@@ -191,11 +218,11 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">Divisible</td>
                   <td>
                     <span id="lblocknum">
-                      { (asset.divisible ? 'Divisible' : 'No divisible') }
+                      { (asset.divisible ? 'True' : 'False') }
                     </span>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Distribution</td>
                   <td>
                     <span id="lblocknum">
@@ -205,15 +232,9 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                 </tr>
                 <tr>
                   <td className="field">URL</td>
-                  <td>
-                    <a
-                      href={asset.url}
-                    >
-                      { asset.url }
-                    </a>
-                  </td>
+                  { asseturl }
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Price</td>
                   <td>
                     <span id="lblocknum">
@@ -221,7 +242,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                     </span>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Markets</td>
                   <td>
                     <span id="lblocknum">
@@ -234,16 +255,14 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td >
                     <span id="lrawgettx">
                       <a href={rawAssetURL}>
-                        Click here for raw asset info
+                        Click here for raw info
                       </a>
                     </span>
                   </td>
                 </tr>
                 <tr>
                   <td className="field">Registration</td>
-                  <td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your
-                  Property</a> for further details.
-                  </td>
+                  { registeredMessage }
                 </tr>
               </tbody>
             </Table>
@@ -258,6 +277,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  changeRoute: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -268,6 +288,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     getProperty: (propertyId) => dispatch(startFetch(propertyId)),
+    changeRoute: (url) => dispatch(routeActions.push(url)),
   };
 }
 

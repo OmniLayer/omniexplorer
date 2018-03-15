@@ -51,12 +51,12 @@ export class AddressDetail extends React.PureComponent { // eslint-disable-line 
     return (
       <Layout fluid>
         <Row>
-          <Col>
+          <Col sm>
             <Wallet {...this.props.addressdetail} addr={this.address} />
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm>
             <Transactions addr={this.address} />
           </Col>
         </Row>

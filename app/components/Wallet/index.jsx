@@ -26,11 +26,11 @@ const StyledTH = styled.th`
 const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-function
   <Container fluid>
     <DetailRow>
-      <Col className="col-auto mr-auto" sm="2">
+      <Col className="col-auto mx-auto" sm="3">
         <QRCode value={props.addr} />
       </Col>
-      <Col>
-        <Table className="table-profile">
+      <Col sm>
+        <Table responsive className="table-profile">
           <thead>
             <tr>
               <StyledTH></StyledTH>
@@ -46,10 +46,10 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
             <tr className="highlight">
               <StyledTD className="field">Balances</StyledTD>
               <StyledTD>
-                <table className="table" style={{ marginBottom: '5px' }}>
+                <Table className="table" style={{ marginBottom: '5px' }}>
                   <thead>
                     <tr>
-                      <StyledTH></StyledTH>
+                      <StyledTH ></StyledTH>
                       <StyledTH>ID</StyledTH>
                       <StyledTH>Name</StyledTH>
                       <StyledTH className="text-right">Reserved Balance</StyledTH>
@@ -59,7 +59,7 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
                   <tbody>
                     { (props.address.balance || []).map((balance) => <Token {...balance} key={balance.id} />) }
                   </tbody>
-                </table>
+                </Table>
               </StyledTD>
             </tr>
             <tr className="divider">

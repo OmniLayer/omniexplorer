@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
@@ -70,7 +71,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             to={{
               pathname: `/asset/${this.props.id}`,
             }}
-            onClick={() => props.changeRoute(`/asset/${this.props.id}`)}
+            onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
             { this.props.id }
           </Link>
@@ -80,7 +81,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             to={{
               pathname: `/asset/${this.props.id}`,
             }}
-            onClick={() => props.changeRoute(`/asset/${this.props.id}`)}
+            onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
             { this.getTokenName() }
           </Link>
@@ -100,6 +101,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
 
 Token.propTypes = {
   getProperty: PropTypes.func,
+  changeRoute: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -111,6 +113,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getProperty: (propertyId) => dispatch(startFetch(propertyId)),
+    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
