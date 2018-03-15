@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
 import { Col, Container, Row, Table } from 'reactstrap';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -71,10 +72,9 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     }
 
     let subtitleclass;
-    if  (asset.propertyid < 3 ) {
+    if (asset.propertyid < 3) {
       subtitleclass = 'd-none';
     }
-
 
 
     let tokenName;
@@ -90,7 +90,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
               onClick={() => this.props.changeRoute(`/asset/${asset.propertyid}`)}
             >
               <strong>
-                { asset.name || asset.propertyname || type } &#40;#{ asset.propertyid }&#41;
+                { asset.name || asset.propertyname || asset.type } &#40;#{ asset.propertyid }&#41;
               </strong>
             </Link>
           </td>
@@ -121,7 +121,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <th>
                     <h4>
                       <strong>{ asset.name }</strong>
-                      <SubtitleDetail className={ subtitleclass }>
+                      <SubtitleDetail className={subtitleclass}>
                         <span>
                         created by &nbsp;
                         </span>
@@ -258,6 +258,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  changeRoute: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -268,6 +269,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     getProperty: (propertyId) => dispatch(startFetch(propertyId)),
+    changeRoute: (url) => dispatch(routeActions.push(url)),
   };
 }
 
