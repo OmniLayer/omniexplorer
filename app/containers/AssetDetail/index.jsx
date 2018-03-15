@@ -106,7 +106,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     return (
       <StyledContainer fluid>
         <DetailRow>
-          <Col sm="2" className="col-auto mr-auto">
+          <Col sm="2" className="col-auto mx-auto">
             <img
               src={logo}
               alt={asset.type}
@@ -114,7 +114,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
             />
           </Col>
           <Col sm>
-            <Table className="table-profile">
+            <Table responsive className="table-profile">
               <thead>
                 <tr>
                   <th></th>
