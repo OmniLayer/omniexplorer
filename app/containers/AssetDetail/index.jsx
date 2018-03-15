@@ -83,7 +83,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
           <td className="field">Name</td>
           <td>
             <strong>
-              { asset.name || asset.propertyname || asset.type };
+              { asset.name || asset.propertyname || asset.type }
             </strong>
           </td>
         </tr>);
@@ -92,7 +92,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
           <td className="field">PropertyID</td>
           <td>
             <strong>
-              { asset.propertyid };
+              { asset.propertyid }
             </strong>
           </td>
         </tr>);
