@@ -13,7 +13,6 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import { Col, Container, Row, Table } from 'reactstrap';
-import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
@@ -75,8 +74,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     if (asset.propertyid < 3) {
       subtitleclass = 'd-none';
     }
-
-
+    
     let tokenName;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
       tokenName = (
@@ -101,6 +99,13 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
         <td className="field">Ecosystem</td>
         <td><strong>{ asset.ecosystem }</strong></td>
       </tr>);
+    }
+
+    let registeredMessage;
+    if (asset.registered) {
+      registeredMessage = (<td> { asset.rdata } </td>);
+    } else {
+      registeredMessage = (<td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.</td>);
     }
 
     return (
@@ -191,11 +196,11 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">Divisible</td>
                   <td>
                     <span id="lblocknum">
-                      { (asset.divisible ? 'Divisible' : 'No divisible') }
+                      { (asset.divisible ? 'True' : 'False') }
                     </span>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Distribution</td>
                   <td>
                     <span id="lblocknum">
@@ -213,7 +218,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                     </a>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Price</td>
                   <td>
                     <span id="lblocknum">
@@ -221,7 +226,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                     </span>
                   </td>
                 </tr>
-                <tr>
+                <tr className="d-none">
                   <td className="field">Markets</td>
                   <td>
                     <span id="lblocknum">
@@ -241,9 +246,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                 </tr>
                 <tr>
                   <td className="field">Registration</td>
-                  <td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your
-                  Property</a> for further details.
-                  </td>
+                  { registeredMessage }
                 </tr>
               </tbody>
             </Table>

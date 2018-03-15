@@ -26,8 +26,8 @@
   .pb-sm-up-1 {
     padding-bottom: 1rem;
   }
-  .h-50-md-up {
-    height: 50%;
+  .h-56-md-up {
+    height: 56%;
   }
 }
 
@@ -43,7 +43,7 @@
   }
   div.col-sm {
     margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0 !important;
   }
   .w-100-down-md {
     width: 100% !important;
