@@ -67,6 +67,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       addresscname = 'd-none';
     }
 
+    const transactionAmount = (this.props.amount ? this.props.amount.slice(0, this.props.amount.indexOf('.')+7) : '---');
+
     return (
       <Row className="transation-result mx-auto text-center-down-md">
         <Col sm="9">
@@ -127,7 +129,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col sm>
               <h4 className="title">
-                { this.props.amount }
+                { transactionAmount }
               </h4>
             </Col>
           </Row>
