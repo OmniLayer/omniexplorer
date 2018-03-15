@@ -5,9 +5,15 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import styled from 'styled-components';
-
-import agorasLogoPNG from 'images/agoras-logo.png';
+import isEmpty from 'lodash/isEmpty';
+import { makeSelectStatus } from './selectors';
+import featureLogoPNG from 'images/token1.png';
+// import Moment from 'react-moment';
 
 const IMG = styled.img`
   margin-right: 6px;
@@ -22,83 +28,127 @@ const Container = styled.div`
 `;
 
 const ContainerLogo = styled.div`
-  background-color: black;
+  background-color: #3498db;
 `;
 
 const NameLogo = () => (
-  <ContainerLogo className="d-flex px-3 py-2">
+  <ContainerLogo className="px-3 py-2">
     <div className="d-inline-block">
-      <IMG src={agorasLogoPNG} alt="agoras logo" className="card-img-top" />
+      <IMG src={featureLogoPNG} alt="feature logo" className="card-img-top" />
     </div>
     <div className="d-inline-block bg-inverse text-white text-nowrap">
-      <h5>IDNI Agoras</h5>
-      <span className="text-muted">Featured Token</span>
+      <h5>Omni</h5>
+      <span>Featured Property</span>
     </div>
   </ContainerLogo>
 );
 
-const BlockInfo = () => (
+const BlockInfo = (props) => (
   <div className="pt-3 pl-3">
-    <div style={{ color: '#C4E0F3' }}>
-      <span>LAST BLOCK</span>
+    <div className="text-white">
+      <span>LAST UPDATE</span>
     </div>
     <div className="text-white">
-      <span>4971644 <small>(14.4s)</small></span>
+      <span>
+        { `As of Block ${props.last_block}` }
+      </span>
+    </div>
+    <div className="text-white">
+      <span>
+        <small>
+          { `${props.last_parsed} UTC` }
+        </small>
+      </span>
     </div>
   </div>
 );
 
-const ContainerSummaryItem1 = styled.div`
+const StyledContainerSummary = styled.div`
+  padding: 6px;
+  margin: 0 6px;
+  font-size: 0.9rem
+`;
+
+const StyledContainerSummary1 = styled(StyledContainerSummary)`
   background-color: #348FE2;
-  padding: 6px;
-  margin: 0 6px;
-  font-size: 0.9rem
 `;
-
-const ContainerSummaryItem2 = styled.div`
+const StyledContainerSummary2 = styled(StyledContainerSummary)`
   background-color: #159E9C;
-  padding: 6px;
-  margin: 6px;
-  font-size: 0.9rem
 `;
-
-const ContainerSummaryItem3 = styled.div`
+const StyledContainerSummary3 = styled(StyledContainerSummary)`
   background-color: #727CB6;
-  padding: 6px;
-  margin: 0 6px;
-  font-size: 0.9rem
 `;
 
-const SummaryItem1 = () => (<ContainerSummaryItem1 className="text-white"><span className="d-block lead" style={{ fontSize: '0.9rem' }}>TODAY'S OMNI PRICE</span><span className="lead">0.008234</span></ContainerSummaryItem1>);
-const SummaryItem2 = () => (<ContainerSummaryItem2 className="text-white"><span className="d-block lead" style={{ fontSize: '0.9rem' }}>TODAY'S TRANSACTIONS</span><span className="lead">8975</span></ContainerSummaryItem2>);
-const SummaryItem3 = () => (<ContainerSummaryItem3 className="text-white"><span className="d-block lead" style={{ fontSize: '0.9rem' }}>OMNI PROPERTIES</span><span className="lead">342 <small>(+377 test)</small></span></ContainerSummaryItem3>);
+const SummaryItem = (props) => {
+  const StyledContainer = props.container;
 
-const Summary = () => (
-  <div>
-    <SummaryItem1 />
-    <SummaryItem2 />
-    <SummaryItem3 />
-  </div>
-);
+  return (
+    <StyledContainer className="text-white">
+      <span className="d-block lead" style={{ fontSize: '0.9rem' }}>{props.options.title}</span>
+      <span className="lead">{props.options.value}</span>
+    </StyledContainer>
+  );
+};
 
 class ServiceBlock extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    // wait status props loading
+    if (isEmpty(this.props) || isEmpty(this.props.status)) {
+      return null;
+    }
+
+    const propertiesCountValue = (props) => (
+      <span>
+        { props.properties_count }
+        <small>
+          { ` (+${props.test_properties_count} test)` }
+        </small>
+      </span>
+    );
+
+    const omniPriceValue = (props) => (
+      <span>
+        { Math.round((props.omni_btc + 0.0000001) * 1000000) / 1000000 } BTC /
+        ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
+      </span>
+    );
+  
     return (
-      <Container className="d-flex">
+      <Container className="d-md-flex">
         <div className="d-inline-block">
           <NameLogo />
-          <BlockInfo />
+          <BlockInfo {...this.props.status} />
         </div>
-        <div className="d-inline-block w-100">
-          <SummaryItem1 />
-          <SummaryItem2 />
-          <SummaryItem3 />
+          <div className="d-md-inline-block d-sm-block w-100">
+          <SummaryItem
+            container={StyledContainerSummary1}
+            options={{ title: 'LATEST OMNI PRICE', value: omniPriceValue(this.props.status) }}
+          />
+          <SummaryItem
+            container={StyledContainerSummary2}
+            options={{ title: 'TOTAL TRANSACTIONS (24 hrs)', value: this.props.status.txcount_24hr }}
+          />
+          <SummaryItem
+            container={StyledContainerSummary3}
+            options={{ title: 'OMNI PROPERTIES', value: propertiesCountValue(this.props.status) }}
+          />
         </div>
       </Container>
     );
   }
 }
 
-ServiceBlock.propTypes = {};
+ServiceBlock.propTypes = {
+  getStatus: PropTypes.func,
+  status: PropTypes.object,
+};
 
-export default ServiceBlock;
+const mapStateToProps = createStructuredSelector({
+  status: makeSelectStatus(),
+});
+
+const withConnect = connect(mapStateToProps, {});
+
+export default compose(
+  withConnect,
+)(ServiceBlock);

@@ -6,9 +6,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import DevTools from 'utils/devTools';
 import createReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
+
+// Import DevTools, only for dev environment
+const isDev = process.env.NODE_ENV !== 'production';
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
@@ -22,6 +26,10 @@ export default function configureStore(initialState = {}, history) {
   const enhancers = [
     applyMiddleware(...middlewares),
   ];
+
+  if (isDev) {
+    enhancers.push(DevTools.instrument());
+  }
 
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */

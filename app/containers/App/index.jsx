@@ -14,12 +14,32 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import TransactionDetail from 'containers/TransactionDetail';
+import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Search from 'containers/Search/Loadable';
+import AssetDetail from 'containers/AssetDetail/Loadable';
+import Promote from 'containers/Promote/Loadable';
+import Feedback from 'containers/Feedback/Loadable';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
+
+import DevTools from 'utils/devTools';
+import Moment from 'react-moment';
+
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { LOAD_STATUS } from 'components/ServiceBlock/constants';
+import Sagas from './sagas';
+
+// Import DevTools, only for dev environment
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Set Moment Global locale
+Moment.globalLocale = 'en-gb';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
@@ -30,22 +50,52 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default function App() {
-  return (
-    <AppWrapper>
-      <Helmet
-        titleTemplate="%s - Omni Explorer"
-        defaultTitle="Omni Explorer"
-      >
-        <meta name="description" content="Omni Explorer" />
-      </Helmet>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="" component={NotFoundPage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-      <Footer />
-    </AppWrapper>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    this.props.loadStatus();
+  }
+
+  render() {
+    return (
+      <AppWrapper>
+        <Helmet
+          titleTemplate="%s - Omni Explorer"
+          defaultTitle="Omni Explorer"
+        >
+          <meta name="description" content="Omni Explorer" />
+        </Helmet>
+        <Header />
+        <Switch>
+          <Route exact path="/:page(\d+)?" component={HomePage} />
+          <Route path="/tx/:tx" component={TransactionDetail} />
+          <Route path="/address/:address/:page(\d+)?" component={AddressDetail} key={location.pathname} />
+          <Route path="/search/:query" component={Search} key={location.pathname} />
+          <Route path="/asset/:propertyid(\d+)" component={AssetDetail} key={location.pathname} />
+          <Route exact path="/promote" component={Promote} />
+          <Route exact path="/submitfeedback" component={Feedback} />
+          <Route path="" component={NotFoundPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+        <Footer />
+        { isDev
+          ? <DevTools />
+          : <div></div>
+        }
+      </AppWrapper>
+    );
+  }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loadStatus: () => dispatch({ type: LOAD_STATUS }),
+    dispatch,
+  };
+}
+
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  ...Sagas,
+)(App);

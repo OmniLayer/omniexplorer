@@ -7,7 +7,9 @@ import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-
+import transactionsReducer from 'containers/Transactions/reducer';
+import tokenReducer from 'components/Token/reducer';
+import statusReducer from 'components/ServiceBlock/reducer';
 /*
  * routeReducer
  *
@@ -43,6 +45,13 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
+    token: tokenReducer,
+    status: statusReducer,
+    transactions: transactionsReducer,
+    global: () => fromJS({
+      loading: false,
+      error: false,
+    }),
     ...injectedReducers,
   });
 }

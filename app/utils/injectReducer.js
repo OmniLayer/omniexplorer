@@ -13,6 +13,7 @@ import getInjectors from './reducerInjectors';
  */
 export default ({ key, reducer }) => (WrappedComponent) => {
   class ReducerInjector extends React.Component {
+    /* eslint-disable no-undef, no-unused-vars */
     static WrappedComponent = WrappedComponent;
     static contextTypes = {
       store: PropTypes.object.isRequired,
@@ -21,7 +22,6 @@ export default ({ key, reducer }) => (WrappedComponent) => {
 
     componentWillMount() {
       const { injectReducer } = this.injectors;
-
       injectReducer(key, reducer);
     }
 
@@ -30,6 +30,7 @@ export default ({ key, reducer }) => (WrappedComponent) => {
     render() {
       return <WrappedComponent {...this.props} />;
     }
+    /* eslint-enable no-undef, no-unused-vars */
   }
 
   return hoistNonReactStatics(ReducerInjector, WrappedComponent);
