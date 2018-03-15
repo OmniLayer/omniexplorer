@@ -113,14 +113,12 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
           >
             { asset.url }
           </a>
-        </td>
-      );
+        </td>);
     } else {
       asseturl = (
         <td>
           { asset.url }
-        </td>
-      );
+        </td>);
     }
 
 
