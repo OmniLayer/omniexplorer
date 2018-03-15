@@ -57,7 +57,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       tx = <TransactionInfo {...this.props.search.tx} />;
     }
 
-    const walletlink = () => { 
+    const walletlink = () => {
       if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
         return (
           <div class="container-fluid">
@@ -101,7 +101,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       return (
         <Container fluid>
           <Row>
-            <Col>
+            <Col sm>
               <div>
                 <Jumbotron className="text-center">
                   <h3 className="display-3">No results found :(</h3>
@@ -117,17 +117,17 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     return (
       <StyledContainer fluid>
         <Row>
-          <Col>
+          <Col sm>
             { wallet }
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm>
             { assets }
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm>
             { tx }
           </Col>
         </Row>

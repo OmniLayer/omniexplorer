@@ -28,22 +28,22 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
   render() {
     const isValid = this.props.valid;
 
-    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : ( this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
+    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : (this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
 
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
-            this.props.confirmations === 0 ?
-               'UNCONFIRMED' :
-                this.props.confirmations > 1 ?
-                   `${this.props.confirmations} CONFIRMATIONS` :
-                   `${this.props.confirmations} CONFIRMATION`
+          this.props.confirmations === 0 ?
+            'UNCONFIRMED' :
+            this.props.confirmations > 1 ?
+              `${this.props.confirmations} CONFIRMATIONS` :
+              `${this.props.confirmations} CONFIRMATION`
+          :
+          'CONFIRMED'
         :
-            'CONFIRMED'
-      :
         this.props.confirmations === 0 ?
-               'UNCONFIRMED' :
-               'INVALID'
+          'UNCONFIRMED' :
+          'INVALID'
     );
 
     let tokenLogo;
@@ -59,50 +59,51 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
 
     let arrowcname;
     let addresscname;
-    if ( this.props.referenceaddress !== undefined ) {
+    if (this.props.referenceaddress !== undefined) {
       arrowcname = 'transaction-arrow-icon';
-      addresscname = 'btn btn-add m-r-5 m-b-5';
+      addresscname = 'btn btn-add w-100-down-md';
     } else {
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
 
+    const transactionAmount = (this.props.amount ? this.props.amount.slice(0, this.props.amount.indexOf('.')+7) : '---');
+
     return (
-      <Row className="transation-result mx-auto">
-        <Col xs="9">
+      <Row className="transation-result mx-auto text-center-down-md">
+        <Col sm="9">
           <Row className="transaction-header">
-            <Col sm="1">
+            <Col sm="2" md="1">
               <IMG src={tokenLogo} />
             </Col>
-            <Col>
-              <Row>
-                <span className="title">
-                  { this.props.type }
-                </span>
-              </Row>
-              <Row>
-                <div className="location">
-                  <Link
-                    to={{
-                      pathname: `/tx/${this.props.txid}`,
-                      state: { transaction: this.props },
-                    }}
-                    onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
-                  >
-                    { this.props.txid.slice(0, 48) }...
-                  </Link>
+            <Col sm>
+              <span className="title d-block-down-md">
+                { this.props.type }
+              </span>
+
+              <div className="location d-block-down-md">
+                <Link
+                  to={{
+                    pathname: `/tx/${this.props.txid}`,
+                    state: { transaction: this.props },
+                  }}
+                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
+                >
+                  { this.props.txid.slice(0, 36) }...
+                </Link>
+                <div className="d-block-down-md">
                   <Moment unix>
                     { this.props.blocktime }
                   </Moment>
                 </div>
-              </Row>
+              </div>
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col sm>
               <p className="desc">
                 <Link
-                  className="btn btn-add m-r-5 m-b-5"
+                  className="btn btn-add w-100-down-md"
                   to={{
                     pathname: `/address/${this.props.sendingaddress}`,
                   }}
@@ -110,9 +111,9 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 >
                   { this.props.sendingaddress }
                 </Link>
-                <ArrowIcon size={20} color="gray" className={ arrowcname } />
+                <ArrowIcon size={20} color="gray" className={arrowcname} />
                 <Link
-                  className={ addresscname }
+                  className={addresscname}
                   to={{
                     pathname: `/address/${this.props.referenceaddress}`,
                   }}
@@ -124,23 +125,23 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             </Col>
           </Row>
         </Col>
-        <Col xs="3" className="result-price text-center">
+        <Col sm="3" className="result-price text-center">
           <Row>
-            <Col>
+            <Col sm>
               <h4 className="title">
-                { this.props.amount }
+                { transactionAmount }
               </h4>
             </Col>
           </Row>
           <Row className="transaction-asset">
-            <Col>
+            <Col sm>
               <small>{ this.props.propertyname } (#{ this.props.propertyid })</small>
             </Col>
           </Row>
-          <Row>
-            <Col className="btn-group">
+          <Row className="h-56-md-up d-flex align-items-lg-center align-items-md-end">
+            <Col sm className="btn-group mb-1">
               <Link
-                className= { statusColor }
+                className={statusColor}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
                 }}

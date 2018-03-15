@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Container } from 'reactstrap';
 
-import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import { API_URL_BASE } from 'containers/App/constants';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
