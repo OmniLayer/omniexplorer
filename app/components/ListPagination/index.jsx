@@ -36,7 +36,8 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 const ListPagination = (props) => {
   const _page = (parseInt(props.match.params.page - 1) || props.currentPage);
   const pageNumber = Math.floor(_page / 10) * 10;
-  const qtyPages = (props.pageCount < 10 ? props.pageCount : 10);
+  const pageCount = props.pageCount || 1;
+  const qtyPages = (pageCount < 10 ? pageCount : 10);
   const range = [...Array(qtyPages).keys()].map((x) => x + pageNumber);
 
   const setPage = (e, page, addr) => {
