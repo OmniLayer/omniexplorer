@@ -150,7 +150,7 @@ function TransactionInfo(props) {
     <StyledContainer fluid>
       { warningMessage }
       <DetailRow>
-        <Col sm="2" className="col-auto mr-auto">
+        <Col sm="2" className="col-auto mx-auto">
           <img
             src={logo}
             alt={props.type}
@@ -158,7 +158,7 @@ function TransactionInfo(props) {
           />
         </Col>
         <Col sm>
-          <Table className="table-profile">
+          <Table responsive className="table-profile">
             <thead>
             <tr>
               <th></th>
@@ -222,7 +222,7 @@ function TransactionInfo(props) {
             <tr className="highlight">
               <td className="field" style={{ paddingTop: '12px' }}>Status</td>
               <td className="field" >
-                <div className={ statusColor } style={{ width: '30%' }}>
+                <div className={ statusColor } style={{ width: '35%' }}>
                   { getStatus(props) }
                 </div>
                 <div className="text-left">{ !isValid && invalidReason }</div>
