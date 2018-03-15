@@ -4,8 +4,7 @@
 @import '~bootstrap/scss/bootstrap-grid';
 
 @include media-breakpoint-down(sm) {
-  .d-sm-down,
-  .searchbox-form {
+  .d-sm-down {
     display: none;
   }
 }
@@ -28,6 +27,12 @@
   }
   .h-56-md-up {
     height: 56%;
+  }
+  .d-none-only-sm-down .searchbox-form {
+    display: block !important;
+  }
+  .d-block-only-sm-down .searchbox-form {
+    display: none !important;
   }
 }
 
@@ -60,6 +65,12 @@
   }
   .text-center-down-sm {
     text-align: center;
+  }
+  .d-block-only-sm-down .searchbox-form {
+    display: block !important;
+  }
+  .d-none-only-sm-down .searchbox-form {
+    display: none !important;
   }
 }
 //
