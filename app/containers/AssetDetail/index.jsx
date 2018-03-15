@@ -104,6 +104,26 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       </tr>);
     }
 
+    let asseturl;
+    if (asset.url.includes(".")) {
+      asseturl = (
+        <td>
+          <a
+            href={asset.url} target="_blank"
+          >
+            { asset.url }
+          </a>
+        </td>
+      );
+    } else {
+      asseturl = (
+        <td>
+          { asset.url }
+        </td>
+      );
+    }
+
+
     let registeredMessage;
     if (asset.registered) {
       registeredMessage = (<td> { asset.rdata } </td>);
@@ -214,13 +234,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                 </tr>
                 <tr>
                   <td className="field">URL</td>
-                  <td>
-                    <a
-                      href={asset.url} target="_blank"
-                    >
-                      { asset.url }
-                    </a>
-                  </td>
+                  { asseturl }
                 </tr>
                 <tr className="d-none">
                   <td className="field">Price</td>
