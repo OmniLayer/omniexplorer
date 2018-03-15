@@ -150,7 +150,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
 }
 
 TransactionAmount.propTypes = {
-  type_int: PropTypes.number.isRequired,
+  type_int: PropTypes.number,
   subsends: PropTypes.array,
 };
 

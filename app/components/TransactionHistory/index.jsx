@@ -18,9 +18,9 @@ const ContainerLogo = styled.div`
 class TransactionHistory extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <ContainerLogo className="d-flex px-3 pb-2">
+      <ContainerLogo className="px-3 pb-2">
         <div className="d-inline-block mx-auto">
-          <IMG src={statsPNG} />
+          <IMG className="img-fluid" src={statsPNG} />
         </div>
       </ContainerLogo>
     );

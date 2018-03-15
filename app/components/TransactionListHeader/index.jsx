@@ -41,14 +41,14 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
     `;
 
     return (
-      <StyledRow className="align-items-center pt-2 pb-2">
-        <Col>
+      <StyledRow className="text-center-down-sm pt-2 pb-2">
+        <Col sm>
           <HeaderTitle>
             <FormattedMessage {...messages.header} />
           </HeaderTitle>
         </Col>
-        <Col>
-          <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-right">
+        <Col sm>
+          <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-md-right">
             <DropdownToggle caret color="info" className="font-weight-light">
               <FormattedMessage {...messages.transactionTypes} />
             </DropdownToggle>

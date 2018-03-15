@@ -11,8 +11,8 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
 import { Col, Container, Row, Table } from 'reactstrap';
-import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
@@ -71,19 +71,26 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     }
 
     let subtitleclass;
-    if  (asset.propertyid < 3 ) {
+    if (asset.propertyid < 3) {
       subtitleclass = 'd-none';
     }
-
+    
     let tokenName;
     if (![4, -22, 25, 26].includes(asset.propertyid)) {
       tokenName = (
         <tr>
           <td className="field">Token</td>
           <td>
-            <strong>
-              { asset.name || asset.propertyname || type } &#40;#{ asset.propertyid }&#41;
-            </strong>
+            <Link
+              to={{
+                pathname: `/asset/${asset.propertyid}`,
+              }}
+              onClick={() => this.props.changeRoute(`/asset/${asset.propertyid}`)}
+            >
+              <strong>
+                { asset.name || asset.propertyname || asset.type } &#40;#{ asset.propertyid }&#41;
+              </strong>
+            </Link>
           </td>
         </tr>);
     }
@@ -104,22 +111,22 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     return (
       <StyledContainer fluid>
         <DetailRow>
-          <Col className="col-auto mr-auto col-sm-2">
+          <Col sm="2" className="col-auto mx-auto">
             <img
               src={logo}
               alt={asset.type}
               className="img-thumbnail"
             />
           </Col>
-          <Col>
-            <Table className="table-profile">
+          <Col sm>
+            <Table responsive className="table-profile">
               <thead>
                 <tr>
                   <th></th>
                   <th>
                     <h4>
                       <strong>{ asset.name }</strong>
-                      <SubtitleDetail className={ subtitleclass }>
+                      <SubtitleDetail className={subtitleclass}>
                         <span>
                         created by &nbsp;
                         </span>
@@ -254,6 +261,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  changeRoute: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -264,6 +272,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     getProperty: (propertyId) => dispatch(startFetch(propertyId)),
+    changeRoute: (url) => dispatch(routeActions.push(url)),
   };
 }
 
