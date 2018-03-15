@@ -104,7 +104,7 @@ function TransactionInfo(props) {
         </StyledCard>
       </Col>
     </Row>);
-    dtheader = 'Pending Since'
+    dtheader = 'Pending Since';
   } else {
     dtheader = 'Date/Time';
   }              
