@@ -61,7 +61,6 @@
     }
 
     .result-price {
-      border-left: 1px dashed #ddd;
 
       .transaction-asset {
         margin-bottom: 1rem;
@@ -91,5 +90,17 @@
 
   .btn-blue {
     @include button-bg(#3498db);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .result-list .result-price {
+    border-left: 1px dashed #ddd;
+  }
+}
+
+@media (max-width: 767.98px) and (max-width: 1199.98px) {
+  .result-list .result-price {
+    border-top: 1px dashed #ddd;
   }
 }
