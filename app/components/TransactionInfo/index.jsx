@@ -85,6 +85,7 @@ function TransactionInfo(props) {
   }
   
   let warningMessage = null;
+  let dtheader;
   if (props.confirmations === 0) {
     warningMessage = (<Row>
       <Col sm>
@@ -103,7 +104,10 @@ function TransactionInfo(props) {
         </StyledCard>
       </Col>
     </Row>);
-  }
+    dtheader = 'Pending Since';
+  } else {
+    dtheader = 'Date/Time';
+  }              
   
   const amountDisplay = (<TransactionAmount {...props} />);
   let tokenName;
@@ -202,7 +206,7 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td className="field">Date/Time</td>
+              <td className="field">{ dtheader }</td>
               <td>
                   <span id="ldatetime">
                     <Moment unix>
