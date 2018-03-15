@@ -46,7 +46,7 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
             <tr className="highlight">
               <StyledTD className="field">Balances</StyledTD>
               <StyledTD>
-                <table responsive className="table" style={{ marginBottom: '5px' }}>
+                <Table className="table" style={{ marginBottom: '5px' }}>
                   <thead>
                     <tr>
                       <StyledTH ></StyledTH>
@@ -59,7 +59,7 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
                   <tbody>
                     { (props.address.balance || []).map((balance) => <Token {...balance} key={balance.id} />) }
                   </tbody>
-                </table>
+                </Table>
               </StyledTD>
             </tr>
             <tr className="divider">
