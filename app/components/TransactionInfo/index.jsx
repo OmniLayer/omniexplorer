@@ -109,7 +109,7 @@ function TransactionInfo(props) {
   let tokenName;
   if (![4, -22, 25, 26].includes(props.type_int)) {
     tokenName = (<tr>
-      <td className="field">Token</td>
+      <td className="field">Property</td>
       <td>
         <Link
           to={{
