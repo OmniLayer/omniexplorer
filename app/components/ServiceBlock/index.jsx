@@ -112,14 +112,14 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
         ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
       </span>
     );
-
+  
     return (
-      <Container>
+      <Container className="d-md-flex">
         <div className="d-inline-block">
           <NameLogo />
           <BlockInfo {...this.props.status} />
         </div>
-        <div className="d-inline-block w-100">
+          <div className="d-md-inline-block d-sm-block w-100">
           <SummaryItem
             container={StyledContainerSummary1}
             options={{ title: 'LATEST OMNI PRICE', value: omniPriceValue(this.props.status) }}
