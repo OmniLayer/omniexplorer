@@ -17,6 +17,7 @@ import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import Moment from 'react-moment';
 
 
@@ -169,7 +170,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">Total</td>
                   <td>
                     <strong>
-                      { asset.totaltokens } Tokens
+                      <SanitizedFormattedNumber value={asset.totaltokens} /> Tokens
                     </strong>
                   </td>
                 </tr>

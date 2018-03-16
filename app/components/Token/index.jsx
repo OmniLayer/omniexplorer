@@ -11,6 +11,7 @@ import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import { startFetch } from './actions';
 
@@ -87,11 +88,11 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           </Link>
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-          { reserved }
+          <SanitizedFormattedNumber value={reserved} />
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { value }
+            <SanitizedFormattedNumber value={value} />
           </strong>
         </td>
       </tr>

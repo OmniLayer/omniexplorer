@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 
@@ -107,7 +108,7 @@ function TransactionInfo(props) {
     dtheader = 'Pending Since';
   } else {
     dtheader = 'Date/Time';
-  }              
+  }
   
   const amountDisplay = (<TransactionAmount {...props} />);
   let tokenName;
@@ -141,7 +142,7 @@ function TransactionInfo(props) {
       <td>
         <strong>
           <span id="lamount">
-            { props.bitcoindesired } BTC
+            <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
           </span>
         </strong>
       </td>

@@ -91,7 +91,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             </tr>
           </thead>
           <tbody>
-            { this.props.search.asset.map((x) => <Asset {...x} changeRoute={this.props.changeRoute} key={x[2]} />) }
+            { this.props.search.asset.map((x, idx) => <Asset {...x} changeRoute={this.props.changeRoute} key={x[2]+idx} />) }
           </tbody>
         </Table>
       );
