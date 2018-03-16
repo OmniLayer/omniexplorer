@@ -61,7 +61,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
       content = (
         <div>
           <ListPagination {...props} onSetPage={this.props.onSetPage} />
-          <TransactionList {...this.props.transactions} />
+          <TransactionList {...props} />
           <ListPagination {...props} onSetPage={this.props.onSetPage} />
         </div>
       );

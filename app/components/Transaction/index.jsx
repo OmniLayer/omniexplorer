@@ -26,6 +26,14 @@ const IMG = styled.img`
 `;
 
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  getHighlightIfOwner(address) {
+    return (this.isOwner(address) ? 'text-success' : '');
+  }
+  
+  isOwner(address) {
+    return (this.props.addr ? this.props.addr === address : false);
+  }
+  
   render() {
     const isValid = this.props.valid;
     
@@ -60,9 +68,10 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     
     let arrowcname;
     let addresscname;
+    
     if (this.props.referenceaddress !== undefined) {
       arrowcname = 'transaction-arrow-icon';
-      addresscname = 'btn btn-add w-100-down-md';
+      addresscname = `btn btn-add w-100-down-md ${this.getHighlightIfOwner(this.props.referenceaddress)}`;
     } else {
       arrowcname = 'd-none';
       addresscname = 'd-none';
@@ -102,7 +111,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             <Col sm>
               <p className="desc">
                 <Link
-                  className="btn btn-add w-100-down-md"
+                  className={`btn btn-add w-100-down-md ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
                   to={{
                     pathname: `/address/${this.props.sendingaddress}`,
                   }}
@@ -165,6 +174,10 @@ Transaction.propTypes = {
   amount: PropTypes.string,
   changeRoute: PropTypes.func,
   valid: PropTypes.bool,
+  blocktime: PropTypes.number,
+  propertyname: PropTypes.string,
+  propertyid: PropTypes.number,
+  addr: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
