@@ -118,6 +118,11 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       <StyledContainer fluid>
         <Row>
           <Col sm>
+            <h3>Showing results for: <mark>{this.query}</mark></h3>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm>
             { wallet }
           </Col>
         </Row>
