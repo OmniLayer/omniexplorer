@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
-import Moment from 'react-moment';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
 
@@ -210,9 +210,7 @@ function TransactionInfo(props) {
               <td className="field">{ dtheader }</td>
               <td>
                   <span id="ldatetime">
-                    <Moment unix>
-                      { props.blocktime }
-                    </Moment>
+                    <FormattedUnixDateTime datetime={props.blocktime} />
                   </span>
               </td>
             </tr>

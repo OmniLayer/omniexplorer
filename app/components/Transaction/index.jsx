@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
-import Moment from 'react-moment';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 import ArrowIcon from 'react-icons/lib/io/arrow-right-c';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
@@ -93,9 +93,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   { this.props.txid.slice(0, 36) }...
                 </Link>
                 <div className="d-block-down-md">
-                  <Moment unix>
-                    { this.props.blocktime }
-                  </Moment>
+                  <FormattedUnixDateTime datetime={this.props.blocktime} />
                 </div>
               </div>
             </Col>
