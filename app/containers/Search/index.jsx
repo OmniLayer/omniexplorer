@@ -29,7 +29,6 @@ import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
       background-color: white;
-      overflow: auto;
       margin: 3rem;
       padding: 1rem;
     `;
@@ -81,19 +80,21 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
     if (this.props.search.asset.length > 0) {
       assets = (
-        <Table className="table-profile">
-          <thead>
-            <tr>
-              <StyledTH></StyledTH>
-              <StyledTH>Property ID</StyledTH>
-              <StyledTH>Name</StyledTH>
-              <StyledTH>Issuer</StyledTH>
-            </tr>
-          </thead>
-          <tbody>
-            { this.props.search.asset.map((x, idx) => <Asset {...x} changeRoute={this.props.changeRoute} key={x[2]+idx} />) }
-          </tbody>
-        </Table>
+        <div className="table-responsive">
+          <Table className="table-profile">
+            <thead>
+              <tr>
+                <StyledTH></StyledTH>
+                <StyledTH>Property ID</StyledTH>
+                <StyledTH>Name</StyledTH>
+                <StyledTH>Issuer</StyledTH>
+              </tr>
+            </thead>
+            <tbody>
+              { this.props.search.asset.map((x, idx) => <Asset {...x} changeRoute={this.props.changeRoute} key={x[2]+idx} />) }
+            </tbody>
+          </Table>
+        </div>
       );
     }
 
