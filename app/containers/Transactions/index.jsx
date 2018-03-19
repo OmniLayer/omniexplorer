@@ -55,9 +55,15 @@ export class Transactions extends React.Component { // eslint-disable-line react
     } else if (!this.props.loading && (this.props.transactions.transactions || []).length === 0) {
       content = (
         <StyledH3 className="lead text-center">
+          <p className="h3">
           No Omni Protocol transactions found
-          <br/>
-          <a href="https://www.blocktrail.com">blocktrail.com</a>
+          </p>
+          <p className="h5">
+            If the transaction you are searching for was just broadcast it might take a few minutes for the network to pass it around for us to see it.
+          </p>
+          <p className="h5">
+            If the transaction you are searching for is a Bitcoin only transaction you should use a bitcoin block explorer like <a href="https://www.blocktrail.com">blocktrail.com</a>
+          </p>
         </StyledH3>
       );
     } else {
