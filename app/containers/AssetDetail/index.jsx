@@ -17,8 +17,8 @@ import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
-import Moment from 'react-moment';
-
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -169,7 +169,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">Total</td>
                   <td>
                     <strong>
-                      { asset.totaltokens } Tokens
+                      <SanitizedFormattedNumber value={asset.totaltokens} /> Tokens
                     </strong>
                   </td>
                 </tr>
@@ -179,9 +179,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   <td className="field">Created</td>
                   <td>
                     <span id="ldatetime">
-                      <Moment unix>
-                        { asset.blocktime }
-                      </Moment>
+                      <FormattedUnixDateTime datetime={asset.blocktime} />
                     </span>
                   </td>
                 </tr>

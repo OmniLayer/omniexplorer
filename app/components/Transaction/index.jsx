@@ -12,10 +12,11 @@ import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
-import Moment from 'react-moment';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 import ArrowIcon from 'react-icons/lib/io/arrow-right-c';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import './transaction.scss';
 
 const IMG = styled.img`
@@ -25,11 +26,19 @@ const IMG = styled.img`
 `;
 
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  getHighlightIfOwner(address) {
+    return (this.isOwner(address) ? 'text-success' : '');
+  }
+  
+  isOwner(address) {
+    return (this.props.addr ? this.props.addr === address : false);
+  }
+  
   render() {
     const isValid = this.props.valid;
-
+    
     const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : (this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
-
+    
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
@@ -45,42 +54,43 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           'UNCONFIRMED' :
           'INVALID'
     );
-
+    
     let tokenLogo;
     try {
       tokenLogo = require(`images/token${this.props.propertyid}.png`);
-    } catch (e) {
+    } catch(e) {
       if (this.props.type_int === 4) {
         tokenLogo = require('images/sendall.png');
       } else {
         tokenLogo = require('images/tokendefault.png');
       }
     }
-
+    
     let arrowcname;
     let addresscname;
+    
     if (this.props.referenceaddress !== undefined) {
       arrowcname = 'transaction-arrow-icon';
-      addresscname = 'btn btn-add w-100-down-md';
+      addresscname = `btn btn-add w-100-down-md ${this.getHighlightIfOwner(this.props.referenceaddress)}`;
     } else {
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-
-    const transactionAmount = (this.props.amount ? this.props.amount.slice(0, this.props.amount.indexOf('.')+7) : '---');
-
+    
+    const transactionAmount = (this.props.amount ? this.props.amount.slice(0, this.props.amount.indexOf('.') + 7) : '');
+    
     return (
       <Row className="transation-result mx-auto text-center-down-md">
         <Col sm="9">
           <Row className="transaction-header">
             <Col sm="2" md="1">
-              <IMG src={tokenLogo} />
+              <IMG src={tokenLogo}/>
             </Col>
             <Col sm>
               <span className="title d-block-down-md">
                 { this.props.type }
               </span>
-
+              
               <div className="location d-block-down-md">
                 <Link
                   to={{
@@ -92,9 +102,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   { this.props.txid.slice(0, 36) }...
                 </Link>
                 <div className="d-block-down-md">
-                  <Moment unix>
-                    { this.props.blocktime }
-                  </Moment>
+                  <FormattedUnixDateTime datetime={this.props.blocktime} />
                 </div>
               </div>
             </Col>
@@ -103,7 +111,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             <Col sm>
               <p className="desc">
                 <Link
-                  className="btn btn-add w-100-down-md"
+                  className={`btn btn-add w-100-down-md ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
                   to={{
                     pathname: `/address/${this.props.sendingaddress}`,
                   }}
@@ -111,7 +119,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 >
                   { this.props.sendingaddress }
                 </Link>
-                <ArrowIcon size={20} color="gray" className={arrowcname} />
+                <ArrowIcon size={20} color="gray" className={arrowcname}/>
                 <Link
                   className={addresscname}
                   to={{
@@ -129,7 +137,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col sm>
               <h4 className="title">
-                { transactionAmount }
+                <SanitizedFormattedNumber value={transactionAmount} />
               </h4>
             </Col>
           </Row>
@@ -166,6 +174,10 @@ Transaction.propTypes = {
   amount: PropTypes.string,
   changeRoute: PropTypes.func,
   valid: PropTypes.bool,
+  blocktime: PropTypes.number,
+  propertyname: PropTypes.string,
+  propertyid: PropTypes.number,
+  addr: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {

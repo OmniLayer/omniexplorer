@@ -12,7 +12,7 @@ class TransactionList extends React.PureComponent { // eslint-disable-line react
   render() {
     return (
       <ul className="result-list">
-        { this.props.transactions.map((trx, idx) => <Transaction key={trx.txid.slice(0, 22).concat(idx)} {...trx} />) }
+        { this.props.transactions.map((trx, idx) => <Transaction addr={this.props.addr} key={trx.txid.slice(0, 22).concat(idx)} {...trx} />) }
       </ul>
     );
   }

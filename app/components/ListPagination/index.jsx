@@ -40,24 +40,24 @@ const ListPagination = (props) => {
   const pageCount = props.pageCount || 1;
   const qtyPages = (pageCount < maxPagesQty ? pageCount : maxPagesQty);
   const range = [...Array(qtyPages).keys()].map((x) => x + pageNumber);
-  
+
   const setPage = (e, page, addr) => {
     props.onSetPage(page, addr);
   };
-  
+
   const getPrevious = () => (
     _page > 0
       ? _page - 1
       : _page
   );
-  
+
   const getNext = () => (
     _page < props.pageCount
       ? _page + 1
       : _page
   );
-  
-  const pathname = props.match.params.address ? `/address/${props.match.params.address}` : '';
+
+  const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = (v) => `${pathname}/${v + 1}`;
 
   const onClick = (e) => ((qtyPages > 1) && setPage(e, getPrevious(), props.addr));
@@ -68,12 +68,12 @@ const ListPagination = (props) => {
         disabled={qtyPages === 1 || _page === 1}
         key={'previous'}
       >
-        <StyledPaginationLink previous href={hashLink(getPrevious())}/>
+        <StyledPaginationLink previous href={hashLink(getPrevious())} />
       </StyledPaginationButton>
       {
         range.map((v) => {
           const isCurrent = v === _page;
-          
+
           return (
             <StyledPaginationItem
               onClick={(e) => setPage(e, v, props.addr)}
@@ -92,7 +92,7 @@ const ListPagination = (props) => {
         disabled={qtyPages === 1 || _page === props.pageCount}
         key={'next'}
       >
-        <StyledPaginationLink next href={hashLink(getNext())}/>
+        <StyledPaginationLink next href={hashLink(getNext())} />
       </StyledPaginationButton>
     </Pagination>
   );
