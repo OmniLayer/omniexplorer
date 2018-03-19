@@ -54,7 +54,11 @@ export class Transactions extends React.Component { // eslint-disable-line react
       );
     } else if (!this.props.loading && (this.props.transactions.transactions || []).length === 0) {
       content = (
-        <StyledH3 className="lead text-center">No transactions found</StyledH3>
+        <StyledH3 className="lead text-center">
+          No Omni Protocol transactions found
+          <br/>
+          <a href="https://www.blocktrail.com">blocktrail.com</a>
+        </StyledH3>
       );
     } else {
       const props = { ...this.props.transactions, addr: this.props.addr };
