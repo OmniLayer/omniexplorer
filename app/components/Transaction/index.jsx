@@ -36,7 +36,9 @@ const AddressWrapper = styled.div.attrs({
 
 const StyledLink = styled(Link).attrs({
   className: 'mr-1 text-truncate',
-})``;
+})`
+  color: #333;
+`;
 
 const StyledCopyIcon = styled(CopyIcon).attrs({
   className: 'btn-outline-info rounded',
@@ -46,13 +48,13 @@ const WrapperLink = styled.div.attrs({
   className: 'wrapper-link btn btn-add text-truncate rounded',
 })`
   user-select: text !important;
+  font-size: 1.25rem !important;
   width: 44%;
-  font-size: 12px;
-  font-weight: normal;
   color: #333;
   background: #EFF5FB;
   border-color: #e2e7eb;
 `;
+
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
