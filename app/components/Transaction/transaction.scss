@@ -45,18 +45,6 @@
         margin-right: 8px;
       }
 
-      a {
-        width: 38%;
-        font-size: 12px;
-      }
-
-      .btn.btn-add {
-        font-weight: normal;
-        color: #333;
-        background: #EFF5FB;
-        border-color: #e2e7eb;
-      }
-
       .transaction-arrow-icon {
         color: #707478;
         margin: auto 0.5rem;
@@ -106,7 +94,7 @@
   .result-list {
     .transation-result {
       .desc {
-        a.btn {
+        .wrapper-link {
           width: 60%;
         }
       }
@@ -124,7 +112,7 @@
     }
     .transation-result {
       .desc {
-        a.btn {
+        .wrapper-link {
           overflow: hidden;
           width: 60%;
         }
