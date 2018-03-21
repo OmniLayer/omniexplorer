@@ -7,14 +7,6 @@
 import { fromJS } from 'immutable';
 import { LOAD_SEARCH, LOAD_SEARCH_ERROR, LOAD_SEARCH_SUCCESS } from './constants';
 
-const initialResults = {
-  address: {
-    balance: [],
-  },
-  asset: [],
-  tx: {},
-};
-
 const initialState = fromJS({
   loading: true,
   error: false,

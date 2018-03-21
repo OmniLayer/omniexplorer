@@ -17,7 +17,6 @@ import getInjectors from './sagaInjectors';
  */
 export default ({ key, saga, mode }) => (WrappedComponent) => {
   class InjectSaga extends React.Component {
-
     /* eslint-disable no-undef, no-unused-vars */
     static WrappedComponent = WrappedComponent;
     static contextTypes = {

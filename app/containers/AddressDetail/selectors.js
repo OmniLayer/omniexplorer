@@ -20,6 +20,4 @@ const makeSelectAddressDetail = () => createSelector(
 );
 
 export default makeSelectAddressDetail;
-export {
-  selectAddressDetailDomain,
-};
+export { selectAddressDetailDomain };

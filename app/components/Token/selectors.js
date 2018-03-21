@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
 
 const getProperties = (state) => state.get('token');
-const getTokens = (state) =>{
-  return state.get('token').get('tokens');
-}
+const getTokens = (state) => state.get('token').get('tokens');
 
 export const makeSelectProperties = () => createSelector(
   getProperties,

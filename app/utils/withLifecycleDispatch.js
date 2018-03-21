@@ -1,12 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import createReactClass from 'create-react-class';
 
-const withLifeCycle = (spec) => (BaseComponent) => {
-  return createReactClass({
-    ...spec,
-    render() {
-      return BaseComponent(this.props);
-    }
-  })
-}
+// eslint-disable-next-line react/prefer-es6-class
+const withLifeCycle = (spec) => (BaseComponent) => createReactClass({
+  ...spec,
+  render() {
+    return BaseComponent(this.props);
+  },
+});
 export default withLifeCycle;

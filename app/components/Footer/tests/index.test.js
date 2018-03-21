@@ -7,13 +7,9 @@ import Footer from '../index';
 
 describe('<Footer />', () => {
   it('should render the copyright notice', () => {
-    const renderedComponent = shallow(
-      <Footer />
-    );
-    expect(renderedComponent.contains(
-      <section>
-        <FormattedMessage {...messages.licenseMessage} />
-      </section>
-    )).toBe(true);
+    const renderedComponent = shallow(<Footer />);
+    expect(renderedComponent
+      .contains(<section><FormattedMessage {...messages.licenseMessage} /></section>))
+      .toBe(true);
   });
 });

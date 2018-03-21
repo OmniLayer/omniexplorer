@@ -236,8 +236,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
               <small>{ this.props.propertyname } (#{ this.props.propertyid })</small>
             </Col>
           </Row>
-          <Row className="h-56-md-up d-flex align-items-lg-center align-items-md-end">
-            <Col sm className="btn-group mb-1">
+          <Row className="h-56-md-up d-flex align-items-md-center align-items-sm-end">
+            <Col sm className="btn-group mb-1 my-auto">
               <Link
                 className={statusColor}
                 to={{

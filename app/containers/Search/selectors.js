@@ -20,6 +20,4 @@ const makeSelectSearch = () => createSelector(
 );
 
 export default makeSelectSearch;
-export {
-  selectSearchDomain,
-};
+export { selectSearchDomain };

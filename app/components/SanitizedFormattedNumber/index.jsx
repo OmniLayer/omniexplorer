@@ -14,10 +14,10 @@ function SanitizedFormattedNumber(props) {
   const valueStr = props.value.toString();
   const minimumFractionDigits = (value !== 0 ? valueStr.slice(valueStr.indexOf('.') + 1).length : 0);
   const number = (isNumeric(props.value) ?
-      <FormattedNumber value={value} minimumFractionDigits={minimumFractionDigits}/> :
-      <span>{ DEFAULT_NOT_NUMBER }</span>
+    <FormattedNumber value={value} minimumFractionDigits={minimumFractionDigits} /> :
+    <span>{ DEFAULT_NOT_NUMBER }</span>
   );
-  
+
   return number;
 }
 
