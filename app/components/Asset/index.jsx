@@ -17,7 +17,11 @@ function Asset(props) {
     try {
       logo = require(`images/token${id}.png`);
     } catch (e) {
-      logo = require('images/tokendefault.png');
+      if (id > 2147483650) {
+        logo = require('images/tokenwarn.png');
+      } else {
+        logo = require('images/tokendefault.png');
+      }
     }
     return logo;
   };

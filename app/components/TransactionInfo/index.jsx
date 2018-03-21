@@ -75,13 +75,17 @@ function TransactionInfo(props) {
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
   
   let logo;
-  try {
-    logo = require(`images/token${props.propertyid}.png`);
-  } catch(e) {
-    if (props.type_int === 4) {
-      logo = require('images/sendall.png');
-    } else {
-      logo = require('images/tokendefault.png');
+  if (props.type_int === 4) {
+    logo = require('images/sendall.png');
+  } else {
+    try {
+       logo = require(`images/token${props.propertyid}.png`);
+    } catch(e) {
+      if (props.propertyid > 2147483650) {
+        logo = require('images/tokenwarn.png');
+      } else {
+        logo = require('images/tokendefault.png');
+      }
     }
   }
   

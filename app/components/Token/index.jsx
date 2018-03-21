@@ -24,7 +24,11 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
       try {
         logo = require(`images/token${this.props.id}.png`);
       } catch (e) {
-        logo = require('images/tokendefault.png');
+        if (this.props.id > 2147483650) {
+          logo = require('images/tokenwarn.png');
+        } else {
+          logo = require('images/tokendefault.png');
+        }
       }
       return logo;
     };
