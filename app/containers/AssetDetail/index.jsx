@@ -94,8 +94,8 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
             <CardHeader>Warning: Duplicated or Similar Token Name</CardHeader>
             <StyledCardBody>
               <CardText> 
-                Please note this transaction uses a token that has a name that is either a duplicate or similar to a previously issued property. 
-                It is possible that this transaction is intended to imitate a different property.<br/>
+                Please note this property has a name that is either a duplicate or similar to a previously issued property. 
+                It is possible that this property is intended to imitate a different property.<br/>
                 <b>Always verify the Property ID of any Omni Layer transaction.</b>
               </CardText>
             </StyledCardBody>
@@ -158,7 +158,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
     let registeredMessage;
     if (asset.flags.registered) {
-      registeredMessage = (<td dangerouslySetInnerHTML={{__html:  asset.rdata }} </td>);
+      registeredMessage = (<td dangerouslySetInnerHTML={{__html:  asset.rdata }}></td>);
     } else {
       registeredMessage = (<td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.</td>);
     }
