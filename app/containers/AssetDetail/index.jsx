@@ -95,7 +95,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
             <StyledCardBody>
               <CardText> 
                 Please note this transaction uses a token that has a name that is either a duplicate or similar to a previously issued property. 
-                It is possible that this transaction is intended to imitate a different property.<br>
+                It is possible that this transaction is intended to imitate a different property.<br/>
                 <b>Always verify the Property ID of any Omni Layer transaction.</b>
               </CardText>
             </StyledCardBody>
