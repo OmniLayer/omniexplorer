@@ -83,7 +83,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     }
 
     let warningMessage = null;
-    if (this.flags.duplicate) {
+    if (asset.flags.duplicate) {
       warningMessage = (<Row>
         <Col sm>
           <StyledCard inverse>
