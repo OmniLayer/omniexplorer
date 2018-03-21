@@ -75,14 +75,10 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     try {
       logo = require(`images/token${asset.propertyid}.png`);
     } catch (e) {
-      if (asset.propertyid === 4) {
-        logo = require('images/sendall.png');
+      if (asset.propertyid > 2147483650) {
+        logo = require('images/tokenwarn.png');
       } else {
-        if (asset.propertyid > 2147483650) {
-          logo = require('images/tokenwarn.png');
-        } else {
-          logo = require('images/tokendefault.png');
-        }
+        logo = require('images/tokendefault.png');
       }
     }
 
