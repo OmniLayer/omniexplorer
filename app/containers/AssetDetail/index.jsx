@@ -37,10 +37,6 @@ const StyledCard = styled(Card)`
       background-color: #a94442;
       border-color: #a94442;
     `;
-const StyledCardHeader = styled(Card)`
-      background-color: #a94442;
-      border-color: #a94442;
-    `;
 const StyledCardBody = styled(CardBody)`
       background-color: #ff5b57;
       border-color: #ff5b57;
@@ -91,7 +87,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       warningMessage = (<Row>
         <Col sm>
           <StyledCard inverse>
-            <CardHeader>Warning: Duplicated or Similar Token Name</CardHeader>
+            <CardHeader style={{ background-color: '#a94442', border-color: '#a94442' }}>Warning: Duplicated or Similar Token Name</CardHeader>
             <StyledCardBody>
               <CardText> 
                 Please note this property has a name that is either a duplicate or similar to a previously issued property. 
