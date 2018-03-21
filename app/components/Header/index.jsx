@@ -66,7 +66,7 @@ class Header extends React.PureComponent {
               OMNIEXPLORER.INFO
             </NavbarBrand>
             <div className="ml-auto w-50 d-flex">
-              <div className="w-100 ml-auto">
+              <div className="w-100 ml-auto d-none-only-sm-down">
                 <SearchBox />
               </div>
               <NavbarToggler onClick={this.toggle} />
@@ -139,6 +139,9 @@ class Header extends React.PureComponent {
             </StyledCollapse>
           </div>
         </Navbar>
+        <div className="w-100 ml-auto d-block-only-sm-down">
+          <SearchBox/>
+        </div>
       </div>
     );
   }

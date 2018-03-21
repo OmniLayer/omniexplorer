@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/bootstrap-grid';
+
 .result-list {
   padding: 0;
   margin: 0;
@@ -23,6 +25,7 @@
 
     .location {
       color: #999;
+      overflow: hidden;
       a {
         color: #337ab7;
         text-decoration: none;
@@ -30,28 +33,16 @@
     }
 
     .desc {
-      margin-bottom:0px;
-      margin-top:2px;
+      margin-bottom: 0px;
+      margin-top: 2px;
 
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 16px;
 
       i {
-        margin-left:4px;
-        margin-right:8px;
-      }
-
-      a {
-        width:47%;
-        font-size:12px;
-      }
-
-      .btn.btn-add {
-        font-weight: normal;
-        color: #333;
-        background: #EFF5FB;
-        border-color: #e2e7eb;
+        margin-left: 4px;
+        margin-right: 8px;
       }
 
       .transaction-arrow-icon {
@@ -80,11 +71,11 @@
   @mixin button-bg($bg) {
     background: $bg;
     &:hover {
-      background:darken($bg,8%);
+      background: darken($bg, 8%);
       transition: all 0.3s ease;
     }
     &:active {
-      background:darken($bg,25%);
+      background: darken($bg, 25%);
     }
   }
 
@@ -99,8 +90,39 @@
   }
 }
 
-@media (max-width: 767.98px) and (max-width: 1199.98px) {
-  .result-list .result-price {
-    border-top: 1px dashed #ddd;
+@media (max-width: 768px) {
+  .result-list {
+    .transation-result {
+      .desc {
+        .wrapper-link {
+          width: 60%;
+        }
+      }
+    }
+  }
+  .address-wrapper {
+    display: block;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .result-list {
+    .result-price {
+      border-top: 1px dashed #ddd;
+    }
+    .transation-result {
+      .desc {
+        .wrapper-link {
+          overflow: hidden;
+          width: 60%;
+        }
+      }
+      .location {
+        a {
+          display: inline-flex;
+          width: 80%;
+        }
+      }
+    }
   }
 }

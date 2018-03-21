@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import isEmpty from 'lodash/isEmpty';
 import { makeSelectStatus } from './selectors';
 import featureLogoPNG from 'images/token1.png';
-// import Moment from 'react-moment';
 
 const IMG = styled.img`
   margin-right: 6px;
