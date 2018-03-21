@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Container, Row, Table } from 'reactstrap';
 import { API_URL_BASE } from 'containers/App/constants';
 
 import { startFetch } from 'components/Token/actions';
@@ -33,6 +33,14 @@ const SubtitleDetail = styled.small`
       font-weight: 400;
       margin-top: 5px;
     `;
+const StyledCard = styled(Card)`
+      background-color: #a94442;
+      border-color: #a94442;
+    `;
+const StyledCardBody = styled(CardBody)`
+      background-color: #ff5b57;
+      border-color: #ff5b57;
+    `;
 
 export class AssetDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -43,7 +51,11 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       try {
         logo = require(`images/token${this.props.id}.png`);
       } catch (e) {
-        logo = require('images/tokendefault.png');
+        if (this.props.id > 2147483650) {
+          logo = require('images/tokenwarn.png');
+        } else {
+          logo = require('images/tokendefault.png');
+        }
       }
       return logo;
     };
@@ -63,11 +75,29 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     try {
       logo = require(`images/token${asset.propertyid}.png`);
     } catch (e) {
-      if (asset.propertyid === 4) {
-        logo = require('images/sendall.png');
+      if (asset.propertyid > 2147483650) {
+        logo = require('images/tokenwarn.png');
       } else {
         logo = require('images/tokendefault.png');
       }
+    }
+
+    let warningMessage = null;
+    if (this.flags.duplicate) {
+      warningMessage = (<Row>
+        <Col sm>
+          <StyledCard inverse>
+            <CardHeader>Warning: Duplicated or Similar Token Name</CardHeader>
+            <StyledCardBody>
+              <CardText> 
+                Please note this transaction uses a token that has a name that is either a duplicate or similar to a previously issued property. 
+                It is possible that this transaction is intended to imitate a different property.
+                <b>Always verify the Property ID of any Omni Layer transaction.</b>
+              </CardText>
+            </StyledCardBody>
+          </StyledCard>
+        </Col>
+      </Row>);
     }
 
     let subtitleclass;
@@ -123,7 +153,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
 
     let registeredMessage;
-    if (asset.registered) {
+    if (asset.flags.registered) {
       registeredMessage = (<td> { asset.rdata } </td>);
     } else {
       registeredMessage = (<td>This property is not registered with OmniExplorer.info. Please see <a href="/promote">Promote Your Property</a> for further details.</td>);
@@ -131,6 +161,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
     return (
       <StyledContainer fluid>
+        { warningMessage }
         <DetailRow>
           <Col sm="2" className="col-auto mx-auto">
             <img
