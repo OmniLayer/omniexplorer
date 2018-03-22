@@ -115,13 +115,17 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     );
     
     let tokenLogo;
-    try {
-      tokenLogo = require(`images/token${this.props.propertyid}.png`);
-    } catch(e) {
-      if (this.props.type_int === 4) {
-        tokenLogo = require('images/sendall.png');
-      } else {
-        tokenLogo = require('images/tokendefault.png');
+    if (this.props.type_int === 4) {
+      tokenLogo = require('images/sendall.png');
+    } else {
+      try {
+        tokenLogo = require(`images/token${this.props.propertyid}.png`);
+      } catch(e) {
+        if (this.props.propertyid > 2147483650) {
+          tokenLogo = require('images/tokenwarn.png');
+        } else {
+          tokenLogo = require('images/tokendefault.png');
+        }
       }
     }
     
