@@ -1,14 +1,14 @@
 
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { loadTransaction } from '../actions';
+import { LOAD_TRANSACTION } from '../constants';
 
 describe('TransactionDetail actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('loadTransaction Action', () => {
+    it('has a type of LOAD_TRANSACTION', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOAD_TRANSACTION,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(loadTransaction()).toEqual(expected);
     });
   });
 });

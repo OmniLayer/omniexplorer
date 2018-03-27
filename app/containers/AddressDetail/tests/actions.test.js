@@ -1,14 +1,14 @@
 
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { loadAddress } from '../actions';
+import { LOAD_ADDRESS } from '../constants';
 
 describe('AddressDetail actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('loadAddress Action', () => {
+    it('has a type of LOAD_ADDRESS', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOAD_ADDRESS,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(loadAddress()).toEqual(expected);
     });
   });
 });

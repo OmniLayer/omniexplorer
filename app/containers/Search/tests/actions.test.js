@@ -1,14 +1,14 @@
 
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { loadSearch } from '../actions';
+import { LOAD_SEARCH } from '../constants';
 
 describe('Search actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('loadSearch Action', () => {
+    it('has a type of LOAD_SEARCH', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOAD_SEARCH,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(loadSearch()).toEqual(expected);
     });
   });
 });

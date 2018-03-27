@@ -1,10 +1,11 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import SanitizedFormattedNumber from '../index';
+import SanitizedFormattedNumber from '../index';
 
 describe('<SanitizedFormattedNumber />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('renders a <SanitizedFormattedNumber>', () => {
+    const renderedComponent = shallow(<SanitizedFormattedNumber value="10.0001" />);
+    expect(renderedComponent.find('span').node).toBeDefined();
   });
 });
