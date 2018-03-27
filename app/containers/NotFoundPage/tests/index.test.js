@@ -1,23 +1,18 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { shallow } from 'enzyme';
-// import configureStore from 'redux-mock-store';
+/**
+ * Testing the NotFoundPage
+ */
 
-import NotFoundPage from '../index';
+import React from 'react';
+import { mountWithIntl } from 'tests/intl-enzyme-test-helper';
+import { FormattedMessage } from 'react-intl';
+
+import NotFound from '../index';
 import messages from '../messages';
 
-describe('<NotFoundPage />', () => {
-  // const initialState = {};
-  // const mockStore = configureStore();
-  // let store;
-  // let container;
-  //
-  // beforeEach(() => {
-  //   store = mockStore(initialState);
-  // });
-  it('should render <NotFoundPage  dispatch={dispatch} store={store} />', () => {
-    const children = (<FormattedMessage {...messages.header} />);
-    const renderedComponent = shallow(<NotFoundPage locale="en"></NotFoundPage>);
-    expect(renderedComponent.contains(children)).toBe(true);
+describe('<NotFound />', () => {
+  it('should render the Page Not Found text', () => {
+    const renderedComponent = mountWithIntl(<NotFound />, messages);
+    const expected = (<FormattedMessage {...messages.header} />);
+    expect(renderedComponent.contains(expected)).toEqual(true);
   });
 });

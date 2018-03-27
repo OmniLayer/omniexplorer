@@ -15,7 +15,15 @@ import configureMockStore from 'redux-mock-store';
  */
 const middlewares = [];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore();
+
+function getStore() {
+  // const middlewares = [];
+  // const mockStore = configureMockStore(middlewares);
+  return mockStore();
+
+  // return store;
+}
+
 /**
  * Default messages, it'll be used when messages is not given
  * You can pass your messages to the IntlProvider. Optional: remove if unneeded.
@@ -25,13 +33,19 @@ const defaultMessages = require('../translations/en'); // en.json
 /**
  * When using React-Intl `injectIntl` on components, props.intl is required.
  */
-function nodeWithIntlProp(node, intl) {
-  return React.cloneElement(node, { intl, store });
+function nodeWithIntlProp(node, intl, store) {
+  return React.cloneElement(node, {
+    intl,
+    store,
+  });
 }
 
 function getIntlShape(messages = defaultMessages) {
 // Create the IntlProvider to retrieve context for wrapping around.
-  const intlProvider = new IntlProvider({ locale: 'en', messages }, {});
+  const intlProvider = new IntlProvider({
+    locale: 'en',
+    messages,
+  }, {});
   const { intl } = intlProvider.getChildContext();
   return intl;
 }
@@ -39,16 +53,29 @@ function getIntlShape(messages = defaultMessages) {
 /**
  * Export these methods.
  */
-export function mountWithIntl(node, msgs) {
+export function mountWithIntl(node, msgs = defaultMessages) {
   const intl = getIntlShape(msgs);
+  const store = mockStore();
 
   return mount(nodeWithIntlProp(node, intl), {
-    context: { intl, store },
-    childContextTypes: { intl: intlShape },
+    context: {
+      intl,
+      store: store,
+    },
+    childContextTypes: {
+      intl: intlShape,
+    },
   });
 }
 
-export function shallowWithIntl(node, msgs) {
+export function shallowWithIntl(node, msgs = defaultMessages) {
   const intl = getIntlShape(msgs);
-  return shallow(nodeWithIntlProp(node), { context: { intl, store } });
+  const store = mockStore();
+
+  return shallow(nodeWithIntlProp(node), {
+    context: {
+      intl,
+      store,
+    },
+  });
 }
