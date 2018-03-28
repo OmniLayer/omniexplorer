@@ -16,15 +16,3 @@ describe('<SanitizedFormattedNumber />', () => {
     expect(component.props().state).toBe(expectedState);
   });
 });
-
-// import React from 'react';
-// import { mountWithIntl } from 'tests/intl-enzyme-test-helper';
-//
-// import SanitizedFormattedNumber from '../index';
-//
-// describe('<SanitizedFormattedNumber />', () => {
-//   it('renders a <SanitizedFormattedNumber>', () => {
-//     const renderedComponent = mountWithIntl(<SanitizedFormattedNumber value="10.0001" />);
-//     expect(renderedComponent.find('span').node).toBeDefined();
-//   });
-// });
