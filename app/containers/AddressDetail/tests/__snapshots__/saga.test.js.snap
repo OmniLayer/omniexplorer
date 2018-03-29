@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getAddress Saga should call the addressLoadingError action if the response errors 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://api.omniexplorer.info/v1/address/addr",
+      Object {
+        "body": "addr=undefined",
+        "headers": Object {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        "method": "POST",
+      },
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`getAddress Saga should call the addressLoadingError action if the response errors 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "address": "17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx",
+      "type": "omniexplorer/App/LOAD_ADDRESS_SUCCESS",
+    },
+    "channel": null,
+  },
+}
+`;
+
+exports[`getAddress Saga should dispatch the addressLoaded action if it requests the data successfully 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://api.omniexplorer.info/v1/address/addr",
+      Object {
+        "body": "addr=undefined",
+        "headers": Object {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        "method": "POST",
+      },
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`getAddress Saga should dispatch the addressLoaded action if it requests the data successfully 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "address": "17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx",
+      "type": "omniexplorer/App/LOAD_ADDRESS_SUCCESS",
+    },
+    "channel": null,
+  },
+}
+`;

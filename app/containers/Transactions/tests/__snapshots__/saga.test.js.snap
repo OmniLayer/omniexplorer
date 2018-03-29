@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getTransaction Saga should call the transactionsLoadingError action if the response errors 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://api.omniexplorer.info/v1/transaction/general/0",
+      Object {
+        "headers": Object {
+          "Content-Type": "application/json",
+        },
+        "type": "cors",
+      },
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`getTransaction Saga should call the transactionsLoadingError action if the response errors 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "currentPage": 0,
+      "pages": undefined,
+      "transactions": undefined,
+      "type": "omniexplorer/App/LOAD_TRANSACTIONS_SUCCESS",
+    },
+    "channel": null,
+  },
+}
+`;
+
+exports[`getTransaction Saga should dispatch the transactionsLoaded action if it requests the data successfully 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://api.omniexplorer.info/v1/transaction/general/0",
+      Object {
+        "headers": Object {
+          "Content-Type": "application/json",
+        },
+        "type": "cors",
+      },
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`getTransaction Saga should dispatch the transactionsLoaded action if it requests the data successfully 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "currentPage": 0,
+      "pages": undefined,
+      "transactions": undefined,
+      "type": "omniexplorer/App/LOAD_TRANSACTIONS_SUCCESS",
+    },
+    "channel": null,
+  },
+}
+`;

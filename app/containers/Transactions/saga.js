@@ -5,7 +5,7 @@ import request from 'utils/request';
 import { transactionsLoaded, transactionsLoadingError } from './actions';
 
 
-function* getTransactions(action = {}) {
+export function* getTransactions(action = {}) {
   const page = action.page || 0;
   const requestURL = (action.addr ? `${API_URL_BASE}/transaction/address/${page}` : `${API_URL_BASE}/transaction/general/${page}`);
 
