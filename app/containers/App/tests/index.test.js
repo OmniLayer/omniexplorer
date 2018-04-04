@@ -29,7 +29,7 @@ describe('<App />', () => {
         state,
       });
       const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
-      const component = shallowWithStore(<ConnectedComponent />, createMockStore({}));
+      const component = shallowWithStore(<ConnectedComponent />, createMockStore(expectedState));
       expect(component.props().state).toBe(expectedState);
     });
   });
