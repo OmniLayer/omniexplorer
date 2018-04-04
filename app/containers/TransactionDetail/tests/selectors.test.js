@@ -1,8 +1,12 @@
-// import { fromJS } from 'immutable';
-// import { selectTransactionDetailDomain } from '../selectors';
+import { fromJS } from 'immutable';
+import { selectTransactionDetailDomain } from '../selectors';
 
 describe('selectTransactionDetailDomain', () => {
   it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+    const transactionDetail = fromJS({
+      foo: 'bar',
+    });
+    const mockedState = fromJS({ transactionDetail });
+    expect(selectTransactionDetailDomain(mockedState)).toEqual(transactionDetail);
   });
 });
