@@ -2,12 +2,17 @@
  * Tests for TransactionDetail sagas
  */
 
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
+import { testSaga } from 'redux-saga-test-plan';
 
-import { LOAD_TRANSACTION } from '../constants';
+import request from 'utils/request';
+import { API_URL_BASE } from 'containers/App/constants';
+import { LOAD_TRANSACTION, LOAD_TRANSACTION_SUCCESS } from '../constants';
 import { transactionLoaded, transactionLoadingError } from '../actions';
 
 import root, { getTransaction } from '../saga';
+import { LOAD_TRANSACTIONS } from '../../Transactions/constants';
+import { getTransactions } from '../../Transactions/saga';
 
 const txid = 'dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x';
 
@@ -45,8 +50,17 @@ describe('getTransaction Saga', () => {
       version: 0,
     };
 
-    const putDescriptor = getTransactionGenerator.next(response).value;
-    expect(putDescriptor).toEqual(put(transactionLoaded(response, txid)));
+    const saga = testSaga(getTransaction, {tx:txid});
+    const url = `${API_URL_BASE}/transaction/tx/${txid}`;
+    
+    saga
+      .next()
+      .call(request, url)
+      .next(response)
+      .put({
+        type: LOAD_TRANSACTION_SUCCESS,
+        transaction: response,
+      });
   });
 
   it('should call the transactionLoadingError action if the response errors', () => {
@@ -56,11 +70,16 @@ describe('getTransaction Saga', () => {
   });
 });
 
-describe('githubDataSaga Saga', () => {
-  const rootSaga = root();
-
+describe('Root Saga', () => {
   it('should start task to watch for LOAD_TRANSACTION action', () => {
-    const takeLatestDescriptor = rootSaga.next().value;
-    expect(takeLatestDescriptor).toEqual(takeLatest(LOAD_TRANSACTION, getTransaction));
+    // arrange
+    const rootSaga = root();
+    const expectedYield = all([takeLatest(LOAD_TRANSACTION, getTransaction)]);
+
+    // act
+    const actualYield = rootSaga.next().value;
+
+    // assert
+    expect(actualYield).toEqual(expectedYield);
   });
 });
