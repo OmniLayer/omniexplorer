@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Collapse } from 'reactstrap';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 const A = styled.a`
       color: #41addd;
@@ -48,8 +49,16 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               <Collapse isOpen={this.state.collapseAmount}>
                 { this.props.purchases.map((purchase, idx) => (
                   <div key={idx}>
-                    <div><span> { purchase.amountbought } OMNI Bought</span></div>
-                    <div><span> { purchase.amountpaid } BTC Paid</span></div>
+                    <div>
+                      <span>
+                        <SanitizedFormattedNumber value={purchase.amountbought} /> OMNI Bought
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        <SanitizedFormattedNumber value={purchase.amountpaid} /> BTC Paid
+                      </span>
+                    </div>
                   </div>
                 ))
                 }
@@ -74,8 +83,13 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show subsends of SendAll</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                { this.props.subsends.map((send, idx) =>
-                  (<div key={idx}><span>{ send.amount } { send.propertyname } (#{ send.propertyid })</span></div>)
+                { this.props.subsends.map((send, idx) => (
+                  <div key={idx}>
+                    <span>
+                      <SanitizedFormattedNumber value={send.amount} /> { send.propertyname } (#{ send.propertyid })
+                    </span>
+                  </div>
+                )
                 )}
               </Collapse>
               <span></span>
@@ -98,8 +112,16 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show amounts</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                <div><span> { this.props.amountdesired } { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired</span></div>
-                <div><span> { this.props.amountforsale } { this.props.propertyidforsalename } (#{ this.props.propertyidforsale }) For Sale</span></div>
+                <div>
+                  <span>
+                    <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <SanitizedFormattedNumber value={this.props.amountforsale} /> { this.props.propertyidforsalename } (#{ this.props.propertyidforsale }) For Sale
+                  </span>
+                </div>
               </Collapse>
               <span></span>
             </strong>
@@ -121,9 +143,21 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show amounts</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                <div><span> { this.props.amount } { this.props.propertyname } (#{ this.props.propertyid }) Sent</span></div>
-                <div><span> { this.props.purchasedtokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased</span></div>
-                <div><span> { this.props.issuertokens } { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer</span></div>
+                <div>
+                  <span>
+                    <SanitizedFormattedNumber value={this.props.amount} /> { this.props.propertyname } (#{ this.props.propertyid }) Sent
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <SanitizedFormattedNumber value={this.props.purchasedtokens} /> { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <SanitizedFormattedNumber value={this.props.issuertokens} /> { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer
+                  </span>
+                </div>
               </Collapse>
               <span></span>
             </strong>
@@ -132,7 +166,6 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
       );
     }
 
-
     // other transactions
     return (
       <tr className="highlight">
@@ -140,7 +173,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
         <td>
           <strong>
             <span id="lamount">
-              { this.props.amount }
+              <SanitizedFormattedNumber value={this.props.amount} />
             </span>
           </strong>
         </td>

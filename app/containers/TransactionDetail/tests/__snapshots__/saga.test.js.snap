@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getTransaction Saga should call the transactionLoadingError action if the response errors 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://api.omniexplorer.info/v1/transaction/tx/undefined",
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`getTransaction Saga should call the transactionLoadingError action if the response errors 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "transaction": "dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x",
+      "type": "omniexplorer/App/LOAD_TRANSACTION_SUCCESS",
+    },
+    "channel": null,
+  },
+}
+`;
+
+exports[`getTransaction Saga should dispatch the transactionLoaded action if it requests the data successfully 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://api.omniexplorer.info/v1/transaction/tx/undefined",
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`getTransaction Saga should dispatch the transactionLoaded action if it requests the data successfully 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "transaction": "dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x",
+      "type": "omniexplorer/App/LOAD_TRANSACTION_SUCCESS",
+    },
+    "channel": null,
+  },
+}
+`;

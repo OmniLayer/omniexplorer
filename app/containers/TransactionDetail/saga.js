@@ -5,7 +5,7 @@ import { transactionLoaded, transactionLoadingError } from 'containers/Transacti
 
 import request from 'utils/request';
 
-function* getTransaction(action = {}) {
+export function* getTransaction(action = {}) {
   const txid = action.tx;
   const requestURL = `${API_URL_BASE}/transaction/tx/${txid}`;
 

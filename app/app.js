@@ -11,13 +11,13 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { applyMiddleware } from 'redux';
 import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
-import { syncHistory , routeReducer } from 'redux-simple-router';
+import { syncHistory } from 'redux-simple-router';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -63,7 +63,8 @@ import './responsive-styles.scss';
 // the index.html file and this observer)
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 
-const isProd = process.env.NODE_ENV === 'production';
+// verify if it's running in prod environment
+// const isProd = process.env.NODE_ENV === 'production';
 
 // When Open Sans is loaded, add a font-family using Open Sans to the body
 openSansObserver.load().then(() => {
@@ -76,7 +77,7 @@ openSansObserver.load().then(() => {
 const initialState = {};
 const history = createHistory();
 // Sync dispatched route actions to the history
-const reduxRouterMiddleware = syncHistory(history)
+const reduxRouterMiddleware = syncHistory(history);
 const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(configureStore);
 
 // const store = configureStore(initialState, history);
@@ -121,13 +122,3 @@ if (!window.Intl) {
 } else {
   render(translationMessages);
 }
-
-// Install ServiceWorker and AppCache in the end since
-// it's not most important operation and if main code fails,
-// we do not want it installed
-if (isProd) {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
-}
-
-// https://github.com/react-boilerplate/react-boilerplate/pull/98/files
-// https://github.com/react-boilerplate/react-boilerplate/pull/88/files

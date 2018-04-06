@@ -1,9 +1,15 @@
-
 import { fromJS } from 'immutable';
 import transactionsReducer from '../reducer';
 
 describe('transactionsReducer', () => {
   it('returns the initial state', () => {
-    expect(transactionsReducer(undefined, {})).toEqual(fromJS({}));
+    const state = {
+      loading: false,
+      error: false,
+      transactions: [],
+      pageCount: 0,
+      currentPage: 0,
+    };
+    expect(transactionsReducer(undefined, {})).toEqual(fromJS(state));
   });
 });

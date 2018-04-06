@@ -44,7 +44,7 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
   }
   
   handleDoSearch(e) {
-    this.props.changeRoute(`/search/${this.state.query}`);
+    this.props.changeRoute(`/search/${this.state.query.trim()}`);
     this.setState({ query: '' });
   }
   
@@ -62,7 +62,7 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
           <Input
             className="form-control searchbox-input"
             value={this.state.query}
-            onInput={(e) => this.setState({ query: e.target.value.trim() })}
+            onInput={(e) => this.setState({ query: e.target.value})}
             onKeyUp={(e) => this.handleKeyUp(e)}
           >
           </Input>

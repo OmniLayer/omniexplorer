@@ -1,8 +1,8 @@
 /**
  * Language Generator
  */
+const { exec } = require('child_process');
 const fs = require('fs');
-const exec = require('child_process').exec;
 
 function languageIsSupported(language) {
   try {
@@ -73,18 +73,16 @@ module.exports = {
       pattern: /(import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),\n)(?!.*import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),)/g,
       templateFile: './language/polyfill-intl-locale.hbs',
     });
-    actions.push(
-      () => {
-        const cmd = 'npm run extract-intl';
-        exec(cmd, (err, result, stderr) => {
-          if (err || stderr) {
-            throw err || stderr;
-          }
-          process.stdout.write(result);
-        });
-        return 'modify translation messages';
-      }
-    );
+    actions.push(() => {
+      const cmd = 'npm run extract-intl';
+      exec(cmd, (err, result, stderr) => {
+        if (err || stderr) {
+          throw err || stderr;
+        }
+        process.stdout.write(result);
+      });
+      return 'modify translation messages';
+    });
 
     return actions;
   },

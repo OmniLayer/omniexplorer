@@ -20,6 +20,4 @@ const makeSelectTransactionDetail = () => createSelector(
 );
 
 export default makeSelectTransactionDetail;
-export {
-  selectTransactionDetailDomain,
-};
+export { selectTransactionDetailDomain };

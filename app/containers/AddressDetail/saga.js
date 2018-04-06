@@ -5,7 +5,7 @@ import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/act
 
 import request from 'utils/request';
 
-function* getAddress(action = {}) {
+export function* getAddress(action = {}) {
   const requestURL = `${API_URL_BASE}/address/addr`;
 
   try {
