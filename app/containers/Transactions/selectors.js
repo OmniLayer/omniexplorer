@@ -27,4 +27,5 @@ const makeSelectLoading = () => createSelector(
 export {
   makeSelectTransactions,
   makeSelectLoading,
+  selectTransactionsDomain,
 };

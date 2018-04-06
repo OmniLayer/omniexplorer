@@ -5,7 +5,7 @@ import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_SEARCH } from './constants';
 import { searchLoaded, searchLoadingError } from './actions';
 
-function* getSearch(action = {}) {
+export function* getSearch(action = {}) {
   const requestURL = `${API_URL_BASE}/search`;
 
   try {
