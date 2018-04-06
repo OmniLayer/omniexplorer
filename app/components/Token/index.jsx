@@ -11,6 +11,7 @@ import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import { startFetch } from './actions';
 
@@ -23,7 +24,11 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
       try {
         logo = require(`images/token${this.props.id}.png`);
       } catch (e) {
-        logo = require('images/tokendefault.png');
+        if (this.props.id > 2147483650) {
+          logo = require('images/tokenwarn.png');
+        } else {
+          logo = require('images/tokendefault.png');
+        }
       }
       return logo;
     };
@@ -87,11 +92,11 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           </Link>
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
-          { reserved }
+          <SanitizedFormattedNumber value={reserved} />
         </td>
         <td style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            { value }
+            <SanitizedFormattedNumber value={value} />
           </strong>
         </td>
       </tr>

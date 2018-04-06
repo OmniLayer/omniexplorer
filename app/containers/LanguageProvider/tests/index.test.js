@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-closing-tag-location */
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import { mount, shallow } from 'enzyme';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router-dom';
 
@@ -20,11 +21,9 @@ const messages = defineMessages({
 describe('<LanguageProvider />', () => {
   it('should render its children', () => {
     const children = (<h1>Test</h1>);
-    const renderedComponent = shallow(
-      <LanguageProvider messages={messages} locale="en">
-        {children}
-      </LanguageProvider>
-    );
+    const renderedComponent = shallow(<LanguageProvider messages={messages} locale="en">
+      {children}
+    </LanguageProvider>);
     expect(renderedComponent.contains(children)).toBe(true);
   });
 });
@@ -37,13 +36,11 @@ describe('<ConnectedLanguageProvider />', () => {
   });
 
   it('should render the default language messages', () => {
-    const renderedComponent = mount(
-      <Provider store={store}>
-        <ConnectedLanguageProvider messages={translationMessages}>
-          <FormattedMessage {...messages.someMessage} />
-        </ConnectedLanguageProvider>
-      </Provider>
-    );
+    const renderedComponent = mount(<Provider store={store}>
+      <ConnectedLanguageProvider messages={translationMessages}>
+        <FormattedMessage {...messages.someMessage} />
+      </ConnectedLanguageProvider>
+    </Provider>);
     expect(renderedComponent.contains(<FormattedMessage {...messages.someMessage} />)).toBe(true);
   });
 });

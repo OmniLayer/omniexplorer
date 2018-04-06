@@ -10,11 +10,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
-import Moment from 'react-moment';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 
@@ -74,13 +75,17 @@ function TransactionInfo(props) {
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
   
   let logo;
-  try {
-    logo = require(`images/token${props.propertyid}.png`);
-  } catch(e) {
-    if (props.type_int === 4) {
-      logo = require('images/sendall.png');
-    } else {
-      logo = require('images/tokendefault.png');
+  if (props.type_int === 4) {
+    logo = require('images/sendall.png');
+  } else {
+    try {
+       logo = require(`images/token${props.propertyid}.png`);
+    } catch(e) {
+      if (props.propertyid > 2147483650) {
+        logo = require('images/tokenwarn.png');
+      } else {
+        logo = require('images/tokendefault.png');
+      }
     }
   }
   
@@ -107,7 +112,7 @@ function TransactionInfo(props) {
     dtheader = 'Pending Since';
   } else {
     dtheader = 'Date/Time';
-  }              
+  }
   
   const amountDisplay = (<TransactionAmount {...props} />);
   let tokenName;
@@ -141,7 +146,7 @@ function TransactionInfo(props) {
       <td>
         <strong>
           <span id="lamount">
-            { props.bitcoindesired } BTC
+            <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
           </span>
         </strong>
       </td>
@@ -209,9 +214,7 @@ function TransactionInfo(props) {
               <td className="field">{ dtheader }</td>
               <td>
                   <span id="ldatetime">
-                    <Moment unix>
-                      { props.blocktime }
-                    </Moment>
+                    <FormattedUnixDateTime datetime={props.blocktime} />
                   </span>
               </td>
             </tr>

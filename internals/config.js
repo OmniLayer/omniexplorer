@@ -1,4 +1,4 @@
-const resolve = require('path').resolve;
+const { resolve } = require('path');
 const pullAll = require('lodash/pullAll');
 const uniq = require('lodash/uniq');
 
@@ -29,7 +29,7 @@ const ReactBoilerplate = {
         'minimist',
         'sanitize.css',
         'bootstrap',
-        'react-icons', //https://github.com/react-boilerplate/react-boilerplate/issues/1405
+        'react-icons', // https://github.com/react-boilerplate/react-boilerplate/issues/1405
       ],
 
       /**
