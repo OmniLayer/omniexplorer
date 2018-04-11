@@ -24,6 +24,7 @@ import Search from 'containers/Search/Loadable';
 import AssetDetail from 'containers/AssetDetail/Loadable';
 import Promote from 'containers/Promote/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
+import Crowdsales from 'containers/Crowdsales';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
@@ -71,6 +72,7 @@ class App extends React.Component {
           <Route path="/address/:address/:page(\d+)?" component={AddressDetail} key={location.pathname} />
           <Route path="/search/:query" component={Search} key={location.pathname} />
           <Route path="/asset/:propertyid(\d+)" component={AssetDetail} key={location.pathname} />
+          <Route exact path="/crowdsales" component={Crowdsales} />
           <Route exact path="/promote" component={Promote} />
           <Route exact path="/submitfeedback" component={Feedback} />
           <Route path="" component={NotFoundPage} />
