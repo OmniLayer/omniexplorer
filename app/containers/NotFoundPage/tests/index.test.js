@@ -1,17 +1,18 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { shallow } from 'enzyme';
+/**
+ * Testing the NotFoundPage
+ */
 
-import NotFoundPage from '../index';
+import React from 'react';
+import { mountWithIntl } from 'tests/intl-enzyme-test-helper';
+import { FormattedMessage } from 'react-intl';
+
+import NotFound from '../index';
 import messages from '../messages';
 
-describe('<NotFoundPage />', () => {
-  it('should render the page message', () => {
-    const renderedComponent = shallow(
-      <NotFoundPage />
-    );
-    expect(renderedComponent.contains(
-      <FormattedMessage {...messages.header} />
-    )).toEqual(true);
+describe('<NotFound />', () => {
+  it('should render the Page Not Found text', () => {
+    const renderedComponent = mountWithIntl(<NotFound />, messages);
+    const expected = (<FormattedMessage {...messages.header} />);
+    expect(renderedComponent.contains(expected)).toEqual(true);
   });
 });

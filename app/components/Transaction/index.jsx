@@ -131,11 +131,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     
     let arrowcname;
     let addresscname;
+    let showreferencecname;
     
     if (this.props.referenceaddress !== undefined) {
       arrowcname = 'transaction-arrow-icon';
       addresscname = this.getHighlightIfOwner(this.props.referenceaddress);
     } else {
+      showreferencecname = 'd-none';
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
@@ -202,9 +204,9 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                     Sender Address Copied
                   </Tooltip>
                 </AddressWrapper>
-                <ArrowIconRight size={20} color="gray" className={`d-none d-lg-inline ${arrowcname}`}/>
+                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcname}`}/>
                 <ArrowIconDown size={20} color="gray" className={`d-lg-none ${arrowcname}`}/>
-                <AddressWrapper>
+                <AddressWrapper className={showreferencecname}>
                   <WrapperLink>
                     <StyledLink
                       className={addresscname}
@@ -240,8 +242,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
               <small>{ this.props.propertyname } (#{ this.props.propertyid })</small>
             </Col>
           </Row>
-          <Row className="h-56-md-up d-flex align-items-lg-center align-items-md-end">
-            <Col sm className="btn-group mb-1">
+          <Row className="h-56-md-up d-flex align-items-md-center align-items-sm-end">
+            <Col sm className="btn-group mb-1 my-auto">
               <Link
                 className={statusColor}
                 to={{

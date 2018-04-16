@@ -1,17 +1,18 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { shallow } from 'enzyme';
+import { connect } from 'react-redux';
+import { shallowWithState } from 'enzyme-redux';
 
 import HomePage from '../index';
-import messages from '../messages';
 
 describe('<HomePage />', () => {
-  it('should render the page message', () => {
-    const renderedComponent = shallow(
-      <HomePage />
-    );
-    expect(renderedComponent.contains(
-      <FormattedMessage {...messages.header} />
-    )).toEqual(true);
+  const ReactComponent = () => (<HomePage />);
+  it('should render <HomePage />', () => {
+    const expectedState = { mockedStated: true };
+    const mapStateToProps = (state) => ({
+      state,
+    });
+    const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
+    const component = shallowWithState(<ConnectedComponent />, expectedState);
+    expect(component.props().state).toBe(expectedState);
   });
 });

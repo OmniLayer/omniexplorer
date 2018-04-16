@@ -84,12 +84,6 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199.98px) {
-  .result-list .result-price {
-    border-left: 1px dashed #ddd;
-  }
-}
-
 @media (max-width: 768px) {
   .result-list {
     .transation-result {
@@ -102,6 +96,12 @@
   }
   .address-wrapper {
     display: block;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .result-list .result-price {
+    border-left: 1px dashed #ddd;
   }
 }
 
