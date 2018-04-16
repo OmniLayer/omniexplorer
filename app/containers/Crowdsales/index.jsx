@@ -56,8 +56,12 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
           </tr>
           </thead>
           <tbody>
-          {this.props.crowdsales.crowdsales.map((x, idx) => <Asset {...x} changeRoute={this.props.changeRoute}
-                                                                   key={x[2] + idx}/>)}
+          {this.props.crowdsales.crowdsales.map((x, idx) =>
+            <Asset
+              {...x}
+              changeRoute={this.props.changeRoute}
+              key={x.creationtxid}
+            />)}
           </tbody>
         </Table>
       </div>
