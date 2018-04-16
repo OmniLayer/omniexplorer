@@ -6,10 +6,20 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+
+const StyledTD = styled.td.attrs({
+  className: 'align-middle',
+})``;
+
+const StyledTDTextLeft = styled(StyledTD).attrs({
+  className: 'text-left pt-3 text-truncate',
+})`
+  max-width: 1rem;
+`;
 
 function Asset(props) {
   const getLogo = (id) => {
@@ -28,16 +38,16 @@ function Asset(props) {
 
   return (
     <tr>
-      <td style={{ width: '56px' }}>
+      <StyledTD style={{ width: '56px' }}>
         <img
-          style={{ width: '24px', height: '24px' }}
+          style={{ width: '4rem', height: '4rem' }}
           src={getLogo(props[0])}
         />
-      </td>
-      <td className="text-left pt-3">
+      </StyledTD>
+      <StyledTDTextLeft>
         { props[0] }
-      </td>
-      <td className="text-left pt-3">
+      </StyledTDTextLeft>
+      <StyledTDTextLeft>
         <Link
           to={{
             pathname: `/asset/${props[0]}`,
@@ -46,8 +56,8 @@ function Asset(props) {
         >
           { props[1] }
         </Link>
-      </td>
-      <td className="text-left pt-3">
+      </StyledTDTextLeft>
+      <StyledTDTextLeft>
         <Link
           to={{
             pathname: `/address/${props[2]}`,
@@ -56,7 +66,7 @@ function Asset(props) {
         >
           { props[2] }
         </Link>
-      </td>
+      </StyledTDTextLeft>
     </tr>
   );
 }

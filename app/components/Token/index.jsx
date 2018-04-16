@@ -14,6 +14,11 @@ import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import { startFetch } from './actions';
+import styled from 'styled-components';
+
+const StyledTD = styled.td.attrs({
+  className: 'align-middle',
+})``;
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -65,13 +70,13 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
 
     return (
       <tr>
-        <td style={{ width: '56px' }}>
+        <StyledTD style={{ width: '56px' }}>
           <img
-            style={{ width: '24px', height: '24px' }}
+            style={{ width: '4rem', height: '4rem' }}
             src={this.getLogo()}
           />
-        </td>
-        <td style={{ paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -80,8 +85,8 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           >
             { this.props.id }
           </Link>
-        </td>
-        <td style={{ paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -90,15 +95,15 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           >
             { this.getTokenName() }
           </Link>
-        </td>
-        <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <SanitizedFormattedNumber value={reserved} />
-        </td>
-        <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
             <SanitizedFormattedNumber value={value} />
           </strong>
-        </td>
+        </StyledTD>
       </tr>
     );
   }

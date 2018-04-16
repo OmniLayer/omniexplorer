@@ -48,7 +48,19 @@ injectGlobal`
     -webkit-transition: color 100ms ease-in-out
   }
   
+  .table td, .table th {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
   
+  .table th {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  
+  .table td {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
   
   @include media-breakpoint-down(sm) {
   
