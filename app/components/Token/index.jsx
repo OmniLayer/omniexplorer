@@ -61,8 +61,10 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     }
 
     let value;
+    let vlabel;
     if (available == 0 && frozen > 0) {
-      value = `${frozen} Frozen!`;
+      value = frozen;
+      vlabel = " Frozen!"
     } else {
       value = available;
     }
@@ -101,7 +103,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
         </StyledTD>
         <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            <SanitizedFormattedNumber value={value} />
+            <SanitizedFormattedNumber value={value} />{vlabel}
           </strong>
         </StyledTD>
       </tr>
