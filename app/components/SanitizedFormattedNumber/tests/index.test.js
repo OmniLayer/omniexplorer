@@ -29,4 +29,15 @@ describe('<SanitizedFormattedNumber />', () => {
     expect(monted.children().length).toBe(1);
     expect(monted.text()).toBe('1,001.001');
   });
+  
+  it('should format number with maximum decimal places', () => {
+    const component = (
+      <IntlProvider locale="en">
+        <SanitizedFormattedNumber value={'364.98653211'}/>
+      </IntlProvider>
+    );
+    const monted = mount(component);
+    expect(monted.children().length).toBe(1);
+    expect(monted.text()).toBe('364.98653211');
+  });
 });
