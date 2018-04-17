@@ -142,7 +142,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       addresscname = 'd-none';
     }
     
-    const transactionAmount = (this.props.amount ? this.props.amount.slice(0, this.props.amount.indexOf('.') + 7) : '');
+    const transactionAmount = this.props.amount || '';
     
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
