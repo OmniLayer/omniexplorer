@@ -83,7 +83,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show subsends of SendAll</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                { this.props.subsends.map((send, idx) => (
+                { (this.props.subsends || []).map((send, idx) => (
                   <div key={idx}>
                     <span>
                       <SanitizedFormattedNumber value={send.amount} /> { send.propertyname } (#{ send.propertyid })
