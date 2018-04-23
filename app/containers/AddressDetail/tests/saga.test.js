@@ -65,7 +65,7 @@ describe('getAddress Saga', () => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: bodyRequest,
+      body: bodyRequest,
     };
   
     saga

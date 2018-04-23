@@ -15,7 +15,7 @@ export function* getAddress(action = {}) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: bodyRequest,
+      body: bodyRequest,
     };
 
     const wallet = yield call(request, requestURL, options);
