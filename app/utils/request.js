@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import axios from 'axios';
 
 /**
  * Parses the JSON returned by a network request
@@ -11,7 +12,8 @@ function parseJSON(response) {
   if (response.status === 204 || response.status === 205) {
     return null;
   }
-  return response.json();
+  
+  return response.data;
 }
 
 /**
@@ -25,7 +27,11 @@ function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
+  
+  throwError(response);
+}
 
+function throwError(response) {
   const error = new Error(response.statusText);
   error.response = response;
   throw error;
@@ -40,7 +46,8 @@ function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  return axios(url, options)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .catch(throwError);
 }
