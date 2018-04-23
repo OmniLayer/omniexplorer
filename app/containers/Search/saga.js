@@ -15,7 +15,7 @@ export function* getSearch(action = {}) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: bodyRequest,
+      data: bodyRequest,
     };
 
     const search = yield call(request, requestURL, options);
