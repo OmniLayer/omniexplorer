@@ -1,11 +1,10 @@
 /**
-*
-* CrowdsaleInfo
-*
-*/
+ *
+ * CrowdsaleInfo
+ *
+ */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
@@ -22,13 +21,14 @@ const StyledTD = styled.td.attrs({
 })``;
 
 const StyledTDTextLeft = styled(StyledTD).attrs({
-  className: 'text-left pt-3 text-truncate',
+  className: 'text-left pt-3',
 })`
   max-width: 1rem;
+  white-space: pre-wrap;
 `;
 
 class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props){
+  constructor(props) {
     super(props);
     
     this.props.getProperty(this.props.propertyid.toString());
@@ -40,7 +40,7 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
     
     const asset = this.props.properties(assetId);
     const assetDesired = this.props.properties(assetDesiredId);
-  
+    
     if (!assetDesired) return null;
     
     return (
@@ -56,22 +56,25 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          BitStrapAccessToken (24) / Rate (100000000.00000000)
+          {`${assetDesired.propertyname}(${assetDesiredId}) / Rate (`}
+            <SanitizedFormattedNumber value={asset.tokensperunit} />
+          {')'}
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.totaltokens} />
+          ...
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.totaltokens} />
+          <SanitizedFormattedNumber value={this.props.totaltokens}/>
+        </StyledTDTextLeft>
+        <StyledTDTextLeft>
+          <SanitizedFormattedNumber value={this.props.tokensissued}/>
         </StyledTDTextLeft>
       </tr>
     );
   }
 }
 
-CrowdsaleInfo.propTypes = {
-
-};
+CrowdsaleInfo.propTypes = {};
 
 const mapStateToProps = createStructuredSelector({
   properties: (state) => makeSelectProperty(state),

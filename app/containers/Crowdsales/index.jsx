@@ -15,7 +15,7 @@ import { Col, Container, Row, Table } from 'reactstrap';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import Asset from 'components/Asset';
+import CrowdsaleInfo from 'components/CrowdsaleInfo';
 
 import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';
@@ -49,15 +49,16 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
         <Table className="table-profile">
           <thead>
           <tr>
-            <StyledTH></StyledTH>
-            <StyledTH>Property ID</StyledTH>
-            <StyledTH>Name</StyledTH>
-            <StyledTH>Issuer</StyledTH>
+            <StyledTH>Crowdsale</StyledTH>
+            <StyledTH>Accepted currency</StyledTH>
+            <StyledTH>Time Until Closing</StyledTH>
+            <StyledTH>Tokens Bought</StyledTH>
+            <StyledTH>Tokens Created</StyledTH>
           </tr>
           </thead>
           <tbody>
-          {this.props.crowdsales.crowdsales.map((x, idx) =>
-            <Asset
+          {this.props.crowdsales.crowdsales.filter((x) => x.active).map((x, idx) =>
+            <CrowdsaleInfo
               {...x}
               changeRoute={this.props.changeRoute}
               key={x.creationtxid}
