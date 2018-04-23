@@ -15,7 +15,7 @@ export function* getCrowdsales(action = {}) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: bodyRequest,
+      body: bodyRequest,
     };
     
     const crowdsales = yield call(request, requestURL, options);
