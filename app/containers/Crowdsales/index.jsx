@@ -5,23 +5,26 @@
  */
 
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Col, Container, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, Table } from 'reactstrap';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import CrowdsaleInfo from 'components/CrowdsaleInfo';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';
 import crowdsalesSaga from './saga';
 import { loadCrowdsales } from './actions';
-import { LOAD_CROWDSALES_ECOSYSTEM_PROD } from './constants';
+import { LOAD_CROWDSALES_ECOSYSTEM_PROD, LOAD_CROWDSALES_ECOSYSTEM_TEST } from './constants';
+import messages from './messages';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -35,14 +38,47 @@ const StyledTH = styled.th`
 export class Crowdsales extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.ecosystem = LOAD_CROWDSALES_ECOSYSTEM_PROD;
-    this.props.loadCrowdsales(this.ecosystem);
+    
+    this.setEcosystem = (ecosystem) => {
+      this.props.loadCrowdsales(ecosystem);
+    }
+  }
+  
+  componentDidMount(){
+    this.props.loadCrowdsales(this.props.crowdsales.ecosystem);
   }
   
   render() {
+    let loading = null;
     if (this.props.crowdsales.loading) {
-      return null;
+      return (
+        <Container>
+          <LoadingIndicator />
+        </Container>
+      );
     }
+    
+    const ecosystem = (
+      <UncontrolledDropdown>
+        <DropdownToggle caret>
+          Ecosystem
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem
+            active={this.props.crowdsales.ecosystem === LOAD_CROWDSALES_ECOSYSTEM_PROD}
+            onClick={()=>this.setEcosystem(LOAD_CROWDSALES_ECOSYSTEM_PROD)}
+          >
+            <FormattedMessage {...messages.ecosystem.prod} />
+          </DropdownItem>
+          <DropdownItem
+            active={this.props.crowdsales.ecosystem === LOAD_CROWDSALES_ECOSYSTEM_TEST}
+            onClick={()=>this.setEcosystem(LOAD_CROWDSALES_ECOSYSTEM_TEST)}
+          >
+            <FormattedMessage {...messages.ecosystem.test} />
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
+    );
     
     const assets = (
       <div className="table-responsive">
@@ -73,13 +109,19 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
         <Row>
           <Col sm>
             <h3>
-              Showing Crowdsales for ecosystem {(this.ecosystem === LOAD_CROWDSALES_ECOSYSTEM_PROD ? 'PROD' : 'TEST')}
+              Showing Crowdsales for ecosystem {ecosystem}
+              {(this.props.crowdsales.ecosystem === LOAD_CROWDSALES_ECOSYSTEM_PROD ? 'PROD' : 'TEST')}
             </h3>
           </Col>
         </Row>
         <Row>
           <Col sm>
             {assets}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm>
+            {loading}
           </Col>
         </Row>
       </StyledContainer>

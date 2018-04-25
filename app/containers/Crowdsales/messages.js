@@ -6,8 +6,14 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.Crowdsales.header',
-    defaultMessage: 'This is Crowdsales container !',
-  },
+  ecosystem: {
+    prod: {
+      id: 'app.containers.Crowdsales.ecosystem.prod',
+      defaultMessage: 'PROD',
+    },
+    test: {
+      id: 'app.containers.Crowdsales.ecosystem.test',
+      defaultMessage: 'TEST',
+    },
+  }
 });
