@@ -11,9 +11,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
-import { startFetch } from 'components/Token/actions';
-import { makeSelectProperty } from 'components/Token/selectors';
 import styled from 'styled-components';
 
 const StyledTD = styled.td.attrs({
@@ -23,26 +22,11 @@ const StyledTD = styled.td.attrs({
 const StyledTDTextLeft = styled(StyledTD).attrs({
   className: 'text-left pt-3',
 })`
-  max-width: 1rem;
   white-space: pre-wrap;
 `;
 
 class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    
-    this.props.getProperty(this.props.propertyid.toString());
-  }
-  
   render() {
-    const assetId = this.props.propertyid.toString();
-    const assetDesiredId = this.props.propertyiddesired.toString();
-    
-    const asset = this.props.properties(assetId);
-    const assetDesired = this.props.properties(assetDesiredId);
-    
-    if (!assetDesired) return null;
-    
     return (
       <tr>
         <StyledTDTextLeft>
@@ -56,18 +40,20 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          {`${assetDesired.propertyname}(${assetDesiredId}) / Rate (`}
-            <SanitizedFormattedNumber value={asset.tokensperunit} />
+          {`${this.props.propertyiddesiredname}(${this.props.propertyiddesired}) / Rate (`}
+          <SanitizedFormattedNumber value={this.props.tokensperunit} />
           {')'}
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          ...
+          <span>
+            <FormattedUnixDateTime datetime={this.props.deadline} />
+          </span>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.totaltokens}/>
+          <SanitizedFormattedNumber value={this.props.totaltokens} />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.tokensissued}/>
+          <SanitizedFormattedNumber value={this.props.tokensissued} />
         </StyledTDTextLeft>
       </tr>
     );
@@ -76,21 +62,14 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
 
 CrowdsaleInfo.propTypes = {};
 
-const mapStateToProps = createStructuredSelector({
-  properties: (state) => makeSelectProperty(state),
-});
-
 function mapDispatchToProps(dispatch) {
   return {
-    getProperty: (propertyId) => dispatch(startFetch(propertyId)),
     changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-)(CrowdsaleInfo);
+export default compose(withConnect, )(CrowdsaleInfo);
 
