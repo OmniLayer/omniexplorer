@@ -1,18 +1,14 @@
 
-import {
-  defaultAction,
-} from '../actions';
-import {
-  DEFAULT_ACTION,
-} from '../constants';
+import { loadCrowdsales } from '../actions';
+import { LOAD_CROWDSALES } from '../constants';
 
 describe('Crowdsales actions', () => {
   describe('Default Action', () => {
     it('has a type of DEFAULT_ACTION', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOAD_CROWDSALES,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(loadCrowdsales()).toEqual(expected);
     });
   });
 });
