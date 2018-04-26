@@ -4,31 +4,32 @@
 
 import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
+import request from 'utils/request';
+
+import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_TRANSACTIONS, LOAD_TRANSACTIONS_SUCCESS } from '../constants';
 import { transactionsLoadingError } from '../actions';
-import { API_URL_BASE } from 'containers/App/constants';
 
 import root, { getTransactions } from '../saga';
-import request from 'utils/request';
 
 const txid = 'dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x';
 
 /* eslint-disable redux-saga/yield-effects */
 describe('getTransaction Saga', () => {
   let getTransactionGenerator;
-  
+
   // We have to test twice, once for a successful load and once for an unsuccessful one
   // so we do all the stuff that happens beforehand automatically in the beforeEach
   beforeEach(() => {
     getTransactionGenerator = getTransactions();
-    
+
     const selectDescriptor = getTransactionGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();
-    
+
     const callDescriptor = getTransactionGenerator.next(txid).value;
     expect(callDescriptor).toMatchSnapshot();
   });
-  
+
   it('should dispatch the transactionsLoaded action if it requests the data successfully', () => {
     const response = {
       pages: 143938,
@@ -50,7 +51,7 @@ describe('getTransaction Saga', () => {
           version: 0,
         }],
     };
-    
+
     const saga = testSaga(getTransactions, { tx: txid });
     const url = `${API_URL_BASE}/transaction/general/0`;
     const getTransactionsOptions = {
@@ -59,7 +60,7 @@ describe('getTransaction Saga', () => {
         'Content-Type': 'application/json',
       },
     };
-    
+
     saga
       .next()
       .call(request, url, getTransactionsOptions)
@@ -68,10 +69,10 @@ describe('getTransaction Saga', () => {
         type: LOAD_TRANSACTIONS_SUCCESS,
         transactions: response.transactions,
         pages: response.pages,
-        currentPage: 0
+        currentPage: 0,
       });
   });
-  
+
   it('should call the transactionsLoadingError action if the response errors', () => {
     const response = new Error('Some error');
     const putDescriptor = getTransactionGenerator.throw(response).value;
@@ -84,10 +85,10 @@ describe('Root Saga', () => {
     // arrange
     const rootSaga = root();
     const expectedYield = all([takeLatest(LOAD_TRANSACTIONS, getTransactions)]);
-    
+
     // act
     const actualYield = rootSaga.next().value;
-    
+
     // assert
     expect(actualYield).toEqual(expectedYield);
   });

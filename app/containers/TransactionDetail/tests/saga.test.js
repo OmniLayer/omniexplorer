@@ -8,11 +8,9 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_TRANSACTION, LOAD_TRANSACTION_SUCCESS } from '../constants';
-import { transactionLoaded, transactionLoadingError } from '../actions';
+import { transactionLoadingError } from '../actions';
 
 import root, { getTransaction } from '../saga';
-import { LOAD_TRANSACTIONS } from '../../Transactions/constants';
-import { getTransactions } from '../../Transactions/saga';
 
 const txid = 'dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x';
 
@@ -50,9 +48,9 @@ describe('getTransaction Saga', () => {
       version: 0,
     };
 
-    const saga = testSaga(getTransaction, {tx:txid});
+    const saga = testSaga(getTransaction, { tx: txid });
     const url = `${API_URL_BASE}/transaction/tx/${txid}`;
-    
+
     saga
       .next()
       .call(request, url)

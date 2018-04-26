@@ -7,7 +7,7 @@ import { crowdsalesLoaded, crowdsalesLoadingError } from './actions';
 
 export function* getCrowdsales(action = {}) {
   const requestURL = `${API_URL_BASE}/properties/listactivecrowdsales`;
-  
+
   try {
     const bodyRequest = `${encodeURIComponent('ecosystem')}=${encodeURIComponent(action.ecosystem)}`;
     const options = {
@@ -17,7 +17,7 @@ export function* getCrowdsales(action = {}) {
       },
       body: bodyRequest,
     };
-    
+
     const crowdsales = yield call(request, requestURL, options);
     yield put(crowdsalesLoaded(crowdsales));
   } catch (err) {

@@ -58,46 +58,46 @@ const WrapperLink = styled.div.attrs({
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-    
+
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-  
+
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-  
+
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-  
+
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-  
+
   getHighlightIfOwner(address) {
     return (this.isOwner(address) ? 'text-success' : '');
   }
-  
+
   isOwner(address) {
     return (this.props.addr ? this.props.addr === address : false);
   }
-  
+
   render() {
     const isValid = this.props.valid;
-    
+
     const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : (this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
-    
+
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
@@ -113,14 +113,14 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           'UNCONFIRMED' :
           'INVALID'
     );
-    
+
     let tokenLogo;
     if (this.props.type_int === 4) {
       tokenLogo = require('images/sendall.png');
     } else {
       try {
         tokenLogo = require(`images/token${this.props.propertyid}.png`);
-      } catch(e) {
+      } catch (e) {
         if (this.props.propertyid > 2147483650) {
           tokenLogo = require('images/tokenwarn.png');
         } else {
@@ -128,11 +128,11 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
         }
       }
     }
-    
+
     let arrowcname;
     let addresscname;
     let showreferencecname;
-    
+
     if (this.props.referenceaddress !== undefined) {
       arrowcname = 'transaction-arrow-icon';
       addresscname = this.getHighlightIfOwner(this.props.referenceaddress);
@@ -141,19 +141,19 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-    
+
     const transactionAmount = this.props.amount || '';
-    
+
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-    
+
     return (
       <Row className="transation-result mx-auto text-center-down-md">
         <Col sm="9">
           <Row className="transaction-header">
             <Col sm="2" md="1">
-              <IMG src={tokenLogo}/>
+              <IMG src={tokenLogo} />
             </Col>
             <Col sm>
               <span className="title d-block-down-md">
@@ -171,13 +171,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   { this.props.txid }
                 </Link>
                 <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
-                  <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid}/>
+                  <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid} />
                 </CopyToClipboard>
                 <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
                   Transaction Id Copied
                 </Tooltip>
                 <div className="d-block-down-md">
-                  <FormattedUnixDateTime datetime={this.props.blocktime}/>
+                  <FormattedUnixDateTime datetime={this.props.blocktime} />
                 </div>
               </div>
             </Col>
@@ -198,14 +198,14 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                     </StyledLink>
                   </WrapperLink>
                   <CopyToClipboard text={this.props.sendingaddress} onCopy={this.toggleSenderTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid}/>
+                    <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid} />
                   </CopyToClipboard>
                   <Tooltip hideArrow isOpen={this.state.tooltipSenderOpen} target={sendercopyid}>
                     Sender Address Copied
                   </Tooltip>
                 </AddressWrapper>
-                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcname}`}/>
-                <ArrowIconDown size={20} color="gray" className={`d-lg-none ${arrowcname}`}/>
+                <ArrowIconRight size={20} color="gray" className={`d-none d-md-inline-flex ${arrowcname}`} />
+                <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`} />
                 <AddressWrapper className={showreferencecname}>
                   <WrapperLink>
                     <StyledLink
@@ -219,7 +219,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                     </StyledLink>
                   </WrapperLink>
                   <CopyToClipboard text={this.props.referenceaddress} onCopy={this.toggleRefererTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid}/>
+                    <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid} />
                   </CopyToClipboard>
                   <Tooltip hideArrow isOpen={this.state.tooltipRefererOpen} target={referercopyid}>
                     Reference Address Copied
@@ -233,7 +233,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col sm>
               <h4 className="title">
-                <SanitizedFormattedNumber value={transactionAmount}/>
+                <SanitizedFormattedNumber value={transactionAmount} />
               </h4>
             </Col>
           </Row>
@@ -285,6 +285,4 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-)(Transaction);
+export default compose(withConnect, )(Transaction);

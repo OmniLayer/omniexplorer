@@ -6,11 +6,6 @@ import { createSelector } from 'reselect';
 const selectTransactionsDomain = (state) => state.get('transactions');
 
 /**
- * Other specific selectors
- */
-
-
-/**
  * Default selector used by Transactions
  */
 

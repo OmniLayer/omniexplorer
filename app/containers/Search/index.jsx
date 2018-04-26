@@ -34,7 +34,6 @@ const StyledContainer = styled(Container)`
     `;
 const StyledTH = styled.th`
       border: none !important;
-      max-width: 1rem;
     `;
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
