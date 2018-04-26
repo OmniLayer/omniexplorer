@@ -9,11 +9,11 @@ export default defineMessages({
   ecosystem: {
     prod: {
       id: 'app.containers.Crowdsales.ecosystem.prod',
-      defaultMessage: 'PROD',
+      defaultMessage: 'Production',
     },
     test: {
       id: 'app.containers.Crowdsales.ecosystem.test',
-      defaultMessage: 'TEST',
+      defaultMessage: 'Test',
     },
-  }
+  },
 });

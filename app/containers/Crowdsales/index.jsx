@@ -34,6 +34,12 @@ const StyledContainer = styled(Container)`
 const StyledTH = styled.th`
       border: none !important;
     `;
+const StyledUncontrolledDropdown = styled(UncontrolledDropdown)`
+      display: inline-block;
+      .dropdown-menu {
+        font-size: 1.3rem;
+      }
+`;
 
 export class Crowdsales extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -59,9 +65,9 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
     }
     
     const ecosystem = (
-      <UncontrolledDropdown>
+      <StyledUncontrolledDropdown size="lg">
         <DropdownToggle caret>
-          Ecosystem
+          { this.props.crowdsales.ecosystemName }
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem
@@ -77,7 +83,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
             <FormattedMessage {...messages.ecosystem.test} />
           </DropdownItem>
         </DropdownMenu>
-      </UncontrolledDropdown>
+      </StyledUncontrolledDropdown>
     );
     
     const assets = (
@@ -87,7 +93,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
           <tr>
             <StyledTH>Crowdsale</StyledTH>
             <StyledTH>Accepted currency</StyledTH>
-            <StyledTH>Time Until Closing</StyledTH>
+            <StyledTH>Closing Datetime</StyledTH>
             <StyledTH>Tokens Bought</StyledTH>
             <StyledTH>Tokens Created</StyledTH>
           </tr>
@@ -110,7 +116,6 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
           <Col sm>
             <h3>
               Showing Crowdsales for ecosystem {ecosystem}
-              {(this.props.crowdsales.ecosystem === LOAD_CROWDSALES_ECOSYSTEM_PROD ? 'PROD' : 'TEST')}
             </h3>
           </Col>
         </Row>
