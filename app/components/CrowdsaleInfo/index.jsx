@@ -32,9 +32,9 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
         <StyledTDTextLeft>
           <Link
             to={{
-              pathname: `/asset/${this.props.propertyid}`,
+              pathname: `/crowdsale/${this.props.propertyid}`,
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.propertyid}`)}
+            onClick={() => this.props.changeRoute(`/crowdsale/${this.props.propertyid}`)}
           >
             {this.props.name}
           </Link>
