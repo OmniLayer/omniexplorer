@@ -65,5 +65,9 @@ injectGlobal`
   @include media-breakpoint-down(sm) {
   
   }
+  
+  :disabled:hover {
+    cursor: not-allowed;
+  }
 `;
 

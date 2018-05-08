@@ -62,7 +62,6 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
     this.propertyId = this.props.match.params.propertyid.toString();
     this.props.getProperty(this.props.match.params.propertyid.toString());
-    this.getTokenName = () => this.asset.name;
   }
 
   render() {
@@ -89,8 +88,8 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
           <StyledCard inverse>
             <CardHeader style={{ backgroundColor: '#a94442', borderColor: '#a94442' }}>Warning: Duplicated or Similar Token Name</CardHeader>
             <StyledCardBody>
-              <CardText> 
-                Please note this property has a name that is either a duplicate or similar to a previously issued property. 
+              <CardText>
+                Please note this property has a name that is either a duplicate or similar to a previously issued property.
                 It is possible that this property is intended to imitate a different property.<br/>
                 <b>Always verify the Property ID of any Omni Layer transaction.</b>
               </CardText>

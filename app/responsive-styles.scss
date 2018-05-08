@@ -34,6 +34,9 @@
   .d-block-only-sm-down .searchbox-form {
     display: none !important;
   }
+  .card-columns {
+    column-count: 2;
+  }
 }
 
 @include media-breakpoint-down(md, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
@@ -55,6 +58,9 @@
   }
   .overflow-hidden-down-md {
     overflow: hidden;
+  }
+  .card-columns {
+    column-count: 1;
   }
 }
 
@@ -79,3 +85,12 @@
 //
 //  }
 //}
+
+.card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 4;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 5;
+  }
+}

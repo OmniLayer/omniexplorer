@@ -34,7 +34,7 @@ export function* watchFetchProperty() {
     const prevTokenSelector = yield select(getTokens);
     const { id } = yield take(LOAD_PROPERTY_DEEP);
     const newTokenSelector = yield select(getTokens);
-    if (prevTokenSelector !== newTokenSelector || !prevTokenSelector.get('id')) {
+    if (prevTokenSelector !== newTokenSelector || !newTokenSelector.get(id)) {
       yield fork(fetchPropertyDeep, { id });
     }
   }
@@ -44,24 +44,25 @@ function* fetchPropertyDeep(action) {
   try {
     const state = yield select((st) => st);
     const tokens = state.get('token').get('tokens');
+    let property = tokens.get(action.id.toString());
 
     // load token if is still not requested
-    yield call(delay, 1000);
-    if (!tokens.get(action.id.toString())) {
+    // yield call(delay, 1000);
+    if (!property) {
       console.log('fetch property ', action.id);
-      const property = yield call(fetchProperty, action.id);
+      property = yield call(fetchProperty, action.id);
 
       if (!property) {
         const error = new Error(`Failed to fetch property ${action.id}`);
         throw error;
       }
+    }
 
-      // load desired property if it's still not requested
-      const propertyiddesired = (property.propertyiddesired || '').toString();
-      if (propertyiddesired && !tokens.get(propertyiddesired)) {
-        console.log('fetch desired property ', propertyiddesired);
-        yield call(fetchProperty, propertyiddesired);
-      }
+    // load desired property if it's still not requested
+    const propertyiddesired = (property.propertyiddesired || '').toString();
+    if (propertyiddesired && !tokens.get(propertyiddesired)) {
+      console.log('fetch desired property ', propertyiddesired);
+      yield call(fetchProperty, propertyiddesired);
     }
   } catch (err) {
     console.log('SAGA fetchPropertyDeep ERR: ', err);

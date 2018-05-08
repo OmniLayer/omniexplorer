@@ -137,6 +137,13 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
 Crowdsales.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadCrowdsales: PropTypes.func,
+  changeRoute: PropTypes.func,
+  crowdsales: PropTypes.shape({
+    crowdsales: PropTypes.array,
+    ecosystemName: PropTypes.string,
+    loading: PropTypes.bool,
+    ecosystem: PropTypes.number,
+  }),
 };
 
 const mapStateToProps = createStructuredSelector({
