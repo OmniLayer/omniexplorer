@@ -28,16 +28,27 @@ const TimerCardLabel = styled.p.attrs({
 })`
 `;
 
-function Timer(props) {
-  const self = {
-    maxTimeUnit: props.maxTimeUnit,
-    datetime: props.datetime,
-    countdown: props.countdown,
-    interval: props.interval || 1000,
-  };
 
-  function calculateTimeUnits() {
-    // timeUnits = i18nService.getTimeUnits(self.millis);
+export class Timer extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      lastupdate: moment().unix(),
+    };
+    
+    this.calculateTimeUnits();
+    setInterval(
+      () => {
+        this.calculateTimeUnits.call(this);
+        this.setState({ lastupdate: moment().unix() });
+      },
+      this.props.interval,
+    );
+  }
+  
+  calculateTimeUnits() {
+    // timeUnits = i18nService.getTimeUnits(this.millis);
     const timeUnits = {
       seconds: 'second',
       minutes: 'minute',
@@ -46,109 +57,109 @@ function Timer(props) {
       months: 'month',
       years: 'year',
     }; // will contains time with units
-
-    if (self.datetime) {
-      const since = (self.countdown ? moment(self.datetime) : moment());
-      const to = (self.countdown ? moment() : moment(self.datetime));
-
-      self.years = since.diff(to, 'years');
-      to.add(self.years, 'years');
-
-      self.months = since.diff(to, 'months');
-      to.add(self.months, 'months');
-
-      self.days = since.diff(to, 'days');
-      to.add(self.days, 'days');
-
-      self.hours = since.diff(to, 'hours');
-      to.add(self.hours, 'hours');
-
-      self.minutes = since.diff(to, 'minutes');
-      to.add(self.hours, 'minutes');
-
-      self.seconds = since.diff(to, 'seconds');
-      to.add(self.hours, 'seconds');
-
-      self.millis = moment.unix(self.datetime).diff(moment());
+    
+    if (this.props.datetime) {
+      const since = (this.props.countdown ? moment.utc(this.props.datetime) : moment.utc());
+      const to = (this.props.countdown ? moment.utc() : moment.utc(this.props.datetime));
+      
+      this.years = since.diff(to, 'years');
+      to.add(this.years, 'years');
+      
+      this.months = since.diff(to, 'months');
+      to.add(this.months, 'months');
+      
+      this.days = since.diff(to, 'days');
+      to.add(this.days, 'days');
+      
+      this.hours = since.diff(to, 'hours');
+      to.add(this.hours, 'hours');
+      
+      this.minutes = since.diff(to, 'minutes');
+      to.add(this.hours, 'minutes');
+      
+      this.seconds = since.diff(to, 'seconds');
+      to.add(this.hours, 'seconds');
+      
+      this.millis = moment.unix(this.props.datetime).diff(moment());
     } else {
       throw new Error('datetime prop missing on Timer call');
     }
-
+    
     // plural - singular unit decision (old syntax, for backwards compatibility and English only, could be deprecated!)
-    self.secondsS = (self.seconds === 1) ? '' : 's';
-    self.minutesS = (self.minutes === 1) ? '' : 's';
-    self.hoursS = (self.hours === 1) ? '' : 's';
-    self.daysS = (self.days === 1) ? '' : 's';
-    self.monthsS = (self.months === 1) ? '' : 's';
-    self.yearsS = (self.years === 1) ? '' : 's';
-
+    this.secondsS = (this.seconds === 1) ? '' : 's';
+    this.minutesS = (this.minutes === 1) ? '' : 's';
+    this.hoursS = (this.hours === 1) ? '' : 's';
+    this.daysS = (this.days === 1) ? '' : 's';
+    this.monthsS = (this.months === 1) ? '' : 's';
+    this.yearsS = (this.years === 1) ? '' : 's';
+    
     // new plural-singular unit decision functions (for custom units and multilingual support)
-    self.secondUnit = timeUnits.seconds;
-    self.minuteUnit = timeUnits.minutes;
-    self.hourUnit = timeUnits.hours;
-    self.dayUnit = timeUnits.days;
-    self.monthUnit = timeUnits.months;
-    self.yearUnit = timeUnits.years;
-
+    this.secondUnit = timeUnits.seconds;
+    this.minuteUnit = timeUnits.minutes;
+    this.hourUnit = timeUnits.hours;
+    this.dayUnit = timeUnits.days;
+    this.monthUnit = timeUnits.months;
+    this.yearUnit = timeUnits.years;
+    
     // add leading zero if number is smaller than 10
-    self.sseconds = self.seconds < 10 ? `0${self.seconds}` : self.seconds;
-    self.mminutes = self.minutes < 10 ? `0${self.minutes}` : self.minutes;
-    self.hhours = self.hours < 10 ? `0${self.hours}` : self.hours;
-    self.ddays = self.days < 10 ? `0${self.days}` : self.days;
-    self.mmonths = self.months < 10 ? `0${self.months}` : self.months;
-    self.yyears = self.years < 10 ? `0${self.years}` : self.years;
+    this.sseconds = this.seconds < 10 ? `0${this.seconds}` : this.seconds;
+    this.mminutes = this.minutes < 10 ? `0${this.minutes}` : this.minutes;
+    this.hhours = this.hours < 10 ? `0${this.hours}` : this.hours;
+    this.ddays = this.days < 10 ? `0${this.days}` : this.days;
+    this.mmonths = this.months < 10 ? `0${this.months}` : this.months;
+    this.yyears = this.years < 10 ? `0${this.years}` : this.years;
   }
-
-  calculateTimeUnits();
-
-  return (
-    <Container>
-      {self.years > 0 &&
-      <TimerCardContainer>
-        <TimerCard>
-          {self.yyears}
-        </TimerCard>
-        <TimerCardLabel>{`${self.secondUnit}${self.yearsS}`}</TimerCardLabel>
-      </TimerCardContainer>
-      }
-      {self.months > 0 &&
-      <TimerCardContainer>
-        <TimerCard>
-          {self.mmonths}
-        </TimerCard>
-        <TimerCardLabel>{`${self.monthUnit}${self.monthsS}`}</TimerCardLabel>
-      </TimerCardContainer>
-      }
-      <TimerCardContainer>
-        <TimerCard>
-          {self.ddays}
-        </TimerCard>
-        <TimerCardLabel>{`${self.dayUnit}${self.daysS}`}</TimerCardLabel>
-      </TimerCardContainer>
-      <TimerCardContainer>
-        <TimerCard>
-          {self.hhours}
-        </TimerCard>
-        <TimerCardLabel>{`${self.hourUnit}${self.hoursS}`}</TimerCardLabel>
-      </TimerCardContainer>
-      {self.years === 0 &&
-      <TimerCardContainer>
-        <TimerCard>
-          {self.mminutes}
-        </TimerCard>
-        <TimerCardLabel>{`${self.minuteUnit}${self.minutesS}`}</TimerCardLabel>
-      </TimerCardContainer>
-      }
-      {self.months === 0 && self.years === 0 &&
-      <TimerCardContainer>
-        <TimerCard>
-          {self.sseconds}
-        </TimerCard>
-        <TimerCardLabel>{`${self.secondUnit}${self.secondsS}`}</TimerCardLabel>
-      </TimerCardContainer>
-      }
-    </Container>
-  );
+  
+  render() {
+    return (
+      <Container>
+        {this.years > 0 &&
+        <TimerCardContainer>
+          <TimerCard>
+            {this.yyears}
+          </TimerCard>
+          <TimerCardLabel>{`${this.secondUnit}${this.yearsS}`}</TimerCardLabel>
+        </TimerCardContainer>
+        }
+        {this.months > 0 &&
+        <TimerCardContainer>
+          <TimerCard>
+            {this.mmonths}
+          </TimerCard>
+          <TimerCardLabel>{`${this.monthUnit}${this.monthsS}`}</TimerCardLabel>
+        </TimerCardContainer>
+        }
+        <TimerCardContainer>
+          <TimerCard>
+            {this.ddays}
+          </TimerCard>
+          <TimerCardLabel>{`${this.dayUnit}${this.daysS}`}</TimerCardLabel>
+        </TimerCardContainer>
+        <TimerCardContainer>
+          <TimerCard>
+            {this.hhours}
+          </TimerCard>
+          <TimerCardLabel>{`${this.hourUnit}${this.hoursS}`}</TimerCardLabel>
+        </TimerCardContainer>
+        {this.years === 0 &&
+        <TimerCardContainer>
+          <TimerCard>
+            {this.mminutes}
+          </TimerCard>
+          <TimerCardLabel>{`${this.minuteUnit}${this.minutesS}`}</TimerCardLabel>
+        </TimerCardContainer>
+        }
+        {this.months === 0 && this.years === 0 &&
+        <TimerCardContainer>
+          <TimerCard>
+            {this.sseconds}
+          </TimerCard>
+          <TimerCardLabel>{`${this.secondUnit}${this.secondsS}`}</TimerCardLabel>
+        </TimerCardContainer>
+        }
+      </Container>
+    );
+  }
 }
 
 Timer.propTypes = {};
