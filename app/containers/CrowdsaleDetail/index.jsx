@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { Button, Card, CardBody, CardText, CardTitle, Col, ListGroup, ListGroupItem, Row, Table, Container } from 'reactstrap';
+import { Button, Card, CardBody, CardText, CardTitle, CardSubtitle, Col, ListGroup, ListGroupItem, Row, Table, Container } from 'reactstrap';
 import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
@@ -20,6 +20,7 @@ import { startDeepFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
+import Timer from 'components/Timer';
 import Moment from 'react-moment';
 
 // Icons
@@ -56,6 +57,17 @@ const StyledSpan = styled.span.attrs({
 })`
   width: 90%;
 `;
+
+const Countdown = (props, context) => {
+  const d = new Date(context.remaining);
+  const { seconds, milliseconds } = {
+    seconds: d.getUTCSeconds(),
+    milliseconds: d.getUTCMilliseconds(),
+  };
+  return (
+    <p>{`${seconds}.${milliseconds}`}</p>
+  );
+};
 
 export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -215,10 +227,9 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               <Row>
                 <StyledCard color="info">
                   <CardBody>
-                    <CardTitle className="card-title">Active Crowdsale</CardTitle>
-                    <span>Time Until Closing:</span>
-                    <Moment diff="2015-04-19" unit="years">{Date()}</Moment>
-                    <Moment diff="2015-04-19" unit="days">{Date()}</Moment>
+                    <h3 className="text-light card-title">Active Crowdsale</h3>
+                    <h5 className="text-light d-block">Time Until Closing:</h5>
+                    <Timer countdown datetime={crowdsale.blocktime} />
                   </CardBody>
                   <ListGroup className="list-group-flush" color="info">
                     <ListGroupItem>
@@ -233,7 +244,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       <h5>Tokens created for the issuer ({crowdsale.percenttoissuer}%)</h5>
                       <h2>
                         <span className="badge badge-secondary">
-                          <SanitizedFormattedNumber value={(crowdsale.totaltokens * crowdsale.percenttoissuer / 100)} />
+                          <SanitizedFormattedNumber value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))} />
                         </span>
                       </h2>
                     </ListGroupItem>
@@ -247,9 +258,9 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                     </ListGroupItem>
                   </ListGroup>
                   <CardBody>
-                    <CardTitle>Get some tokens!</CardTitle>
-                    <Button color="primary" size="lg" disabled>Participate</Button>
-                    <CardText className="card-text">You need to login or create a wallet to participate</CardText>
+                    <CardTitle className="text-light">Get some tokens!</CardTitle>
+                    <Button color="primary" size="lg" className="mb-2" disabled>Participate</Button>
+                    <CardText className="card-text text-light">You need to login or create a wallet to participate</CardText>
                   </CardBody>
                 </StyledCard>
               </Row>
