@@ -8,13 +8,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div.attrs({
-  className: 'timer-card rounded shadow bg-white d-inline-block',
+  className: 'timer-card rounded shadow bg-white',
 })`
   height: 5rem;
   width: 5rem;
-  :not(:first-child) {
-    margin-left: 3px;
-  }
+  overflow: hidden;
 `;
 
 const Card = styled.div.attrs({
