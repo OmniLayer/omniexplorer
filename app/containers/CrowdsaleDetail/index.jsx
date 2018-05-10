@@ -229,7 +229,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   <CardBody>
                     <h3 className="text-light card-title">Active Crowdsale</h3>
                     <h5 className="text-light d-block">Time Until Closing:</h5>
-                    <Timer countdown datetime={crowdsale.blocktime} />
+                    <Timer countdown datetime={crowdsale.deadline * 1000} maxTimeUnit="year" />
                   </CardBody>
                   <ListGroup className="list-group-flush" color="info">
                     <ListGroupItem>
