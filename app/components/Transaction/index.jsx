@@ -130,11 +130,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     }
 
     let arrowcname;
+    let arrowcnameright;
     let addresscname;
     let showreferencecname;
-
-    if (this.props.referenceaddress !== undefined) {
+    
+    if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
+      arrowcnameright = 'd-md-inline-flex';
       addresscname = this.getHighlightIfOwner(this.props.referenceaddress);
     } else {
       showreferencecname = 'd-none';
@@ -204,7 +206,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                     Sender Address Copied
                   </Tooltip>
                 </AddressWrapper>
-                <ArrowIconRight size={20} color="gray" className={`d-none d-md-inline-flex ${arrowcname}`} />
+                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`} />
                 <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`} />
                 <AddressWrapper className={showreferencecname}>
                   <WrapperLink>
