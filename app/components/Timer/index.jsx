@@ -118,7 +118,7 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
           <TimerCard>
             {this.yyears}
           </TimerCard>
-          <TimerCardLabel>{`${this.secondUnit}${this.yearsS}`}</TimerCardLabel>
+          <TimerCardLabel>{`${this.yearUnit}${this.yearsS}`}</TimerCardLabel>
         </TimerCardContainer>
         }
         {this.months > 0 &&
