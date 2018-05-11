@@ -20,6 +20,4 @@ const makeSelectCrowdsales = () => createSelector(
 );
 
 export default makeSelectCrowdsales;
-export {
-  selectCrowdsalesDomain,
-};
+export { selectCrowdsalesDomain };

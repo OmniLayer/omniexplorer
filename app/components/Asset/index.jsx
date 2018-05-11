@@ -8,18 +8,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
 
 const StyledTDTextLeft = styled(StyledTD).attrs({
   className: 'text-left pt-3 text-truncate',
-})`
-  max-width: 1rem;
-`;
+})``;
 
 function Asset(props) {
   const getLogo = (id) => {

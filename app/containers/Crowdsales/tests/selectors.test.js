@@ -1,8 +1,15 @@
-// import { fromJS } from 'immutable';
-// import { selectCrowdsalesDomain } from '../selectors';
+import { fromJS } from 'immutable';
+import { selectCrowdsalesDomain } from '../selectors';
 
-describe('selectCrowdsalesDomain', () => {
+describe('selectAddressDetailDomain', () => {
+  const crowdsaleState = fromJS({
+    foo: 'bar',
+  });
+  const mockedState = fromJS({
+    crowdsales: crowdsaleState,
+  });
+
   it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+    expect(selectCrowdsalesDomain(mockedState)).toEqual(crowdsaleState);
   });
 });

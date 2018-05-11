@@ -47,7 +47,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show purchases</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                { this.props.purchases.map((purchase, idx) => (
+                { (this.props.purchases || []).map((purchase, idx) => (
                   <div key={idx}>
                     <div>
                       <span>

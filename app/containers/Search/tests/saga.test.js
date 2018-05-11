@@ -14,19 +14,19 @@ import root, { getSearch } from 'containers/Search/saga';
 /* eslint-disable redux-saga/yield-effects */
 describe('getSearch Saga', () => {
   let getSearchGenerator;
-  
+
   // We have to test twice, once for a successful load and once for an unsuccessful one
   // so we do all the stuff that happens beforehand automatically in the beforeEach
   beforeEach(() => {
     getSearchGenerator = getSearch();
-    
+
     const selectDescriptor = getSearchGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();
-    
+
     const callDescriptor = getSearchGenerator.next('OMNI').value;
     expect(callDescriptor).toMatchSnapshot();
   });
-  
+
   it('should dispatch the addressLoaded action if it requests the data successfully', () => {
     const response = {
       balance: [
@@ -51,8 +51,8 @@ describe('getSearch Saga', () => {
         },
       ],
     };
-    
-    const saga = testSaga(getSearch, {query:'OMNI'});
+
+    const saga = testSaga(getSearch, { query: 'OMNI' });
     const url = `${API_URL_BASE}/search`;
     const bodyRequest = `${encodeURIComponent('query')}=${encodeURIComponent('OMNI')}`;
     const options = {
@@ -62,14 +62,14 @@ describe('getSearch Saga', () => {
       },
       body: bodyRequest,
     };
-    
+
     saga
       .next()
       .call(request, url, options)
       .next(response)
       .put(searchLoaded(response));
   });
-  
+
   it('should call the addressLoadingError action if the response errors', () => {
     const response = new Error('Some error');
     const putDescriptor = getSearchGenerator.throw(response).value;
@@ -82,10 +82,10 @@ describe('Search Saga', () => {
     // arrange
     const rootSaga = root();
     const expectedYield = all([takeLatest(LOAD_SEARCH, getSearch)]);
-    
+
     // act
     const actualYield = rootSaga.next().value;
-    
+
     // assert
     expect(actualYield).toEqual(expectedYield);
   });

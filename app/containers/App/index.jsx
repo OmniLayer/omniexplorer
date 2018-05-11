@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /**
  *
  * App.js
@@ -22,6 +23,7 @@ import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search/Loadable';
 import AssetDetail from 'containers/AssetDetail/Loadable';
+import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
 import Promote from 'containers/Promote/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
@@ -73,6 +75,7 @@ class App extends React.Component {
           <Route path="/search/:query" component={Search} key={location.pathname} />
           <Route path="/asset/:propertyid(\d+)" component={AssetDetail} key={location.pathname} />
           <Route exact path="/crowdsales" component={Crowdsales} />
+          <Route path="/crowdsale/:crowdsaleid(\d+)" component={CrowdsaleDetail} key={location.pathname} />
           <Route exact path="/promote" component={Promote} />
           <Route exact path="/submitfeedback" component={Feedback} />
           <Route path="" component={NotFoundPage} />

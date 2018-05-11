@@ -31,8 +31,6 @@ describe('getAddress Saga', () => {
   });
 
   it('should dispatch the addressLoaded action if it requests the data successfully', () => {
-    const addr = '17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKC';
-    
     const response = {
       balance: [
         {
@@ -56,7 +54,7 @@ describe('getAddress Saga', () => {
         },
       ],
     };
-  
+
     const saga = testSaga(getAddress, { addr });
     const url = `${API_URL_BASE}/address/addr`;
     const bodyRequest = `${encodeURIComponent('addr')}=${encodeURIComponent(addr)}`;
@@ -67,7 +65,7 @@ describe('getAddress Saga', () => {
       },
       body: bodyRequest,
     };
-  
+
     saga
       .next()
       .call(request, url, options)
@@ -87,10 +85,10 @@ describe('Address detail Saga', () => {
     // arrange
     const rootSaga = root();
     const expectedYield = all([takeLatest(LOAD_ADDRESS, getAddress)]);
-  
+
     // act
     const actualYield = rootSaga.next().value;
-  
+
     // assert
     expect(actualYield).toEqual(expectedYield);
   });

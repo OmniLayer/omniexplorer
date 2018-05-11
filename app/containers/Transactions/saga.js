@@ -44,16 +44,11 @@ export function* getTransactions(action = {}) {
   }
 }
 
-export function* setPageGenerator(action) {
-  return yield getTransactions(action);
-}
-
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
   yield all([
-    // takeLatest(SET_PAGE, setPageGenerator),
     takeLatest(LOAD_TRANSACTIONS, getTransactions),
   ]);
 }
