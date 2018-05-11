@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { Button, Card, CardBody, CardText, CardTitle, CardSubtitle, Col, ListGroup, ListGroupItem, Row, Table, Container } from 'reactstrap';
+import { Card, CardBody, CardTitle, Col, Container, ListGroup, ListGroupItem, Row, Table } from 'reactstrap';
 import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
@@ -22,7 +22,6 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
 import Moment from 'react-moment';
-
 // Icons
 import FacebookIcon from 'react-icons/lib/io/social-facebook';
 import GPlusIcon from 'react-icons/lib/io/social-googleplus';
@@ -35,6 +34,9 @@ import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
 import FormattedUnixDateTime from '../../components/FormattedDateTime/FormattedUnixDateTime';
+
+import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
+import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 
 const AssetDetail = styled.p`
 	font-size: 1.25rem;
@@ -92,11 +94,27 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     if (!dessiredToken) return loading;
 
     const detail = this.props.crowdsaledetail;
-    const TransactionLabel = (props) => (
-      props.tx.type_int === 51 ?
+    const getSufix = (value) => (value >= 1000 ? 'k' : '');
+    const TransactionLabel = (props) => {
+      // 1 Bitstrap <-> 100k Proz ( +100k to Issuer)
+      const purchasedtokens = (props.tx.purchasedtokens >= 1000 ? props.tx.purchasedtokens/ 1000 : props.tx.purchasedtokens);
+      const issuertokens = (props.tx.issuertokens >= 1000 ? props.tx.issuertokens / 1000 : props.tx.issuertokens);
+
+      return (props.tx.type_int === 51 ?
         <span>{crowdsale.propertyname} was created </span> :
-        <span><SanitizedFormattedNumber value={props.tx.amount} minimunFractionDigits={2} /> {dessiredToken.propertyname} </span>
-    );
+        <span>
+          <SanitizedFormattedNumber value={props.tx.amount} minimunFractionDigits={2} /> {dessiredToken.propertyname}
+            &nbsp;
+          <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
+          <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
+            &nbsp;
+          <SanitizedFormattedNumber value={purchasedtokens} minimunFractionDigits={2} />{getSufix(purchasedtokens)} {crowdsale.propertyname}
+            &nbsp;
+            (+<SanitizedFormattedNumber value={issuertokens} minimunFractionDigits={2} />{getSufix(issuertokens)} to Issuer)
+        </span>
+      );
+    };
+    const earlybonus = (crowdsale.deadline - crowdsale.blocktime) / 604800 * crowdsale.earlybonus;
 
     return (
       <Container fluid className="mt-3">
@@ -147,7 +165,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               </StyledDivContent>
               <StyledDivContent>
                 <AssetDetail>
-                Share this page:
+                  Share this page:
                   <Link
                     to={{
                       pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
@@ -184,7 +202,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               </StyledDivContent>
               <div>
                 <h2>
-                Asset History <small className="text-muted">({detail.total}) transactions</small>
+                  Asset History <small className="text-muted">({detail.total}) transactions</small>
                 </h2>
                 <Table striped>
                   <tbody>
@@ -192,11 +210,17 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       <tr key={tx.txid.slice(0, 22).concat(idx)}>
                         <td>
                           <Row>
-                            <Col md="4">
-                              <Moment fromNow>{tx.blocktime * 1000}</Moment>
-                            </Col>
-                            <Col md="8">
-                              <TransactionLabel tx={tx} />
+                            <Col>
+                              <span className="small">
+                                <Link
+                                  to={{
+                                    pathname: `/tx/${tx.txid}`,
+                                  }}
+                                  onClick={() => this.props.changeRoute(`/tx/${tx.txid}`)}
+                                >
+                                  {tx.txid}
+                                </Link>
+                              </span>
                             </Col>
                           </Row>
                           <Row>
@@ -204,6 +228,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                               <span className="text-muted">
                                 <FormattedUnixDateTime datetime={tx.blocktime} />
                               </span>
+                              &nbsp;
+                              (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
                             </Col>
                             <Col md="8">
                               <Link
@@ -214,6 +240,12 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                               >
                                 {tx.sendingaddress}
                               </Link>
+                              
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col>
+                              <TransactionLabel tx={tx} />
                             </Col>
                           </Row>
                         </td>
@@ -233,7 +265,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   </CardBody>
                   <ListGroup className="list-group-flush" color="info">
                     <ListGroupItem>
-                    Tokens already bought by participants
+                      Tokens already bought by participants
                       <h2>
                         <span className="badge badge-secondary">
                           <SanitizedFormattedNumber value={crowdsale.tokensissued} />
@@ -244,23 +276,26 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       <h5>Tokens created for the issuer ({crowdsale.percenttoissuer}%)</h5>
                       <h2>
                         <span className="badge badge-secondary">
-                          <SanitizedFormattedNumber value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))} />
+                          <SanitizedFormattedNumber
+                            value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
+                          />
                         </span>
                       </h2>
                     </ListGroupItem>
                     <ListGroupItem>
-                    Current early bird bonus
+                      Current early bird bonus
                       <h2>
                         <span className="badge badge-secondary">
-                      +<SanitizedFormattedNumber value={crowdsale.earlybonus} />%
+                      +<SanitizedFormattedNumber value={earlybonus} />%
                         </span>
                       </h2>
                     </ListGroupItem>
                   </ListGroup>
                   <CardBody>
-                    <CardTitle className="text-light">Get some tokens!</CardTitle>
-                    <Button color="primary" size="lg" className="mb-2" disabled>Participate</Button>
-                    <CardText className="card-text text-light">You need to login or create a wallet to participate</CardText>
+                    <CardTitle className="text-light">You can participate from an Omniwallet account</CardTitle>
+                    <a className="btn btn-primary btn-lg mt-3 mb-5" target="_blank" href="http://www.omnilayer.org/">
+                      Go to Omniwallet
+                    </a>
                   </CardBody>
                 </StyledCard>
               </Row>
