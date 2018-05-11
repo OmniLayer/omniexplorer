@@ -106,7 +106,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
           <SanitizedFormattedNumber value={props.tx.amount} minimunFractionDigits={2} /> {dessiredToken.propertyname}
             &nbsp;
           <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
-          <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-sm-block" />
+          <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
             &nbsp;
           <SanitizedFormattedNumber value={purchasedtokens} minimunFractionDigits={2} />{getSufix(purchasedtokens)} {crowdsale.propertyname}
             &nbsp;
@@ -210,31 +210,6 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       <tr key={tx.txid.slice(0, 22).concat(idx)}>
                         <td>
                           <Row>
-                            <Col md="4">
-                              <Moment fromNow>{tx.blocktime * 1000}</Moment>
-                            </Col>
-                            <Col md="8">
-                              <TransactionLabel tx={tx} />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md="4">
-                              <span className="text-muted">
-                                <FormattedUnixDateTime datetime={tx.blocktime} />
-                              </span>
-                            </Col>
-                            <Col md="8">
-                              <Link
-                                to={{
-                                  pathname: `/address/${tx.sendingaddress}`,
-                                }}
-                                onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
-                              >
-                                {tx.sendingaddress}
-                              </Link>
-                            </Col>
-                          </Row>
-                          <Row>
                             <Col>
                               <span className="small">
                                 <Link
@@ -246,6 +221,31 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                                   {tx.txid}
                                 </Link>
                               </span>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md="4">
+                              <span className="text-muted">
+                                <FormattedUnixDateTime datetime={tx.blocktime} />
+                              </span>
+                              &nbsp;
+                              (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
+                            </Col>
+                            <Col md="8">
+                              <Link
+                                to={{
+                                  pathname: `/address/${tx.sendingaddress}`,
+                                }}
+                                onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
+                              >
+                                {tx.sendingaddress}
+                              </Link>
+                              
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col>
+                              <TransactionLabel tx={tx} />
                             </Col>
                           </Row>
                         </td>
