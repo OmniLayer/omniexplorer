@@ -41,9 +41,16 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          {`${this.props.propertyiddesiredname} (#${this.props.propertyiddesired}) / Rate (`}
-          <SanitizedFormattedNumber value={this.props.tokensperunit} />
-          {')'}
+          <Link
+            to={{
+              pathname: `/asset/${this.props.propertyiddesired}`,
+            }}
+            onClick={() => this.props.changeRoute(`/asset/${this.props.propertyiddesired}`)}
+          >
+            {`${this.props.propertyiddesiredname} (#${this.props.propertyiddesired}) / Rate (`}
+            <SanitizedFormattedNumber value={this.props.tokensperunit} />
+            {')'}
+          </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <span>
