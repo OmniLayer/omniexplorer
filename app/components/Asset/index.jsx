@@ -43,7 +43,7 @@ function Asset(props) {
         />
       </StyledTD>
       <StyledTDTextLeft>
-        {props[0]}
+        #{props[0]}
       </StyledTDTextLeft>
       <StyledTDTextLeft>
         <Link

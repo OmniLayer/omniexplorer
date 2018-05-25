@@ -128,7 +128,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
           <td className="field">PropertyID</td>
           <td>
             <strong>
-              { asset.propertyid }
+              #{ asset.propertyid }
             </strong>
           </td>
         </tr>);
