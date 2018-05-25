@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 import SearchBox from 'components/SearchBox';
+import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 
 import {
   Collapse,
@@ -100,10 +101,10 @@ class Header extends React.PureComponent {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href="/search/1">Property List (Main Eco)</NavLink>
+                      <NavLink href={`/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Property List (Main Eco)</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href="/search/2">Property List (Test Eco)</NavLink>
+                      <NavLink href={`/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Property List (Test Eco)</NavLink>
                     </DropdownItem>
                     <DropdownItem>
                       <NavLink href="/crowdsales">Active Crowdsales</NavLink>
