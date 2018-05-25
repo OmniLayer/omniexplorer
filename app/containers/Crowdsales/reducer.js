@@ -5,9 +5,9 @@
  */
 
 import { fromJS } from 'immutable';
+import { ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 import {
   LOAD_CROWDSALES,
-  LOAD_CROWDSALES_ECOSYSTEM_PROD,
   LOAD_CROWDSALES_ERROR,
   LOAD_CROWDSALES_SUCCESS,
 } from './constants';
@@ -17,7 +17,7 @@ const initialState = fromJS({
   error: false,
   status: '',
   crowdsales: [],
-  ecosystem: LOAD_CROWDSALES_ECOSYSTEM_PROD,
+  ecosystem: ECOSYSTEM_PROD,
 });
 
 function crowdsalesReducer(state = initialState, action) {
@@ -31,7 +31,7 @@ function crowdsalesReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('ecosystem', ecosystem)
-        .set('ecosystemName', (ecosystem === LOAD_CROWDSALES_ECOSYSTEM_PROD ? 'Production' : 'Test'));
+        .set('ecosystemName', (ecosystem === ECOSYSTEM_PROD ? 'Production' : 'Test'));
     case LOAD_CROWDSALES_SUCCESS:
       return state
         .set('error', false)
