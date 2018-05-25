@@ -22,6 +22,7 @@ import TransactionDetail from 'containers/TransactionDetail';
 import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search/Loadable';
+import Properties from 'containers/Properties/Loadable';
 import AssetDetail from 'containers/AssetDetail/Loadable';
 import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
 import Promote from 'containers/Promote/Loadable';
@@ -73,6 +74,7 @@ class App extends React.Component {
           <Route path="/tx/:tx" component={TransactionDetail} />
           <Route path="/address/:address/:page(\d+)?" component={AddressDetail} key={location.pathname} />
           <Route path="/search/:query" component={Search} key={location.pathname} />
+          <Route path="/properties/:query" component={Properties} key={location.pathname} />
           <Route path="/asset/:propertyid(\d+)" component={AssetDetail} key={location.pathname} />
           <Route exact path="/crowdsales" component={Crowdsales} />
           <Route path="/crowdsale/:crowdsaleid(\d+)" component={CrowdsaleDetail} key={location.pathname} />
