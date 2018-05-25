@@ -65,7 +65,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
           <thead>
             <tr>
               <StyledTH>Crowdsale</StyledTH>
-              <StyledTH>Accepted currency</StyledTH>
+              <StyledTH>Buy With</StyledTH>
               <StyledTH>Closing Datetime</StyledTH>
               <StyledTH>Tokens Bought</StyledTH>
               <StyledTH>Tokens Created</StyledTH>
