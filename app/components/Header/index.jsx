@@ -25,7 +25,7 @@ import {
   NavItem,
   NavLink,
   UncontrolledDropdown,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from 'reactstrap';
 
 const IMG = styled.img`
@@ -34,7 +34,7 @@ const IMG = styled.img`
 `;
 
 const StyledNavItem = styled(NavItem)`
-	font-size: 16px;
+  font-size: 16px;
 `;
 
 const StyledCollapse = styled(Collapse)`
@@ -44,26 +44,26 @@ const StyledCollapse = styled(Collapse)`
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
-    
+
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
-  
+
   toggle(e) {
     this.setState({
       isOpen: !this.state.isOpen,
     });
   }
-  
+
   render() {
     return (
       <div>
         <Navbar color="faded" light expand="sm" className="d-block">
           <div className="d-flex">
             <NavbarBrand href="/">
-              <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO"/>
+              <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
               OMNIEXPLORER.INFO
             </NavbarBrand>
             <div className="ml-auto w-50 d-flex">
@@ -141,7 +141,7 @@ class Header extends React.PureComponent {
           </div>
         </Navbar>
         <div className="w-100 ml-auto d-block-only-sm-down">
-          <SearchBox/>
+          <SearchBox />
         </div>
       </div>
     );
@@ -173,6 +173,4 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-)(Header);
+export default compose(withConnect, )(Header);
