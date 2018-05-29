@@ -41,9 +41,16 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          {`${this.props.propertyiddesiredname}(${this.props.propertyiddesired}) / Rate (`}
-          <SanitizedFormattedNumber value={this.props.tokensperunit} />
-          {')'}
+          <Link
+            to={{
+              pathname: `/asset/${this.props.propertyiddesired}`,
+            }}
+            onClick={() => this.props.changeRoute(`/asset/${this.props.propertyiddesired}`)}
+          >
+            {`${this.props.propertyiddesiredname} (#${this.props.propertyiddesired}) / Rate (`}
+            <SanitizedFormattedNumber value={this.props.tokensperunit} />
+            {')'}
+          </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <span>
@@ -83,27 +90,3 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(withConnect)(CrowdsaleInfo);
-
-// // Estimated early bird bonus calculation
-// $scope.$watch(function(){ return $scope.deadline ? $scope.deadline.getTime() + $scope.earlyBirdBonus : 0;}, function(value){
-//   if(value > 0){
-//     var utcNow = new Date((new Date()).getTime() + (new Date()).getTimezoneOffset() * 60000);
-//     $scope.initialEarlyBirdBonus = (((($scope.deadline.getTime() / 1000) - (utcNow.getTime() /1000 + 1800)) /604800 ) * $scope.earlyBirdBonus).toFixed(2);
-//     $scope.initialEarlyBirdBonus = $scope.initialEarlyBirdBonus > 0 ? $scope.initialEarlyBirdBonus : 0.00;
-//   } else
-//     $scope.initialEarlyBirdBonus = 0
-// });
-
-// $scope.earlyBirdBonus =  ((($scope.property.deadline - (now.getTime()/1000)) / 604800) * $scope.property.earlybonus).toFixed(1);
-
-// {{'CROWDSALE.DETAILS.YOUR' | translate}} {{'CROWDSALE.DETAILS.ACTIVE.' + property.active.toString().toUpperCase() | translate}}
-// {{'CROWDSALE.DETAILS.TIME' | translate}}:
-//
-// {{'CROWDSALE.DETAILS.TOKENSBOUGHT' | translate}}
-// {{'CROWDSALE.DETAILS.TOKENSISSUER' | translate}} ({{property.percenttoissuer}}%)
-// {{'CROWDSALE.DETAILS.CURRENTBONUS' | translate}}
-// +{{earlyBirdBonus}}%
-// {{'CROWDSALE.DETAILS.GETTOKENS' | translate}}
-// {{'CROWDSALE.DETAILS.PARTICIPATE' | translate}}
-// {{'CROWDSALE.DETAILS.NOTOKENS' | translate}}
-// {{'CROWDSALE.DETAILS.LOGIN' | translate}}

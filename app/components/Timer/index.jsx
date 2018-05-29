@@ -121,14 +121,12 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
           <TimerCardLabel>{`${this.yearUnit}${this.yearsS}`}</TimerCardLabel>
         </TimerCardContainer>
         }
-        {this.months > 0 &&
         <TimerCardContainer>
           <TimerCard>
             {this.mmonths}
           </TimerCard>
           <TimerCardLabel>{`${this.monthUnit}${this.monthsS}`}</TimerCardLabel>
         </TimerCardContainer>
-        }
         <TimerCardContainer>
           <TimerCard>
             {this.ddays}
@@ -147,14 +145,6 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
             {this.mminutes}
           </TimerCard>
           <TimerCardLabel>{`${this.minuteUnit}${this.minutesS}`}</TimerCardLabel>
-        </TimerCardContainer>
-        }
-        {this.months === 0 && this.years === 0 &&
-        <TimerCardContainer>
-          <TimerCard>
-            {this.sseconds}
-          </TimerCard>
-          <TimerCardLabel>{`${this.secondUnit}${this.secondsS}`}</TimerCardLabel>
         </TimerCardContainer>
         }
       </Container>

@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.components.FormattedDateTime.datetime',
     defaultMessage: '{date} {hour}',
   },
+  utc: {
+    id: 'app.components.FormattedDateTime.utc',
+    defaultMessage: 'datetimes are UTC',
+  },
 });

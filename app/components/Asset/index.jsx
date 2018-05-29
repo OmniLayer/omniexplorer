@@ -1,8 +1,8 @@
 /**
-*
-* Asset
-*
-*/
+ *
+ * Asset
+ *
+ */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -30,17 +30,20 @@ function Asset(props) {
     }
     return logo;
   };
-
+  
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
         <img
-          style={{ width: '4rem', height: '4rem' }}
+          style={{
+            width: '4rem',
+            height: '4rem',
+          }}
           src={getLogo(props[0])}
         />
       </StyledTD>
       <StyledTDTextLeft>
-        { props[0] }
+        #{props[0]}
       </StyledTDTextLeft>
       <StyledTDTextLeft>
         <Link
@@ -49,7 +52,7 @@ function Asset(props) {
           }}
           onClick={() => props.changeRoute(`/asset/${props[0]}`)}
         >
-          { props[1] }
+          {`${props[1].substring(0, 20)}${(props[1].length > 20 ? '...' : '')}`}
         </Link>
       </StyledTDTextLeft>
       <StyledTDTextLeft>
@@ -59,15 +62,13 @@ function Asset(props) {
           }}
           onClick={() => props.changeRoute(`/address/${props[2]}`)}
         >
-          { props[2] }
+          {props[2]}
         </Link>
       </StyledTDTextLeft>
     </tr>
   );
 }
 
-Asset.propTypes = {
-
-};
+Asset.propTypes = {};
 
 export default Asset;

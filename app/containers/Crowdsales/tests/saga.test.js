@@ -9,7 +9,7 @@ import request from 'utils/request';
 import { API_URL_BASE } from 'containers/App/constants';
 import { crowdsalesLoaded, crowdsalesLoadingError } from 'containers/Crowdsales/actions';
 
-import { LOAD_CROWDSALES, LOAD_CROWDSALES_ECOSYSTEM_PROD } from 'containers/Crowdsales/constants';
+import { ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 import root, { getCrowdsales } from '../saga';
 
 const addr = '17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx';
@@ -55,7 +55,7 @@ describe('getCrowdsales Saga', () => {
       ],
     };
 
-    const ecosystem = LOAD_CROWDSALES_ECOSYSTEM_PROD;
+    const ecosystem = ECOSYSTEM_PROD;
     const saga = testSaga(getCrowdsales, { ecosystem });
     const url = `${API_URL_BASE}/properties/listactivecrowdsales`;
     const bodyRequest = `${encodeURIComponent('ecosystem')}=${encodeURIComponent(ecosystem)}`;
