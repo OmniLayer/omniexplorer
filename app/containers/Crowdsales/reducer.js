@@ -20,7 +20,7 @@ const initialState = fromJS({
   ecosystem: ECOSYSTEM_PROD,
 });
 
-const sortDateFordward = (array) => array.sort((current, previous) => current.deadline > previous.deadline);
+const sortDateFordward = (array) => array.sort((current, previous) => current.deadline < previous.deadline);
 
 function crowdsalesReducer(state = initialState, action) {
   const {
