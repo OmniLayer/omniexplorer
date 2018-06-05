@@ -5,14 +5,15 @@
  */
 
 import React from 'react';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Col, Container, Row, Table, UncontrolledTooltip } from 'reactstrap';
+import InformationIcon from 'react-icons/lib/io/informatcircled';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -25,7 +26,9 @@ import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';
 import crowdsalesSaga from './saga';
 import { loadCrowdsales } from './actions';
+import messages from '../../components/FormattedDateTime/messages';
 // import messages from './messages';
+
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -66,9 +69,16 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
             <tr>
               <StyledTH>Crowdsale</StyledTH>
               <StyledTH>Buy With</StyledTH>
-              <StyledTH>Closing Datetime</StyledTH>
+              <StyledTH>Rate</StyledTH>
+              <StyledTH>
+                Closing Datetime
+                <InformationIcon color="gray" className="ml-1" id="crowdsalesClosingDate" />
+                <UncontrolledTooltip placement="right-end" target="crowdsalesClosingDate">
+                  <FormattedMessage {...messages.utc} />
+                </UncontrolledTooltip>
+              </StyledTH>
               <StyledTH>Tokens Bought</StyledTH>
-              <StyledTH>Tokens Created</StyledTH>
+              <StyledTH></StyledTH>
             </tr>
           </thead>
           <tbody>

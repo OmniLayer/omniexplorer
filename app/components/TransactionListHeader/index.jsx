@@ -57,7 +57,7 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
               <DropdownItem divider />
               <DropdownItem header>(Filters Coming Soon)!</DropdownItem>
               <DropdownItem header>Show Simple Send only</DropdownItem>
-              <DropdownItem header>Show MetaDEx only</DropdownItem>
+              <DropdownItem header>Show OmniDex only</DropdownItem>
               <DropdownItem header>Show DEx only</DropdownItem>
               <DropdownItem header>Show Grant only</DropdownItem>
               <DropdownItem header>Show Revoke only</DropdownItem>

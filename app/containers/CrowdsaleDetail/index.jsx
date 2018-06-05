@@ -97,7 +97,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const getSufix = (value) => (value >= 1000 ? 'k' : '');
     const TransactionLabel = (props) => {
       // 1 Bitstrap <-> 100k Proz ( +100k to Issuer)
-      const purchasedtokens = (props.tx.purchasedtokens >= 1000 ? props.tx.purchasedtokens/ 1000 : props.tx.purchasedtokens);
+      const purchasedtokens = (props.tx.purchasedtokens >= 1000 ? props.tx.purchasedtokens / 1000 : props.tx.purchasedtokens);
       const issuertokens = (props.tx.issuertokens >= 1000 ? props.tx.issuertokens / 1000 : props.tx.issuertokens);
 
       return (props.tx.type_int === 51 ?
@@ -108,7 +108,10 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
           <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
           <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
             &nbsp;
-          <SanitizedFormattedNumber value={purchasedtokens} minimunFractionDigits={2} />{getSufix(purchasedtokens)} {crowdsale.propertyname}
+          <SanitizedFormattedNumber
+            value={purchasedtokens}
+            minimunFractionDigits={2}
+          />{getSufix(purchasedtokens)} {crowdsale.propertyname}
             &nbsp;
             (+<SanitizedFormattedNumber value={issuertokens} minimunFractionDigits={2} />{getSufix(issuertokens)} to Issuer)
         </span>
@@ -202,7 +205,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               </StyledDivContent>
               <div>
                 <h2>
-                  Asset History <small className="text-muted">({detail.total}) transactions</small>
+                  Property History <small className="text-muted">({detail.total}) transactions</small>
                 </h2>
                 <Table striped>
                   <tbody>
@@ -228,8 +231,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                               <span className="text-muted">
                                 <FormattedUnixDateTime datetime={tx.blocktime} />
                               </span>
-                              &nbsp;
-                              (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
+                            &nbsp;
+                            (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
                             </Col>
                             <Col md="8">
                               <Link
@@ -240,7 +243,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                               >
                                 {tx.sendingaddress}
                               </Link>
-                              
+
                             </Col>
                           </Row>
                           <Row>
@@ -278,6 +281,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                         <span className="badge badge-secondary">
                           <SanitizedFormattedNumber
                             value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
+                            fractionDigits={(crowdsale.divisible ? 8 : 0)}
                           />
                         </span>
                       </h2>
@@ -286,7 +290,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       Current early bird bonus
                       <h2>
                         <span className="badge badge-secondary">
-                      +<SanitizedFormattedNumber value={earlybonus} />%
+                          <SanitizedFormattedNumber value={earlybonus} fractionDigits={2} /> %
                         </span>
                       </h2>
                     </ListGroupItem>

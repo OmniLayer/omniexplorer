@@ -18,6 +18,8 @@ const initialState = fromJS({
   total: 0,
 });
 
+const sortDateFordward = (array) => array.sort((current,previous)=>current.blocktime>previous.blocktime);
+
 function transactionsReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_CROWDSALE_TRANSACTIONS:
@@ -29,7 +31,7 @@ function transactionsReducer(state = initialState, action) {
         .set('total', 0);
     case LOAD_CROWDSALE_TRANSACTIONS_SUCCESS:
       return state
-        .set('transactions', action.transactions)
+        .set('transactions', sortDateFordward(action.transactions))
         .set('pageCount', action.pages)
         .set('total', action.total)
         .set('loading', false)
