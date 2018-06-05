@@ -20,6 +20,8 @@ const initialState = fromJS({
   ecosystem: ECOSYSTEM_PROD,
 });
 
+const sortDateFordward = (array) => array.sort((current, previous) => current.deadline > previous.deadline);
+
 function crowdsalesReducer(state = initialState, action) {
   const {
     error, ecosystem, payload, type,
@@ -37,7 +39,7 @@ function crowdsalesReducer(state = initialState, action) {
         .set('error', false)
         .set('loading', false)
         .set('status', payload.status)
-        .set('crowdsales', payload.crowdsales);
+        .set('crowdsales', sortDateFordward(payload.crowdsales));
     case LOAD_CROWDSALES_ERROR:
       return state
         .set('error', error)
