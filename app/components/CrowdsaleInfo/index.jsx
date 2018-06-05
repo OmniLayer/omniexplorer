@@ -62,7 +62,7 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           <SanitizedFormattedNumber value={this.props.totaltokens} />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <a className="btn btn-primary btn-lg mt-3 mb-5" target="_blank" href="http://www.omnilayer.org/">
+          <a className="btn btn-primary btn-lg" target="_blank" href="http://www.omnilayer.org/">
             Buy with Omniwallet
           </a>
         </StyledTDTextLeft>
