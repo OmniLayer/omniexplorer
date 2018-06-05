@@ -98,7 +98,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
         </tr>
       );
     }
-    //  MetaDEx Trade transaction
+    //  OmniDex Trade transaction
     if ([25, 26].includes(this.props.type_int)) {
       return (
         <tr className="highlight">
