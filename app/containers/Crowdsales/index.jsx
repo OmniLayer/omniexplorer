@@ -69,6 +69,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
             <tr>
               <StyledTH>Crowdsale</StyledTH>
               <StyledTH>Buy With</StyledTH>
+              <StyledTH>Rate</StyledTH>
               <StyledTH>
                 Closing Datetime
                 <InformationIcon color="gray" className="ml-1" id="crowdsalesClosingDate" />
@@ -77,7 +78,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
                 </UncontrolledTooltip>
               </StyledTH>
               <StyledTH>Tokens Bought</StyledTH>
-              <StyledTH>Tokens Created</StyledTH>
+              <StyledTH></StyledTH>
             </tr>
           </thead>
           <tbody>
