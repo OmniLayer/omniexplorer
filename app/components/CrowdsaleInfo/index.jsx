@@ -38,6 +38,8 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
             onClick={() => this.props.changeRoute(`/crowdsale/${this.props.propertyid}`)}
           >
             {this.props.name}
+            <br/>
+            {`(#${this.props.propertyid})`}
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
@@ -47,7 +49,9 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
             }}
             onClick={() => this.props.changeRoute(`/asset/${this.props.propertyiddesired}`)}
           >
-            {`${this.props.propertyiddesiredname} (#${this.props.propertyiddesired})`}
+            {this.props.propertyiddesiredname}
+            <br/>
+            {`(#${this.props.propertyiddesired})`}
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
@@ -62,8 +66,10 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           <SanitizedFormattedNumber value={this.props.totaltokens} />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <a className="btn btn-primary btn-lg" target="_blank" href="http://www.omnilayer.org/">
-            Buy with Omniwallet
+          <a className="btn btn-primary" target="_blank" href={`https://www.omniwallet.org/assets/details/${this.props.propertyid}`} >
+            Buy with
+            <br/>
+            Omniwallet
           </a>
         </StyledTDTextLeft>
       </tr>
