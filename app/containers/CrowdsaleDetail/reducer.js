@@ -1,10 +1,9 @@
 import { fromJS } from 'immutable';
 
 import {
-  LOAD_CROWDSALE_TRANSACTIONS ,
-  LOAD_CROWDSALE_TRANSACTIONS_SUCCESS ,
-  LOAD_CROWDSALE_TRANSACTIONS_ERROR ,
-  LOAD_CROWDSALE_TRANSACTIONS_CANCEL ,
+  LOAD_CROWDSALE_TRANSACTIONS,
+  LOAD_CROWDSALE_TRANSACTIONS_ERROR,
+  LOAD_CROWDSALE_TRANSACTIONS_SUCCESS,
   SET_CROWDSALES_TRANSACTIONS_PAGE,
 } from './constants';
 
@@ -18,7 +17,7 @@ const initialState = fromJS({
   total: 0,
 });
 
-const sortDateFordward = (array) => array.sort((current,previous)=>current.blocktime>previous.blocktime);
+const sortDateFordward = (array) => array.sort((current, previous) => current.blocktime < previous.blocktime);
 
 function transactionsReducer(state = initialState, action) {
   switch (action.type) {
