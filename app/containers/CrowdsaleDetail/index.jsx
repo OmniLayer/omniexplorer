@@ -227,14 +227,14 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                             </Col>
                           </Row>
                           <Row>
-                            <Col md="4">
+                            <Col md="5">
                               <span className="text-muted">
                                 <FormattedUnixDateTime datetime={tx.blocktime} />
                               </span>
-                            &nbsp;
-                            (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
+                              &nbsp;
+                              (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
                             </Col>
-                            <Col md="8">
+                            <Col md="7">
                               <Link
                                 to={{
                                   pathname: `/address/${tx.sendingaddress}`,
@@ -297,8 +297,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   </ListGroup>
                   <CardBody>
                     <CardTitle className="text-light">You can participate from an Omniwallet account</CardTitle>
-                    <a className="btn btn-primary btn-lg mt-3 mb-5" target="_blank" href="http://www.omnilayer.org/">
-                      Go to Omniwallet
+                    <a className="btn btn-primary btn-lg mt-3 mb-5" target="_blank" href={`https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`} >
+                      Buy with Omniwallet
                     </a>
                   </CardBody>
                 </StyledCard>
