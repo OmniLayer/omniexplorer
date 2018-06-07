@@ -40,53 +40,49 @@ const StyledTH = styled.th`
 export class Properties extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.query = (props.match.params.query.toString() === ECOSYSTEM_PROD_NAME.toLowerCase() ? ECOSYSTEM_PROD : ECOSYSTEM_TEST);
+    this.ecosystem = (this.query === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME);
     this.props.loadSearch(this.query);
-    
-    this.setEcosystem = (ecosystem) => {
-      const ecosystemParam = (ecosystem === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME);
-      this.props.changeRoute(`/properties/${ecosystemParam.toLowerCase()}`);
-    };
   }
-  
+
   render() {
     if (this.props.search.loading) {
       return (
         <Container>
-          <LoadingIndicator/>
+          <LoadingIndicator />
         </Container>
       );
     }
-    
+
     const assets = (
       <div className="table-responsive">
         <Table className="table-profile">
           <thead>
-          <tr>
-            <StyledTH></StyledTH>
-            <StyledTH>Property ID</StyledTH>
-            <StyledTH>Name</StyledTH>
-            <StyledTH>Issuer</StyledTH>
-          </tr>
+            <tr>
+              <StyledTH></StyledTH>
+              <StyledTH>Property ID</StyledTH>
+              <StyledTH>Name</StyledTH>
+              <StyledTH>Issuer</StyledTH>
+            </tr>
           </thead>
           <tbody>
-          {this.props.search.asset.map((x, idx) => (<Asset
-            {...x}
-            changeRoute={this.props.changeRoute}
-            key={x[2] + idx}
-          />))}
+            {this.props.search.asset.map((x, idx) => (<Asset
+              {...x}
+              changeRoute={this.props.changeRoute}
+              key={x[2] + idx}
+            />))}
           </tbody>
         </Table>
       </div>
     );
-    
+
     return (
       <StyledContainer fluid>
         <Row>
           <Col sm>
             <h3>
-              Asset for ecosystem <Ecosystem ecosystem={this.query} setEcosystem={this.setEcosystem}/>
+              Assets for ecosystem { this.ecosystem }
             </h3>
           </Col>
         </Row>
