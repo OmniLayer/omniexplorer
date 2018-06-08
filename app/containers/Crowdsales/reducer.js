@@ -5,7 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
+import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 import {
   LOAD_CROWDSALES,
   LOAD_CROWDSALES_ERROR,
@@ -20,7 +20,7 @@ const initialState = fromJS({
   ecosystem: ECOSYSTEM_PROD,
 });
 
-const sortDateFordward = (array) => array.sort((current, previous) => current.deadline < previous.deadline);
+const sortDateFordward = (array) => array.sort((current, previous) => current.deadline > previous.deadline);
 
 function crowdsalesReducer(state = initialState, action) {
   const {
@@ -33,7 +33,7 @@ function crowdsalesReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('ecosystem', ecosystem)
-        .set('ecosystemName', (ecosystem === ECOSYSTEM_PROD ? 'Production' : 'Test'));
+        .set('ecosystemName', (ecosystem === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME));
     case LOAD_CROWDSALES_SUCCESS:
       return state
         .set('error', false)

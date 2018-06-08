@@ -17,11 +17,10 @@ import InformationIcon from 'react-icons/lib/io/informatcircled';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import Ecosystem from 'components/Ecosystem';
 import CrowdsaleInfo from 'components/CrowdsaleInfo';
 import LoadingIndicator from 'components/LoadingIndicator';
+import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 
-// import { ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';
 import crowdsalesSaga from './saga';
@@ -43,13 +42,11 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
   constructor(props) {
     super(props);
 
-    this.setEcosystem = (ecosystem) => {
-      this.props.loadCrowdsales(ecosystem);
-    };
+    this.ecosystem = (props.match.params.ecosystem.toString() === ECOSYSTEM_PROD_NAME.toLowerCase() ? ECOSYSTEM_PROD : ECOSYSTEM_TEST);
   }
 
   componentDidMount() {
-    this.props.loadCrowdsales(this.props.crowdsales.ecosystem);
+    this.props.loadCrowdsales(this.ecosystem);
   }
 
   render() {
@@ -71,13 +68,13 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
               <StyledTH>Buy With</StyledTH>
               <StyledTH>Rate</StyledTH>
               <StyledTH>
-                Closing Datetime
+              Closing Datetime
                 <InformationIcon color="gray" className="ml-1" id="crowdsalesClosingDate" />
                 <UncontrolledTooltip placement="right-end" target="crowdsalesClosingDate">
                   <FormattedMessage {...messages.utc} />
                 </UncontrolledTooltip>
               </StyledTH>
-              <StyledTH>Tokens Bought</StyledTH>
+              <StyledTH>Tokens Created</StyledTH>
               <StyledTH></StyledTH>
             </tr>
           </thead>
@@ -98,7 +95,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
         <Row>
           <Col sm>
             <h3>
-              Showing Crowdsales for ecosystem <Ecosystem ecosystem={this.props.crowdsales.ecosystem} setEcosystem={this.setEcosystem} />
+              Crowdsales for ecosystem {this.props.crowdsales.ecosystemName}
             </h3>
           </Col>
         </Row>

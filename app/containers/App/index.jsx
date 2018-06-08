@@ -76,7 +76,7 @@ class App extends React.Component {
           <Route path="/search/:query" component={Search} key={location.pathname} />
           <Route path="/properties/:query" component={Properties} key={location.pathname} />
           <Route path="/asset/:propertyid(\d+)" component={AssetDetail} key={location.pathname} />
-          <Route exact path="/crowdsales" component={Crowdsales} />
+          <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
           <Route path="/crowdsale/:crowdsaleid(\d+)" component={CrowdsaleDetail} key={location.pathname} />
           <Route exact path="/promote" component={Promote} />
           <Route exact path="/submitfeedback" component={Feedback} />
