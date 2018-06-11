@@ -105,13 +105,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
-              <A
-                href="#collapseAmountData"
-                color="primary"
-                onClick={this.toggleAmount}
-                style={{ marginBottom: '1rem' }}
-              >Click to show amounts</A>
-              <Collapse isOpen={this.state.collapseAmount}>
+              <Collapse isOpen={true}>
                 <div>
                   <span>
                     <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired
@@ -136,13 +130,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
           <td className="field">Amount</td>
           <td>
             <strong id="crowdsaleamount">
-              <A
-                href="#collapseAmountData"
-                color="primary"
-                onClick={this.toggleAmount}
-                style={{ marginBottom: '1rem' }}
-              >Click to show amounts</A>
-              <Collapse isOpen={this.state.collapseAmount}>
+              <Collapse isOpen={true}>
                 <div>
                   <span>
                     <SanitizedFormattedNumber value={this.props.amount} /> { this.props.propertyname } (#{ this.props.propertyid }) Sent

@@ -82,7 +82,7 @@ export class Properties extends React.PureComponent { // eslint-disable-line rea
         <Row>
           <Col sm>
             <h3>
-              Assets for ecosystem { this.ecosystem }
+              Properties for ecosystem { this.ecosystem }
             </h3>
           </Col>
         </Row>
