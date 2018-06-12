@@ -268,7 +268,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   </CardBody>
                   <ListGroup className="list-group-flush" color="info">
                     <ListGroupItem>
-                      Total tokens created
+                      <h5>Total tokens created</h5>
                       <h2>
                         <span className="badge badge-secondary">
                           <SanitizedFormattedNumber value={crowdsale.tokensissued} />
