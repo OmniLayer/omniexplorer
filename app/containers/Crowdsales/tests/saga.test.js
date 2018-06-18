@@ -10,6 +10,7 @@ import encoderURIParams from 'utils/encoderURIParams';
 import { API_URL_BASE, ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 import { crowdsalesLoaded, crowdsalesLoadingError } from 'containers/Crowdsales/actions';
 
+import { LOAD_CROWDSALES } from '../constants';
 import root, { getCrowdsales } from '../saga';
 
 const addr = '17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx';
@@ -58,15 +59,15 @@ describe('getCrowdsales Saga', () => {
     const ecosystem = ECOSYSTEM_PROD;
     const saga = testSaga(getCrowdsales, { ecosystem });
     const url = `${API_URL_BASE}/properties/listactivecrowdsales`;
-  
+
     const body = encoderURIParams({ ecosystem });
-  
+
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: bodyRequest,
+      body,
     };
 
     saga
