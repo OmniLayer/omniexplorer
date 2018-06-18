@@ -1,21 +1,22 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_CROWDSALES } from './constants';
 import { crowdsalesLoaded, crowdsalesLoadingError } from './actions';
 
-export function* getCrowdsales(action = {}) {
+export function* getCrowdsales({ ecosystem }) {
   const requestURL = `${API_URL_BASE}/properties/listactivecrowdsales`;
 
   try {
-    const bodyRequest = `${encodeURIComponent('ecosystem')}=${encodeURIComponent(action.ecosystem)}`;
+    const body = encoderURIParams({ ecosystem });
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: bodyRequest,
+      body,
     };
 
     const crowdsales = yield call(request, requestURL, options);

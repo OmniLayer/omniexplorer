@@ -5,11 +5,11 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
+import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE } from 'containers/App/constants';
+import { API_URL_BASE, ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 import { crowdsalesLoaded, crowdsalesLoadingError } from 'containers/Crowdsales/actions';
 
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 import root, { getCrowdsales } from '../saga';
 
 const addr = '17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx';
@@ -58,7 +58,9 @@ describe('getCrowdsales Saga', () => {
     const ecosystem = ECOSYSTEM_PROD;
     const saga = testSaga(getCrowdsales, { ecosystem });
     const url = `${API_URL_BASE}/properties/listactivecrowdsales`;
-    const bodyRequest = `${encodeURIComponent('ecosystem')}=${encodeURIComponent(ecosystem)}`;
+  
+    const body = encoderURIParams({ ecosystem });
+  
     const options = {
       method: 'POST',
       headers: {

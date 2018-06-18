@@ -5,6 +5,7 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
+import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
 import { searchLoaded, searchLoadingError } from 'containers/Search/actions';
@@ -54,13 +55,14 @@ describe('getSearch Saga', () => {
 
     const saga = testSaga(getSearch, { query: 'OMNI' });
     const url = `${API_URL_BASE}/search`;
-    const bodyRequest = `${encodeURIComponent('query')}=${encodeURIComponent('OMNI')}`;
+    const body = encoderURIParams({ query: 'OMNI' });
+    
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: bodyRequest,
+      body,
     };
 
     saga

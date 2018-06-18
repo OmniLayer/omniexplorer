@@ -5,6 +5,7 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
+import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
 import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/actions';
@@ -57,13 +58,13 @@ describe('getAddress Saga', () => {
 
     const saga = testSaga(getAddress, { addr });
     const url = `${API_URL_BASE}/address/addr`;
-    const bodyRequest = `${encodeURIComponent('addr')}=${encodeURIComponent(addr)}`;
+    const body = encoderURIParams({ addr });
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: bodyRequest,
+      body,
     };
 
     saga

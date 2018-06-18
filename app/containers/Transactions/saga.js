@@ -2,20 +2,20 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { LOAD_TRANSACTIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
+import encoderURIParams from 'utils/encoderURIParams';
 import { transactionsLoaded, transactionsLoadingError } from './actions';
 
-
-export function* getTransactions(action = {}) {
-  const page = action.page || 0;
-  const requestURL = (action.addr ? `${API_URL_BASE}/transaction/address/${page}` : `${API_URL_BASE}/transaction/general/${page}`);
+export function* getTransactions({ page = 0, addr }) {
+  const requestURL = (addr ? `${API_URL_BASE}/transaction/address/${page}` : `${API_URL_BASE}/transaction/general/${page}`);
 
   try {
-    const addrHeader = encodeURIComponent('addr');
-    const addrValue = encodeURIComponent(action.addr);
     const getTransactionsOptions = {
       type: 'cors',
     };
-    if (action.addr) {
+
+    if (addr) {
+      const body = encoderURIParams({ addr });
+
       Object.assign(
         getTransactionsOptions,
         {
@@ -23,8 +23,8 @@ export function* getTransactions(action = {}) {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: `${addrHeader}=${addrValue}`,
-        }
+          body,
+        },
       );
     } else {
       Object.assign(
@@ -33,7 +33,7 @@ export function* getTransactions(action = {}) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
 
