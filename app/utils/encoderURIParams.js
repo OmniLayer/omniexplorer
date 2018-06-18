@@ -1,10 +1,20 @@
+import pickBy from 'lodash/pickBy';
+import identity from 'lodash/identity';
+
 /**
- *
- * @param requestURL
+ * encodeURIParams
  * @param params
- * @returns {{url: string, body: string}}
+ * @param addEmpties
+ * @returns {string}
  */
-export default (params) => {
+export default (params, addEmpties = false) => {
   const encodeURIParam = (key, value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-  return Object.keys(params).map((key) => encodeURIParam(key, params[key])).join('&');
+  // filters empty params if apply
+  // recovery keys of params to encode
+  // encode key value pairs
+  // concat results
+  const cleanParams = (addEmpties ? params : pickBy(params, identity));
+  return Object.keys(cleanParams)
+    .map((key) => encodeURIParam(key, cleanParams[key]))
+    .join('&');
 };
