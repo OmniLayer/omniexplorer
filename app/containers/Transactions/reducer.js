@@ -17,6 +17,7 @@ import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_ERROR,
   SET_PAGE,
+  SET_TRANSACTION_TYPE,
 } from './constants';
 
 // The initial state of the App
@@ -26,6 +27,7 @@ const initialState = fromJS({
   transactions: [],
   pageCount: 0,
   currentPage: 0,
+  txType: null,
 });
 
 function transactionsReducer(state = initialState, action) {
@@ -48,8 +50,10 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', false);
     case SET_PAGE:
       return state
-        .set('loading', true)
         .set('currentPage', action.page);
+    case SET_TRANSACTION_TYPE:
+      return state
+        .set('txType', action.txType);
     default:
       return state;
   }
