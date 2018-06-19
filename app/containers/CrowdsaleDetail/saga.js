@@ -6,11 +6,10 @@ import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_CROWDSALE_TRANSACTIONS } from './constants';
 import { errorCrowdsaleTransactionsFetch, updateCrowdsaleTransactionsFetch } from './actions';
 
-export function* getCrowdsaleTransactions({ start = 0, id }) {
-  const count = 10; // fixed for now..
+export function* getCrowdsaleTransactions({ start = 0, count = 1000, id }) {
   const requestURL = `${API_URL_BASE}/properties/gethistory/${id}`;
 
-  const body = encoderURIParams({ start, count });
+  const body = encoderURIParams({ start, count }, true);
 
   try {
     const getTransactionsOptions = {
