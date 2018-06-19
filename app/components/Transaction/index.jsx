@@ -12,14 +12,16 @@ import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import { Col, Row, Tooltip } from 'reactstrap';
 import styled from 'styled-components';
-import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import CopyIcon from 'react-icons/lib/io/ios-copy';
 import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
 import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
+
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import getLogo from 'utils/getLogo';
 import './transaction.scss';
 
 const IMG = styled.img`
@@ -118,15 +120,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     if (this.props.type_int === 4) {
       tokenLogo = require('images/sendall.png');
     } else {
-      try {
-        tokenLogo = require(`images/token${this.props.propertyid}.png`);
-      } catch (e) {
-        if (this.props.propertyid > 2147483650) {
-          tokenLogo = require('images/tokenwarn.png');
-        } else {
-          tokenLogo = require('images/tokendefault.png');
-        }
-      }
+      tokenLogo = getLogo(this.props.propertyid);
     }
 
     let arrowcname;

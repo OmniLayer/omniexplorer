@@ -7,6 +7,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import getLogo from 'utils/getLogo';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -17,19 +18,6 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 })``;
 
 function Asset(props) {
-  const getLogo = (id) => {
-    let logo;
-    try {
-      logo = require(`images/token${id}.png`);
-    } catch (e) {
-      if (id > 2147483650) {
-        logo = require('images/tokenwarn.png');
-      } else {
-        logo = require('images/tokendefault.png');
-      }
-    }
-    return logo;
-  };
   
   return (
     <tr>

@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import isEmpty from 'lodash/isEmpty';
-import { makeSelectStatus } from './selectors';
 import featureLogoPNG from 'images/token1.png';
+import { makeSelectStatus } from './selectors';
 
 const IMG = styled.img`
   margin-right: 6px;

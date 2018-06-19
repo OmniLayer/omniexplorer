@@ -13,8 +13,9 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
-import { startFetch } from './actions';
 import styled from 'styled-components';
+import getLogo from 'utils/getLogo';
+import { startFetch } from './actions';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -24,19 +25,6 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
   constructor(props) {
     super(props);
 
-    this.getLogo = () => {
-      let logo;
-      try {
-        logo = require(`images/token${this.props.id}.png`);
-      } catch (e) {
-        if (this.props.id > 2147483650) {
-          logo = require('images/tokenwarn.png');
-        } else {
-          logo = require('images/tokendefault.png');
-        }
-      }
-      return logo;
-    };
     this.getTokenName = () => (this.props.properties.get('tokens').get(this.props.id.toString()) || { name: '' }).name;
   }
 
@@ -75,7 +63,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
         <StyledTD style={{ width: '56px' }}>
           <img
             style={{ width: '4rem', height: '4rem' }}
-            src={this.getLogo()}
+            src={getLogo(this.props.id)}
           />
         </StyledTD>
         <StyledTD style={{ paddingTop: '13px' }}>
