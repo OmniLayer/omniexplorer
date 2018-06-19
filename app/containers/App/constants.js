@@ -14,5 +14,5 @@ export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_NOT_NUMBER = '---';
 export const ECOSYSTEM_PROD = 1;
 export const ECOSYSTEM_TEST = 2;
-export const ECOSYSTEM_PROD_NAME = 'Main';
+export const ECOSYSTEM_PROD_NAME = 'Production';
 export const ECOSYSTEM_TEST_NAME = 'Test';
