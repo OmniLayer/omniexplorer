@@ -59,7 +59,7 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <span>
-            <FormattedUnixDateTime datetime={this.props.deadline} />
+            <FormattedUnixDateTime datetime={this.props.deadline} useSeconds={false} />
           </span>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
