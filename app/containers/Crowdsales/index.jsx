@@ -64,6 +64,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
         <Table className="table-profile">
           <thead>
             <tr>
+              <StyledTH></StyledTH>
               <StyledTH>Crowdsale</StyledTH>
               <StyledTH>Buy With</StyledTH>
               <StyledTH>Rate</StyledTH>
