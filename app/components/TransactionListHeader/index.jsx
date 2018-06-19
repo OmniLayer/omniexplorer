@@ -39,12 +39,17 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
         letter-spacing: 0.1rem;
         font-weight: 300;
     `;
-    
+
+    const totalLabel = `${this.props.totalLabel || 'transaction'}${this.props.total > 1 ? 's' : ''}`;
     return (
       <StyledRow className="text-center-down-sm pt-2 pb-2">
         <Col sm>
           <HeaderTitle>
             <FormattedMessage {...messages.header} />
+            &nbsp;
+            {!!this.props.total &&
+            (<small className="text-muted">({this.props.total} {totalLabel})</small>)
+            }
           </HeaderTitle>
         </Col>
         <Col sm>
@@ -74,6 +79,8 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
 TransactionListHeader.propTypes = {
   className: PropTypes.string,
   selectType: PropTypes.func,
+  total: PropTypes.number,
+  totalLabel: PropTypes.string,
 };
 
 export default TransactionListHeader;

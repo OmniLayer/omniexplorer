@@ -90,7 +90,7 @@ export class Transactions extends React.Component { // eslint-disable-line react
 
     return (
       <StyledContainer fluid>
-        <TransactionListHeader selectType={this.props.onSetTransactionType} />
+        <TransactionListHeader selectType={this.props.onSetTransactionType} total={this.props.transactions.pageCount} totalLabel="page" />
         {content}
       </StyledContainer>
     );

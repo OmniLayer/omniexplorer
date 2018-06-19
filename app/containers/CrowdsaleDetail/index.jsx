@@ -205,7 +205,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               </StyledDivContent>
               <div>
                 <h2>
-                  Property History <small className="text-muted">({detail.total}) transactions</small>
+                  Property History <small className="text-muted">({detail.total} transactions)</small>
                 </h2>
                 <Table striped>
                   <tbody>
