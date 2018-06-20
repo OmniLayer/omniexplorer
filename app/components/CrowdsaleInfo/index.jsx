@@ -66,7 +66,7 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.tokensperunit}/>
+          <SanitizedFormattedNumber value={this.props.tokensperunit} forceDecimals={true}/>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <span>
@@ -74,7 +74,7 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </span>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.totaltokens}/>
+          <SanitizedFormattedNumber value={this.props.totaltokens} fractionDigits={8}/>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <a className="btn btn-primary" target="_blank"
