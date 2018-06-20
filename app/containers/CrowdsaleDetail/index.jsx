@@ -6,12 +6,25 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { Card, CardBody, CardTitle, Col, Container, ListGroup, ListGroupItem, Row, Table } from 'reactstrap';
+import InformationIcon from 'react-icons/lib/io/informatcircled';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Col,
+  Container,
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Table,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
@@ -28,15 +41,18 @@ import GPlusIcon from 'react-icons/lib/io/social-googleplus';
 import TwitterIcon from 'react-icons/lib/io/social-twitter';
 import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
 
+import FormattedUnixDateTime from 'components/FormattedDateTime/FormattedUnixDateTime';
+import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
+import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
+import messages from 'components/FormattedDateTime/messages';
+import crowdsalesMessages from './messages';
+
 import makeSelectCrowdsaleDetail from './selectors';
 import { startCrowdsaleTransactionsFetch } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
-import FormattedUnixDateTime from '../../components/FormattedDateTime/FormattedUnixDateTime';
 
-import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
-import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 
 const AssetDetail = styled.p`
 	font-size: 1.25rem;
@@ -58,6 +74,11 @@ const StyledSpan = styled.span.attrs({
   className: 'text-sm-center',
 })`
   width: 90%;
+`;
+
+const StyledInformationIcon = styled(InformationIcon)`
+  color: cadetblue !important;
+	font-size: 1.5rem;
 `;
 
 const Countdown = (props, context) => {
@@ -94,30 +115,25 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     if (!dessiredToken) return loading;
 
     const detail = this.props.crowdsaledetail;
-    const getSufix = (value) => (value >= 1000 ? 'k' : '');
-    const TransactionLabel = (props) => {
-      // 1 Bitstrap <-> 100k Proz ( +100k to Issuer)
-      const purchasedtokens = (props.tx.purchasedtokens >= 1000 ? props.tx.purchasedtokens / 1000 : props.tx.purchasedtokens);
-      const issuertokens = (props.tx.issuertokens >= 1000 ? props.tx.issuertokens / 1000 : props.tx.issuertokens);
 
-      return (props.tx.type_int === 51 ?
-        <span>{crowdsale.propertyname} was created </span> :
-        <span>
-          <SanitizedFormattedNumber value={props.tx.amount} minimunFractionDigits={2} /> {dessiredToken.propertyname}
+    const TransactionLabel = (props) => (props.tx.type_int === 51 ?
+      <span>{crowdsale.propertyname} was created </span> :
+      <span>
+        <SanitizedFormattedNumber value={props.tx.amount} forceDecimals={crowdsale.divisible} /> {dessiredToken.propertyname}
             &nbsp;
-          <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
-          <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
+        <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
+        <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
             &nbsp;
-          <SanitizedFormattedNumber
-            value={purchasedtokens}
-            minimunFractionDigits={2}
-          />{getSufix(purchasedtokens)} {crowdsale.propertyname}
+        <SanitizedFormattedNumber
+          value={props.tx.purchasedtokens}
+          fractionDigits={8}
+        /> {crowdsale.propertyname}
             &nbsp;
-            (+<SanitizedFormattedNumber value={issuertokens} minimunFractionDigits={2} />{getSufix(issuertokens)} to Issuer)
-        </span>
-      );
-    };
-    const earlybonus = (crowdsale.deadline - crowdsale.blocktime) / 604800 * crowdsale.earlybonus;
+            (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
+      </span>
+    );
+    const earlybonus = ((crowdsale.deadline - crowdsale.blocktime) / 604800) * crowdsale.earlybonus;
+    const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
 
     return (
       <Container fluid className="mt-3">
@@ -126,6 +142,10 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
             <Col>
               <h2>
                 {crowdsale.name} <span className="badge badge-secondary">{`(#${crowdsale.propertyid})`}</span>
+                <StyledInformationIcon color="gray" className="ml-1" id="crowdsaleDivisible" />
+                <UncontrolledTooltip placement="right-end" target="crowdsaleDivisible">
+                  <FormattedMessage {...divisibleMsg} />
+                </UncontrolledTooltip>
               </h2>
             </Col>
           </Row>
@@ -205,7 +225,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               </StyledDivContent>
               <div>
                 <h2>
-                  Property History <small className="text-muted">({detail.total}) transactions</small>
+                  Property History <small className="text-muted">({detail.total} transactions)</small>
                 </h2>
                 <Table striped>
                   <tbody>
@@ -231,8 +251,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                               <span className="text-muted">
                                 <FormattedUnixDateTime datetime={tx.blocktime} />
                               </span>
-                              &nbsp;
-                              (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
+                            &nbsp;
+                            (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
                             </Col>
                             <Col md="7">
                               <Link
@@ -297,7 +317,11 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   </ListGroup>
                   <CardBody>
                     <CardTitle className="text-light">You can participate from an Omniwallet account</CardTitle>
-                    <a className="btn btn-primary btn-lg mt-3 mb-5" target="_blank" href={`https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`} >
+                    <a
+                      className="btn btn-primary btn-lg mt-3 mb-5"
+                      target="_blank"
+                      href={`https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`}
+                    >
                       Buy with Omniwallet
                     </a>
                   </CardBody>

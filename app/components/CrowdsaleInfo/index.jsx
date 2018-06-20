@@ -15,6 +15,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 import styled from 'styled-components';
+import getLogo from 'utils/getLogo';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -30,6 +31,16 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
   render() {
     return (
       <tr>
+        <StyledTD>
+          <img
+            style={{
+              width: '4rem',
+              height: '4rem',
+            }}
+            src={getLogo(this.props.propertyid)}
+            alt={this.props.name}
+          />
+        </StyledTD>
         <StyledTDTextLeft>
           <Link
             to={{
@@ -55,18 +66,19 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           </Link>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.tokensperunit} />
+          <SanitizedFormattedNumber value={this.props.tokensperunit} forceDecimals={true}/>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <span>
-            <FormattedUnixDateTime datetime={this.props.deadline} />
+            <FormattedUnixDateTime datetime={this.props.deadline} useSeconds={false}/>
           </span>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.totaltokens} />
+          <SanitizedFormattedNumber value={this.props.totaltokens} fractionDigits={8}/>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <a className="btn btn-primary" target="_blank" href={`https://www.omniwallet.org/assets/details/${this.props.propertyid}`} >
+          <a className="btn btn-primary" target="_blank"
+             href={`https://www.omniwallet.org/assets/details/${this.props.propertyid}`}>
             Buy with
             <br/>
             Omniwallet

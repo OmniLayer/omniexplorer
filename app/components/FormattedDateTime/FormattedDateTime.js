@@ -10,19 +10,20 @@ import { FormattedDate, FormattedMessage, FormattedTime } from 'react-intl';
 
 import messages from './messages';
 
-const FormattedDateTime = ({ datetime, key = (Date.now()) }) => {
+const FormattedDateTime = ({ datetime, key = (Date.now()), useSeconds = true }) => {
   const id = `id_${key}`;
-  
+  const seconds = (useSeconds ? { second: 'numeric' } : null);
+
   return (
     <span>
       <FormattedMessage
         {...messages.datetime}
         values={{
-          date: <FormattedDate value={datetime}/>,
-          hour: <FormattedTime value={datetime} hour="numeric" minute="numeric" second="numeric"/>,
+          date: <FormattedDate value={datetime} />,
+          hour: <FormattedTime value={datetime} hour="numeric" minute="numeric" {...seconds} />,
         }}
       />
-  </span>
+    </span>
   );
 };
 

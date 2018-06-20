@@ -13,13 +13,14 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import { Card, CardBody, CardHeader, CardText, Col, Container, Row, Table } from 'reactstrap';
-import { API_URL_BASE } from 'containers/App/constants';
 
+import { API_URL_BASE } from 'containers/App/constants';
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import LoadingIndicator from 'components/LoadingIndicator';
+import getLogo from 'utils/getLogo';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -47,20 +48,6 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
   constructor(props) {
     super(props);
 
-    this.getLogo = () => {
-      let logo;
-      try {
-        logo = require(`images/token${this.props.id}.png`);
-      } catch (e) {
-        if (this.props.id > 2147483650) {
-          logo = require('images/tokenwarn.png');
-        } else {
-          logo = require('images/tokendefault.png');
-        }
-      }
-      return logo;
-    };
-
     this.propertyId = this.props.match.params.propertyid.toString();
     this.props.getProperty(this.props.match.params.propertyid.toString());
   }
@@ -77,18 +64,9 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
       );
     }
 
-    let logo;
-    try {
-      logo = require(`images/token${asset.propertyid}.png`);
-    } catch (e) {
-      if (asset.propertyid > 2147483650) {
-        logo = require('images/tokenwarn.png');
-      } else {
-        logo = require('images/tokendefault.png');
-      }
-    }
-
+    let logo = getLogo(asset.propertyid);
     let warningMessage = null;
+    
     if (asset.flags.duplicate) {
       warningMessage = (<Row>
         <Col sm>

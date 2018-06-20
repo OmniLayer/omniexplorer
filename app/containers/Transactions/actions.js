@@ -20,6 +20,7 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
   SET_PAGE,
+  SET_TRANSACTION_TYPE,
 } from './constants';
 
 /**
@@ -27,11 +28,10 @@ import {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS
  */
-export function loadTransactions(addr = null, page = 0) {
+export function loadTransactions(addr = null) {
   return {
     type: LOAD_TRANSACTIONS,
     addr,
-    page,
   };
 }
 
@@ -42,12 +42,11 @@ export function loadTransactions(addr = null, page = 0) {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS_SUCCESS passing the transactions
  */
-export function transactionsLoaded(transactions, pages, currentPage) {
+export function transactionsLoaded(transactions, pages) {
   return {
     type: LOAD_TRANSACTIONS_SUCCESS,
     transactions,
     pages,
-    currentPage,
   };
 }
 
@@ -72,10 +71,23 @@ export function transactionsLoadingError(error) {
  *
  * @return {object} An action object with the page
  */
-export function setPage(page, addr = null) {
+export function setPage(page) {
   return {
     type: SET_PAGE,
     page,
-    addr,
+  };
+}
+
+/**
+ * Dispatched when the page change
+ *
+ * @param  {number} page The page number
+ *
+ * @return {object} An action object with the page
+ */
+export function setTransactionType(txType) {
+  return {
+    type: SET_TRANSACTION_TYPE,
+    txType,
   };
 }

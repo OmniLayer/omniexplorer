@@ -64,6 +64,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
         <Table className="table-profile">
           <thead>
             <tr>
+              <StyledTH></StyledTH>
               <StyledTH>Crowdsale</StyledTH>
               <StyledTH>Buy With</StyledTH>
               <StyledTH>Rate</StyledTH>
@@ -96,6 +97,8 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
           <Col sm>
             <h3>
               Crowdsales for ecosystem {this.props.crowdsales.ecosystemName}
+              &nbsp;
+              <small className="text-muted">({this.props.crowdsales.crowdsales.length} crowdsales)</small>
             </h3>
           </Col>
         </Row>
