@@ -119,7 +119,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const TransactionLabel = (props) => (props.tx.type_int === 51 ?
       <span>{crowdsale.propertyname} was created </span> :
       <span>
-        <SanitizedFormattedNumber value={props.tx.amount} fractionDigits={2} /> {dessiredToken.propertyname}
+        <SanitizedFormattedNumber value={props.tx.amount} forceDecimals={crowdsale.divisible} /> {dessiredToken.propertyname}
             &nbsp;
         <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
         <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
