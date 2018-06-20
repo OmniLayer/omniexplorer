@@ -301,7 +301,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                         <span className="badge badge-secondary">
                           <SanitizedFormattedNumber
                             value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
-                            fractionDigits={(crowdsale.divisible ? 8 : 0)}
+                            forceDecimals={crowdsale.divisible}
                           />
                         </span>
                       </h2>
@@ -310,7 +310,10 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       <h5>Current early bird bonus</h5>
                       <h2>
                         <span className="badge badge-secondary">
-                          <SanitizedFormattedNumber value={earlybonus} fractionDigits={2} /> %
+                          <SanitizedFormattedNumber
+                            value={earlybonus}
+                            forceDecimals={crowdsale.divisible}
+                          /> %
                         </span>
                       </h2>
                     </ListGroupItem>
