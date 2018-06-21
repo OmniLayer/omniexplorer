@@ -11,7 +11,7 @@ import { DEFAULT_NOT_NUMBER } from 'containers/App/constants';
 function SanitizedFormattedNumber(props) {
 // eslint-disable-next-line no-restricted-globals
   const isNumeric = (data) => (!isNaN(parseFloat(data)) && isFinite(data) && data.constructor !== Array);
-  let value = parseFloat(props.value, 10).toString();
+  const value = parseFloat(props.value, 10).toString();
   const hasDecimals = props.value.indexOf && props.value.indexOf('.') !== -1;
 
   let decimaldigits;
@@ -19,7 +19,7 @@ function SanitizedFormattedNumber(props) {
     if (value % 1 === 0) {
       decimaldigits = `.${new Array(3).join('0')}`;
     } else {
-      value = value.slice(value.indexOf('.') + 1).length < 2 ? `${value}0` : value;
+      decimaldigits = value.slice(value.indexOf('.') + 1).length < 2 ? '0' : '';
     }
   } else {
     decimaldigits = '';
