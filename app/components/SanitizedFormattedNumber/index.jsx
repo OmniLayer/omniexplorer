@@ -28,7 +28,7 @@ function SanitizedFormattedNumber(props) {
   const fractionDigits = (
     decimaldigits ?
       3 :
-      props.fractionDigits || (props.value < 8 ? value.slice(props.value.indexOf('.') + 1).length : 8)
+      props.fractionDigits || (props.value < 8 ? value.slice(value.indexOf('.') + 1).length : 8)
   );
   const number = (isNumeric(value) ?
     (
