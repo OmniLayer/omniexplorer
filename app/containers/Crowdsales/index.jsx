@@ -98,7 +98,7 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
             <h3>
               Crowdsales for ecosystem {this.props.crowdsales.ecosystemName}
               &nbsp;
-              <small className="text-muted">({this.props.crowdsales.crowdsales.length} crowdsales)</small>
+              <small className="text-muted">{this.props.crowdsales.crowdsales.length} crowdsales</small>
             </h3>
           </Col>
         </Row>

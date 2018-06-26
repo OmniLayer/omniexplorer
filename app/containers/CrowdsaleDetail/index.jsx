@@ -117,7 +117,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const detail = this.props.crowdsaledetail;
 
     const TransactionLabel = (props) => (props.tx.type_int === 51 ?
-      <span>{crowdsale.propertyname} was created </span> :
+      <span>{crowdsale.propertyname} started</span> :
       <span>
         <SanitizedFormattedNumber value={props.tx.amount} forceDecimals={crowdsale.divisible} /> {dessiredToken.propertyname}
             &nbsp;
@@ -225,7 +225,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
               </StyledDivContent>
               <div>
                 <h2>
-                  Property History <small className="text-muted">({detail.total} transactions)</small>
+                  Property History <small className="text-muted">{detail.total} transactions</small>
                 </h2>
                 <Table striped>
                   <tbody>
