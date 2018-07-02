@@ -48,7 +48,7 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
             <FormattedMessage {...messages.header} />
             &nbsp;
             {!!this.props.total &&
-            (<small className="text-muted">({this.props.total} {totalLabel})</small>)
+            <small className="text-muted">{this.props.total} {totalLabel}</small>
             }
           </HeaderTitle>
         </Col>
