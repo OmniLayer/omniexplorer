@@ -1,7 +1,7 @@
 
 import { fromJS } from 'immutable';
+import { ECOSYSTEM_PROD } from 'containers/App/constants';
 import crowdsalesReducer from '../reducer';
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
 
 describe('crowdsalesReducer', () => {
   it('returns the initial state', () => {

@@ -56,7 +56,7 @@ describe('getSearch Saga', () => {
     const saga = testSaga(getSearch, { query: 'OMNI' });
     const url = `${API_URL_BASE}/search`;
     const body = encoderURIParams({ query: 'OMNI' });
-    
+
     const options = {
       method: 'POST',
       headers: {

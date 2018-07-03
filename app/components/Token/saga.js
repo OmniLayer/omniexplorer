@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { delay } from 'redux-saga';
 import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';

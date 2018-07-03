@@ -7,7 +7,7 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE, ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
+import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
 import { crowdsalesLoaded, crowdsalesLoadingError } from 'containers/Crowdsales/actions';
 
 import { LOAD_CROWDSALES } from '../constants';

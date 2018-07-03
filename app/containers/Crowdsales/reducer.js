@@ -5,7 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
+import { ECOSYSTEM_PROD, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 import {
   LOAD_CROWDSALES,
   LOAD_CROWDSALES_ERROR,

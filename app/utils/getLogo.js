@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 export default (id) => {
   let logo;
   try {
@@ -10,4 +11,4 @@ export default (id) => {
     }
   }
   return logo;
-}
+};

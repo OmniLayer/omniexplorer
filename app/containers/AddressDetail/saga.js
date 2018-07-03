@@ -6,7 +6,7 @@ import encoderURIParams from 'utils/encoderURIParams';
 
 import request from 'utils/request';
 
-export function* getAddress({addr}) {
+export function* getAddress({ addr }) {
   const requestURL = `${API_URL_BASE}/address/addr`;
 
   try {

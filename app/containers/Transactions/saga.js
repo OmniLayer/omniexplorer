@@ -10,7 +10,7 @@ export function* getTransactions({ addr }) {
   const page = state.get('currentPage');
   const txType = state.get('txType');
   const requestURL = (addr ? `${API_URL_BASE}/transaction/address/${page}` : `${API_URL_BASE}/transaction/general/${page}`);
-  
+
   try {
     const getTransactionsOptions = {
       type: 'cors',
