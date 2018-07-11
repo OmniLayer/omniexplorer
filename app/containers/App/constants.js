@@ -9,4 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const API_URL_BASE = 'https://api.omniexplorer.info/v1';
 export const DEFAULT_LOCALE = 'en';
+export const DEFAULT_NOT_NUMBER = '---';

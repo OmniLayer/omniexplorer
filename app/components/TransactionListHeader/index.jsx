@@ -34,27 +34,35 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
       color: white;
     `;
     const HeaderTitle = styled.span`
-      font-weight: 300;
+      	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.1rem;
+        font-weight: 300;
     `;
 
     return (
-      <StyledRow className="align-items-center pt-2 pb-2">
-        <Col>
+      <StyledRow className="text-center-down-sm pt-2 pb-2">
+        <Col sm>
           <HeaderTitle>
             <FormattedMessage {...messages.header} />
           </HeaderTitle>
         </Col>
-        <Col>
-          <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-right">
+        <Col sm>
+          <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-md-right">
             <DropdownToggle caret color="info" className="font-weight-light">
               <FormattedMessage {...messages.transactionTypes} />
             </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Header</DropdownItem>
-              <DropdownItem disabled>Action</DropdownItem>
-              <DropdownItem>Another Action</DropdownItem>
+            <DropdownMenu right>
+              <DropdownItem>Show All Transaction Types</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>Another Action</DropdownItem>
+              <DropdownItem header>(Filters Coming Soon)!</DropdownItem>
+              <DropdownItem header>Show Simple Send only</DropdownItem>
+              <DropdownItem header>Show MetaDEx only</DropdownItem>
+              <DropdownItem header>Show DEx only</DropdownItem>
+              <DropdownItem header>Show Grant only</DropdownItem>
+              <DropdownItem header>Show Revoke only</DropdownItem>
+              <DropdownItem header>Show Property Creation only</DropdownItem>
+              <DropdownItem header>Show Send To Owners only</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </Col>

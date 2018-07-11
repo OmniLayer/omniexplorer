@@ -5,28 +5,24 @@
  */
 
 import React from 'react';
-import { HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis';
-// import styled from 'styled-components';
+// import { HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis';
+import statsPNG from 'images/stats.png';
+import styled from 'styled-components';
 
+const IMG = styled.img``;
+
+const ContainerLogo = styled.div`
+  background-color: #f5f5f5;
+`;
 
 class TransactionHistory extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <XYPlot
-        width={600}
-        height={230}
-      >
-        <HorizontalGridLines />
-        <LineSeries
-          data={[
-            { x: 1, y: 10 },
-            { x: 2, y: 5 },
-            { x: 3, y: 15 },
-          ]}
-        />
-        <XAxis />
-        <YAxis />
-      </XYPlot>
+      <ContainerLogo className="px-3 pb-2">
+        <div className="d-inline-block mx-auto">
+          <IMG className="img-fluid" src={statsPNG} />
+        </div>
+      </ContainerLogo>
     );
   }
 }

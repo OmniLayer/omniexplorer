@@ -11,9 +11,13 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { applyMiddleware } from 'redux';
+import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
+import { syncHistory } from 'redux-simple-router';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -35,6 +39,7 @@ import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
 import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
+import 'file-loader?name=[name].[ext]!./extras/404.html';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 // Import bootstrap styles
@@ -51,10 +56,32 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-styles';
 
+// Import SASS responsive styles
+import './responsive-styles.scss';
+
+// Observe loading of Open Sans (to remove open sans, remove the <link> tag in
+// the index.html file and this observer)
+const openSansObserver = new FontFaceObserver('Open Sans', {});
+
+// verify if it's running in prod environment
+// const isProd = process.env.NODE_ENV === 'production';
+
+// When Open Sans is loaded, add a font-family using Open Sans to the body
+openSansObserver.load().then(() => {
+  document.body.classList.add('fontLoaded');
+}, () => {
+  document.body.classList.remove('fontLoaded');
+});
+
 // Create redux store with history
 const initialState = {};
 const history = createHistory();
-const store = configureStore(initialState, history);
+// Sync dispatched route actions to the history
+const reduxRouterMiddleware = syncHistory(history);
+const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(configureStore);
+
+// const store = configureStore(initialState, history);
+const store = createStoreWithMiddleware(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = (messages) => {
@@ -62,7 +89,7 @@ const render = (messages) => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <Route component={App} />
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
@@ -94,11 +121,4 @@ if (!window.Intl) {
     });
 } else {
   render(translationMessages);
-}
-
-// Install ServiceWorker and AppCache in the end since
-// it's not most important operation and if main code fails,
-// we do not want it installed
-if (process.env.NODE_ENV === 'production') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }

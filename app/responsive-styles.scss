@@ -1,0 +1,81 @@
+//https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints
+//https://getbootstrap.com/docs/4.0/utilities/flex/#auto-margins
+
+@import '~bootstrap/scss/bootstrap-grid';
+
+@include media-breakpoint-down(sm) {
+  .d-sm-down {
+    display: none;
+  }
+}
+//
+//@include media-breakpoint-up(sm) {
+//}
+//
+//@include media-breakpoint-down(md, (xs: 0, sm: 576px, md: 768px, lg: 1199.98px, xl: 1200px)) {
+//}
+//
+//@include media-breakpoint-up(md){
+//}
+//
+//@include media-breakpoint-between(md, lg, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
+//}
+
+@include media-breakpoint-up(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)) {
+  .pb-sm-up-1 {
+    padding-bottom: 1rem;
+  }
+  .h-56-md-up {
+    height: 56%;
+  }
+  .d-none-only-sm-down .searchbox-form {
+    display: block !important;
+  }
+  .d-block-only-sm-down .searchbox-form {
+    display: none !important;
+  }
+}
+
+@include media-breakpoint-down(md, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
+  .d-none-down-md {
+    display: none;
+  }
+  .d-block-down-md {
+    display: block;
+  }
+  .text-center-down-md {
+    text-align: center;
+  }
+  div.col-sm {
+    margin-top: 0.5rem;
+    margin-bottom: 0 !important;
+  }
+  .w-100-down-md {
+    width: 100% !important;
+  }
+  .overflow-hidden-down-md {
+    overflow: hidden;
+  }
+}
+
+
+@include media-breakpoint-down(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
+  .d-none-down-sm {
+    display: none;
+  }
+  .text-center-down-sm {
+    text-align: center;
+  }
+  .d-block-only-sm-down .searchbox-form {
+    display: block !important;
+  }
+  .d-none-only-sm-down .searchbox-form {
+    display: none !important;
+  }
+}
+//
+//@include breakpoint-min(md, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
+//  .d-block-until-md {
+//
+//  }
+//}
