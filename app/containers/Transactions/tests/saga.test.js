@@ -7,7 +7,7 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { LOAD_TRANSACTIONS, LOAD_TRANSACTIONS_SUCCESS } from '../constants';
+import { LOAD_TRANSACTIONS, LOAD_TRANSACTIONS_SUCCESS, SET_TRANSACTION_TYPE } from '../constants';
 import { transactionsLoadingError } from '../actions';
 
 import root, { getTransactions } from '../saga';
@@ -21,7 +21,7 @@ describe('getTransaction Saga', () => {
   // We have to test twice, once for a successful load and once for an unsuccessful one
   // so we do all the stuff that happens beforehand automatically in the beforeEach
   beforeEach(() => {
-    getTransactionGenerator = getTransactions();
+    getTransactionGenerator = getTransactions({});
 
     const selectDescriptor = getTransactionGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();
@@ -84,7 +84,7 @@ describe('Root Saga', () => {
   it('should start task to watch for LOAD_TRANSACTIONS action', () => {
     // arrange
     const rootSaga = root();
-    const expectedYield = all([takeLatest(LOAD_TRANSACTIONS, getTransactions)]);
+    const expectedYield = all([takeLatest(LOAD_TRANSACTIONS, getTransactions), takeLatest(SET_TRANSACTION_TYPE, getTransactions),]);
 
     // act
     const actualYield = rootSaga.next().value;
