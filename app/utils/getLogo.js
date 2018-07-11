@@ -1,0 +1,13 @@
+export default (id) => {
+  let logo;
+  try {
+    logo = require(`images/token${id}.png`);
+  } catch (e) {
+    if (id > 2147483650) {
+      logo = require('images/tokenwarn.png');
+    } else {
+      logo = require('images/tokendefault.png');
+    }
+  }
+  return logo;
+}

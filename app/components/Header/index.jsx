@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 import SearchBox from 'components/SearchBox';
+import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 
 import {
   Collapse,
@@ -24,7 +25,7 @@ import {
   NavItem,
   NavLink,
   UncontrolledDropdown,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from 'reactstrap';
 
 const IMG = styled.img`
@@ -33,7 +34,7 @@ const IMG = styled.img`
 `;
 
 const StyledNavItem = styled(NavItem)`
-	font-size: 16px;
+  font-size: 16px;
 `;
 
 const StyledCollapse = styled(Collapse)`
@@ -43,26 +44,26 @@ const StyledCollapse = styled(Collapse)`
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
-    
+
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
-  
+
   toggle(e) {
     this.setState({
       isOpen: !this.state.isOpen,
     });
   }
-  
+
   render() {
     return (
       <div>
         <Navbar color="faded" light expand="sm" className="d-block">
           <div className="d-flex">
             <NavbarBrand href="/">
-              <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO"/>
+              <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
               OMNIEXPLORER.INFO
             </NavbarBrand>
             <div className="ml-auto w-50 d-flex">
@@ -96,17 +97,27 @@ class Header extends React.PureComponent {
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    Properties
+                    Prod ecosystem
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href="/search/1">Property List (Main Eco)</NavLink>
+                      <NavLink href={`/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Properties</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href="/search/2">Property List (Test Eco)</NavLink>
+                      <NavLink href={`/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Active Crowdsales</NavLink>
                     </DropdownItem>
-                    <DropdownItem header>
-                      <NavLink href="/">Active Crowdsales (Coming Soon)</NavLink>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    Test ecosystem
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>
+                      <NavLink href={`/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Properties</NavLink>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <NavLink href={`/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Active Crowdsales</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -140,7 +151,7 @@ class Header extends React.PureComponent {
           </div>
         </Navbar>
         <div className="w-100 ml-auto d-block-only-sm-down">
-          <SearchBox/>
+          <SearchBox />
         </div>
       </div>
     );
@@ -172,6 +183,4 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-)(Header);
+export default compose(withConnect, )(Header);

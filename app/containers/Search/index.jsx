@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
+import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Jumbotron, Row, Table } from 'reactstrap';
@@ -20,12 +21,12 @@ import injectReducer from 'utils/injectReducer';
 import Wallet from 'components/Wallet';
 import TransactionInfo from 'components/TransactionInfo';
 import Asset from 'components/Asset';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
 import searchSaga from './saga';
 import { loadSearch } from './actions';
-import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -47,9 +48,13 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     let wallet = null;
     let assets = null;
     let tx = null;
-
+  
     if (this.props.search.loading) {
-      return null;
+      return (
+        <Container>
+          <LoadingIndicator />
+        </Container>
+      );
     }
 
     if (!isEmpty(this.props.search.tx.type)) {
@@ -71,7 +76,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
           </div>
         );
       }
-      return null
     }
 
     if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {

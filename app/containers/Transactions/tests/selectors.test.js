@@ -7,5 +7,6 @@ describe('selectTransactionsDomain', () => {
       foo: 'bar',
     });
     const mockedState = fromJS({ transactions });
-    expect(selectTransactionsDomain(mockedState)).toEqual(transactions);  });
+    expect(selectTransactionsDomain(mockedState)).toEqual(transactions);
+  });
 });
