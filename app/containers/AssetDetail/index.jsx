@@ -22,7 +22,7 @@ import getLogo from 'utils/getLogo';
 import getWarningMessage from 'utils/getWarningMessage';
 
 const StyledContainer = styled(Container)`
-      background-color: white;
+    
     `;
 const DetailRow = styled(Row)`
       margin-top: 2rem;

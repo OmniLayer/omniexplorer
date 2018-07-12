@@ -25,11 +25,10 @@ import makeSelectSearch from 'containers/Search/selectors';
 import searchReducer from 'containers/Search/reducer';
 import searchSaga from 'containers/Search/saga';
 import { loadSearch } from 'containers/Search/actions';
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_PROD_NAME } from 'containers/App/constants';
-import { ECOSYSTEM_TEST_NAME } from '../App/constants';
+import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_TEST_NAME, ECOSYSTEM_PROD_NAME } from 'containers/App/constants';
 
 const StyledContainer = styled(Container)`
-      background-color: white;
+      
       margin: 3rem;
       padding: 1rem;
     `;
