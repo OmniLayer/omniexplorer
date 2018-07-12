@@ -29,39 +29,17 @@ function AssetInfo(asset) {
           </strong>
         </td>
       </tr>);
-    propertyID = (
-      <tr>
-        <td className="field">PropertyID</td>
-        <td>
-          <strong>
-            #{ asset.propertyid }
-          </strong>
-        </td>
-      </tr>);
+    propertyID = (<tr><td className="field">PropertyID</td><td><strong>#{ asset.propertyid }</strong></td></tr>);
   }
   if (asset.propertyid === 28) {
-    tokenName = (<tr>
-      <td className="field">Ecosystem</td>
-      <td><strong>{ asset.ecosystem }</strong></td>
-    </tr>);
+    tokenName = (<tr><td className="field">Ecosystem</td><td><strong>{ asset.ecosystem }</strong></td></tr>);
   }
 
   let asseturl;
   if (asset.url.includes('.')) {
-    asseturl = (
-      <td>
-        <a
-          href={asset.url}
-          target="_blank"
-        >
-          { asset.url }
-        </a>
-      </td>);
+    asseturl = (<td><a href={asset.url} target="_blank">{ asset.url }</a></td>);
   } else {
-    asseturl = (
-      <td>
-        { asset.url }
-      </td>);
+    asseturl = (<td>{ asset.url }</td>);
   }
 
   let registeredMessage;
@@ -138,10 +116,12 @@ function AssetInfo(asset) {
           </span>
         </td>
       </tr>
-      <tr>
-        <td className="field">URL</td>
-        { asseturl }
-      </tr>
+      { asseturl &&
+        <tr>
+          <td className="field">URL</td>
+          { asseturl }
+        </tr>
+      }
       <tr className="d-none">
         <td className="field">Price</td>
         <td>
