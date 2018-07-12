@@ -29,7 +29,10 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import getLogo from 'utils/getLogo';
+import getWarningMessage from 'utils/getWarningMessage';
 import { startDeepFetch } from 'components/Token/actions';
+import AssetInfo from 'components/AssetInfo';
 import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -44,7 +47,6 @@ import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
 import FormattedUnixDateTime from 'components/FormattedDateTime/FormattedUnixDateTime';
 import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
 import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
-import messages from 'components/FormattedDateTime/messages';
 import crowdsalesMessages from './messages';
 
 import makeSelectCrowdsaleDetail from './selectors';
@@ -52,12 +54,6 @@ import { startCrowdsaleTransactionsFetch } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
-
-
-const AssetDetail = styled.p`
-	font-size: 1.25rem;
-	word-wrap: break-word;
-	`;
 
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
@@ -68,12 +64,6 @@ const StyledCard = styled(Card).attrs({
 const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-5 mx-auto text-md-left',
 })`
-`;
-
-const StyledSpan = styled.span.attrs({
-  className: 'text-sm-center',
-})`
-  width: 90%;
 `;
 
 const StyledInformationIcon = styled(InformationIcon)`
@@ -119,76 +109,155 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const TransactionLabel = (props) => (props.tx.type_int === 51 ?
       <span>{crowdsale.propertyname} crowdsale started</span> :
       <span>
-        <SanitizedFormattedNumber value={props.tx.amount} forceDecimals={crowdsale.divisible} /> {dessiredToken.propertyname}
-            &nbsp;
+        <SanitizedFormattedNumber
+          value={props.tx.amount}
+          forceDecimals={crowdsale.divisible}
+        /> {dessiredToken.propertyname}
+          &nbsp;
         <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
         <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
-            &nbsp;
+          &nbsp;
         <SanitizedFormattedNumber
           value={props.tx.purchasedtokens}
           fractionDigits={8}
         /> {crowdsale.propertyname}
-            &nbsp;
-            (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
+          &nbsp;
+          (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
       </span>
     );
     const earlybonus = ((crowdsale.deadline - crowdsale.blocktime) / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
+    const logo = getLogo(crowdsale.propertyid);
+    const warningMessage = getWarningMessage(crowdsale.flags);
 
     return (
-      <Container fluid className="mt-3">
-        <Row>
-          <Row noGutters>
-            <Col>
+      <Container fluid className="mt-3 p-1">
+        { warningMessage }
+        <Row className="w-100">
+          <Col sm="12" md="9">
+            <StyledDivContent>
+              <Table responsive className="table-profile">
+                <thead>
+                  <tr>
+                    <td className="border-top-0">
+                      <img
+                        src={logo}
+                        alt={crowdsale.type}
+                        className="img-thumbnail d-md-inline-block"
+                        style={{ width: '4rem', height: '4rem' }}
+                      />
+                    </td>
+                    <td className="border-top-0 align-bottom">
+                      <h2 className="d-md-inline-block align-bottom mb-0">
+                        {crowdsale.name} <span className="badge badge-secondary">{`(#${crowdsale.propertyid})`}</span>
+                        <StyledInformationIcon color="gray" className="ml-1" id="crowdsaleDivisible" />
+                        <UncontrolledTooltip placement="right-end" target="crowdsaleDivisible">
+                          <FormattedMessage {...divisibleMsg} />
+                        </UncontrolledTooltip>
+                      </h2>
+                    </td>
+                  </tr>
+                </thead>
+                <AssetInfo {...crowdsale} />
+              </Table>
+            </StyledDivContent>
+            <div>
               <h2>
-                {crowdsale.name} <span className="badge badge-secondary">{`(#${crowdsale.propertyid})`}</span>
-                <StyledInformationIcon color="gray" className="ml-1" id="crowdsaleDivisible" />
-                <UncontrolledTooltip placement="right-end" target="crowdsaleDivisible">
-                  <FormattedMessage {...divisibleMsg} />
-                </UncontrolledTooltip>
+                Property History <small className="text-muted">{detail.total} transactions</small>
               </h2>
-            </Col>
-          </Row>
-          <Row className="w-100">
-            <Col sm="12" md="9">
-              <StyledDivContent>
-                <AssetDetail>
-                  <StyledSpan>
-                    {crowdsale.data}
-                  </StyledSpan>
-                </AssetDetail>
-              </StyledDivContent>
-              <StyledDivContent>
-                <AssetDetail>
-                  <span>For more details visit:</span>&nbsp;
-                  <Link
-                    className="d-block d-lg-inline-block"
-                    to={{
-                      pathname: crowdsale.url,
-                    }}
-                    target="_blank"
-                  >
-                    {crowdsale.url}
-                  </Link>
-                </AssetDetail>
-              </StyledDivContent>
-              <StyledDivContent>
-                <AssetDetail>
-                  <span>Issuance Address:</span>&nbsp;
-                  <Link
-                    className="d-block d-lg-inline-block"
-                    to={{
-                      pathname: `/address/${crowdsale.issuer}`,
-                    }}
-                    onClick={() => this.props.changeRoute(`/address/${crowdsale.issuer}`)}
-                  >
-                    {crowdsale.issuer}
-                  </Link>
-                </AssetDetail>
-              </StyledDivContent>
-              <StyledDivContent>
-                <AssetDetail>
-                  Share this page:
+              <Table striped>
+                <tbody>
+                  {(detail.transactions || []).map((tx, idx) => (
+                    <tr key={tx.txid.slice(0, 22).concat(idx)}>
+                      <td>
+                        <Row>
+                          <Col>
+                            <span className="small">
+                              <Link
+                                to={{
+                                  pathname: `/tx/${tx.txid}`,
+                                }}
+                                onClick={() => this.props.changeRoute(`/tx/${tx.txid}`)}
+                              >
+                                {tx.txid}
+                              </Link>
+                            </span>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md="5">
+                            <span className="text-muted">
+                              <FormattedUnixDateTime datetime={tx.blocktime} />
+                            </span>
+                          &nbsp;
+                          (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
+                          </Col>
+                          <Col md="7">
+                            <Link
+                              to={{
+                                pathname: `/address/${tx.sendingaddress}`,
+                              }}
+                              onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
+                            >
+                              {tx.sendingaddress}
+                            </Link>
+
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <TransactionLabel tx={tx} />
+                          </Col>
+                        </Row>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          </Col>
+          <Col sm="12" md="3">
+            <Row>
+              <StyledCard color="info">
+                <CardBody>
+                  <h3 className="text-light card-title">Active Crowdsale</h3>
+                  <h5 className="text-light d-block">Time Until Closing:</h5>
+                  <Timer countdown datetime={crowdsale.deadline * 1000} maxTimeUnit="year" />
+                </CardBody>
+                <ListGroup className="list-group-flush" color="info">
+                  <ListGroupItem>
+                    <h5>Total tokens created</h5>
+                    <h3>
+                      <span>
+                        <SanitizedFormattedNumber value={crowdsale.tokensissued} />
+                      </span>
+                    </h3>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    <h5>Tokens created for the issuer ({crowdsale.percenttoissuer}%)</h5>
+                    <h3>
+                      <span>
+                        <SanitizedFormattedNumber
+                          value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
+                          forceDecimals={crowdsale.divisible}
+                        />
+                      </span>
+                    </h3>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    <h5>Current early bird bonus</h5>
+                    <h3>
+                      <span>
+                        <SanitizedFormattedNumber
+                          value={earlybonus}
+                          forceDecimals={crowdsale.divisible}
+                        /> %
+                      </span>
+                    </h3>
+                  </ListGroupItem>
+                </ListGroup>
+                <CardBody>
+                  <CardTitle className="text-light">Share this page</CardTitle>
                   <Link
                     to={{
                       pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
@@ -221,117 +290,10 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   >
                     <LinkedinIcon size={32} />
                   </Link>
-                </AssetDetail>
-              </StyledDivContent>
-              <div>
-                <h2>
-                  Property History <small className="text-muted">{detail.total} transactions</small>
-                </h2>
-                <Table striped>
-                  <tbody>
-                    {(detail.transactions || []).map((tx, idx) => (
-                      <tr key={tx.txid.slice(0, 22).concat(idx)}>
-                        <td>
-                          <Row>
-                            <Col>
-                              <span className="small">
-                                <Link
-                                  to={{
-                                    pathname: `/tx/${tx.txid}`,
-                                  }}
-                                  onClick={() => this.props.changeRoute(`/tx/${tx.txid}`)}
-                                >
-                                  {tx.txid}
-                                </Link>
-                              </span>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md="5">
-                              <span className="text-muted">
-                                <FormattedUnixDateTime datetime={tx.blocktime} />
-                              </span>
-                            &nbsp;
-                            (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
-                            </Col>
-                            <Col md="7">
-                              <Link
-                                to={{
-                                  pathname: `/address/${tx.sendingaddress}`,
-                                }}
-                                onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
-                              >
-                                {tx.sendingaddress}
-                              </Link>
-
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col>
-                              <TransactionLabel tx={tx} />
-                            </Col>
-                          </Row>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </div>
-            </Col>
-            <Col sm="12" md="3">
-              <Row>
-                <StyledCard color="info">
-                  <CardBody>
-                    <h3 className="text-light card-title">Active Crowdsale</h3>
-                    <h5 className="text-light d-block">Time Until Closing:</h5>
-                    <Timer countdown datetime={crowdsale.deadline * 1000} maxTimeUnit="year" />
-                  </CardBody>
-                  <ListGroup className="list-group-flush" color="info">
-                    <ListGroupItem>
-                      <h5>Total tokens created</h5>
-                      <h2>
-                        <span className="badge badge-secondary">
-                          <SanitizedFormattedNumber value={crowdsale.tokensissued} />
-                        </span>
-                      </h2>
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      <h5>Tokens created for the issuer ({crowdsale.percenttoissuer}%)</h5>
-                      <h2>
-                        <span className="badge badge-secondary">
-                          <SanitizedFormattedNumber
-                            value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
-                            forceDecimals={crowdsale.divisible}
-                          />
-                        </span>
-                      </h2>
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      <h5>Current early bird bonus</h5>
-                      <h2>
-                        <span className="badge badge-secondary">
-                          <SanitizedFormattedNumber
-                            value={earlybonus}
-                            forceDecimals={crowdsale.divisible}
-                          /> %
-                        </span>
-                      </h2>
-                    </ListGroupItem>
-                  </ListGroup>
-                  <CardBody>
-                    <CardTitle className="text-light">You can participate from an Omniwallet account</CardTitle>
-                    <a
-                      className="btn btn-primary btn-lg mt-3 mb-5"
-                      target="_blank"
-                      href={`https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`}
-                    >
-                      Buy with Omniwallet
-                    </a>
-                  </CardBody>
-                </StyledCard>
-              </Row>
-            </Col>
-          </Row>
+                </CardBody>
+              </StyledCard>
+            </Row>
+          </Col>
         </Row>
       </Container>
     );
