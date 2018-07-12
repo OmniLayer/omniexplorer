@@ -156,8 +156,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                         src={logo}
                         alt={crowdsale.type}
                         className="img-thumbnail d-md-inline-block"
-                        width="42px"
-                        height="42px"
+                        style={{ width: '4rem', height: '4rem' }}
                       />
                     </td>
                     <td className="border-top-0 align-bottom">
