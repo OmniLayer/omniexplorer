@@ -35,14 +35,19 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 
 const ListPagination = (props) => {
   const maxPagesQty = window.matchMedia('(max-width: 500px)').matches ? 5 : 10;
-  const _page = (parseInt(props.match.params.page - 1) || props.currentPage);
+  const pareInParams = parseInt(props.match.params.page - 1);
+  const _page = (isNaN(pareInParams) ? props.currentPage : pareInParams);
   const pageNumber = Math.floor(_page / maxPagesQty) * maxPagesQty;
   const pageCount = props.pageCount || 1;
   const qtyPages = (pageCount < maxPagesQty ? pageCount : maxPagesQty);
-  const range = [...Array(qtyPages).keys()].map((x) => x + pageNumber);
+  const range = [...Array(qtyPages).keys()].map((x) => {
+    const current = x + pageNumber;
+    const result = (current < pageCount ? current : pageCount - x - 1);
+    return result;
+  }).sort();
 
-  const setPage = (e, page, addr) => {
-    props.onSetPage(page, addr);
+  const setPage = (e, page) => {
+    props.onSetPage(page);
   };
 
   const getPrevious = () => (
@@ -60,13 +65,13 @@ const ListPagination = (props) => {
   const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = (v) => `${pathname}/${v + 1}`;
 
-  const onClick = (e) => ((qtyPages > 1) && setPage(e, getPrevious(), props.addr));
+  const onClick = (e) => ((qtyPages > 1) && setPage(e, getPrevious()));
   return (
     <Pagination className="pagination justify-content-end mt-2 mb-2">
       <StyledPaginationButton
         onClick={onClick}
-        disabled={qtyPages === 1 || _page === 1}
-        key={'previous'}
+        disabled={qtyPages === 1 || _page === 0}
+        key="previous"
       >
         <StyledPaginationLink previous href={hashLink(getPrevious())} />
       </StyledPaginationButton>
@@ -76,7 +81,7 @@ const ListPagination = (props) => {
 
           return (
             <StyledPaginationItem
-              onClick={(e) => setPage(e, v, props.addr)}
+              onClick={(e) => setPage(e, v)}
               className={isCurrent ? 'page-item active' : 'page-item'}
               key={v}
             >
@@ -89,8 +94,8 @@ const ListPagination = (props) => {
       }
       <StyledPaginationButton
         onClick={onClick}
-        disabled={qtyPages === 1 || _page === props.pageCount}
-        key={'next'}
+        disabled={qtyPages === 1 || (_page + 1) === props.pageCount}
+        key="next"
       >
         <StyledPaginationLink next href={hashLink(getNext())} />
       </StyledPaginationButton>

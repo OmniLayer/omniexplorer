@@ -18,12 +18,18 @@ import ListPagination from 'components/ListPagination';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { makeSelectLoading, makeSelectTransactions } from './selectors';
-import { loadTransactions, setPage } from './actions';
+import { loadTransactions, setPage, setTransactionType } from './actions';
 
 export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
     const page = this.getCurrentPage(this.props.location.get('pathname'));
-    this.props.loadTransactions(this.props.addr, page);
+    this.props.onSetPage(page);
+  }
+
+  componentDidMount() {
+    this.props.loadTransactions(this.props.addr);
     console.log('Transactions did mount');
   }
 
@@ -52,22 +58,27 @@ export class Transactions extends React.Component { // eslint-disable-line react
       content = (
         <LoadingIndicator />
       );
-    } else if (!this.props.loading && (this.props.transactions.transactions || []).length === 0) {
+    } else if ((this.props.transactions.transactions || []).length === 0) {
       content = (
         <StyledH3 className="lead text-center">
           <p className="h3">
-          No Omni Protocol transactions found
+            No Omni Protocol transactions found
           </p>
           <p className="h5">
-            If the transaction you are searching for was just broadcast it might take a few minutes for the network to pass it around for us to see it.
+            If the transaction you are searching for was just broadcast it might take a few minutes for the network to
+            pass it around for us to see it.
           </p>
           <p className="h5">
-            If the transaction you are searching for is a Bitcoin only transaction you should use a bitcoin block explorer like <a href="https://www.blocktrail.com">blocktrail.com</a>
+            If the transaction you are searching for is a Bitcoin only transaction you should use a bitcoin block
+            explorer like <a href="https://www.blocktrail.com">blocktrail.com</a>
           </p>
         </StyledH3>
       );
     } else {
-      const props = { ...this.props.transactions, addr: this.props.addr };
+      const props = {
+        ...this.props.transactions,
+        addr: this.props.addr,
+      };
       content = (
         <div>
           <ListPagination {...props} onSetPage={this.props.onSetPage} />
@@ -79,8 +90,8 @@ export class Transactions extends React.Component { // eslint-disable-line react
 
     return (
       <StyledContainer fluid>
-        <TransactionListHeader />
-        { content }
+        <TransactionListHeader selectType={this.props.onSetTransactionType} total={this.props.transactions.pageCount} totalLabel="page" />
+        {content}
       </StyledContainer>
     );
   }
@@ -93,6 +104,7 @@ Transactions.propTypes = {
   loading: PropTypes.bool,
   addr: PropTypes.string,
   location: PropTypes.object,
+  onSetTransactionType: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -104,13 +116,12 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadTransactions: (addr, page) => dispatch(loadTransactions(addr, page)),
-    onSetPage: (p, addr) => dispatch(setPage(p, addr)),
+    loadTransactions: (addr) => dispatch(loadTransactions(addr)),
+    onSetPage: (p) => dispatch(setPage(p)),
+    onSetTransactionType: (txtype) => dispatch(setTransactionType(txtype)),
   };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-)(Transactions);
+export default compose(withConnect)(Transactions);

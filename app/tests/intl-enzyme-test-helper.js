@@ -16,14 +16,6 @@ import configureMockStore from 'redux-mock-store';
 const middlewares = [];
 const mockStore = configureMockStore(middlewares);
 
-function getStore() {
-  // const middlewares = [];
-  // const mockStore = configureMockStore(middlewares);
-  return mockStore();
-
-  // return store;
-}
-
 /**
  * Default messages, it'll be used when messages is not given
  * You can pass your messages to the IntlProvider. Optional: remove if unneeded.
@@ -60,7 +52,7 @@ export function mountWithIntl(node, msgs = defaultMessages) {
   return mount(nodeWithIntlProp(node, intl), {
     context: {
       intl,
-      store: store,
+      store,
     },
     childContextTypes: {
       intl: intlShape,

@@ -16,9 +16,13 @@ const DetailRow = styled(Row)`
       margin-top: 2rem;
       margin-bottom: 2rem;
     `;
-const StyledTD = styled.td`
+
+const StyledTD = styled.td.attrs({
+    className: 'align-middle',
+  })`
       border-top: none;
     `;
+
 const StyledTH = styled.th`
       border: none !important;
     `;
@@ -27,44 +31,54 @@ const Wallet = (props) => ( // eslint-disable-line react/prefer-stateless-functi
   <Container fluid>
     <DetailRow>
       <Col className="col-auto mx-auto" sm="3">
-        <QRCode value={props.addr} />
+        <QRCode value={props.addr}/>
       </Col>
       <Col sm>
         <Table responsive className="table-profile">
           <thead>
-            <tr>
-              <StyledTH></StyledTH>
-              <StyledTH>
-                <h4>
-                  <span className="d-block" id="laddress">{props.addr}</span>
-                </h4>
-                { props.extra }
-              </StyledTH>
-            </tr>
+          <tr>
+            <StyledTH></StyledTH>
+            <StyledTH>
+              <h4>
+                <span className="d-block" id="laddress">{props.addr}</span>
+              </h4>
+              {props.extra}
+            </StyledTH>
+          </tr>
           </thead>
           <tbody>
-            <tr className="highlight">
-              <StyledTD className="field">Balances</StyledTD>
-              <StyledTD>
-                <Table className="table" style={{ marginBottom: '5px' }}>
-                  <thead>
-                    <tr>
-                      <StyledTH ></StyledTH>
-                      <StyledTH>ID</StyledTH>
-                      <StyledTH>Name</StyledTH>
-                      <StyledTH className="text-right">Reserved Balance</StyledTH>
-                      <StyledTH className="text-right">Available Balance</StyledTH>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { (props.address.balance || []).map((balance) => <Token {...balance} key={balance.id} />) }
-                  </tbody>
-                </Table>
-              </StyledTD>
-            </tr>
-            <tr className="divider">
-              <td colSpan="2"></td>
-            </tr>
+          <tr className="highlight">
+            <StyledTD className="field font-weight-bold">
+              <Table className="table" style={{ marginBottom: '5px' }}>
+                <thead>
+                <tr>
+                  <StyledTH>
+                    Balances
+                  </StyledTH>
+                </tr>
+                </thead>
+              </Table>
+            </StyledTD>
+            <StyledTD>
+              <Table className="table" style={{ marginBottom: '5px' }}>
+                <thead>
+                <tr>
+                  <StyledTH></StyledTH>
+                  <StyledTH>ID</StyledTH>
+                  <StyledTH>Name</StyledTH>
+                  <StyledTH className="text-right">Reserved Balance</StyledTH>
+                  <StyledTH className="text-right">Available Balance</StyledTH>
+                </tr>
+                </thead>
+                <tbody>
+                {(props.address.balance || []).map((balance) => <Token {...balance} key={balance.id}/>)}
+                </tbody>
+              </Table>
+            </StyledTD>
+          </tr>
+          <tr className="divider">
+            <td colSpan="2"></td>
+          </tr>
           </tbody>
         </Table>
       </Col>
