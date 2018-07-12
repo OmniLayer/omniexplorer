@@ -55,12 +55,6 @@ import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
 
-
-const AssetDetail = styled.p`
-	font-size: 1.25rem;
-	word-wrap: break-word;
-	`;
-
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
 })`
@@ -70,12 +64,6 @@ const StyledCard = styled(Card).attrs({
 const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-5 mx-auto text-md-left',
 })`
-`;
-
-const StyledSpan = styled.span.attrs({
-  className: 'text-sm-center',
-})`
-  width: 90%;
 `;
 
 const StyledInformationIcon = styled(InformationIcon)`
@@ -173,43 +161,6 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                 <AssetInfo {...crowdsale} />
               </Table>
             </StyledDivContent>
-            <StyledDivContent>
-              <AssetDetail>
-                Share this page:
-                <Link
-                  to={{
-                    pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
-                  }}
-                  target="_blank"
-                >
-                  <FacebookIcon size={32} />
-                </Link>
-                <Link
-                  to={{
-                    pathname: `https://plus.google.com/share?url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
-                  }}
-                  target="_blank"
-                >
-                  <GPlusIcon size={32} />
-                </Link>
-                <Link
-                  to={{
-                    pathname: `https://twitter.com/home?status=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
-                  }}
-                  target="_blank"
-                >
-                  <TwitterIcon size={32} />
-                </Link>
-                <Link
-                  to={{
-                    pathname: `https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}&amp;title=Checkout%20this%20Crowdsale!&amp;summary=&amp;source=`,
-                  }}
-                  target="_blank"
-                >
-                  <LinkedinIcon size={32} />
-                </Link>
-              </AssetDetail>
-            </StyledDivContent>
             <div>
               <h2>
                 Property History <small className="text-muted">{detail.total} transactions</small>
@@ -306,14 +257,39 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   </ListGroupItem>
                 </ListGroup>
                 <CardBody>
-                  <CardTitle className="text-light">You can participate from an Omniwallet account</CardTitle>
-                  <a
-                    className="btn btn-primary btn-lg mt-3 mb-5"
+                  <CardTitle className="text-light">Share this page</CardTitle>
+                  <Link
+                    to={{
+                      pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
+                    }}
                     target="_blank"
-                    href={`https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`}
                   >
-                    Buy with Omniwallet
-                  </a>
+                    <FacebookIcon size={32} />
+                  </Link>
+                  <Link
+                    to={{
+                      pathname: `https://plus.google.com/share?url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
+                    }}
+                    target="_blank"
+                  >
+                    <GPlusIcon size={32} />
+                  </Link>
+                  <Link
+                    to={{
+                      pathname: `https://twitter.com/home?status=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
+                    }}
+                    target="_blank"
+                  >
+                    <TwitterIcon size={32} />
+                  </Link>
+                  <Link
+                    to={{
+                      pathname: `https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}&amp;title=Checkout%20this%20Crowdsale!&amp;summary=&amp;source=`,
+                    }}
+                    target="_blank"
+                  >
+                    <LinkedinIcon size={32} />
+                  </Link>
                 </CardBody>
               </StyledCard>
             </Row>
