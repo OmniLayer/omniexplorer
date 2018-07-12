@@ -29,7 +29,9 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import getLogo from 'utils/getLogo';
 import { startDeepFetch } from 'components/Token/actions';
+import AssetInfo from 'components/AssetInfo';
 import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -44,7 +46,6 @@ import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
 import FormattedUnixDateTime from 'components/FormattedDateTime/FormattedUnixDateTime';
 import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
 import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
-import messages from 'components/FormattedDateTime/messages';
 import crowdsalesMessages from './messages';
 
 import makeSelectCrowdsaleDetail from './selectors';
@@ -119,72 +120,57 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const TransactionLabel = (props) => (props.tx.type_int === 51 ?
       <span>{crowdsale.propertyname} crowdsale started</span> :
       <span>
-        <SanitizedFormattedNumber value={props.tx.amount} forceDecimals={crowdsale.divisible} /> {dessiredToken.propertyname}
-            &nbsp;
+        <SanitizedFormattedNumber
+          value={props.tx.amount}
+          forceDecimals={crowdsale.divisible}
+        /> {dessiredToken.propertyname}
+          &nbsp;
         <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
         <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
-            &nbsp;
+          &nbsp;
         <SanitizedFormattedNumber
           value={props.tx.purchasedtokens}
           fractionDigits={8}
         /> {crowdsale.propertyname}
-            &nbsp;
-            (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
+          &nbsp;
+          (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
       </span>
     );
     const earlybonus = ((crowdsale.deadline - crowdsale.blocktime) / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
+    const logo = getLogo(crowdsale.propertyid);
 
     return (
       <Container fluid className="mt-3">
         <Row>
-          <Row noGutters>
-            <Col>
-              <h2>
-                {crowdsale.name} <span className="badge badge-secondary">{`(#${crowdsale.propertyid})`}</span>
-                <StyledInformationIcon color="gray" className="ml-1" id="crowdsaleDivisible" />
-                <UncontrolledTooltip placement="right-end" target="crowdsaleDivisible">
-                  <FormattedMessage {...divisibleMsg} />
-                </UncontrolledTooltip>
-              </h2>
-            </Col>
-          </Row>
           <Row className="w-100">
             <Col sm="12" md="9">
               <StyledDivContent>
-                <AssetDetail>
-                  <StyledSpan>
-                    {crowdsale.data}
-                  </StyledSpan>
-                </AssetDetail>
-              </StyledDivContent>
-              <StyledDivContent>
-                <AssetDetail>
-                  <span>For more details visit:</span>&nbsp;
-                  <Link
-                    className="d-block d-lg-inline-block"
-                    to={{
-                      pathname: crowdsale.url,
-                    }}
-                    target="_blank"
-                  >
-                    {crowdsale.url}
-                  </Link>
-                </AssetDetail>
-              </StyledDivContent>
-              <StyledDivContent>
-                <AssetDetail>
-                  <span>Issuance Address:</span>&nbsp;
-                  <Link
-                    className="d-block d-lg-inline-block"
-                    to={{
-                      pathname: `/address/${crowdsale.issuer}`,
-                    }}
-                    onClick={() => this.props.changeRoute(`/address/${crowdsale.issuer}`)}
-                  >
-                    {crowdsale.issuer}
-                  </Link>
-                </AssetDetail>
+                <Table responsive className="table-profile">
+                  <thead>
+                    <tr>
+                      <td className="border-top-0">
+                        <img
+                          src={logo}
+                          alt={crowdsale.type}
+                          className="img-thumbnail d-md-inline-block"
+                          width="42px"
+                          height="42px"
+                        />
+                      </td>
+                      <td className="border-top-0 align-middle">
+                        <h2 className="d-md-inline-block align-bottom mb-0">
+                          {crowdsale.name} <span className="badge badge-secondary">{`(#${crowdsale.propertyid})`}</span>
+                          <StyledInformationIcon color="gray" className="ml-1" id="crowdsaleDivisible" />
+                          <UncontrolledTooltip placement="right-end" target="crowdsaleDivisible">
+                            <FormattedMessage {...divisibleMsg} />
+                          </UncontrolledTooltip>
+                        </h2>
+                      </td>
+                    </tr>
+                  </thead>
+                  <AssetInfo {...crowdsale} />
+                </Table>
               </StyledDivContent>
               <StyledDivContent>
                 <AssetDetail>
