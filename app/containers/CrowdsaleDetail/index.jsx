@@ -262,7 +262,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                         <SanitizedFormattedNumber
                           value={earlybonus}
                           forceDecimals={crowdsale.divisible}
-                        /> %
+                          fractionDigits={3}
+                        />%
                       </span>
                     </h3>
                   </ListGroupItem>
