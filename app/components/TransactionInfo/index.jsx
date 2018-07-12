@@ -12,12 +12,13 @@ import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Progress, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Container, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
+import getLogo from 'utils/getLogo';
 
 const StyledContainer = styled(Container)`
       background-color: white;
@@ -55,8 +56,8 @@ function TransactionInfo(props) {
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
   
   const isValid = props.valid;
-  const statusColor = (isValid ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light' : ( props.confirmations === 0 ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light' : 'btn btn-group btn-primary btn-block btn-danger font-weight-light'));
-
+  const statusColor = (isValid ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light' : (props.confirmations === 0 ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light' : 'btn btn-group btn-primary btn-block btn-danger font-weight-light'));
+  
   const getStatus = (tx) => {
     if (tx.valid) {
       return (tx.confirmations < CONFIRMATIONS ?
@@ -71,22 +72,14 @@ function TransactionInfo(props) {
     }
     return (tx.confirmations === 0 ? 'UNCONFIRMED' : 'INVALID');
   };
-  const invalidReason = (props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`) ;
+  const invalidReason = (props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`);
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
   
   let logo;
   if (props.type_int === 4) {
     logo = require('images/sendall.png');
   } else {
-    try {
-       logo = require(`images/token${props.propertyid}.png`);
-    } catch(e) {
-      if (props.propertyid > 2147483650) {
-        logo = require('images/tokenwarn.png');
-      } else {
-        logo = require('images/tokendefault.png');
-      }
-    }
+    logo = getLogo(props.propertyid);
   }
   
   let warningMessage = null;
@@ -126,7 +119,7 @@ function TransactionInfo(props) {
           }}
           onClick={() => props.changeRoute(`/asset/${props.propertyid}`)}
         >
-          <strong>{ props.propertyname } &#40;#{ props.propertyid }&#41;</strong>
+          <strong>{props.propertyname} &#40;#{props.propertyid}&#41;</strong>
         </Link>
       </td>
     </tr>);
@@ -134,7 +127,7 @@ function TransactionInfo(props) {
   if (props.type_int === 28) {
     tokenName = (<tr>
       <td className="field">Ecosystem</td>
-      <td><strong>{ props.ecosystem }</strong></td>
+      <td><strong>{props.ecosystem}</strong></td>
     </tr>);
   }
   
@@ -146,7 +139,7 @@ function TransactionInfo(props) {
       <td>
         <strong>
           <span id="lamount">
-            <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
+            <SanitizedFormattedNumber value={props.bitcoindesired}/> BTC
           </span>
         </strong>
       </td>
@@ -157,7 +150,7 @@ function TransactionInfo(props) {
   
   return (
     <StyledContainer fluid>
-      { warningMessage }
+      {warningMessage}
       <DetailRow>
         <Col sm="2" className="col-auto mx-auto">
           <img
@@ -172,18 +165,18 @@ function TransactionInfo(props) {
             <tr>
               <th></th>
               <th>
-                <h4>{ props.type } { specificAction }
+                <h4>{props.type} {specificAction}
                   <SubtitleDetail>
-                    { props.txid }
+                    {props.txid}
                   </SubtitleDetail>
                 </h4>
               </th>
             </tr>
             </thead>
             <tbody>
-            { amountDisplay }
-            { tokenName }
-            { btcDesired }
+            {amountDisplay}
+            {tokenName}
+            {btcDesired}
             <tr>
               <td className="field">Sender</td>
               <td>
@@ -193,7 +186,7 @@ function TransactionInfo(props) {
                   }}
                   onClick={() => props.changeRoute(`/address/${props.sendingaddress}`)}
                 >
-                  { props.sendingaddress }
+                  {props.sendingaddress}
                 </Link>
               </td>
             </tr>
@@ -206,15 +199,15 @@ function TransactionInfo(props) {
                   }}
                   onClick={() => props.changeRoute(`/address/${props.referenceaddress}`)}
                 >
-                  { props.referenceaddress }
+                  {props.referenceaddress}
                 </Link>
               </td>
             </tr>
             <tr>
-              <td className="field">{ dtheader }</td>
+              <td className="field">{dtheader}</td>
               <td>
                   <span id="ldatetime">
-                    <FormattedUnixDateTime datetime={props.blocktime} />
+                    <FormattedUnixDateTime datetime={props.blocktime}/>
                   </span>
               </td>
             </tr>
@@ -222,22 +215,22 @@ function TransactionInfo(props) {
               <td className="field">In Block</td>
               <td>
                   <span id="lblocknum">
-                    { props.block }
+                    {props.block}
                   </span>
               </td>
             </tr>
             <tr className="highlight">
               <td className="field" style={{ paddingTop: '12px' }}>Status</td>
-              <td className="field" >
-                <div className={ statusColor } style={{ width: '35%' }}>
-                  { getStatus(props) }
+              <td className="field">
+                <div className={statusColor} style={{ width: '35%' }}>
+                  {getStatus(props)}
                 </div>
-                <div className="text-left">{ !isValid && invalidReason }</div>
+                <div className="text-left">{!isValid && invalidReason}</div>
               </td>
             </tr>
             <tr>
               <td className="field">Bitcoin Fees</td>
-              <td><span id="lfees">{ props.fee } BTC</span></td>
+              <td><span id="lfees">{props.fee} BTC</span></td>
             </tr>
             <tr>
               <td className="field">Omni Fees</td>
@@ -259,12 +252,12 @@ function TransactionInfo(props) {
               <td className="field">Type/Version</td>
               <td><span
                 id="ltypever"
-              >Type { props.type_int }, Version { props.version }</span>
+              >Type {props.type_int}, Version {props.version}</span>
               </td>
             </tr>
             <tr>
               <td className="field">Raw Data</td>
-              <td >
+              <td>
                 <span id="lrawgettx">
                   <a href={rawTransactionURL}>
                     Click here for raw transaction...

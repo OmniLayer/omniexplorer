@@ -13,25 +13,18 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
+import styled from 'styled-components';
+import getLogo from 'utils/getLogo';
 import { startFetch } from './actions';
+
+const StyledTD = styled.td.attrs({
+  className: 'align-middle',
+})``;
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    this.getLogo = () => {
-      let logo;
-      try {
-        logo = require(`images/token${this.props.id}.png`);
-      } catch (e) {
-        if (this.props.id > 2147483650) {
-          logo = require('images/tokenwarn.png');
-        } else {
-          logo = require('images/tokendefault.png');
-        }
-      }
-      return logo;
-    };
     this.getTokenName = () => (this.props.properties.get('tokens').get(this.props.id.toString()) || { name: '' }).name;
   }
 
@@ -57,9 +50,10 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
 
     let value;
     let vlabel;
+    
     if (available == 0 && frozen > 0) {
       value = frozen;
-      vlabel = " Frozen!"
+      vlabel = " Frozen!";
     } else {
       value = available;
     }
@@ -67,13 +61,13 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
 
     return (
       <tr>
-        <td style={{ width: '56px' }}>
+        <StyledTD style={{ width: '56px' }}>
           <img
-            style={{ width: '24px', height: '24px' }}
-            src={this.getLogo()}
+            style={{ width: '4rem', height: '4rem' }}
+            src={getLogo(this.props.id)}
           />
-        </td>
-        <td style={{ paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -82,8 +76,8 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           >
             { this.props.id }
           </Link>
-        </td>
-        <td style={{ paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -92,15 +86,15 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           >
             { this.getTokenName() }
           </Link>
-        </td>
-        <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <SanitizedFormattedNumber value={reserved} />
-        </td>
-        <td style={{ textAlign: 'right', paddingTop: '13px' }}>
+        </StyledTD>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
             <SanitizedFormattedNumber value={value} />{vlabel}
           </strong>
-        </td>
+        </StyledTD>
       </tr>
     );
   }
