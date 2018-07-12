@@ -276,33 +276,33 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                 <ListGroup className="list-group-flush" color="info">
                   <ListGroupItem>
                     <h5>Total tokens created</h5>
-                    <h2>
-                      <span className="badge badge-secondary">
+                    <h3>
+                      <span>
                         <SanitizedFormattedNumber value={crowdsale.tokensissued} />
                       </span>
-                    </h2>
+                    </h3>
                   </ListGroupItem>
                   <ListGroupItem>
                     <h5>Tokens created for the issuer ({crowdsale.percenttoissuer}%)</h5>
-                    <h2>
-                      <span className="badge badge-secondary">
+                    <h3>
+                      <span>
                         <SanitizedFormattedNumber
                           value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
                           forceDecimals={crowdsale.divisible}
                         />
                       </span>
-                    </h2>
+                    </h3>
                   </ListGroupItem>
                   <ListGroupItem>
                     <h5>Current early bird bonus</h5>
-                    <h2>
-                      <span className="badge badge-secondary">
+                    <h3>
+                      <span>
                         <SanitizedFormattedNumber
                           value={earlybonus}
                           forceDecimals={crowdsale.divisible}
                         /> %
                       </span>
-                    </h2>
+                    </h3>
                   </ListGroupItem>
                 </ListGroup>
                 <CardBody>
