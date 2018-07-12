@@ -229,7 +229,18 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                     <h5>Total tokens created</h5>
                     <h3>
                       <span>
-                        <SanitizedFormattedNumber value={crowdsale.tokensissued} />
+                        <SanitizedFormattedNumber value={crowdsale.totaltokens} />
+                      </span>
+                    </h3>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    <h5>Tokens Purchased</h5>
+                    <h3>
+                      <span>
+                        <SanitizedFormattedNumber
+                          value={crowdsale.totaltokens - crowdsale.issuerbonustokens}
+                          forceDecimals={crowdsale.divisible}
+                        />
                       </span>
                     </h3>
                   </ListGroupItem>
@@ -238,7 +249,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                     <h3>
                       <span>
                         <SanitizedFormattedNumber
-                          value={(crowdsale.totaltokens * (crowdsale.percenttoissuer / 100))}
+                          value={crowdsale.issuerbonustokens}
                           forceDecimals={crowdsale.divisible}
                         />
                       </span>
@@ -251,7 +262,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                         <SanitizedFormattedNumber
                           value={earlybonus}
                           forceDecimals={crowdsale.divisible}
-                        /> %
+                          fractionDigits={3}
+                        />%
                       </span>
                     </h3>
                   </ListGroupItem>
