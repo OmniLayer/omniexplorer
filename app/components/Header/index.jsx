@@ -97,27 +97,27 @@ class Header extends React.PureComponent {
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    Prod ecosystem
+                    Property List
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href={`/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Properties</NavLink>
+                      <NavLink href={`/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Production</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href={`/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Active Crowdsales</NavLink>
+                      <NavLink href={`/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Test</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    Test ecosystem
+                    Crowdsales
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href={`/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Properties</NavLink>
+                      <NavLink href={`/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Production</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href={`/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Active Crowdsales</NavLink>
+                      <NavLink href={`/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Test</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>

@@ -121,12 +121,14 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
           <TimerCardLabel>{`${this.yearUnit}${this.yearsS}`}</TimerCardLabel>
         </TimerCardContainer>
         }
+        {(this.years > 0 || this.mmonths > 0) &&
         <TimerCardContainer>
           <TimerCard>
             {this.mmonths}
           </TimerCard>
           <TimerCardLabel>{`${this.monthUnit}${this.monthsS}`}</TimerCardLabel>
         </TimerCardContainer>
+        }
         <TimerCardContainer>
           <TimerCard>
             {this.ddays}
