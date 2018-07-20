@@ -84,7 +84,7 @@ describe('Root Saga', () => {
   it('should start task to watch for LOAD_TRANSACTIONS action', () => {
     // arrange
     const rootSaga = root();
-    const expectedYield = all([takeLatest(LOAD_TRANSACTIONS, getTransactions), takeLatest(SET_TRANSACTION_TYPE, getTransactions),]);
+    const expectedYield = all([takeLatest(LOAD_TRANSACTIONS, getTransactions), takeLatest(SET_TRANSACTION_TYPE, getTransactions)]);
 
     // act
     const actualYield = rootSaga.next().value;

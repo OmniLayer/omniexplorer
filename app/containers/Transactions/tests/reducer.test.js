@@ -9,6 +9,7 @@ describe('transactionsReducer', () => {
       transactions: [],
       pageCount: 0,
       currentPage: 0,
+      txType: null,
     };
     expect(transactionsReducer(undefined, {})).toEqual(fromJS(state));
   });

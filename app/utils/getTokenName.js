@@ -1,6 +1,8 @@
+import React from 'react';
+
 export default (asset) => {
   let tokenName;
-  if (![4, -22, 25, 26].includes(id)) {
+  if (![4, -22, 25, 26].includes(asset.id)) {
     tokenName = (
       <tr>
         <td className="field">Name</td>
@@ -12,10 +14,12 @@ export default (asset) => {
       </tr>);
   }
   if (asset.propertyid === 28) {
-    tokenName = (<tr>
-      <td className="field">Ecosystem</td>
-      <td><strong>{ asset.ecosystem }</strong></td>
-    </tr>);
+    tokenName = (
+      <tr>
+        <td className="field">Ecosystem</td>
+        <td><strong>{ asset.ecosystem }</strong></td>
+      </tr>
+    );
   }
-  return logo;
-}
+  return tokenName;
+};
