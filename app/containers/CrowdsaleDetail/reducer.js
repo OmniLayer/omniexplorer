@@ -17,7 +17,8 @@ const initialState = fromJS({
   total: 0,
 });
 
-const sortDateFordward = (array) => array.sort((current, previous) => current.blocktime < previous.blocktime);
+const sortDateFordward = array =>
+  array.sort((current, previous) => current.blocktime < previous.blocktime);
 
 function transactionsReducer(state = initialState, action) {
   switch (action.type) {
@@ -36,13 +37,9 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', false)
         .set('error', false);
     case LOAD_CROWDSALE_TRANSACTIONS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return state.set('error', action.error).set('loading', false);
     case SET_CROWDSALES_TRANSACTIONS_PAGE:
-      return state
-        .set('loading', true)
-        .set('currentPage', action.page);
+      return state.set('loading', true).set('currentPage', action.page);
     default:
       return state;
   }
