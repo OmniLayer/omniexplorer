@@ -64,7 +64,7 @@ describe('getTransaction Saga', () => {
 
     saga
       .next()
-      .next(initialState)
+      .next({ currentPage: 0 })
       .call(request, url, getTransactionsOptions)
       .next(response)
       .put(transactionsLoaded(response.transactions, response.pages));
