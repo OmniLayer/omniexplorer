@@ -8,7 +8,10 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
-import { crowdsalesLoaded, crowdsalesLoadingError } from 'containers/Crowdsales/actions';
+import {
+  crowdsalesLoaded,
+  crowdsalesLoadingError,
+} from 'containers/Crowdsales/actions';
 
 import { LOAD_CROWDSALES } from '../constants';
 import root, { getCrowdsales } from '../saga';

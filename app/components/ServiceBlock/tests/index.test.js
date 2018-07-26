@@ -5,10 +5,10 @@ import { shallowWithState } from 'enzyme-redux';
 import ServiceBlock from '../index';
 
 describe('<ServiceBlock />', () => {
-  const ReactComponent = () => (<ServiceBlock />);
+  const ReactComponent = () => <ServiceBlock />;
   it('should render <ServiceBlock />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);

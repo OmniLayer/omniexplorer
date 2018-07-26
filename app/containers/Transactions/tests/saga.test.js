@@ -7,9 +7,9 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { LOAD_TRANSACTIONS, LOAD_TRANSACTIONS_SUCCESS, SET_TRANSACTION_TYPE } from '../constants';
-import { transactionsLoadingError } from '../actions';
-
+import { LOAD_TRANSACTIONS, SET_TRANSACTION_TYPE } from '../constants';
+import { transactionsLoadingError, transactionsLoaded } from '../actions';
+import { initialState } from '../reducer';
 import root, { getTransactions } from '../saga';
 
 const txid = 'dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x';
@@ -26,7 +26,7 @@ describe('getTransaction Saga', () => {
     const selectDescriptor = getTransactionGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();
 
-    const callDescriptor = getTransactionGenerator.next(txid).value;
+    const callDescriptor = getTransactionGenerator.next(initialState).value;
     expect(callDescriptor).toMatchSnapshot();
   });
 
@@ -45,11 +45,12 @@ describe('getTransaction Saga', () => {
           propertyname: 'TetherUS',
           referenceaddress: '1DkvAif2AKfRrd5GZya5U1QdDAG8hCoucx',
           sendingaddress: '17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx',
-          txid: 'dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x',
+          txid,
           type: 'Simple Send',
           type_int: 0,
           version: 0,
-        }],
+        },
+      ],
     };
 
     const saga = testSaga(getTransactions, { tx: txid });
@@ -63,14 +64,10 @@ describe('getTransaction Saga', () => {
 
     saga
       .next()
+      .next(initialState)
       .call(request, url, getTransactionsOptions)
       .next(response)
-      .put({
-        type: LOAD_TRANSACTIONS_SUCCESS,
-        transactions: response.transactions,
-        pages: response.pages,
-        currentPage: 0,
-      });
+      .put(transactionsLoaded(response.transactions, response.pages));
   });
 
   it('should call the transactionsLoadingError action if the response errors', () => {
@@ -84,7 +81,10 @@ describe('Root Saga', () => {
   it('should start task to watch for LOAD_TRANSACTIONS action', () => {
     // arrange
     const rootSaga = root();
-    const expectedYield = all([takeLatest(LOAD_TRANSACTIONS, getTransactions), takeLatest(SET_TRANSACTION_TYPE, getTransactions)]);
+    const expectedYield = all([
+      takeLatest(LOAD_TRANSACTIONS, getTransactions),
+      takeLatest(SET_TRANSACTION_TYPE, getTransactions),
+    ]);
 
     // act
     const actualYield = rootSaga.next().value;

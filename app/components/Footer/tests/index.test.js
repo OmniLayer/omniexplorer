@@ -8,7 +8,7 @@ import Footer from '../index';
 describe('<Footer />', () => {
   it('should render the copyright notice', () => {
     const renderedComponent = shallowWithIntl(<Footer />, messages);
-    const expected = (<FormattedMessage {...messages.licenseMessage} />);
+    const expected = <FormattedMessage {...messages.licenseMessage} />;
     expect(renderedComponent.contains(expected)).toBe(true);
   });
 });

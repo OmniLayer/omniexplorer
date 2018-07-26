@@ -8,7 +8,10 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/actions';
+import {
+  addressLoaded,
+  addressLoadingError,
+} from 'containers/AddressDetail/actions';
 
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
 import root, { getAddress } from '../saga';

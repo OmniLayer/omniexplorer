@@ -12,7 +12,7 @@ import messages from '../messages';
 describe('<NotFound />', () => {
   it('should render the Page Not Found text', () => {
     const renderedComponent = mountWithIntl(<NotFound />, messages);
-    const expected = (<FormattedMessage {...messages.header} />);
+    const expected = <FormattedMessage {...messages.header} />;
     expect(renderedComponent.contains(expected)).toEqual(true);
   });
 });

@@ -5,10 +5,10 @@ import { shallowWithState } from 'enzyme-redux';
 import Search from '../index';
 
 describe('<Search />', () => {
-  const ReactComponent = () => (<Search />);
+  const ReactComponent = () => <Search />;
   it('should render <Search />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);

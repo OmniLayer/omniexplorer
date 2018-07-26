@@ -8,14 +8,17 @@ import SanitizedFormattedNumber from '../index';
 // import { createMockStore } from 'redux-test-utils';
 
 describe('<SanitizedFormattedNumber />', () => {
-  const ReactComponent = () => (<SanitizedFormattedNumber />);
+  const ReactComponent = () => <SanitizedFormattedNumber />;
   it('should render <SanitizedFormattedNumber />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
-    const component = shallowWithState(<ConnectedComponent value="1.001" />, expectedState);
+    const component = shallowWithState(
+      <ConnectedComponent value="1.001" />,
+      expectedState,
+    );
     expect(component.props().state).toBe(expectedState);
   });
 

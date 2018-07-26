@@ -1,4 +1,3 @@
-
 import { loadCrowdsales } from '../actions';
 import { LOAD_CROWDSALES } from '../constants';
 

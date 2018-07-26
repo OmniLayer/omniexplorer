@@ -1,4 +1,3 @@
-
 import { loadTransaction } from '../actions';
 import { LOAD_TRANSACTION } from '../constants';
 

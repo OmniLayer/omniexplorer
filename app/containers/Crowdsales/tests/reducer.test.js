@@ -1,4 +1,3 @@
-
 import { fromJS } from 'immutable';
 import { ECOSYSTEM_PROD } from 'containers/App/constants';
 import crowdsalesReducer from '../reducer';

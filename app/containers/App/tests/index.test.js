@@ -9,40 +9,49 @@ import App from '../index';
 
 describe('<App />', () => {
   describe('should render Header', () => {
-    const ReactComponent = () => (<Header />);
+    const ReactComponent = () => <Header />;
     it('works', () => {
       const expectedState = 'expectedState';
-      const mapStateToProps = (state) => ({
+      const mapStateToProps = state => ({
         state,
       });
       const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
-      const component = shallowWithStore(<ConnectedComponent />, createMockStore(expectedState));
+      const component = shallowWithStore(
+        <ConnectedComponent />,
+        createMockStore(expectedState),
+      );
       expect(component.props().state).toBe(expectedState);
     });
   });
 
   describe('should render some routes', () => {
-    const ReactComponent = () => (<App />);
+    const ReactComponent = () => <App />;
     it('works', () => {
       const expectedState = 'expectedState';
-      const mapStateToProps = (state) => ({
+      const mapStateToProps = state => ({
         state,
       });
       const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
-      const component = shallowWithStore(<ConnectedComponent />, createMockStore(expectedState));
+      const component = shallowWithStore(
+        <ConnectedComponent />,
+        createMockStore(expectedState),
+      );
       expect(component.props().state).toBe(expectedState);
     });
   });
 
   describe('should render Footer', () => {
-    const ReactComponent = () => (<Footer />);
+    const ReactComponent = () => <Footer />;
     it('works', () => {
       const expectedState = 'expectedState';
-      const mapStateToProps = (state) => ({
+      const mapStateToProps = state => ({
         state,
       });
       const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
-      const component = shallowWithStore(<ConnectedComponent />, createMockStore(expectedState));
+      const component = shallowWithStore(
+        <ConnectedComponent />,
+        createMockStore(expectedState),
+      );
       expect(component.props().state).toBe(expectedState);
     });
   });
