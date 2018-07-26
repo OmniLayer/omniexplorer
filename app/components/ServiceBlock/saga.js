@@ -19,7 +19,5 @@ function* fetchStatus() {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([
-    takeEvery(LOAD_STATUS, fetchStatus),
-  ]);
+  yield all([takeEvery(LOAD_STATUS, fetchStatus)]);
 }
