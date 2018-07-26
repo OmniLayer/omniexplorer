@@ -48,10 +48,11 @@ export default function createReducer(injectedReducers) {
     token: tokenReducer,
     status: statusReducer,
     transactions: transactionsReducer,
-    global: () => fromJS({
-      loading: false,
-      error: false,
-    }),
+    global: () =>
+      fromJS({
+        loading: false,
+        error: false,
+      }),
     ...injectedReducers,
   });
 }
