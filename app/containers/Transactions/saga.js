@@ -11,8 +11,8 @@ import { makeSelectTransactions } from './selectors';
 
 export function* getTransactions({ addr }) {
   const state = yield select(makeSelectTransactions());
-  const page = state.get('currentPage');
-  const txType = state.get('txType');
+  const page = state.currentPage;
+  const { txType } = state;
 
   const requestURL = addr
     ? `${API_URL_BASE}/transaction/address/${page}`
