@@ -1,5 +1,9 @@
 import { fromJS } from 'immutable';
-import { LOAD_PROPERTY, LOAD_PROPERTY_ERROR, LOAD_PROPERTY_SUCCESS } from './constants';
+import {
+  LOAD_PROPERTY,
+  LOAD_PROPERTY_ERROR,
+  LOAD_PROPERTY_SUCCESS,
+} from './constants';
 
 const initialState = fromJS({
   tokens: {},
@@ -13,14 +17,10 @@ const propertyReducer = (state = initialState, action = {}) => {
 
   switch (type) {
     case LOAD_PROPERTY_ERROR: {
-      return state
-        .set('isFetching', false)
-        .set('error', error);
+      return state.set('isFetching', false).set('error', error);
     }
     case LOAD_PROPERTY: {
-      return state
-        .set('isFetching', true)
-        .set('error', null);
+      return state.set('isFetching', true).set('error', null);
     }
     case LOAD_PROPERTY_SUCCESS:
       return state
