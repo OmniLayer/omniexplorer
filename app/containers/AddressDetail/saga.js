@@ -1,7 +1,10 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
 import { API_URL_BASE } from 'containers/App/constants';
-import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/actions';
+import {
+  addressLoaded,
+  addressLoadingError,
+} from 'containers/AddressDetail/actions';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import request from 'utils/request';
@@ -30,7 +33,5 @@ export function* getAddress({ addr }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([
-    takeLatest(LOAD_ADDRESS, getAddress),
-  ]);
+  yield all([takeLatest(LOAD_ADDRESS, getAddress)]);
 }
