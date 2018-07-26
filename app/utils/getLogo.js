@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-export default (id) => {
+export default id => {
   let logo;
   try {
     logo = require(`images/token${id}.png`);
