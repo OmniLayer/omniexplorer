@@ -30,7 +30,5 @@ export function* getCrowdsales({ ecosystem }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([
-    takeLatest(LOAD_CROWDSALES, getCrowdsales),
-  ]);
+  yield all([takeLatest(LOAD_CROWDSALES, getCrowdsales)]);
 }
