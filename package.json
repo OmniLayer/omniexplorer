@@ -42,7 +42,7 @@
     "lint:fix": "npm run lint:eslint -- . --fix",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
-    "test": "cross-env NODE_ENV=test jest -u --coverage",
+    "test": "cross-env NODE_ENV=test jest -u --coverage --no-cache",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
@@ -52,7 +52,8 @@
   "pre-commit": "lint:staged",
   "babel": {
     "plugins": [
-      "styled-components"
+      "styled-components",
+      "syntax-dynamic-import"
     ],
     "presets": [
       [
@@ -62,7 +63,7 @@
         }
       ],
       "react",
-      "stage-0"
+      "stage-2"
     ],
     "env": {
       "production": {
@@ -77,11 +78,16 @@
       },
       "test": {
         "presets": [
-          "stage-0",
-          "react"
+          "react",
+          "stage-2"
         ],
         "plugins": [
-          "transform-es2015-modules-commonjs",
+          [
+            "transform-es2015-modules-commonjs",
+            {
+              "loose": true
+            }
+          ],
           "dynamic-import-node"
         ]
       }
@@ -239,6 +245,9 @@
     "unmockedModulePathPatterns": [
       "node_modules/react/",
       "node_modules/enzyme/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(moment)/)"
     ]
   },
   "dependencies": {
@@ -294,8 +303,8 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "7.2.3",
-    "babel-loader": "7.1.0",
-    "babel-plugin-dynamic-import-node": "1.0.2",
+    "babel-loader": "^7.1.0",
+    "babel-plugin-dynamic-import-node": "^1.0.2",
     "babel-plugin-react-intl": "2.3.1",
     "babel-plugin-react-transform": "2.0.2",
     "babel-plugin-styled-components": "1.1.4",
@@ -303,8 +312,8 @@
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-inline-elements": "6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.5",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "circular-dependency-plugin": "3.0.0",
     "coveralls": "2.13.1",
