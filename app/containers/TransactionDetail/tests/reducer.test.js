@@ -1,4 +1,3 @@
-
 import { fromJS } from 'immutable';
 import transactionDetailReducer from '../reducer';
 const initialState = fromJS({

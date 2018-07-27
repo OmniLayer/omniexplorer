@@ -5,7 +5,11 @@
  */
 
 import { fromJS } from 'immutable';
-import { LOAD_TRANSACTION, LOAD_TRANSACTION_ERROR, LOAD_TRANSACTION_SUCCESS } from './constants';
+import {
+  LOAD_TRANSACTION,
+  LOAD_TRANSACTION_ERROR,
+  LOAD_TRANSACTION_SUCCESS,
+} from './constants';
 
 const initialState = fromJS({
   transaction: {
@@ -13,7 +17,6 @@ const initialState = fromJS({
   },
   loading: true,
 });
-
 
 function transactionDetailReducer(state = initialState, action) {
   switch (action.type) {
@@ -24,13 +27,16 @@ function transactionDetailReducer(state = initialState, action) {
         .set('transaction', {});
     case LOAD_TRANSACTION_SUCCESS:
       return state
-        .set('transaction', (typeof action.transaction === 'string' ? { notFound: true } : action.transaction))
+        .set(
+          'transaction',
+          typeof action.transaction === 'string'
+            ? { notFound: true }
+            : action.transaction,
+        )
         .set('error', false)
         .set('loading', false);
     case LOAD_TRANSACTION_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return state.set('error', action.error).set('loading', false);
     default:
       return state;
   }

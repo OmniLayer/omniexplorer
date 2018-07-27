@@ -5,7 +5,7 @@ import LanguageProvider from 'containers/LanguageProvider/index';
 import { IntlProvider } from 'react-intl';
 import { translationMessages } from '../i18n';
 
-const testWrapper = (props) => (
+const testWrapper = props => (
   <IntlProvider locale="en">
     <div className="wrapper">
       <LanguageProvider messages={translationMessages}>

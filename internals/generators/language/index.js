@@ -15,19 +15,24 @@ function languageIsSupported(language) {
 
 module.exports = {
   description: 'Add a language',
-  prompts: [{
-    type: 'input',
-    name: 'language',
-    message: 'What is the language you want to add i18n support for (e.g. "fr", "de")?',
-    default: 'fr',
-    validate: (value) => {
-      if ((/.+/).test(value) && value.length === 2) {
-        return languageIsSupported(value) ? `The language "${value}" is already supported.` : true;
-      }
+  prompts: [
+    {
+      type: 'input',
+      name: 'language',
+      message:
+        'What is the language you want to add i18n support for (e.g. "fr", "de")?',
+      default: 'fr',
+      validate: value => {
+        if (/.+/.test(value) && value.length === 2) {
+          return languageIsSupported(value)
+            ? `The language "${value}" is already supported.`
+            : true;
+        }
 
-      return '2 character language specifier is required';
+        return '2 character language specifier is required';
+      },
     },
-  }],
+  ],
 
   actions: () => {
     const actions = [];

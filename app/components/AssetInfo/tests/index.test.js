@@ -1,10 +1,18 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { connect } from 'react-redux';
+import { shallowWithState } from 'enzyme-redux';
 
-// import AssetInfo from '../index';
+import { AssetInfo } from '../index';
 
 describe('<AssetInfo />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  const ReactComponent = () => <AssetInfo />;
+  it('should render <AssetInfo />', () => {
+    const expectedState = { mockedStated: true };
+    const mapStateToProps = state => ({
+      state,
+    });
+    const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
+    const component = shallowWithState(<ConnectedComponent />, expectedState);
+    expect(component.props().state).toBe(expectedState);
   });
 });

@@ -21,7 +21,7 @@ import {
 } from './constants';
 
 // The initial state of the App
-const initialState = fromJS({
+export const initialState = fromJS({
   loading: false,
   error: false,
   transactions: [],
@@ -45,15 +45,11 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', false)
         .set('error', false);
     case LOAD_TRANSACTIONS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return state.set('error', action.error).set('loading', false);
     case SET_PAGE:
-      return state
-        .set('currentPage', action.page);
+      return state.set('currentPage', action.page);
     case SET_TRANSACTION_TYPE:
-      return state
-        .set('txType', action.txType);
+      return state.set('txType', action.txType);
     default:
       return state;
   }
