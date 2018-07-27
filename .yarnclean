@@ -11,6 +11,7 @@ website
 images
 assets
 !istanbul-reports/lib/html/assets
+!.svgo.yml
 
 # examples
 example
