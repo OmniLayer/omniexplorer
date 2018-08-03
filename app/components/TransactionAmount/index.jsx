@@ -47,7 +47,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show purchases</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                { this.props.purchases.map((purchase, idx) => (
+                { (this.props.purchases || []).map((purchase, idx) => (
                   <div key={idx}>
                     <div>
                       <span>
@@ -83,7 +83,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 style={{ marginBottom: '1rem' }}
               >Click to show subsends of SendAll</A>
               <Collapse isOpen={this.state.collapseAmount}>
-                { this.props.subsends.map((send, idx) => (
+                { (this.props.subsends || []).map((send, idx) => (
                   <div key={idx}>
                     <span>
                       <SanitizedFormattedNumber value={send.amount} /> { send.propertyname } (#{ send.propertyid })
@@ -98,20 +98,14 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
         </tr>
       );
     }
-    //  MetaDEx Trade transaction
+    //  OmniDex Trade transaction
     if ([25, 26].includes(this.props.type_int)) {
       return (
         <tr className="highlight">
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
-              <A
-                href="#collapseAmountData"
-                color="primary"
-                onClick={this.toggleAmount}
-                style={{ marginBottom: '1rem' }}
-              >Click to show amounts</A>
-              <Collapse isOpen={this.state.collapseAmount}>
+              <Collapse isOpen={true}>
                 <div>
                   <span>
                     <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired
@@ -136,13 +130,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
           <td className="field">Amount</td>
           <td>
             <strong id="crowdsaleamount">
-              <A
-                href="#collapseAmountData"
-                color="primary"
-                onClick={this.toggleAmount}
-                style={{ marginBottom: '1rem' }}
-              >Click to show amounts</A>
-              <Collapse isOpen={this.state.collapseAmount}>
+              <Collapse isOpen={true}>
                 <div>
                   <span>
                     <SanitizedFormattedNumber value={this.props.amount} /> { this.props.propertyname } (#{ this.props.propertyid }) Sent

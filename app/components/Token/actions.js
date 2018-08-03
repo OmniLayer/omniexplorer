@@ -1,7 +1,7 @@
 import {
   LOAD_PROPERTY,
   LOAD_PROPERTY_SUCCESS,
-  LOAD_PROPERTY_ERROR,
+  LOAD_PROPERTY_ERROR, LOAD_PROPERTY_DEEP,
 } from './constants';
 
 /**
@@ -26,4 +26,10 @@ export const startFetch = (tokenid) => ({
 export const updateFetch = (payload) => ({
   type: LOAD_PROPERTY_SUCCESS,
   payload,
+});
+
+// Start the deep fetch, toggle is `isFetching` value
+export const startDeepFetch = (tokenid) => ({
+  type: LOAD_PROPERTY_DEEP,
+  id: tokenid,
 });

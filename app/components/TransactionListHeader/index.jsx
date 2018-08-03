@@ -40,11 +40,16 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
         font-weight: 300;
     `;
 
+    const totalLabel = `${this.props.totalLabel || 'transaction'}${this.props.total > 1 ? 's' : ''}`;
     return (
       <StyledRow className="text-center-down-sm pt-2 pb-2">
         <Col sm>
           <HeaderTitle>
             <FormattedMessage {...messages.header} />
+            &nbsp;
+            {!!this.props.total &&
+            <small className="text-muted">{this.props.total} {totalLabel}</small>
+            }
           </HeaderTitle>
         </Col>
         <Col sm>
@@ -53,16 +58,16 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
               <FormattedMessage {...messages.transactionTypes} />
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>Show All Transaction Types</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(null)}>Show All Transaction Types</DropdownItem>
               <DropdownItem divider />
               <DropdownItem header>(Filters Coming Soon)!</DropdownItem>
-              <DropdownItem header>Show Simple Send only</DropdownItem>
-              <DropdownItem header>Show MetaDEx only</DropdownItem>
-              <DropdownItem header>Show DEx only</DropdownItem>
-              <DropdownItem header>Show Grant only</DropdownItem>
-              <DropdownItem header>Show Revoke only</DropdownItem>
-              <DropdownItem header>Show Property Creation only</DropdownItem>
-              <DropdownItem header>Show Send To Owners only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(0)}>Show Simple Send only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(25)}>Show OmniDex only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(20)}>Show DEx only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(55)}>Show Grant only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(56)}>Show Revoke only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(50)}>Show Property Creation only</DropdownItem>
+              <DropdownItem onClick={() => this.props.selectType(3)}>Show Send To Owners only</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </Col>
@@ -73,6 +78,9 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
 
 TransactionListHeader.propTypes = {
   className: PropTypes.string,
+  selectType: PropTypes.func,
+  total: PropTypes.number,
+  totalLabel: PropTypes.string,
 };
 
 export default TransactionListHeader;
