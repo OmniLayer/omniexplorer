@@ -5,28 +5,116 @@
  */
 
 import React from 'react';
-// import { HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis';
-import statsPNG from 'images/stats.png';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import connect from 'react-redux/es/connect/connect';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectStatus } from 'components/ServiceBlock/selectors';
+import sortBy from 'lodash/sortBy';
+import isEmpty from 'lodash/isEmpty';
+import {
+  Hint,
+  HorizontalGridLines,
+  LineSeries,
+  VerticalGridLines,
+  XAxis,
+  XYPlot,
+  YAxis,
+  makeWidthFlexible,
+} from 'react-vis';
 
-const IMG = styled.img``;
+// import styled from 'styled-components';
+// https://github.com/uber/react-vis/blob/master/docs/flexible-plots.md#/examples/charts/responsive-vis
+const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
-const ContainerLogo = styled.div`
-  background-color: #f5f5f5;
-`;
-
-class TransactionHistory extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class TransactionHistory extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+    this.rememberValue = this.rememberValue.bind(this);
+    this.forgetValue = this.forgetValue.bind(this);
+  }
+  rememberValue = (value, ...rest) => {
+    console.log(rest)
+    console.log('value', value);
+    this.setState({ value });
+  };
+  
+  forgetValue = () => {
+    this.setState({
+      value: null,
+    });
+  };
+  // eslint-disable-line react/prefer-stateless-function
   render() {
+    // wait status props loading
+    if (isEmpty(this.props) || isEmpty(this.props.status) || isEmpty(this.props.status.txdaily)) {
+      return null;
+    }
+  
+    const { value } = this.state;
+    const txdaily = this.props.status.txdaily;
+
+    const data = sortBy(
+      txdaily.map(day => ({
+        y: parseFloat(day.count),
+        x: new Date(day.date).getTime(),
+      })),
+      'date',
+    );
+    
+    const tickFormat = (d)=>{
+      const dt = new Date(d).toLocaleDateString();
+      return dt.slice(0, dt.lastIndexOf("/"));
+    };
+
     return (
-      <ContainerLogo className="px-3 pb-2">
-        <div className="d-inline-block mx-auto">
-          <IMG className="img-fluid" src={statsPNG} />
-        </div>
-      </ContainerLogo>
+      <FlexibleXYPlot
+        height={(this.props.height || 230)}
+        margin={{left: 48}}
+        hideLine
+      >
+        <VerticalGridLines />
+        <HorizontalGridLines />
+        <LineSeries
+          data={data}
+          style={{
+            stroke: 'violet',
+            strokeWidth: 3,
+          }}
+        />
+        <XAxis
+          attr="x"
+          attrAxis="y"
+          title="Period of time(days)"
+          tickFormat={tickFormat}
+          tickLabelAngle={0}
+        />
+        <YAxis
+          attr="y"
+          attrAxis="x"
+          orientation="left"
+          title="Number of transactions"
+        />
+        {value ? <Hint value={value} /> : null}
+      </FlexibleXYPlot>
     );
   }
 }
 
-TransactionHistory.propTypes = {};
+TransactionHistory.propTypes = {
+  status: PropTypes.object,
+};
 
-export default TransactionHistory;
+const mapStateToProps = createStructuredSelector({
+  status: makeSelectStatus(),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  {},
+);
+
+export default compose(withConnect)(TransactionHistory);
