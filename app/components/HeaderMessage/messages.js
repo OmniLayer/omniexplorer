@@ -9,9 +9,9 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.components.HeaderMessage.header',
-    defaultMessage: '{note} Welcome to the new Omniexplorer.info',
+    defaultMessage: '{note}',
     values: {
-      note: <strong>NOTE:</strong>,
+      note: <strong>Welcome to the new Omniexplorer.info</strong>,
     },
   },
 });

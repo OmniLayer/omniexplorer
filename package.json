@@ -270,7 +270,7 @@
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
     "qrcode.react": "^0.8.0",
-    "react": "^16.2.0",
+    "react": "^16.4.2",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.2.0",
     "react-helmet": "5.1.3",

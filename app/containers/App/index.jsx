@@ -28,6 +28,7 @@ import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
 import Promote from 'containers/Promote/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
+import HistoryChart from 'containers/HistoryChart';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
@@ -62,32 +63,47 @@ class App extends React.Component {
   render() {
     return (
       <AppWrapper>
-        <Helmet
-          titleTemplate="%s - Omni Explorer"
-          defaultTitle="Omni Explorer"
-        >
+        <Helmet titleTemplate="%s - Omni Explorer" defaultTitle="Omni Explorer">
           <meta name="description" content="Omni Explorer" />
         </Helmet>
         <Header />
         <Switch>
           <Route exact path="/:page(\d+)?" component={HomePage} />
           <Route path="/tx/:tx" component={TransactionDetail} />
-          <Route path="/address/:address/:page(\d+)?" component={AddressDetail} key={location.pathname} />
-          <Route path="/search/:query" component={Search} key={location.pathname} />
-          <Route path="/properties/:query" component={Properties} key={location.pathname} />
-          <Route path="/asset/:propertyid(\d+)" component={AssetDetail} key={location.pathname} />
+          <Route
+            path="/address/:address/:page(\d+)?"
+            component={AddressDetail}
+            key={location.pathname}
+          />
+          <Route
+            path="/search/:query"
+            component={Search}
+            key={location.pathname}
+          />
+          <Route
+            path="/properties/:query"
+            component={Properties}
+            key={location.pathname}
+          />
+          <Route
+            path="/asset/:propertyid(\d+)"
+            component={AssetDetail}
+            key={location.pathname}
+          />
           <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
-          <Route path="/crowdsale/:crowdsaleid(\d+)" component={CrowdsaleDetail} key={location.pathname} />
+          <Route
+            path="/crowdsale/:crowdsaleid(\d+)"
+            component={CrowdsaleDetail}
+            key={location.pathname}
+          />
           <Route exact path="/promote" component={Promote} />
           <Route exact path="/submitfeedback" component={Feedback} />
+          <Route exact path="/history" component={HistoryChart} />
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>
         <Footer />
-        { isDev
-          ? <DevTools />
-          : <div></div>
-        }
+        {isDev ? <DevTools /> : <div />}
       </AppWrapper>
     );
   }
@@ -100,7 +116,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default compose(
   withConnect,
