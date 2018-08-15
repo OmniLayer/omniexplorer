@@ -14,7 +14,30 @@ const StyledCardBody = styled(CardBody)`
 export default (flags) => {
   let warningMessage = null;
 
-  if (flags.duplicate) {
+  if (flags.scam) {
+    warningMessage = (
+      <Row>
+        <Col sm>
+          <StyledCard inverse>
+            <CardHeader
+              style={{
+                backgroundColor: '#a94442',
+                borderColor: '#a94442',
+              }}
+            >
+              Warning: Scam or Malicious Token
+            </CardHeader>
+            <StyledCardBody>
+              <CardText>
+                Please note this property has been reported as being a scam or intentionally malicious.<br />
+                <b>Users are advised to avoid any interactions/use of this property.</b>
+              </CardText>
+            </StyledCardBody>
+          </StyledCard>
+        </Col>
+      </Row>
+    );
+  } else if (flags.duplicate) {
     warningMessage = (
       <Row>
         <Col sm>

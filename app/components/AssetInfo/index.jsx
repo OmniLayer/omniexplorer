@@ -36,10 +36,14 @@ function AssetInfo(asset) {
   }
 
   let asseturl;
-  if (asset.url.includes('.')) {
-    asseturl = (<td><a href={asset.url} target="_blank">{ asset.url }</a></td>);
+  if (asset.flags.duplicate || asset.flags.scam) {
+    asseturl = (<td><strike>{ asset.url }</strike> See Warning - Be Careful</td>);
   } else {
-    asseturl = (<td>{ asset.url }</td>);
+    if (asset.url.includes('.')) {
+      asseturl = (<td><a href={asset.url} target="_blank">{ asset.url }</a></td>);
+    } else {
+      asseturl = (<td>{ asset.url }</td>);
+    }
   }
 
   let registeredMessage;
