@@ -1,4 +1,3 @@
-
 import { fromJS } from 'immutable';
 import searchReducer from '../reducer';
 

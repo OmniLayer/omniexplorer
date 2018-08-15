@@ -29,7 +29,7 @@ import searchSaga from './saga';
 import { loadSearch } from './actions';
 
 const StyledContainer = styled(Container)`
-      background-color: white;
+      
       margin: 3rem;
       padding: 1rem;
     `;

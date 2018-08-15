@@ -50,9 +50,10 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
 
     let value;
     let vlabel;
+    
     if (available == 0 && frozen > 0) {
       value = frozen;
-      vlabel = " Frozen!"
+      vlabel = " Frozen!";
     } else {
       value = available;
     }

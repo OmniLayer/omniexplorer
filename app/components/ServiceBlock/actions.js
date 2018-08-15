@@ -8,7 +8,7 @@ import {
  * Log an error if the async call fails
  * @param {object} error - the error thrown.
  */
-export const errorFetch = (error) => ({
+export const errorFetch = error => ({
   type: LOAD_STATUS_ERROR,
   error,
 });
@@ -22,7 +22,7 @@ export const startFetch = () => ({
  * Resolve the fetch with the returned data
  * @param {object} payload - the data returned from the fetch
  */
-export const updateFetch = (payload) => ({
+export const updateFetch = payload => ({
   type: LOAD_STATUS_SUCCESS,
   payload,
 });

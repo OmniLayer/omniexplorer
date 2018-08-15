@@ -35,11 +35,16 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 
 const ListPagination = (props) => {
   const maxPagesQty = window.matchMedia('(max-width: 500px)').matches ? 5 : 10;
-  const _page = (parseInt(props.match.params.page - 1) || props.currentPage);
+  const pareInParams = parseInt(props.match.params.page - 1);
+  const _page = (isNaN(pareInParams) ? props.currentPage : pareInParams);
   const pageNumber = Math.floor(_page / maxPagesQty) * maxPagesQty;
   const pageCount = props.pageCount || 1;
   const qtyPages = (pageCount < maxPagesQty ? pageCount : maxPagesQty);
-  const range = [...Array(qtyPages).keys()].map((x) => x + pageNumber);
+  const range = [...Array(qtyPages).keys()].map((x) => {
+    const current = x + pageNumber;
+    const result = (current < pageCount ? current : pageCount - x - 1);
+    return result;
+  }).sort();
 
   const setPage = (e, page) => {
     props.onSetPage(page);
@@ -66,7 +71,7 @@ const ListPagination = (props) => {
       <StyledPaginationButton
         onClick={onClick}
         disabled={qtyPages === 1 || _page === 0}
-        key='previous'
+        key="previous"
       >
         <StyledPaginationLink previous href={hashLink(getPrevious())} />
       </StyledPaginationButton>
@@ -89,8 +94,8 @@ const ListPagination = (props) => {
       }
       <StyledPaginationButton
         onClick={onClick}
-        disabled={qtyPages === 1 || _page === props.pageCount}
-        key={'next'}
+        disabled={qtyPages === 1 || (_page + 1) === props.pageCount}
+        key="next"
       >
         <StyledPaginationLink next href={hashLink(getNext())} />
       </StyledPaginationButton>

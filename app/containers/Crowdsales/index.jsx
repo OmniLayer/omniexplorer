@@ -30,7 +30,7 @@ import messages from '../../components/FormattedDateTime/messages';
 
 
 const StyledContainer = styled(Container)`
-      background-color: white;
+      
       margin: 3rem;
       padding: 1rem;
     `;

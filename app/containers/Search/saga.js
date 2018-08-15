@@ -30,7 +30,5 @@ export function* getSearch({ query }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([
-    takeLatest(LOAD_SEARCH, getSearch),
-  ]);
+  yield all([takeLatest(LOAD_SEARCH, getSearch)]);
 }
