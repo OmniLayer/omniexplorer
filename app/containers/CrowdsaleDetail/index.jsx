@@ -38,6 +38,8 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
 import Moment from 'react-moment';
+import moment from 'moment/src/moment';
+
 // Icons
 import FacebookIcon from 'react-icons/lib/io/social-facebook';
 import GPlusIcon from 'react-icons/lib/io/social-googleplus';
@@ -125,7 +127,9 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
           (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
       </span>
     );
-    const earlybonus = ((crowdsale.deadline - crowdsale.blocktime) / 604800) * crowdsale.earlybonus;
+    
+    // const earlybonus = ((crowdsale.deadline - (new Date()).getTime()/1000)) / 604800) * crowdsale.earlybonus;
+    const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(),'seconds') / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
     const logo = getLogo(crowdsale.propertyid);
     const warningMessage = getWarningMessage(crowdsale.flags);
