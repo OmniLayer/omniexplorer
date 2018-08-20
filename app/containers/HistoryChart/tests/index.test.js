@@ -16,4 +16,3 @@ describe('<HistoryChart />', () => {
     expect(component.props().state).toBe(expectedState);
   });
 });
-
