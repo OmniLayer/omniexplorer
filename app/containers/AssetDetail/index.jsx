@@ -53,8 +53,8 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
         </Container>
       );
     }
-
-    const logo = getLogo(asset.propertyid);
+    
+    const logo = getLogo(asset.propertyid, asset.flags);
     const warningMessage = getWarningMessage(asset.flags);
 
     let subtitleclass;
