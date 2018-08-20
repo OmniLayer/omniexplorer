@@ -29,8 +29,12 @@ export default flags => {
             </CardHeader>
             <StyledCardBody>
               <CardText>
-                Please note this property has been reported as being a scam or intentionally malicious.<br />
-                <b>Users are advised to avoid any interactions/use of this property.</b>
+                Please note this property has been reported as being a scam or
+                intentionally malicious.<br />
+                <b>
+                  Users are advised to avoid any interactions/use of this
+                  property.
+                </b>
               </CardText>
             </StyledCardBody>
           </StyledCard>
