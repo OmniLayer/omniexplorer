@@ -11,9 +11,10 @@ const StyledCardBody = styled(CardBody)`
   border-color: #ff5b57;
 `;
 
-export default flags => {
+export default (flags, tokenName, tokenId) => {
   let warningMessage = null;
-
+  const tokenDesc = (tokenName && tokenId ? `- ${tokenName} Token (#${tokenId})` : '' );
+  
   if (flags.scam) {
     warningMessage = (
       <Row>
@@ -83,7 +84,7 @@ export default flags => {
             </CardHeader>
             <StyledCardBody>
               <CardText>
-                Please note that the issuer of this property - Agoras Token (#35),
+                Please note that the issuer of this property { tokenDesc },
                 has informed OmniExplorer.info that this property is deprecated and
                 should no longer be used.<br />
                 <b>
