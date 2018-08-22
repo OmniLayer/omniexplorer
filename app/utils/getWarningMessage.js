@@ -68,6 +68,33 @@ export default flags => {
         </Col>
       </Row>
     );
+  } else if (flags.replaced) {
+    warningMessage = (
+      <Row>
+        <Col sm>
+          <StyledCard inverse>
+            <CardHeader
+              style={{
+                backgroundColor: '#a94442',
+                borderColor: '#a94442',
+              }}
+            >
+              Warning: This property is deprecated.
+            </CardHeader>
+            <StyledCardBody>
+              <CardText>
+                Please note that the issuer of this property - Agoras Token (#35),
+                has informed OmniExplorer.info that this property is deprecated and
+                should no longer be used.<br />
+                <b>
+                  The issuer has advised that the token has been replaced.
+                </b>
+              </CardText>
+            </StyledCardBody>
+          </StyledCard>
+        </Col>
+      </Row>
+    );
   }
 
   return warningMessage;
