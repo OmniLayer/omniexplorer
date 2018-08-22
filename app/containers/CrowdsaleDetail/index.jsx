@@ -102,7 +102,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
 
     const crowdsale = this.props.properties(this.crowdsaleid);
     if (!crowdsale) return loading;
-
+    
     const dessiredToken = this.props.properties(crowdsale.propertyiddesired.toString());
     if (!dessiredToken) return loading;
 
@@ -131,7 +131,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     // const earlybonus = ((crowdsale.deadline - (new Date()).getTime()/1000)) / 604800) * crowdsale.earlybonus;
     const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(),'seconds') / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
-    const logo = getLogo(crowdsale.propertyid, crowdsale.flags);
+    const logo = getLogo(crowdsale.propertyid, crowdsale);
     const warningMessage = getWarningMessage(crowdsale.flags);
 
     return (
