@@ -13,16 +13,22 @@ describe('getLogo', () => {
     expect(getLogo(normalLogoId)).toBe(logo);
   });
 
-  it('should retrieve the warning logo if has flag `duplicate`', () => {
-    const flags = { duplicate: true };
+  it('should retrieve the sendall logo if it has type_int === 4', () => {
+    const options = { type_int: 4 };
     const logo = require('images/tokenwarn.png');
-    expect(getLogo(normalLogoId, flags)).toBe(logo);
+    expect(getLogo(normalLogoId, options)).toBe(logo);
   });
 
-  it('should retrieve the warning logo if has flag `scam`', () => {
-    const flags = { scam: true };
+  it('should retrieve the warning logo if it has flag `duplicate`', () => {
+    const options = { flags: { duplicate: true } };
     const logo = require('images/tokenwarn.png');
-    expect(getLogo(normalLogoId, flags)).toBe(logo);
+    expect(getLogo(normalLogoId, options)).toBe(logo);
+  });
+
+  it('should retrieve the warning logo if it has flag `scam`', () => {
+    const options = { flags: { scam: true } };
+    const logo = require('images/tokenwarn.png');
+    expect(getLogo(normalLogoId, options)).toBe(logo);
   });
 
   it('should retrieve the dev-test logo if the id is greater than 2147483650', () => {
