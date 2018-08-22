@@ -55,7 +55,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
     }
     
     const logo = getLogo(asset.propertyid, asset);
-    const warningMessage = getWarningMessage(asset.flags);
+    const warningMessage = getWarningMessage(asset.flags, asset.name, asset.propertyid);
 
     let subtitleclass;
     if (asset.propertyid < 3) {

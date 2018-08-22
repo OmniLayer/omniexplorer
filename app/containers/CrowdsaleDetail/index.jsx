@@ -132,7 +132,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(),'seconds') / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
     const logo = getLogo(crowdsale.propertyid, crowdsale);
-    const warningMessage = getWarningMessage(crowdsale.flags);
+    const warningMessage = getWarningMessage(crowdsale.flags, crowdsale.propertyname, this.crowdsaleid);
 
     return (
       <Container fluid className="mt-3 p-1">
