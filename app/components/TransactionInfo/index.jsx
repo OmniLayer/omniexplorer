@@ -74,13 +74,7 @@ function TransactionInfo(props) {
   };
   const invalidReason = (props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`);
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
-  
-  let logo;
-  if (props.type_int === 4) {
-    logo = require('images/sendall.png');
-  } else {
-    logo = getLogo(props.propertyid);
-  }
+  const logo = getLogo(props.propertyid, props);
   
   let warningMessage = null;
   let dtheader;
@@ -303,6 +297,7 @@ TransactionInfo.propTypes = {
   amount: PropTypes.string,
   changeRoute: PropTypes.func,
   propertyname: PropTypes.string,
+  propertyid: PropTypes.number,
 };
 
 

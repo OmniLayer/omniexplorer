@@ -57,14 +57,15 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     } else {
       value = available;
     }
-
-
+    
+    const logo = getLogo(this.props.id, this.props.propertyinfo);
+    
     return (
       <tr>
         <StyledTD style={{ width: '56px' }}>
           <img
             style={{ width: '4rem', height: '4rem' }}
-            src={getLogo(this.props.id)}
+            src={ logo }
           />
         </StyledTD>
         <StyledTD style={{ paddingTop: '13px' }}>
