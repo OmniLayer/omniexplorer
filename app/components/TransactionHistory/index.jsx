@@ -13,77 +13,75 @@ import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
 import {
-  Hint,
+  Crosshair,
   HorizontalGridLines,
   LineSeries,
+  makeWidthFlexible,
   VerticalGridLines,
   XAxis,
   XYPlot,
   YAxis,
-  makeWidthFlexible,
 } from 'react-vis';
 
-// import styled from 'styled-components';
 // https://github.com/uber/react-vis/blob/master/docs/flexible-plots.md#/examples/charts/responsive-vis
+// https://uber.github.io/react-vis/documentation/api-reference/crosshair
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
 class TransactionHistory extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.data = [];
     this.state = {
-      value: null,
+      crosshairValues: [],
     };
-    this.rememberValue = this.rememberValue.bind(this);
-    this.forgetValue = this.forgetValue.bind(this);
   }
-  rememberValue = (value, ...rest) => {
-    console.log(rest)
-    console.log('value', value);
-    this.setState({ value });
-  };
-  
-  forgetValue = () => {
-    this.setState({
-      value: null,
-    });
-  };
+
   // eslint-disable-line react/prefer-stateless-function
   render() {
     // wait status props loading
-    if (isEmpty(this.props) || isEmpty(this.props.status) || isEmpty(this.props.status.txdaily)) {
+    if (
+      isEmpty(this.props) ||
+      isEmpty(this.props.status) ||
+      isEmpty(this.props.status.txdaily)
+    ) {
       return null;
     }
-  
-    const { value } = this.state;
-    const txdaily = this.props.status.txdaily;
 
-    const data = sortBy(
+    const { txdaily } = this.props.status;
+    this.data = sortBy(
       txdaily.map(day => ({
         y: parseFloat(day.count),
         x: new Date(day.date).getTime(),
       })),
       'date',
     );
-    
-    const tickFormat = (d)=>{
+
+    const tickFormat = d => {
       const dt = new Date(d).toLocaleDateString();
-      return dt.slice(0, dt.lastIndexOf("/"));
+      return dt.slice(0, dt.lastIndexOf('/'));
     };
+
+    const { crosshairValues } = this.state;
 
     return (
       <FlexibleXYPlot
-        height={(this.props.height || 230)}
-        margin={{left: 48}}
+        animation
+        height={this.props.height || 230}
+        margin={{ left: 48 }}
+        onMouseLeave={() => this.setState({ crosshairValues: null })}
         hideLine
       >
         <VerticalGridLines />
         <HorizontalGridLines />
         <LineSeries
-          data={data}
+          data={this.data}
           style={{
             stroke: 'violet',
             strokeWidth: 3,
           }}
+          onNearestXY={(value, { index }) =>
+            this.setState({ crosshairValues: [value] })
+          }
         />
         <XAxis
           attr="x"
@@ -98,7 +96,21 @@ class TransactionHistory extends React.PureComponent {
           orientation="left"
           title="Number of transactions"
         />
-        {value ? <Hint value={value} /> : null}
+        {crosshairValues && (
+          <Crosshair
+            values={crosshairValues}
+            titleFormat={d => ({
+              title: 'Date',
+              value: new Date(d[0].x).toLocaleDateString(),
+            })}
+            itemsFormat={d => [
+              {
+                title: 'Transactions',
+                value: d[0].y,
+              },
+            ]}
+          />
+        )}
       </FlexibleXYPlot>
     );
   }
@@ -106,6 +118,7 @@ class TransactionHistory extends React.PureComponent {
 
 TransactionHistory.propTypes = {
   status: PropTypes.object,
+  height: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
