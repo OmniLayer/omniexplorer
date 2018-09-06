@@ -21,21 +21,20 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import getLogo from 'utils/getLogo';
 import getWarningMessage from 'utils/getWarningMessage';
 
-const StyledContainer = styled(Container)`
-    
-    `;
+const StyledContainer = styled(Container)``;
 const DetailRow = styled(Row)`
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-    `;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+`;
 const SubtitleDetail = styled.small`
-      display: block;
-      font-size: 10px;
-      font-weight: 400;
-      margin-top: 5px;
-    `;
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 5px;
+`;
 
-export class AssetDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class AssetDetail extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
@@ -53,9 +52,13 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
         </Container>
       );
     }
-    
+
     const logo = getLogo(asset.propertyid, asset);
-    const warningMessage = getWarningMessage(asset.flags, asset.name, asset.propertyid);
+    const warningMessage = getWarningMessage(
+      asset.flags,
+      asset.name,
+      asset.propertyid,
+    );
 
     let subtitleclass;
     if (asset.propertyid < 3) {
@@ -64,7 +67,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
 
     return (
       <StyledContainer fluid>
-        { warningMessage }
+        {warningMessage}
         <DetailRow>
           <Col sm>
             <Table responsive className="table-profile">
@@ -81,18 +84,18 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
                   </th>
                   <th>
                     <h4>
-                      <strong>{ asset.name }</strong>
+                      <strong>{asset.name}</strong>
                       <SubtitleDetail className={subtitleclass}>
-                        <span>
-                        created by &nbsp;
-                        </span>
+                        <span>created by &nbsp;</span>
                         <Link
                           to={{
                             pathname: `/tx/${asset.creationtxid}`,
                           }}
-                          onClick={() => this.props.changeRoute(`/tx/${asset.creationtxid}`)}
+                          onClick={() =>
+                            this.props.changeRoute(`/tx/${asset.creationtxid}`)
+                          }
                         >
-                          { asset.creationtxid }
+                          {asset.creationtxid}
                         </Link>
                       </SubtitleDetail>
                     </h4>
@@ -103,8 +106,7 @@ export class AssetDetail extends React.PureComponent { // eslint-disable-line re
             </Table>
           </Col>
         </DetailRow>
-        <Row>
-        </Row>
+        <Row />
       </StyledContainer>
     );
   }
@@ -116,17 +118,20 @@ AssetDetail.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  properties: (state) => makeSelectProperty(state),
+  properties: state => makeSelectProperty(state),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    getProperty: (propertyId) => dispatch(startFetch(propertyId)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    getProperty: propertyId => dispatch(startFetch(propertyId)),
+    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
-export default compose(withConnect, )(AssetDetail);
+export default compose(withConnect)(AssetDetail);
