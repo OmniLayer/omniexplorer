@@ -10,7 +10,14 @@ import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
-import { Col, Container, Row, Table, UncontrolledCollapse, UncontrolledTooltip } from 'reactstrap';
+import {
+  Col,
+  Container,
+  Row,
+  Table,
+  Collapse,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import QRCode from 'qrcode.react';
 import isEmpty from 'lodash/isEmpty';
 import Token from 'components/Token';
@@ -20,7 +27,7 @@ import InformationIcon from 'react-icons/lib/io/informatcircled';
 
 const StyledInformationIcon = styled(InformationIcon)`
   color: cadetblue !important;
-	font-size: 1.5rem;
+  font-size: 1.5rem;
 `;
 
 const DetailRow = styled(Row)`
@@ -42,11 +49,24 @@ class Wallet extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      collapse: false,
+      flaggedMessage: `Show flagged tokens`,
+    };
+  }
+
+  toggle() {
+    this.setState({ collapse: !this.state.collapse });
+    this.setState({
+      flaggedMessage: `${this.state.collapse ? 'Show' : 'Hide'} flagged tokens`,
+    });
   }
 
   render() {
-    if(!this.props.address) return null;
-    
+    if (!this.props.address) return null;
+
     const flaggedProps = (this.props.address.balance || []).filter(
       balance => !isEmpty(balance.propertyinfo.flags, true),
     );
@@ -87,22 +107,32 @@ class Wallet extends React.PureComponent {
                           <StyledTH>
                             Balances
                             <br />
-                            { hasFlagged &&
+                            {hasFlagged && (
                               <div>
                                 <a
                                   href="#togglerFlagged"
                                   className="text-info small"
                                   id="togglerFlagged"
                                   style={{ marginBottom: '1rem' }}
+                                  onClick={this.toggle}
                                 >
-                                  Flagged tokens
+                                  {this.state.flaggedMessage}
                                 </a>
-                                <StyledInformationIcon color="gray" className="ml-1" id="flaggedToolip"/>
-                                <UncontrolledTooltip placement="right-end" target="flaggedToolip">
-                                  <FormattedMessage {...walletMessages.flagged} />
+                                <StyledInformationIcon
+                                  color="gray"
+                                  className="ml-1"
+                                  id="flaggedToolip"
+                                />
+                                <UncontrolledTooltip
+                                  placement="right-end"
+                                  target="flaggedToolip"
+                                >
+                                  <FormattedMessage
+                                    {...walletMessages.flagged}
+                                  />
                                 </UncontrolledTooltip>
                               </div>
-                            }
+                            )}
                           </StyledTH>
                         </tr>
                       </thead>
@@ -129,17 +159,23 @@ class Wallet extends React.PureComponent {
                         ))}
                       </tbody>
                     </Table>
-                    { hasFlagged &&
-                      <UncontrolledCollapse toggler="#togglerFlagged">
-                        <Table className="table" style={{ marginBottom: '5px' }}>
+                    {hasFlagged && (
+                      <Collapse
+                        toggler="#togglerFlagged"
+                        isOpen={this.state.collapse}
+                      >
+                        <Table
+                          className="table"
+                          style={{ marginBottom: '5px' }}
+                        >
                           <tbody>
-                          {flaggedProps.map(balance => (
-                            <Token {...balance} key={balance.id}/>
-                          ))}
+                            {flaggedProps.map(balance => (
+                              <Token {...balance} key={balance.id} />
+                            ))}
                           </tbody>
                         </Table>
-                      </UncontrolledCollapse>
-                    }
+                      </Collapse>
+                    )}
                   </StyledTD>
                 </tr>
               </tbody>
