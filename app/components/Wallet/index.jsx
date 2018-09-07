@@ -95,7 +95,7 @@ class Wallet extends React.PureComponent {
                                   id="togglerFlagged"
                                   style={{ marginBottom: '1rem' }}
                                 >
-                                  Flagged tokens
+                                  Show flagged tokens
                                 </a>
                                 <StyledInformationIcon color="gray" className="ml-1" id="flaggedToolip"/>
                                 <UncontrolledTooltip placement="right-end" target="flaggedToolip">
