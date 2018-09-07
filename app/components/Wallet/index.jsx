@@ -36,7 +36,7 @@ const DetailRow = styled(Row)`
 `;
 
 const StyledTD = styled.td.attrs({
-  className: '',
+  className: 'align-middle',
 })`
   border-top: none;
 `;
@@ -141,14 +141,14 @@ class Wallet extends React.PureComponent {
                   <StyledTD>
                     <Table className="table" style={{ marginBottom: '5px' }}>
                       <thead>
-                        <tr className="d-flex align-items-stretch">
-                          <StyledTH className="col-1" />
-                          <StyledTH className="col-1">ID</StyledTH>
-                          <StyledTH className="col-3">Name</StyledTH>
-                          <StyledTH className="col-3 text-right">
+                        <tr>
+                          <StyledTH />
+                          <StyledTH>ID</StyledTH>
+                          <StyledTH>Name</StyledTH>
+                          <StyledTH className="text-right">
                             Reserved Balance
                           </StyledTH>
-                          <StyledTH className="col-4 text-right">
+                          <StyledTH className="text-right">
                             Available Balance
                           </StyledTH>
                         </tr>
