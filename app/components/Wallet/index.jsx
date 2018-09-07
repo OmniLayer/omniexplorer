@@ -45,6 +45,8 @@ class Wallet extends React.PureComponent {
   }
 
   render() {
+    if(!this.props.address) return null;
+    
     const flaggedProps = (this.props.address.balance || []).filter(
       balance => !isEmpty(balance.propertyinfo.flags, true),
     );
@@ -53,7 +55,7 @@ class Wallet extends React.PureComponent {
       isEmpty(balance.propertyinfo.flags, true),
     );
 
-    const dontHasFlagged = !flaggedProps.length;
+    const hasFlagged = !!flaggedProps.length;
 
     return (
       <Container fluid>
@@ -85,18 +87,22 @@ class Wallet extends React.PureComponent {
                           <StyledTH>
                             Balances
                             <br />
-                            <a
-                              href="#togglerFlagged"
-                              className="text-info small"
-                              id="togglerFlagged"
-                              style={{ marginBottom: '1rem' }}
-                            >
-                              Flagged tokens
-                            </a>
-                            <StyledInformationIcon color="gray" className="ml-1" id="flaggedToolip" />
-                            <UncontrolledTooltip placement="right-end" target="flaggedToolip">
-                              <FormattedMessage {...walletMessages.flagged} />
-                            </UncontrolledTooltip>
+                            { hasFlagged &&
+                              <div>
+                                <a
+                                  href="#togglerFlagged"
+                                  className="text-info small"
+                                  id="togglerFlagged"
+                                  style={{ marginBottom: '1rem' }}
+                                >
+                                  Flagged tokens
+                                </a>
+                                <StyledInformationIcon color="gray" className="ml-1" id="flaggedToolip"/>
+                                <UncontrolledTooltip placement="right-end" target="flaggedToolip">
+                                  <FormattedMessage {...walletMessages.flagged} />
+                                </UncontrolledTooltip>
+                              </div>
+                            }
                           </StyledTH>
                         </tr>
                       </thead>
@@ -123,20 +129,17 @@ class Wallet extends React.PureComponent {
                         ))}
                       </tbody>
                     </Table>
-                    <UncontrolledCollapse toggler="#togglerFlagged">
-                      { dontHasFlagged &&
-                        <h5 className="text-center">
-                          <FormattedMessage {...walletMessages.hasNotFlagged} />
-                        </h5>
-                      }
-                      <Table className="table" style={{ marginBottom: '5px' }}>
-                        <tbody>
+                    { hasFlagged &&
+                      <UncontrolledCollapse toggler="#togglerFlagged">
+                        <Table className="table" style={{ marginBottom: '5px' }}>
+                          <tbody>
                           {flaggedProps.map(balance => (
-                            <Token {...balance} key={balance.id} />
+                            <Token {...balance} key={balance.id}/>
                           ))}
-                        </tbody>
-                      </Table>
-                    </UncontrolledCollapse>
+                          </tbody>
+                        </Table>
+                      </UncontrolledCollapse>
+                    }
                   </StyledTD>
                 </tr>
               </tbody>
