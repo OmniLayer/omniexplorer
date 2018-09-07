@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -18,7 +17,7 @@ import getLogo from 'utils/getLogo';
 import { startFetch } from './actions';
 
 const StyledTD = styled.td.attrs({
-  className: 'align-middle',
+  className: '',
 })``;
 
 class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -61,14 +60,14 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     const logo = getLogo(this.props.id, this.props.propertyinfo);
     
     return (
-      <tr>
-        <StyledTD style={{ width: '56px' }}>
+      <tr className="d-flex align-items-stretch">
+        <StyledTD className="col-1" style={{ width: '56px' }}>
           <img
             style={{ width: '4rem', height: '4rem' }}
             src={ logo }
           />
         </StyledTD>
-        <StyledTD style={{ paddingTop: '13px' }}>
+        <StyledTD className="col-1" style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -78,7 +77,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             { this.props.id }
           </Link>
         </StyledTD>
-        <StyledTD style={{ paddingTop: '13px' }}>
+        <StyledTD className="col-3" style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -88,10 +87,10 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             { this.getTokenName() }
           </Link>
         </StyledTD>
-        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
+        <StyledTD className="col-3" style={{ textAlign: 'right', paddingTop: '13px' }}>
           <SanitizedFormattedNumber value={reserved} />
         </StyledTD>
-        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
+        <StyledTD className="col-4" style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
             <SanitizedFormattedNumber value={value} />{vlabel}
           </strong>

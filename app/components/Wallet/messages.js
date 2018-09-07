@@ -6,8 +6,8 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.components.Wallet.header',
-    defaultMessage: 'This is the Wallet component !',
+  flagged: {
+    id: 'app.components.Wallet.flagged',
+    defaultMessage: 'Show/hide known duplicate/spam/scam tokens in this address',
   },
 });

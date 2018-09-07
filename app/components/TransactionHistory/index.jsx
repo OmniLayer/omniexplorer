@@ -25,6 +25,8 @@ import {
 
 // https://github.com/uber/react-vis/blob/master/docs/flexible-plots.md#/examples/charts/responsive-vis
 // https://uber.github.io/react-vis/documentation/api-reference/crosshair
+// https://github.com/uber/react-vis/issues/834 //Axis Values are Slightly Off #834
+// https://github.com/uber/react-vis/issues/288
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
 class TransactionHistory extends React.PureComponent {
@@ -79,7 +81,7 @@ class TransactionHistory extends React.PureComponent {
             stroke: 'violet',
             strokeWidth: 3,
           }}
-          onNearestXY={(value, { index }) =>
+          onNearestX={(value, { index }) =>
             this.setState({ crosshairValues: [value] })
           }
         />
@@ -89,6 +91,7 @@ class TransactionHistory extends React.PureComponent {
           title="Period of time(days)"
           tickFormat={tickFormat}
           tickLabelAngle={0}
+          tickValues={this.data.slice(1, -1).map(record => record.x)}
         />
         <YAxis
           attr="y"
