@@ -12,6 +12,6 @@ export default defineMessages({
   },
   hasNotFlagged: {
     id: 'app.components.Wallet.hasNotFlagged',
-    defaultMessage: 'There aren\'t flagged properties in this wallet',
+    defaultMessage: 'There aren\'t flagged properties in this address',
   }
 });
