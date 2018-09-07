@@ -10,10 +10,18 @@ import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
-import { Col, Container, Row, Table, UncontrolledCollapse } from 'reactstrap';
+import { Col, Container, Row, Table, UncontrolledCollapse, UncontrolledTooltip } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import isEmpty from 'lodash/isEmpty';
 import Token from 'components/Token';
+import { FormattedMessage } from 'react-intl';
+import walletMessages from './messages';
+import InformationIcon from 'react-icons/lib/io/informatcircled';
+
+const StyledInformationIcon = styled(InformationIcon)`
+  color: cadetblue !important;
+	font-size: 1.5rem;
+`;
 
 const DetailRow = styled(Row)`
   margin-top: 2rem;
@@ -21,7 +29,7 @@ const DetailRow = styled(Row)`
 `;
 
 const StyledTD = styled.td.attrs({
-  className: 'align-middle',
+  className: '',
 })`
   border-top: none;
 `;
@@ -45,7 +53,7 @@ class Wallet extends React.PureComponent {
       isEmpty(balance.propertyinfo.flags, true),
     );
 
-    const hasFlagged = !!flaggedProps.length;
+    const dontHasFlagged = !flaggedProps.length;
 
     return (
       <Container fluid>
@@ -82,10 +90,13 @@ class Wallet extends React.PureComponent {
                               className="text-info small"
                               id="togglerFlagged"
                               style={{ marginBottom: '1rem' }}
-                              disabled={hasFlagged}
                             >
-                              Show flagged...
+                              Flagged tokens
                             </a>
+                            <StyledInformationIcon color="gray" className="ml-1" id="flaggedToolip" />
+                            <UncontrolledTooltip placement="right-end" target="flaggedToolip">
+                              <FormattedMessage {...walletMessages.flagged} />
+                            </UncontrolledTooltip>
                           </StyledTH>
                         </tr>
                       </thead>
@@ -94,14 +105,14 @@ class Wallet extends React.PureComponent {
                   <StyledTD>
                     <Table className="table" style={{ marginBottom: '5px' }}>
                       <thead>
-                        <tr>
-                          <StyledTH />
-                          <StyledTH>ID</StyledTH>
-                          <StyledTH>Name</StyledTH>
-                          <StyledTH className="text-right">
+                        <tr className="d-flex align-items-stretch">
+                          <StyledTH className="col-1" />
+                          <StyledTH className="col-1">ID</StyledTH>
+                          <StyledTH className="col-3">Name</StyledTH>
+                          <StyledTH className="col-3 text-right">
                             Reserved Balance
                           </StyledTH>
-                          <StyledTH className="text-right">
+                          <StyledTH className="col-4 text-right">
                             Available Balance
                           </StyledTH>
                         </tr>
@@ -113,15 +124,12 @@ class Wallet extends React.PureComponent {
                       </tbody>
                     </Table>
                     <UncontrolledCollapse toggler="#togglerFlagged">
+                      { dontHasFlagged &&
+                        <h5 className="text-center">
+                          <FormattedMessage {...walletMessages.hasNotFlagged} />
+                        </h5>
+                      }
                       <Table className="table" style={{ marginBottom: '5px' }}>
-                        <thead>
-                          <tr>
-                            <StyledTH />
-                            <StyledTH colSpan="4" className="text-center">
-                              Flagged properties
-                            </StyledTH>
-                          </tr>
-                        </thead>
                         <tbody>
                           {flaggedProps.map(balance => (
                             <Token {...balance} key={balance.id} />
