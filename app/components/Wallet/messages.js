@@ -8,10 +8,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   flagged: {
     id: 'app.components.Wallet.flagged',
-    defaultMessage: 'Show/hide known duplicate/spam/scam tokens in this wallet',
+    defaultMessage: 'Show/hide known duplicate/spam/scam tokens in this address',
   },
-  hasNotFlagged: {
-    id: 'app.components.Wallet.hasNotFlagged',
-    defaultMessage: 'There aren\'t flagged properties in this address',
-  }
 });
