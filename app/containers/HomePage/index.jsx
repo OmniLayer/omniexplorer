@@ -44,7 +44,7 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
           <Col sm="12" lg="5" className="text-center-down-md">
             <ServiceBlock />
           </Col>
-          <Col md="7" className="d-none-down-md">
+          <Col sm="12" lg="7" className="">
             <TransactionHistory />
           </Col>
         </Row>
