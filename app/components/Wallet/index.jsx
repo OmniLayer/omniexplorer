@@ -17,6 +17,7 @@ import {
   Table,
   Collapse,
   UncontrolledTooltip,
+  Button,
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import isEmpty from 'lodash/isEmpty';
@@ -107,39 +108,13 @@ class Wallet extends React.PureComponent {
                           <StyledTH>
                             Balances
                             <br />
-                            {hasFlagged && (
-                              <div>
-                                <a
-                                  href="#togglerFlagged"
-                                  className="text-info small"
-                                  id="togglerFlagged"
-                                  style={{ marginBottom: '1rem' }}
-                                  onClick={this.toggle}
-                                >
-                                  {this.state.flaggedMessage}
-                                </a>
-                                <StyledInformationIcon
-                                  color="gray"
-                                  className="ml-1"
-                                  id="flaggedToolip"
-                                />
-                                <UncontrolledTooltip
-                                  placement="right-end"
-                                  target="flaggedToolip"
-                                >
-                                  <FormattedMessage
-                                    {...walletMessages.flagged}
-                                  />
-                                </UncontrolledTooltip>
-                              </div>
-                            )}
                           </StyledTH>
                         </tr>
                       </thead>
                     </Table>
                   </StyledTD>
                   <StyledTD>
-                    <Table className="table" style={{ marginBottom: '5px' }}>
+                    <Table className="table" style={{ marginBottom: '5px' }} hover>
                       <thead>
                         <tr>
                           <StyledTH />
@@ -159,13 +134,41 @@ class Wallet extends React.PureComponent {
                         ))}
                       </tbody>
                     </Table>
+                    <div className="text-center">
+                      {hasFlagged && (
+                        <div>
+                          <Button
+                            color="link"
+                            className="text-info small"
+                            id="togglerFlagged"
+                            style={{ marginBottom: '1rem', textDecoration: "none" }}
+                            onClick={this.toggle}
+                          >
+                            {this.state.flaggedMessage}
+                            <StyledInformationIcon
+                              color="gray"
+                              className="ml-1"
+                              id="flaggedToolip"
+                            />
+                          </Button>
+                          <UncontrolledTooltip
+                            placement="right-end"
+                            target="flaggedToolip"
+                          >
+                            <FormattedMessage
+                              {...walletMessages.flagged}
+                            />
+                          </UncontrolledTooltip>
+                        </div>
+                      )}
+                    </div>
                     {hasFlagged && (
                       <Collapse
                         toggler="#togglerFlagged"
                         isOpen={this.state.collapse}
                       >
                         <Table
-                          className="table"
+                          className="table bg-light"
                           style={{ marginBottom: '5px' }}
                         >
                           <tbody>
