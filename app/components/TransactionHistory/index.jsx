@@ -12,6 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
+import moment from 'moment/src/moment';
 import {
   Crosshair,
   HorizontalGridLines,
@@ -53,14 +54,14 @@ class TransactionHistory extends React.PureComponent {
     this.data = sortBy(
       txdaily.map(day => ({
         y: parseFloat(day.count),
-        x: new Date(day.date).getTime(),
+        x: moment.utc(day.date).valueOf(),
       })),
       'date',
     );
 
     const tickFormat = d => {
-      const dt = new Date(d).toLocaleDateString();
-      return dt.slice(0, dt.lastIndexOf('/'));
+      const dt = moment.utc(d);
+      return dt.format('D/M');
     };
 
     const { crosshairValues } = this.state;
@@ -104,7 +105,7 @@ class TransactionHistory extends React.PureComponent {
             values={crosshairValues}
             titleFormat={d => ({
               title: 'Date',
-              value: new Date(d[0].x).toLocaleDateString(),
+              value: moment.utc(d[0].x).format('D/M/Y'),
             })}
             itemsFormat={d => [
               {
