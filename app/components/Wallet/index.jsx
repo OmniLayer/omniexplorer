@@ -68,12 +68,14 @@ class Wallet extends React.PureComponent {
   render() {
     if (!this.props.address) return null;
 
+    const isFlagged = (propertyinfo) => (propertyinfo.flags && (propertyinfo.flags.duplicate || propertyinfo.flags.scam || propertyinfo.flags.replaced));
+    
     const flaggedProps = (this.props.address.balance || []).filter(
-      balance => !isEmpty(balance.propertyinfo.flags, true),
+      balance => isFlagged(balance.propertyinfo),
     );
 
     const nonFlaggedProps = (this.props.address.balance || []).filter(balance =>
-      isEmpty(balance.propertyinfo.flags, true),
+      !isFlagged(balance.propertyinfo),
     );
 
     const hasFlagged = !!flaggedProps.length;
