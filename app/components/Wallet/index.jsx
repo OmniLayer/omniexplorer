@@ -20,7 +20,7 @@ import {
   Button,
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
-import isEmpty from 'lodash/isEmpty';
+import sortBy from 'lodash/sortBy';
 import Token from 'components/Token';
 import { FormattedMessage } from 'react-intl';
 import walletMessages from './messages';
@@ -70,13 +70,15 @@ class Wallet extends React.PureComponent {
 
     const isFlagged = (propertyinfo) => (propertyinfo.flags && (propertyinfo.flags.duplicate || propertyinfo.flags.scam || propertyinfo.flags.replaced));
     
-    const flaggedProps = (this.props.address.balance || []).filter(
-      balance => isFlagged(balance.propertyinfo),
-    );
+    const flaggedProps = sortBy(
+      (this.props.address.balance || [])
+        .filter(balance => isFlagged(balance.propertyinfo))
+      , 'id');
 
-    const nonFlaggedProps = (this.props.address.balance || []).filter(balance =>
-      !isFlagged(balance.propertyinfo),
-    );
+    const nonFlaggedProps = sortBy(
+      (this.props.address.balance || [])
+        .filter(balance => !isFlagged(balance.propertyinfo))
+      , 'id');
 
     const hasFlagged = !!flaggedProps.length;
 
