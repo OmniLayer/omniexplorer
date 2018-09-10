@@ -61,7 +61,7 @@ class TransactionHistory extends React.PureComponent {
 
     const tickFormat = d => {
       const dt = moment.utc(d);
-      return dt.format('D/M');
+      return dt.format('M/D');
     };
 
     const { crosshairValues } = this.state;
@@ -89,7 +89,7 @@ class TransactionHistory extends React.PureComponent {
         <XAxis
           attr="x"
           attrAxis="y"
-          title="Period of time(days)"
+          title="By Days"
           tickFormat={tickFormat}
           tickLabelAngle={0}
           tickValues={this.data.slice(1, -1).map(record => record.x)}
@@ -105,7 +105,7 @@ class TransactionHistory extends React.PureComponent {
             values={crosshairValues}
             titleFormat={d => ({
               title: 'Date',
-              value: moment.utc(d[0].x).format('D/M/Y'),
+              value: moment.utc(d[0].x).format('M/D/Y'),
             })}
             itemsFormat={d => [
               {
