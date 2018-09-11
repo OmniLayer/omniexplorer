@@ -5,10 +5,10 @@ import { shallowWithState } from 'enzyme-redux';
 import Feedback from '../index';
 
 describe('<Feedback />', () => {
-  const ReactComponent = () => (<Feedback />);
+  const ReactComponent = () => <Feedback />;
   it('should render <Feedback />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
@@ -16,4 +16,3 @@ describe('<Feedback />', () => {
     expect(component.props().state).toBe(expectedState);
   });
 });
-

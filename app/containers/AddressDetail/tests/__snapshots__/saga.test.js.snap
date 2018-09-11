@@ -7,7 +7,7 @@ Object {
     "args": Array [
       "https://api.omniexplorer.info/v1/address/addr",
       Object {
-        "body": "addr=undefined",
+        "body": "addr=17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx",
         "headers": Object {
           "Content-Type": "application/x-www-form-urlencoded",
         },
@@ -40,7 +40,7 @@ Object {
     "args": Array [
       "https://api.omniexplorer.info/v1/address/addr",
       Object {
-        "body": "addr=undefined",
+        "body": "addr=17ScKNXo4cL8DyfWfcCWu1uJySQuJm7iKx",
         "headers": Object {
           "Content-Type": "application/x-www-form-urlencoded",
         },

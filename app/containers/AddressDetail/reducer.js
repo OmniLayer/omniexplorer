@@ -35,9 +35,7 @@ function addressDetailReducer(state = initialState, action) {
         .set('error', false)
         .set('loading', false);
     case LOAD_ADDRESS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return state.set('error', action.error).set('loading', false);
     default:
       return state;
   }

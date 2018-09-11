@@ -1,7 +1,10 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_TRANSACTION } from 'containers/TransactionDetail/constants';
 import { API_URL_BASE } from 'containers/App/constants';
-import { transactionLoaded, transactionLoadingError } from 'containers/TransactionDetail/actions';
+import {
+  transactionLoaded,
+  transactionLoadingError,
+} from 'containers/TransactionDetail/actions';
 
 import request from 'utils/request';
 
@@ -21,7 +24,5 @@ export function* getTransaction(action = {}) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([
-    takeLatest(LOAD_TRANSACTION, getTransaction),
-  ]);
+  yield all([takeLatest(LOAD_TRANSACTION, getTransaction)]);
 }

@@ -5,10 +5,10 @@ import { shallowWithState } from 'enzyme-redux';
 import HomePage from '../index';
 
 describe('<HomePage />', () => {
-  const ReactComponent = () => (<HomePage />);
+  const ReactComponent = () => <HomePage />;
   it('should render <HomePage />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);

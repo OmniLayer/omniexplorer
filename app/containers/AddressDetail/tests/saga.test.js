@@ -8,7 +8,10 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { addressLoaded, addressLoadingError } from 'containers/AddressDetail/actions';
+import {
+  addressLoaded,
+  addressLoadingError,
+} from 'containers/AddressDetail/actions';
 
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
 import root, { getAddress } from '../saga';
@@ -22,7 +25,7 @@ describe('getAddress Saga', () => {
   // We have to test twice, once for a successful load and once for an unsuccessful one
   // so we do all the stuff that happens beforehand automatically in the beforeEach
   beforeEach(() => {
-    getAddressGenerator = getAddress();
+    getAddressGenerator = getAddress({ addr });
 
     const selectDescriptor = getAddressGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();

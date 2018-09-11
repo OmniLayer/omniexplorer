@@ -7,8 +7,11 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE, ECOSYSTEM_PROD, ECOSYSTEM_TEST } from 'containers/App/constants';
-import { crowdsalesLoaded, crowdsalesLoadingError } from 'containers/Crowdsales/actions';
+import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
+import {
+  crowdsalesLoaded,
+  crowdsalesLoadingError,
+} from 'containers/Crowdsales/actions';
 
 import { LOAD_CROWDSALES } from '../constants';
 import root, { getCrowdsales } from '../saga';
@@ -22,7 +25,9 @@ describe('getCrowdsales Saga', () => {
   // We have to test twice, once for a successful load and once for an unsuccessful one
   // so we do all the stuff that happens beforehand automatically in the beforeEach
   beforeEach(() => {
-    getCrowdsalesGenerator = getCrowdsales();
+    const ecosystem = ECOSYSTEM_PROD;
+    // const saga = testSaga(getCrowdsales, { ecosystem });
+    getCrowdsalesGenerator = getCrowdsales({ ecosystem });
 
     const selectDescriptor = getCrowdsalesGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();

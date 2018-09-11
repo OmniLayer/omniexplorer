@@ -33,11 +33,14 @@ function nodeWithIntlProp(node, intl, store) {
 }
 
 function getIntlShape(messages = defaultMessages) {
-// Create the IntlProvider to retrieve context for wrapping around.
-  const intlProvider = new IntlProvider({
-    locale: 'en',
-    messages,
-  }, {});
+  // Create the IntlProvider to retrieve context for wrapping around.
+  const intlProvider = new IntlProvider(
+    {
+      locale: 'en',
+      messages,
+    },
+    {},
+  );
   const { intl } = intlProvider.getChildContext();
   return intl;
 }

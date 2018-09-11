@@ -18,7 +18,7 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 })``;
 
 function Asset(props) {
-  
+  const logo = getLogo(props[0], { flags: props[3] });
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
@@ -27,7 +27,7 @@ function Asset(props) {
             width: '4rem',
             height: '4rem',
           }}
-          src={getLogo(props[0])}
+          src={logo}
         />
       </StyledTD>
       <StyledTDTextLeft>

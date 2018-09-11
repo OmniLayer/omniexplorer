@@ -5,7 +5,11 @@
  */
 
 import { fromJS } from 'immutable';
-import { LOAD_SEARCH, LOAD_SEARCH_ERROR, LOAD_SEARCH_SUCCESS } from './constants';
+import {
+  LOAD_SEARCH,
+  LOAD_SEARCH_ERROR,
+  LOAD_SEARCH_SUCCESS,
+} from './constants';
 
 const initialState = fromJS({
   loading: true,
@@ -23,9 +27,7 @@ function searchReducer(state = initialState, action) {
 
   switch (type) {
     case LOAD_SEARCH:
-      return state
-        .set('loading', true)
-        .set('error', false);
+      return state.set('loading', true).set('error', false);
     case LOAD_SEARCH_SUCCESS:
       return state
         .set('error', false)
@@ -35,9 +37,7 @@ function searchReducer(state = initialState, action) {
         .set('asset', payload.data.asset)
         .set('tx', payload.data.tx);
     case LOAD_SEARCH_ERROR:
-      return state
-        .set('error', error)
-        .set('loading', false);
+      return state.set('error', error).set('loading', false);
     default:
       return state;
   }

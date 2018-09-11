@@ -60,46 +60,46 @@ const WrapperLink = styled.div.attrs({
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-
+    
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-
+    
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-
+  
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-
+  
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-
+  
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-
+  
   getHighlightIfOwner(address) {
     return (this.isOwner(address) ? 'text-success' : '');
   }
-
+  
   isOwner(address) {
     return (this.props.addr ? this.props.addr === address : false);
   }
-
+  
   render() {
     const isValid = this.props.valid;
-
+    
     const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : (this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
-
+    
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
@@ -115,14 +115,9 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           'UNCONFIRMED' :
           'INVALID'
     );
-
-    let tokenLogo;
-    if (this.props.type_int === 4) {
-      tokenLogo = require('images/sendall.png');
-    } else {
-      tokenLogo = getLogo(this.props.propertyid);
-    }
-
+    
+    const tokenLogo = getLogo(this.props.propertyid, this.props);
+    
     let arrowcname;
     let arrowcnameright;
     let addresscname;
@@ -137,13 +132,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-
+    
     const transactionAmount = this.props.amount || '';
-
+    
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-
+    
     return (
       <Row className="transation-result mx-auto text-center-down-md">
         <Col sm="9">
@@ -153,7 +148,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             </Col>
             <Col sm>
               <span className="title d-block-down-md">
-                { this.props.type }
+                {this.props.type}
               </span>
               <div className="location d-block-down-md">
                 <Link
@@ -164,16 +159,16 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   }}
                   onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
-                  { this.props.txid }
+                  {this.props.txid}
                 </Link>
                 <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
-                  <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid} />
+                  <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid}/>
                 </CopyToClipboard>
                 <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
                   Transaction Id Copied
                 </Tooltip>
                 <div className="d-block-down-md">
-                  <FormattedUnixDateTime datetime={this.props.blocktime} />
+                  <FormattedUnixDateTime datetime={this.props.blocktime}/>
                 </div>
               </div>
             </Col>
@@ -181,41 +176,43 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col sm>
               <div className="desc">
-                <AddressWrapper >
+                <AddressWrapper>
                   <WrapperLink>
                     <StyledLink
                       className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
                       to={{
                         pathname: `/address/${this.props.sendingaddress}`,
+                        state: { transaction: this.props },
                       }}
                       onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
                     >
-                      { this.props.sendingaddress }
+                      {this.props.sendingaddress}
                     </StyledLink>
                   </WrapperLink>
                   <CopyToClipboard text={this.props.sendingaddress} onCopy={this.toggleSenderTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid} />
+                    <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid}/>
                   </CopyToClipboard>
                   <Tooltip hideArrow isOpen={this.state.tooltipSenderOpen} target={sendercopyid}>
                     Sender Address Copied
                   </Tooltip>
                 </AddressWrapper>
-                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`} />
-                <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`} />
+                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`}/>
+                <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`}/>
                 <AddressWrapper className={showreferencecname}>
                   <WrapperLink>
                     <StyledLink
                       className={addresscname}
                       to={{
                         pathname: `/address/${this.props.referenceaddress}`,
+                        state: { transaction: this.props },
                       }}
                       onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
                     >
-                      { this.props.referenceaddress }
+                      {this.props.referenceaddress}
                     </StyledLink>
                   </WrapperLink>
                   <CopyToClipboard text={this.props.referenceaddress} onCopy={this.toggleRefererTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid} />
+                    <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid}/>
                   </CopyToClipboard>
                   <Tooltip hideArrow isOpen={this.state.tooltipRefererOpen} target={referercopyid}>
                     Reference Address Copied
@@ -229,13 +226,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           <Row>
             <Col sm>
               <h4 className="title">
-                <SanitizedFormattedNumber value={transactionAmount} />
+                <SanitizedFormattedNumber value={transactionAmount}/>
               </h4>
             </Col>
           </Row>
           <Row className="transaction-asset">
             <Col sm>
-              <small>{ this.props.propertyname } (#{ this.props.propertyid })</small>
+              <small>{this.props.propertyname} (#{this.props.propertyid})</small>
             </Col>
           </Row>
           <Row className="h-56-md-up d-flex align-items-md-center align-items-sm-end">
@@ -247,7 +244,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 }}
                 onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
               >
-                { status }
+                {status}
               </Link>
             </Col>
           </Row>
@@ -281,4 +278,4 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(withConnect, )(Transaction);
+export default compose(withConnect)(Transaction);

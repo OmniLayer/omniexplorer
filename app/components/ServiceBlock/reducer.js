@@ -1,5 +1,9 @@
 import { fromJS } from 'immutable';
-import { LOAD_STATUS, LOAD_STATUS_ERROR, LOAD_STATUS_SUCCESS } from './constants';
+import {
+  LOAD_STATUS,
+  LOAD_STATUS_ERROR,
+  LOAD_STATUS_SUCCESS,
+} from './constants';
 
 const initialState = fromJS({
   status: {},
@@ -12,9 +16,7 @@ const statusReducer = (state = initialState, action = {}) => {
   const { error, payload, type } = action;
   switch (type) {
     case LOAD_STATUS_ERROR: {
-      return state
-        .set('isFetching', false)
-        .set('error', error);
+      return state.set('isFetching', false).set('error', error);
     }
     case LOAD_STATUS: {
       return state

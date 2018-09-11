@@ -70,4 +70,3 @@ injectGlobal`
     cursor: not-allowed;
   }
 `;
-

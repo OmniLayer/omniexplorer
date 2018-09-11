@@ -67,24 +67,29 @@ const openSansObserver = new FontFaceObserver('Open Sans', {});
 // const isProd = process.env.NODE_ENV === 'production';
 
 // When Open Sans is loaded, add a font-family using Open Sans to the body
-openSansObserver.load().then(() => {
-  document.body.classList.add('fontLoaded');
-}, () => {
-  document.body.classList.remove('fontLoaded');
-});
+openSansObserver.load().then(
+  () => {
+    document.body.classList.add('fontLoaded');
+  },
+  () => {
+    document.body.classList.remove('fontLoaded');
+  },
+);
 
 // Create redux store with history
 const initialState = {};
 const history = createHistory();
 // Sync dispatched route actions to the history
 const reduxRouterMiddleware = syncHistory(history);
-const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(configureStore);
+const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(
+  configureStore,
+);
 
 // const store = configureStore(initialState, history);
 const store = createStoreWithMiddleware(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
-const render = (messages) => {
+const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
@@ -93,7 +98,7 @@ const render = (messages) => {
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
-    MOUNT_NODE
+    MOUNT_NODE,
   );
 };
 
@@ -109,14 +114,12 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise(resolve => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-    ]))
+  })
+    .then(() => Promise.all([import('intl/locale-data/jsonp/en.js')]))
     .then(() => render(translationMessages))
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 } else {
