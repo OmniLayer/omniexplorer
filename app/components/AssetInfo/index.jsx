@@ -120,6 +120,7 @@ function AssetInfo(asset) {
           <Link
             to={{
               pathname: `/address/${asset.issuer}`,
+              state: { state: asset },
             }}
             onClick={() => asset.changeRoute(`/address/${asset.issuer}`)}
           >

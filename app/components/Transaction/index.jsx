@@ -155,7 +155,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   className="text-truncate"
                   to={{
                     pathname: `/tx/${this.props.txid}`,
-                    state: { transaction: this.props },
+                    state: { state: this.props },
                   }}
                   onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
@@ -182,7 +182,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                       className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
                       to={{
                         pathname: `/address/${this.props.sendingaddress}`,
-                        state: { transaction: this.props },
+                        state: { state: this.props },
                       }}
                       onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
                     >
@@ -204,7 +204,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                       className={addresscname}
                       to={{
                         pathname: `/address/${this.props.referenceaddress}`,
-                        state: { transaction: this.props },
+                        state: { state: this.props },
                       }}
                       onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
                     >
@@ -241,6 +241,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 className={statusColor}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
+                  state: { state: this.props },
                 }}
                 onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
               >

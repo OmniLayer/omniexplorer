@@ -90,6 +90,7 @@ export class AssetDetail extends React.PureComponent {
                         <Link
                           to={{
                             pathname: `/tx/${asset.creationtxid}`,
+                            state: { state: this.props },
                           }}
                           onClick={() =>
                             this.props.changeRoute(`/tx/${asset.creationtxid}`)
