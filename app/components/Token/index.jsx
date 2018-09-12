@@ -71,7 +71,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
-              state: { transaction: this.props },
+              state: { state: this.props },
             }}
             onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
@@ -82,7 +82,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
-              state: { transaction: this.props },
+              state: { state: this.props },
             }}
             onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >

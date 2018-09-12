@@ -110,6 +110,7 @@ function TransactionInfo(props) {
         <Link
           to={{
             pathname: `/asset/${props.propertyid}`,
+            state: { state: props },
           }}
           onClick={() => props.changeRoute(`/asset/${props.propertyid}`)}
         >
@@ -177,6 +178,7 @@ function TransactionInfo(props) {
                 <Link
                   to={{
                     pathname: `/address/${props.sendingaddress}`,
+                    state: { state: props },
                   }}
                   onClick={() => props.changeRoute(`/address/${props.sendingaddress}`)}
                 >
@@ -190,6 +192,7 @@ function TransactionInfo(props) {
                 <Link
                   to={{
                     pathname: `/address/${props.referenceaddress}`,
+                    state: { state: props },
                   }}
                   onClick={() => props.changeRoute(`/address/${props.referenceaddress}`)}
                 >

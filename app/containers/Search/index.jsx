@@ -29,7 +29,7 @@ import searchSaga from './saga';
 import { loadSearch } from './actions';
 
 const StyledContainer = styled(Container)`
-      
+      background-color: white;
       margin: 3rem;
       padding: 1rem;
     `;
@@ -68,6 +68,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             <Link
               to={{
                 pathname: `/address/${this.query}`,
+                state: { state: this.props },
               }}
               onClick={() => props.changeRoute(`/address/${this.query}`)}
             >

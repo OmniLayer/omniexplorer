@@ -37,6 +37,7 @@ function Asset(props) {
         <Link
           to={{
             pathname: `/asset/${props[0]}`,
+            state: { state: props },
           }}
           onClick={() => props.changeRoute(`/asset/${props[0]}`)}
         >
@@ -47,6 +48,7 @@ function Asset(props) {
         <Link
           to={{
             pathname: `/address/${props[2]}`,
+            state: { state: props },
           }}
           onClick={() => props.changeRoute(`/address/${props[2]}`)}
         >
