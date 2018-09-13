@@ -102,7 +102,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
 
     const crowdsale = this.props.properties(this.crowdsaleid);
     if (!crowdsale) return loading;
-
+    
     const dessiredToken = this.props.properties(crowdsale.propertyiddesired.toString());
     if (!dessiredToken) return loading;
 
@@ -131,8 +131,8 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     // const earlybonus = ((crowdsale.deadline - (new Date()).getTime()/1000)) / 604800) * crowdsale.earlybonus;
     const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(),'seconds') / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
-    const logo = getLogo(crowdsale.propertyid);
-    const warningMessage = getWarningMessage(crowdsale.flags);
+    const logo = getLogo(crowdsale.propertyid, crowdsale);
+    const warningMessage = getWarningMessage(crowdsale.flags, crowdsale.propertyname, this.crowdsaleid);
 
     return (
       <Container fluid className="mt-3 p-1">
@@ -180,6 +180,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                               <Link
                                 to={{
                                   pathname: `/tx/${tx.txid}`,
+                                  state: { state: this.props },
                                 }}
                                 onClick={() => this.props.changeRoute(`/tx/${tx.txid}`)}
                               >
@@ -200,6 +201,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                             <Link
                               to={{
                                 pathname: `/address/${tx.sendingaddress}`,
+                                state: { state: this.props },
                               }}
                               onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
                             >
@@ -277,6 +279,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   <Link
                     to={{
                       pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
+                      state: { state: this.props },
                     }}
                     target="_blank"
                   >
@@ -285,6 +288,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   <Link
                     to={{
                       pathname: `https://plus.google.com/share?url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
+                      state: { state: this.props },
                     }}
                     target="_blank"
                   >
@@ -293,6 +297,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   <Link
                     to={{
                       pathname: `https://twitter.com/home?status=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
+                      state: { state: this.props },
                     }}
                     target="_blank"
                   >
@@ -301,6 +306,7 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   <Link
                     to={{
                       pathname: `https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}&amp;title=Checkout%20this%20Crowdsale!&amp;summary=&amp;source=`,
+                      state: { state: this.props },
                     }}
                     target="_blank"
                   >

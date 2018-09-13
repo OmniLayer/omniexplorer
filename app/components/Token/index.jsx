@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -57,20 +56,22 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     } else {
       value = available;
     }
-
-
+    
+    const logo = getLogo(this.props.id, this.props.propertyinfo);
+    
     return (
       <tr>
         <StyledTD style={{ width: '56px' }}>
           <img
             style={{ width: '4rem', height: '4rem' }}
-            src={getLogo(this.props.id)}
+            src={ logo }
           />
         </StyledTD>
         <StyledTD style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
+              state: { state: this.props },
             }}
             onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
@@ -81,6 +82,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
+              state: { state: this.props },
             }}
             onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
