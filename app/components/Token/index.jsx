@@ -90,11 +90,11 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
           </Link>
         </StyledTD>
         <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
-          <SanitizedFormattedNumber value={reserved} />
+          <SanitizedFormattedNumber value={reserved} forceDecimals={true} />
         </StyledTD>
         <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            <SanitizedFormattedNumber value={value} />{vlabel}
+            <SanitizedFormattedNumber value={value} forceDecimals={true} />{vlabel}
           </strong>
         </StyledTD>
       </tr>
