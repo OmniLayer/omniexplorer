@@ -63,8 +63,16 @@ class App extends React.Component {
   render() {
     return (
       <AppWrapper>
-        <Helmet titleTemplate="%s - Omni Explorer" defaultTitle="Omni Explorer">
-          <meta name="description" content="Omni Explorer" />
+        <Helmet
+          titleTemplate="%s - Omni Explorer"
+          defaultTitle="Omni Explorer - The block explorer for Omni, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+        >
+          <meta
+            name="description"
+            content="The block explorer for Omni, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+          />
+          <link rel="canonical" href="https://omniexplorer.info" />
+          <meta name="referrer" content="always" />
         </Helmet>
         <Header />
         <Switch>
