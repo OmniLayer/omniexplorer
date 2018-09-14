@@ -74,13 +74,7 @@ function TransactionInfo(props) {
   };
   const invalidReason = (props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`);
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
-  
-  let logo;
-  if (props.type_int === 4) {
-    logo = require('images/sendall.png');
-  } else {
-    logo = getLogo(props.propertyid);
-  }
+  const logo = getLogo(props.propertyid, props);
   
   let warningMessage = null;
   let dtheader;
@@ -116,6 +110,7 @@ function TransactionInfo(props) {
         <Link
           to={{
             pathname: `/asset/${props.propertyid}`,
+            state: { state: props },
           }}
           onClick={() => props.changeRoute(`/asset/${props.propertyid}`)}
         >
@@ -183,6 +178,7 @@ function TransactionInfo(props) {
                 <Link
                   to={{
                     pathname: `/address/${props.sendingaddress}`,
+                    state: { state: props },
                   }}
                   onClick={() => props.changeRoute(`/address/${props.sendingaddress}`)}
                 >
@@ -196,6 +192,7 @@ function TransactionInfo(props) {
                 <Link
                   to={{
                     pathname: `/address/${props.referenceaddress}`,
+                    state: { state: props },
                   }}
                   onClick={() => props.changeRoute(`/address/${props.referenceaddress}`)}
                 >
@@ -303,6 +300,7 @@ TransactionInfo.propTypes = {
   amount: PropTypes.string,
   changeRoute: PropTypes.func,
   propertyname: PropTypes.string,
+  propertyid: PropTypes.number,
 };
 
 

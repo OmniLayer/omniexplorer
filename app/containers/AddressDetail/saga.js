@@ -1,6 +1,7 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
 import { API_URL_BASE } from 'containers/App/constants';
+import { updateFetch } from 'components/Token/actions';
 import {
   addressLoaded,
   addressLoadingError,
@@ -24,6 +25,7 @@ export function* getAddress({ addr }) {
 
     const wallet = yield call(request, requestURL, options);
     yield put(addressLoaded(wallet));
+    yield wallet.balance.map(property => put(updateFetch(property.propertyinfo)));
   } catch (err) {
     yield put(addressLoadingError(err));
   }

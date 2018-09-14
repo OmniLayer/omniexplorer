@@ -108,7 +108,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               <Collapse isOpen={true}>
                 <div>
                   <span>
-                    <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired
+                    <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertydesired.name } (#{ this.props.propertyiddesired }) Desired
                   </span>
                 </div>
                 <div>
