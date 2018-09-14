@@ -67,7 +67,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             src={ logo }
           />
         </StyledTD>
-        <StyledTD style={{ paddingTop: '13px' }}>
+        <StyledTD className="text-truncate" style={{ paddingTop: '13px', width: '110px', maxWidth: '110px', minWidth: '110px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -78,7 +78,7 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             { this.props.id }
           </Link>
         </StyledTD>
-        <StyledTD style={{ paddingTop: '13px' }}>
+        <StyledTD className="text-truncate" style={{ paddingTop: '13px', maxWidth: '170px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
@@ -89,10 +89,10 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
             { this.getTokenName() }
           </Link>
         </StyledTD>
-        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px', width: '300px', minWidth: '300px' }} >
           <SanitizedFormattedNumber value={reserved} forceDecimals={this.props.divisible} />
         </StyledTD>
-        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px', width: '300px', minWidth: '300px' }} >
           <strong>
             <SanitizedFormattedNumber value={value} forceDecimals={this.props.divisible} />{vlabel}
           </strong>
