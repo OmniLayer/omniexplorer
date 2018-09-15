@@ -18,6 +18,10 @@ import {
   Row,
   Table,
   UncontrolledTooltip,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import sortBy from 'lodash/sortBy';
@@ -25,10 +29,18 @@ import Token from 'components/Token';
 import { FormattedMessage } from 'react-intl';
 import walletMessages from './messages';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
+import QRCodeIcon from 'react-icons/lib/fa/qrcode';
 
 const StyledInformationIcon = styled(InformationIcon)`
   color: cadetblue !important;
   font-size: 1.5rem;
+`;
+
+const StyledQRCodeIcon = styled(QRCodeIcon)`
+  color: cadetblue !important;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
 `;
 
 const DetailRow = styled(Row)`
@@ -52,16 +64,24 @@ class Wallet extends React.PureComponent {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
     this.state = {
       collapse: false,
       flaggedMessage: `Show flagged tokens`,
+      modal: false,
     };
   }
-
+  
   toggle() {
     this.setState({ collapse: !this.state.collapse });
     this.setState({
       flaggedMessage: `${this.state.collapse ? 'Show' : 'Hide'} flagged tokens`,
+    });
+  }
+  
+  toggleModal() {
+    this.setState({
+      modal: !this.state.modal,
     });
   }
 
@@ -99,16 +119,41 @@ class Wallet extends React.PureComponent {
                 <tr>
                   <StyledTH>
                     <Row>
-                      <Col xs="3">
-                        <QRCode value={this.props.addr} />
-                      </Col>
-                      <Col xs="9" className="align-self-end">
+                      <Col xs="9" className="align-self-end offset-md-3 text-sm-left">
                         <h4>
                           <strong className="d-block" id="laddress">
+                            <Button
+                              color="link"
+                              className="text-info"
+                              id="togglerFlagged"
+                              style={{
+                                textDecoration: 'none',
+                              }}
+                              onClick={this.toggleModal}
+                            >
+                              <StyledQRCodeIcon
+                                className="ml-1"
+                              />
+                            </Button>
                             {this.props.addr}
+                            <Modal
+                              centered
+                              size="sm"
+                              isOpen={this.state.modal}
+                              toggle={this.toggleModal}
+                            >
+                              <ModalHeader toggle={this.toggleModal}></ModalHeader>
+                              <ModalBody className="text-center">
+                                <QRCode value={this.props.addr}   size={256}/>
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button color="secondary" onClick={this.toggleModal}>Close</Button>
+                              </ModalFooter>
+                            </Modal>
                           </strong>
                         </h4>
                         {this.props.extra}
+                        
                       </Col>
                     </Row>
                   </StyledTH>
