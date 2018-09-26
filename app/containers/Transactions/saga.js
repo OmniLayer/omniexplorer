@@ -22,33 +22,28 @@ export function* getTransactions({ addr }) {
     const getTransactionsOptions = {
       type: 'cors',
     };
-
-    if (addr) {
-      const body = encoderURIParams({ addr, tx_type: txType });
-
-      Object.assign(getTransactionsOptions, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body,
-      });
-    } else {
-      Object.assign(getTransactionsOptions, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  
+    const options = { tx_type: txType };
+    
+    if(addr){
+      options.addr = addr;
     }
+    const body = encoderURIParams({ addr, tx_type: txType });
+    
+    Object.assign(getTransactionsOptions, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body,
+    });
 
     const transactions = yield call(
       request,
       requestURL,
       getTransactionsOptions,
     );
-    yield put(
-      transactionsLoaded(transactions.transactions, transactions.pages),
-    );
+    yield put(transactionsLoaded(transactions.transactions, transactions.pages));
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }
