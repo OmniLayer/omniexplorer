@@ -146,7 +146,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             <IMG src={tokenLogo}/>
           </Col>
           <Col sm="12" md="5">
-            <Row className="d-flex">
+            <Row className="d-flex flex-center-down-md">
               <div className="p-2">
                 <span className="title d-block-down-md">
                   {this.props.type}
