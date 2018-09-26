@@ -142,11 +142,11 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end">
-          <Col sm className="align-self-center">
+          <Col sm="1">
             <IMG src={tokenLogo}/>
           </Col>
-          <Col sm="12" md="6">
-            <Row className="d-flex justify-content-sm-center justify-content-md-left">
+          <Col sm="12" md="5">
+            <Row className="d-flex">
               <div className="p-2">
                 <span className="title d-block-down-md">
                   {this.props.type}
