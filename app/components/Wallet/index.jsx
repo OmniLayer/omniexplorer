@@ -138,12 +138,14 @@ class Wallet extends React.PureComponent {
                             {this.props.addr}
                             <Modal
                               centered
-                              size="sm"
                               isOpen={this.state.modal}
                               toggle={this.toggleModal}
                             >
-                              <ModalHeader toggle={this.toggleModal}></ModalHeader>
+                              <ModalHeader toggle={this.toggleModal}>
+                              </ModalHeader>
                               <ModalBody className="text-center">
+                                <h3 className="text-truncate">{this.props.addr}</h3>
+                                <br/>
                                 <QRCode value={this.props.addr}   size={256}/>
                               </ModalBody>
                               <ModalFooter>
@@ -169,10 +171,10 @@ class Wallet extends React.PureComponent {
                           <StyledTH>ID</StyledTH>
                           <StyledTH>Name</StyledTH>
                           <StyledTH className="text-right" style={{minWidth: '13rem'}}>
-                            Reserved Balance
+                            Available Balance
                           </StyledTH>
                           <StyledTH className="text-right" style={{minWidth: '13rem'}}>
-                            Available Balance
+                            Reserved Balance
                           </StyledTH>
                         </tr>
                       </thead>

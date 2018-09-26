@@ -97,8 +97,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
   
   render() {
     const isValid = this.props.valid;
-    
-    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : (this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
+    let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-75';
+    statusCSSClass = (isValid ?  `${statusCSSClass} btn-blue`: (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
     
     const status = (
       isValid ?
@@ -140,16 +140,28 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     const referercopyid = `r-${txcopyid}`;
     
     return (
-      <Row className="transation-result mx-auto text-center-down-md">
-        <Col sm="9">
-          <Row className="transaction-header">
-            <Col sm="2" md="1">
-              <IMG src={tokenLogo} />
-            </Col>
-            <Col sm>
-              <span className="title d-block-down-md">
-                {this.props.type}
-              </span>
+      <div className="transation-result mx-auto text-center-down-md">
+        <Row className="align-items-end">
+          <Col sm className="align-self-center">
+            <IMG src={tokenLogo}/>
+          </Col>
+          <Col sm="12" md="6">
+            <Row className="d-flex justify-content-sm-center justify-content-md-left">
+              <div className="p-2">
+                <span className="title d-block-down-md">
+                  {this.props.type}
+                </span>
+              </div>
+              <div className="p-2">
+                <h4 className="title">
+                  <SanitizedFormattedNumber value={transactionAmount}/>
+                </h4>
+              </div>
+              <div className="p-2">
+                <small className="title text-muted">{this.props.propertyname} (#{this.props.propertyid})</small>
+              </div>
+            </Row>
+            <Row>
               <div className="location d-block-down-md">
                 <Link
                   className="text-truncate"
@@ -167,90 +179,76 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
                   Transaction Id Copied
                 </Tooltip>
-                <div className="d-block-down-md">
-                  <FormattedUnixDateTime datetime={this.props.blocktime}/>
-                </div>
               </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm>
-              <div className="desc">
-                <AddressWrapper>
-                  <WrapperLink>
-                    <StyledLink
-                      className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
-                      to={{
-                        pathname: `/address/${this.props.sendingaddress}`,
-                        state: { state: this.props },
-                      }}
-                      onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
-                    >
-                      {this.props.sendingaddress}
-                    </StyledLink>
-                  </WrapperLink>
-                  <CopyToClipboard text={this.props.sendingaddress} onCopy={this.toggleSenderTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid}/>
-                  </CopyToClipboard>
-                  <Tooltip hideArrow isOpen={this.state.tooltipSenderOpen} target={sendercopyid}>
-                    Sender Address Copied
-                  </Tooltip>
-                </AddressWrapper>
-                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`}/>
-                <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`}/>
-                <AddressWrapper className={showreferencecname}>
-                  <WrapperLink>
-                    <StyledLink
-                      className={addresscname}
-                      to={{
-                        pathname: `/address/${this.props.referenceaddress}`,
-                        state: { state: this.props },
-                      }}
-                      onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
-                    >
-                      {this.props.referenceaddress}
-                    </StyledLink>
-                  </WrapperLink>
-                  <CopyToClipboard text={this.props.referenceaddress} onCopy={this.toggleRefererTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid}/>
-                  </CopyToClipboard>
-                  <Tooltip hideArrow isOpen={this.state.tooltipRefererOpen} target={referercopyid}>
-                    Reference Address Copied
-                  </Tooltip>
-                </AddressWrapper>
+            </Row>
+          </Col>
+          <Col sm="9" md="5">
+            <div className="d-flex flex-column text-center align-items-center">
+              <div className="w-75 mb-3 text-muted">
+                <FormattedUnixDateTime datetime={this.props.blocktime}/>
               </div>
-            </Col>
-          </Row>
-        </Col>
-        <Col sm="3" className="result-price text-center">
-          <Row>
-            <Col sm>
-              <h4 className="title">
-                <SanitizedFormattedNumber value={transactionAmount}/>
-              </h4>
-            </Col>
-          </Row>
-          <Row className="transaction-asset">
-            <Col sm>
-              <small>{this.props.propertyname} (#{this.props.propertyid})</small>
-            </Col>
-          </Row>
-          <Row className="h-56-md-up d-flex align-items-md-center align-items-sm-end">
-            <Col sm className="btn-group mb-1 my-auto">
               <Link
-                className={statusColor}
-                to={{
-                  pathname: `/tx/${this.props.txid}`,
-                  state: { state: this.props },
-                }}
-                onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
-              >
-                {status}
+                  className={statusCSSClass}
+                  to={{
+                    pathname: `/tx/${this.props.txid}`,
+                    state: { state: this.props },
+                  }}
+                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
+                >
+                  {status}
               </Link>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm>
+            <div className="desc">
+              <AddressWrapper>
+                <WrapperLink>
+                  <StyledLink
+                    className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
+                    to={{
+                      pathname: `/address/${this.props.sendingaddress}`,
+                      state: { state: this.props },
+                    }}
+                    onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
+                  >
+                    {this.props.sendingaddress}
+                  </StyledLink>
+                </WrapperLink>
+                <CopyToClipboard text={this.props.sendingaddress} onCopy={this.toggleSenderTooltip}>
+                  <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid}/>
+                </CopyToClipboard>
+                <Tooltip hideArrow isOpen={this.state.tooltipSenderOpen} target={sendercopyid}>
+                  Sender Address Copied
+                </Tooltip>
+              </AddressWrapper>
+              <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`}/>
+              <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`}/>
+              <AddressWrapper className={showreferencecname}>
+                <WrapperLink>
+                  <StyledLink
+                    className={addresscname}
+                    to={{
+                      pathname: `/address/${this.props.referenceaddress}`,
+                      state: { state: this.props },
+                    }}
+                    onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
+                  >
+                    {this.props.referenceaddress}
+                  </StyledLink>
+                </WrapperLink>
+                <CopyToClipboard text={this.props.referenceaddress} onCopy={this.toggleRefererTooltip}>
+                  <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid}/>
+                </CopyToClipboard>
+                <Tooltip hideArrow isOpen={this.state.tooltipRefererOpen} target={referercopyid}>
+                  Reference Address Copied
+                </Tooltip>
+              </AddressWrapper>
+            </div>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }
