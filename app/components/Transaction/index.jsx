@@ -57,6 +57,19 @@ const WrapperLink = styled.div.attrs({
   border-color: #e2e7eb;
 `;
 
+const WrapperTx = styled.div.attrs({
+  className: 'location d-block-down-md',
+})`
+  font-size: 1.25rem !important;
+`;
+
+const WrapperTxDatetime = styled.div.attrs({
+  className: 'w-75 mb-3',
+})`
+  font-size: 1.25rem !important;
+  color: #333;
+`;
+
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -97,7 +110,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
   
   render() {
     const isValid = this.props.valid;
-    let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-75';
+    let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
     statusCSSClass = (isValid ?  `${statusCSSClass} btn-blue`: (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
     
     const status = (
@@ -142,7 +155,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end">
-          <Col sm="1">
+          <Col sm="12" md="1">
             <IMG src={tokenLogo}/>
           </Col>
           <Col sm="12" md="5">
@@ -158,11 +171,11 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 </h4>
               </div>
               <div className="p-2">
-                <small className="title text-muted">{this.props.propertyname} (#{this.props.propertyid})</small>
+                <span className="title text-muted">{this.props.propertyname} (#{this.props.propertyid})</span>
               </div>
             </Row>
-            <Row>
-              <div className="location d-block-down-md">
+            <Row className="d-flex flex-center-down-md">
+              <WrapperTx>
                 <Link
                   className="text-truncate"
                   to={{
@@ -179,14 +192,14 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
                   Transaction Id Copied
                 </Tooltip>
-              </div>
+              </WrapperTx>
             </Row>
           </Col>
-          <Col sm="9" md="5">
+          <Col sm="12" md="5">
             <div className="d-flex flex-column text-center align-items-center">
-              <div className="w-75 mb-3 text-muted">
+              <WrapperTxDatetime>
                 <FormattedUnixDateTime datetime={this.props.blocktime}/>
-              </div>
+              </WrapperTxDatetime>
               <Link
                   className={statusCSSClass}
                   to={{
