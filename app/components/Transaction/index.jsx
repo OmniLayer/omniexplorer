@@ -58,7 +58,7 @@ const WrapperLink = styled.div.attrs({
 `;
 
 const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md',
+  className: 'location d-block-down-md text-truncate w-75',
 })`
   font-size: 1.25rem !important;
 `;
@@ -154,23 +154,23 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     
     return (
       <div className="transation-result mx-auto text-center-down-md">
-        <Row className="align-items-end">
+        <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
             <IMG src={tokenLogo}/>
           </Col>
           <Col sm="12" md="5">
-            <Row className="d-flex flex-center-down-md">
-              <div className="p-2">
+            <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
+              <div className="p-md-2 pt-xs-2 pr-xs-2">
                 <span className="title d-block-down-md">
                   {this.props.type}
                 </span>
               </div>
-              <div className="p-2">
-                <h4 className="title">
+              <div className="p-md-2 pt-xs-2 pl-xs-2">
+                <span className="title d-block-down-md">
                   <SanitizedFormattedNumber value={transactionAmount}/>
-                </h4>
+                </span>
               </div>
-              <div className="p-2">
+              <div className="p-md-2 pb-sm-2">
                 <span className="title text-muted">{this.props.propertyname} (#{this.props.propertyid})</span>
               </div>
             </Row>
@@ -186,13 +186,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 >
                   {this.props.txid}
                 </Link>
-                <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
-                  <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid}/>
-                </CopyToClipboard>
-                <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
-                  Transaction Id Copied
-                </Tooltip>
               </WrapperTx>
+              <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
+                <StyledCopyIcon className="d-inline-flex" size={24} id={txcopyid}/>
+              </CopyToClipboard>
+              <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
+                Transaction Id Copied
+              </Tooltip>
             </Row>
           </Col>
           <Col sm="12" md="5">

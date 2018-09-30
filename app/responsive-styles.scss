@@ -49,6 +49,10 @@
   .text-center-down-md {
     text-align: center;
     justify-content: center !important;
+
+    h4 {
+      margin: 0;
+    }
   }
   .flex-center-down-md {
     justify-content: center !important;
@@ -65,6 +69,21 @@
   }
   .card-columns {
     column-count: 1;
+  }
+}
+
+@include media-breakpoint-down(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
+  .flex-xs-row {
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+    -ms-flex-direction: row !important;
+    flex-direction: row !important;
+  }
+  .flex-xs-column {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -ms-flex-direction: column !important;
+    flex-direction: column !important;
   }
 }
 
