@@ -46,9 +46,19 @@
   .d-block-down-md {
     display: block;
   }
+  .text-truncate-down-md {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .text-center-down-md {
     text-align: center;
     justify-content: center !important;
+
+    h4 {
+      margin: 0;
+    }
   }
   .flex-center-down-md {
     justify-content: center !important;
@@ -68,6 +78,54 @@
   }
 }
 
+@include media-breakpoint-down(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
+  .flex-xs-row {
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+    -ms-flex-direction: row !important;
+    flex-direction: row !important;
+  }
+  .flex-xs-column {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -ms-flex-direction: column !important;
+    flex-direction: column !important;
+  }
+}
+
+@media (orientation: portrait) {
+  .p-landscape-0 {
+    padding: 0;
+  }
+  .pb-landscape-0 {
+    padding-bottom: 0;
+  }
+  .pt-landscape-0 {
+    padding-top: 0;
+  }
+  .pbt-landscape-0 {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .p-landscape-2 {
+    padding: 0.5rem !important;
+  }
+  .pb-landscape-2 {
+    padding-bottom: 0.5rem !important;
+  }
+  .pt-landscape-2 {
+    padding-top: 0.5rem !important;
+  }
+  .pbt-landscape-2 {
+    padding-bottom: 0.5rem !important;
+    padding-top: 0.5rem !important;
+  }
+}
+
+@media (orientation: landscape){
+
+}
 
 @include media-breakpoint-down(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
   .d-none-down-sm {
