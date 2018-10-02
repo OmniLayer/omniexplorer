@@ -46,6 +46,12 @@
   .d-block-down-md {
     display: block;
   }
+  .text-truncate-down-md {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .text-center-down-md {
     text-align: center;
     justify-content: center !important;
