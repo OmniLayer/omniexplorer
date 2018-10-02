@@ -27,7 +27,6 @@
     }
 
     .location {
-      overflow: hidden;
       a {
         color: #337ab7;
         text-decoration: none;
@@ -117,12 +116,6 @@
         .wrapper-link {
           overflow: hidden;
           width: 60%;
-        }
-      }
-      .location {
-        a {
-          display: inline-flex;
-          width: 80%;
         }
       }
     }
