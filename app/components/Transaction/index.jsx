@@ -58,7 +58,7 @@ const WrapperLink = styled.div.attrs({
 `;
 
 const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md text-truncate w-75',
+  className: 'location d-block-down-md text-truncate-down-md w-75',
 })`
   font-size: 1.25rem !important;
 `;
@@ -177,7 +177,6 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
             <Row className="d-flex flex-center-down-md">
               <WrapperTx>
                 <Link
-                  className="text-truncate"
                   to={{
                     pathname: `/tx/${this.props.txid}`,
                     state: { state: this.props },
@@ -188,7 +187,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 </Link>
               </WrapperTx>
               <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
-                <StyledCopyIcon className="d-inline-flex" size={24} id={txcopyid}/>
+                <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid}/>
               </CopyToClipboard>
               <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
                 Transaction Id Copied
