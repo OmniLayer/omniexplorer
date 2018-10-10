@@ -1,4 +1,4 @@
-## React Boilerplate
+## Omniexplorer
 
 Thank you for contributing! Please take a moment to review our [**contributing guidelines**](https://github.com/OmniLayer/omniexplorer/blob/master/.github/CONTRIBUTING.md)
 to make the process easy and effective for everyone involved.
