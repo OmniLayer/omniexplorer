@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { select, all, call, put, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
@@ -8,9 +8,12 @@ import {
   errorCrowdsaleTransactionsFetch,
   updateCrowdsaleTransactionsFetch,
 } from './actions';
+import makeSelectCrowdsaleDetail from './selectors';
 
-export function* getCrowdsaleTransactions({ start = 0, count = 1000, id }) {
+export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
   const requestURL = `${API_URL_BASE}/properties/gethistory/${id}`;
+  const state = yield select(makeSelectCrowdsaleDetail());
+  start = state.currentPage || start;
 
   const body = encoderURIParams({ start, count }, true);
 

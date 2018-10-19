@@ -13,8 +13,7 @@ import { Container } from 'reactstrap';
 import styled from 'styled-components';
 import TransactionList from 'components/TransactionList';
 import TransactionListHeader from 'components/TransactionListHeader';
-import ListPagination from 'components/ListPagination';
-
+import Transaction from 'components/Transaction';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { makeSelectLoading, makeSelectTransactions } from './selectors';
@@ -78,14 +77,17 @@ export class Transactions extends React.Component { // eslint-disable-line react
       const props = {
         ...this.props.transactions,
         addr: this.props.addr,
+        inner: Transaction,
+        onSetPage: this.props.onSetPage,
       };
-      content = (
-        <div>
-          <ListPagination {...props} onSetPage={this.props.onSetPage} />
-          <TransactionList {...props} />
-          <ListPagination {...props} onSetPage={this.props.onSetPage} />
-        </div>
-      );
+      content = <TransactionList {...props} />;
+      // content = (
+      //   <div>
+      //     <ListPagination {...props} onSetPage={this.props.onSetPage} />
+      //     <TransactionList inner={Transaction} {...props} onSetPage={this.props.onSetPage}/>
+      //     <ListPagination {...props} onSetPage={this.props.onSetPage} />
+      //   </div>
+      // );
     }
 
     return (

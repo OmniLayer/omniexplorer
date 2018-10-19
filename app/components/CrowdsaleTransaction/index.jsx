@@ -1,6 +1,6 @@
 /**
  *
- * Transaction
+ * CrowdsaleTransaction
  *
  */
 
@@ -70,7 +70,31 @@ const WrapperTxDatetime = styled.div.attrs({
   color: #333;
 `;
 
-class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+const WrapperTxLabel = styled.span`
+  font-size: 1.25rem !important;
+`;
+
+const GreenArrowIconRight = styled(ArrowIconRight).attrs({
+  size: 20,
+  color: 'lightgreen',
+})``;
+
+const GreenArrowIconDown = styled(ArrowIconDown).attrs({
+  size: 20,
+  color: 'lightgreen',
+})``;
+
+const GrayArrowIconRight = styled(ArrowIconRight).attrs({
+  size: 20,
+  color: 'gray',
+})``;
+
+const GrayArrowIconDown = styled(ArrowIconDown).attrs({
+  size: 20,
+  color: 'gray',
+})``;
+
+class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     
@@ -111,7 +135,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
   render() {
     const isValid = this.props.valid;
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
-    statusCSSClass = (isValid ?  `${statusCSSClass} btn-blue`: (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
+    statusCSSClass = (isValid ? `${statusCSSClass} btn-blue` : (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
     
     const status = (
       isValid ?
@@ -152,20 +176,24 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
     
-    const TransactionLabel = (tx, propertyname) => (tx.type_int === 51 ?
-        <span>{tx.type} crowdsale started</span> :
-      <div>
-        <div className="p-md-2 pt-xs-2 pr-xs-2">
-            <span className="title d-block-down-md">
-              {( propertyname || tx.type) }
-            </span>
-        </div>
-          <div className="p-md-2 pt-xs-2 pl-xs-2">
-            <span className="title d-block-down-md">
-              <SanitizedFormattedNumber value={transactionAmount}/>
-            </span>
-        </div>
-      </div>
+    const TransactionLabel = (props) => (props.type_int === 51 ?
+        <WrapperTxLabel>{props.crowdsale.propertyname} crowdsale started</WrapperTxLabel> :
+        <WrapperTxLabel>
+          <SanitizedFormattedNumber
+            value={props.amount}
+            forceDecimals={props.divisible}
+          /> {props.dessiredToken.propertyname}
+          &nbsp;
+          <GreenArrowIconRight className="d-none d-md-inline-flex"/>
+          <GreenArrowIconDown className="d-md-none mx-auto d-block"/>
+          &nbsp;
+          <SanitizedFormattedNumber
+            value={props.purchasedtokens}
+            fractionDigits={8}
+          /> {props.crowdsale.propertyname}
+          <br/>
+          (+<SanitizedFormattedNumber value={props.issuertokens} fractionDigits={8}/> to Issuer)
+        </WrapperTxLabel>
     );
     
     return (
@@ -176,19 +204,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
-              <div className="p-md-2 pt-xs-2 pr-xs-2">
-                <span className="title d-block-down-md">
-                  {this.props.type}
-                </span>
-              </div>
-              <div className="p-md-2 pt-xs-2 pl-xs-2">
-                <span className="title d-block-down-md">
-                  <SanitizedFormattedNumber value={transactionAmount}/>
-                </span>
-              </div>
-              <div className="p-md-2 pb-sm-2">
-                <span className="title text-muted">{this.props.propertyname} (#{this.props.propertyid})</span>
-              </div>
+              <TransactionLabel {...this.props} />
             </Row>
             <Row className="d-flex flex-center-down-md">
               <WrapperTx>
@@ -206,7 +222,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid}/>
               </CopyToClipboard>
               <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
-                Transaction Id Copied
+                CrowdsaleTransaction Id Copied
               </Tooltip>
             </Row>
           </Col>
@@ -216,14 +232,14 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <FormattedUnixDateTime datetime={this.props.blocktime}/>
               </WrapperTxDatetime>
               <Link
-                  className={statusCSSClass}
-                  to={{
-                    pathname: `/tx/${this.props.txid}`,
-                    state: { state: this.props },
-                  }}
-                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
-                >
-                  {status}
+                className={statusCSSClass}
+                to={{
+                  pathname: `/tx/${this.props.txid}`,
+                  state: { state: this.props },
+                }}
+                onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
+              >
+                {status}
               </Link>
             </div>
           </Col>
@@ -251,8 +267,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   Sender Address Copied
                 </Tooltip>
               </AddressWrapper>
-              <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`}/>
-              <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`}/>
+              <GrayArrowIconRight className={`d-none ${arrowcnameright} ${arrowcname}`}/>
+              <GrayArrowIconDown className={`d-md-none ${arrowcname}`}/>
               <AddressWrapper className={showreferencecname}>
                 <WrapperLink>
                   <StyledLink
@@ -281,7 +297,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
   }
 }
 
-Transaction.propTypes = {
+CrowdsaleTransaction.propTypes = {
   sendingaddress: PropTypes.string,
   referenceaddress: PropTypes.string,
   confirmations: PropTypes.number,
@@ -305,4 +321,4 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(withConnect)(Transaction);
+export default compose(withConnect)(CrowdsaleTransaction);

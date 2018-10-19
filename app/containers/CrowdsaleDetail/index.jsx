@@ -56,6 +56,9 @@ import { startCrowdsaleTransactionsFetch } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
+import TransactionList from '../../components/TransactionList';
+import CrowdsaleTransaction from 'components/CrowdsaleTransaction';
+import messages from '../../components/TransactionListHeader/messages';
 
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
@@ -71,6 +74,29 @@ const StyledDivContent = styled.div.attrs({
 const StyledInformationIcon = styled(InformationIcon)`
   color: cadetblue !important;
 	font-size: 1.5rem;
+`;
+
+const HistoryContainer = styled(Container)`
+	background-color: #F0F3F4;
+`;
+
+const StyledRow = styled(Row).attrs({
+  className: 'pt-2 pb-2'
+})`
+      background-color: black;
+      color: white;
+`;
+
+const HeaderTitle = styled.span`
+      	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.1rem;
+        font-weight: 300;
+    `;
+
+const HistoryHeader = styled.h2`
+	background-color: black;
+	color: white;
 `;
 
 const Countdown = (props, context) => {
@@ -128,16 +154,16 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
       </span>
     );
     
-    // const earlybonus = ((crowdsale.deadline - (new Date()).getTime()/1000)) / 604800) * crowdsale.earlybonus;
     const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(),'seconds') / 604800) * crowdsale.earlybonus;
     const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
     const logo = getLogo(crowdsale.propertyid, crowdsale);
     const warningMessage = getWarningMessage(crowdsale.flags, crowdsale.propertyname, this.crowdsaleid);
-
+    const totalLabel = `transaction${this.props.total > 1 ? 's' : ''}`;
+  
     return (
       <Container fluid className="mt-3 p-1">
         { warningMessage }
-        <Row className="w-100">
+        <Row>
           <Col sm="12" md="9">
             <StyledDivContent>
               <Table responsive className="table-profile">
@@ -165,66 +191,9 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                 <AssetInfo {...crowdsale} />
               </Table>
             </StyledDivContent>
-            <div>
-              <h2>
-                Property History <small className="text-muted">{detail.total} transactions</small>
-              </h2>
-              <Table striped>
-                <tbody>
-                  {(detail.transactions || []).map((tx, idx) => (
-                    <tr key={tx.txid.slice(0, 22).concat(idx)}>
-                      <td>
-                        <Row>
-                          <Col>
-                            <span className="small">
-                              <Link
-                                to={{
-                                  pathname: `/tx/${tx.txid}`,
-                                  state: { state: this.props },
-                                }}
-                                onClick={() => this.props.changeRoute(`/tx/${tx.txid}`)}
-                              >
-                                {tx.txid}
-                              </Link>
-                            </span>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col md="5">
-                            <span className="text-muted">
-                              <FormattedUnixDateTime datetime={tx.blocktime} />
-                            </span>
-                          &nbsp;
-                          (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
-                          </Col>
-                          <Col md="7">
-                            <Link
-                              to={{
-                                pathname: `/address/${tx.sendingaddress}`,
-                                state: { state: this.props },
-                              }}
-                              onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
-                            >
-                              {tx.sendingaddress}
-                            </Link>
-
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <TransactionLabel tx={tx} />
-                          </Col>
-                        </Row>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
           </Col>
           <Col sm="12" md="3">
-            <Row>
-              <StyledCard color="info">
+            <StyledCard color="info">
                 <CardBody>
                   <h3 className="text-light card-title">Active Crowdsale</h3>
                   <h5 className="text-light d-block">Time Until Closing:</h5>
@@ -314,7 +283,24 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                   </Link>
                 </CardBody>
               </StyledCard>
-            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <HistoryContainer fluid>
+              <StyledRow>
+                <Col sm>
+                  <HeaderTitle>
+                    <FormattedMessage {...crowdsalesMessages.header} />
+                    &nbsp;
+                    {!!detail.total &&
+                    <small className="text-muted">{detail.total} {totalLabel}</small>
+                    }
+                  </HeaderTitle>
+                </Col>
+              </StyledRow>
+              <TransactionList inner={CrowdsaleTransaction} {...detail} onSetPage={this.props.onSetPage} options={{dessiredToken: dessiredToken, crowdsale: crowdsale}}/>
+            </HistoryContainer>
           </Col>
         </Row>
       </Container>

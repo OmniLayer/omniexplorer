@@ -16,4 +16,9 @@ export default defineMessages({
     defaultMessage:
       'This token is Indivisible, it can only be sent/received/held in whole amounts: eg 1,2,3,4,...,99',
   },
+  header: {
+    id: 'app.containers.CrowdsaleDetail.header',
+    defaultMessage:
+      'Property History',
+  }
 });
