@@ -81,13 +81,6 @@ export class Transactions extends React.Component { // eslint-disable-line react
         onSetPage: this.props.onSetPage,
       };
       content = <TransactionList {...props} />;
-      // content = (
-      //   <div>
-      //     <ListPagination {...props} onSetPage={this.props.onSetPage} />
-      //     <TransactionList inner={Transaction} {...props} onSetPage={this.props.onSetPage}/>
-      //     <ListPagination {...props} onSetPage={this.props.onSetPage} />
-      //   </div>
-      // );
     }
 
     return (

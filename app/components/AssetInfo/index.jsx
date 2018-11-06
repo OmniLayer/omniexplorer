@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -51,20 +51,25 @@ function AssetInfo(asset) {
   }
 
   let asseturl;
+  const Strike = styled.span`
+    text-decoration: line-through;
+  `;
   if (asset.flags.duplicate || asset.flags.scam) {
-    asseturl = (<td><strike>{ asset.url }</strike> See Warning - Be Careful</td>);
+    asseturl = (
+      <td>
+        <Strike>{asset.url}</Strike> See Warning - Be Careful
+      </td>
+    );
+  } else if (asset.url.includes('.')) {
+    asseturl = (
+      <td>
+        <a href={asset.url} target="_blank">
+          {asset.url}
+        </a>
+      </td>
+    );
   } else {
-    if (asset.url.includes('.')) {
-      asseturl = (
-        <td>
-          <a href={asset.url} target="_blank">
-            {asset.url}
-          </a>
-        </td>
-      );
-    } else {
-      asseturl = <td>{asset.url}</td>;
-    }
+    asseturl = <td>{asset.url}</td>;
   }
 
   let registeredMessage;
@@ -92,7 +97,7 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-
+  
   return (
     <tbody>
       <tr>
@@ -109,13 +114,21 @@ function AssetInfo(asset) {
         <td className="field">Created</td>
         <td>
           <span id="ldatetime">
-            <FormattedUnixDateTime datetime={asset.blocktime} />
+            <FormattedUnixDateTime datetime={asset.blocktime} useSeconds={false} />
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td className="field">Closing</td>
+        <td>
+          <span id="ldatetime">
+            <FormattedUnixDateTime datetime={asset.deadline} useSeconds={false} />
           </span>
         </td>
       </tr>
       {assetData}
       <tr>
-        <td className="field">Sender</td>
+        <td className="field">Issuer</td>
         <td>
           <Link
             to={{
@@ -180,9 +193,7 @@ function AssetInfo(asset) {
   );
 }
 
-AssetInfo.propTypes = {
-  changeRoute: PropTypes.func,
-};
+AssetInfo.propTypes = {};
 
 function mapDispatchToProps(dispatch) {
   return {

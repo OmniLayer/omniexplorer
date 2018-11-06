@@ -146,7 +146,7 @@ class Wallet extends React.PureComponent {
                               <ModalBody className="text-center">
                                 <h3 className="text-truncate">{this.props.addr}</h3>
                                 <br/>
-                                <QRCode value={this.props.addr}   size={256}/>
+                                <QRCode value={this.props.addr} size={256}/>
                               </ModalBody>
                               <ModalFooter>
                                 <Button color="secondary" onClick={this.toggleModal}>Close</Button>
@@ -155,7 +155,6 @@ class Wallet extends React.PureComponent {
                           </strong>
                         </h4>
                         {this.props.extra}
-                        
                       </Col>
                     </Row>
                   </StyledTH>
@@ -164,7 +163,7 @@ class Wallet extends React.PureComponent {
               <tbody>
                 <tr className="highlight">
                   <StyledTD>
-                    <Table style={{ marginBottom: '5px' }} responsive>
+                    <Table style={{ marginBottom: '5px' }}>
                       <thead>
                         <tr>
                           <StyledTH />
