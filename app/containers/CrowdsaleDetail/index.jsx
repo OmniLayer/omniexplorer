@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
 import {
@@ -45,10 +45,6 @@ import FacebookIcon from 'react-icons/lib/io/social-facebook';
 import GPlusIcon from 'react-icons/lib/io/social-googleplus';
 import TwitterIcon from 'react-icons/lib/io/social-twitter';
 import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
-
-// import FormattedUnixDateTime from 'components/FormattedDateTime/FormattedUnixDateTime';
-// import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
-// import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 
 import TransactionList from 'components/TransactionList';
 import CrowdsaleTransaction from 'components/CrowdsaleTransaction';
@@ -95,20 +91,6 @@ const HeaderTitle = styled.span`
   font-weight: 300;
 `;
 
-// const HistoryHeader = styled.h2`
-//   background-color: black;
-//   color: white;
-// `;
-//
-// const Countdown = (props, context) => {
-//   const d = new Date(context.remaining);
-//   const { seconds, milliseconds } = {
-//     seconds: d.getUTCSeconds(),
-//     milliseconds: d.getUTCMilliseconds(),
-//   };
-//   return <p>{`${seconds}.${milliseconds}`}</p>;
-// };
-
 export class CrowdsaleDetail extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -129,50 +111,21 @@ export class CrowdsaleDetail extends React.PureComponent {
     const crowdsale = this.props.properties(this.crowdsaleid);
     if (!crowdsale) return loading;
 
+    // if the crowdsale doesn't exist redirect to not found
+    if(!crowdsale.propertyiddesired) return <Redirect to='/not-found' />
+    
     const dessiredToken = this.props.properties(
       crowdsale.propertyiddesired.toString(),
     );
     if (!dessiredToken) return loading;
 
     const detail = this.props.crowdsaledetail;
-
-    // const TransactionLabel = props =>
-    //   props.tx.type_int === 51 ? (
-    //     <span>{crowdsale.propertyname} crowdsale started</span>
-    //   ) : (
-    //     <span>
-    //       <SanitizedFormattedNumber
-    //         value={props.tx.amount}
-    //         forceDecimals={crowdsale.divisible}
-    //       />{' '}
-    //       {dessiredToken.propertyname}
-    //       &nbsp;
-    //       <ArrowIconRight
-    //         size={20}
-    //         color="lightgreen"
-    //         className="d-none d-md-inline-flex"
-    //       />
-    //       <ArrowIconDown
-    //         size={20}
-    //         color="lightgreen"
-    //         className="d-md-none d-block"
-    //       />
-    //       &nbsp;
-    //       <SanitizedFormattedNumber
-    //         value={props.tx.purchasedtokens}
-    //         fractionDigits={8}
-    //       />{' '}
-    //       {crowdsale.propertyname}
-    //       &nbsp; (+<SanitizedFormattedNumber
-    //         value={props.tx.issuertokens}
-    //         fractionDigits={8}
-    //       />{' '}
-    //       to Issuer)
-    //     </span>
-    //   );
-
-    const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(), 'seconds') / 604800) * crowdsale.earlybonus;
-    const divisibleMsg = crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible;
+    const earlybonus =
+      (moment.unix(crowdsale.deadline).diff(moment(), 'seconds') / 604800) *
+      crowdsale.earlybonus;
+    const divisibleMsg = crowdsale.divisible
+      ? crowdsalesMessages.divisible
+      : crowdsalesMessages.indivisible;
     const logo = getLogo(crowdsale.propertyid, crowdsale);
     const warningMessage = getWarningMessage(
       crowdsale.flags,
@@ -180,7 +133,17 @@ export class CrowdsaleDetail extends React.PureComponent {
       this.crowdsaleid,
     );
     const totalLabel = `transaction${detail.total > 1 ? 's' : ''}`;
-
+    const crowdsaleClosed = crowdsale.deadline * 1000 <= moment.utc().valueOf();
+    const crowdsaleTimer = crowdsaleClosed ? null : (
+      <div>
+        <h5 className="text-light d-block">Time Until Closing:</h5>
+        <Timer
+          countdown
+          datetime={crowdsale.deadline * 1000}
+          maxTimeUnit="year"
+        />
+      </div>
+    );
     return (
       <Container fluid className="mt-3 p-1">
         {warningMessage}
@@ -224,13 +187,10 @@ export class CrowdsaleDetail extends React.PureComponent {
           <Col sm="12" md="3">
             <StyledCard color="info">
               <CardBody>
-                <h3 className="text-light card-title">Active Crowdsale</h3>
-                <h5 className="text-light d-block">Time Until Closing:</h5>
-                <Timer
-                  countdown
-                  datetime={crowdsale.deadline * 1000}
-                  maxTimeUnit="year"
-                />
+                <h3 className="text-light card-title">
+                  {`${crowdsaleClosed ? 'Closed' : 'Active'} Crowdsale`}
+                </h3>
+                {crowdsaleTimer}
               </CardBody>
               <ListGroup className="list-group-flush" color="info">
                 <ListGroupItem>
@@ -267,18 +227,20 @@ export class CrowdsaleDetail extends React.PureComponent {
                     </span>
                   </h3>
                 </ListGroupItem>
-                <ListGroupItem>
-                  <h5>Current early bird bonus</h5>
-                  <h3>
-                    <span>
-                      <SanitizedFormattedNumber
-                        value={earlybonus}
-                        forceDecimals={crowdsale.divisible}
-                        fractionDigits={3}
-                      />%
-                    </span>
-                  </h3>
-                </ListGroupItem>
+                {!crowdsaleClosed &&
+                  <ListGroupItem>
+                    <h5>Current early bird bonus</h5>
+                    <h3>
+                      <span>
+                        <SanitizedFormattedNumber
+                          value={earlybonus}
+                          forceDecimals={crowdsale.divisible}
+                          fractionDigits={3}
+                        />%
+                      </span>
+                    </h3>
+                  </ListGroupItem>
+                }
               </ListGroup>
               <CardBody>
                 <CardTitle className="text-light">Share this page</CardTitle>
@@ -380,7 +342,8 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     getPropertyDeep: crowdsaleId => dispatch(startDeepFetch(crowdsaleId)),
-    getCrowdsaleTransactions: crowdsaleId => dispatch(startCrowdsaleTransactionsFetch(crowdsaleId)),
+    getCrowdsaleTransactions: crowdsaleId =>
+      dispatch(startCrowdsaleTransactionsFetch(crowdsaleId)),
     changeRoute: url => dispatch(routeActions.push(url)),
     onSetPage: p => dispatch(setPage(p)),
   };

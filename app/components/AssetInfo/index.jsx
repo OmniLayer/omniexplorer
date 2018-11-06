@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import moment from 'moment/src/moment';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -97,7 +98,9 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-  
+  // debugger;
+  const crowdsaleClosed = (asset.deadline * 1000) <= moment.utc().valueOf();
+  const closingLabel = crowdsaleClosed ? 'Closed' : 'Closing';
   return (
     <tbody>
       <tr>
@@ -119,7 +122,7 @@ function AssetInfo(asset) {
         </td>
       </tr>
       <tr>
-        <td className="field">Closing</td>
+        <td className="field">{closingLabel}</td>
         <td>
           <span id="ldatetime">
             <FormattedUnixDateTime datetime={asset.deadline} useSeconds={false} />
