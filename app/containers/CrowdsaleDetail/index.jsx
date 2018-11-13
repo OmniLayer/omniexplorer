@@ -37,7 +37,6 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
-// import Moment from 'react-moment';
 import moment from 'moment/src/moment';
 
 // Icons
@@ -46,7 +45,7 @@ import GPlusIcon from 'react-icons/lib/io/social-googleplus';
 import TwitterIcon from 'react-icons/lib/io/social-twitter';
 import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
 
-import TransactionList from 'components/TransactionList';
+import List from 'components/List';
 import CrowdsaleTransaction from 'components/CrowdsaleTransaction';
 
 import crowdsalesMessages from './messages';
@@ -56,7 +55,6 @@ import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
 import { setPage } from '../Transactions/actions';
-// import messages from '../../components/TransactionListHeader/messages';
 
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
@@ -120,8 +118,10 @@ export class CrowdsaleDetail extends React.PureComponent {
     if (!dessiredToken) return loading;
 
     const detail = this.props.crowdsaledetail;
+    //@TODO: review below if it's ok or it should be with moment.unix(crowdsale.deadline).utc() && moment.utc()
+    const crowdsaleDeadline = moment.unix(crowdsale.deadline).utc();
     const earlybonus =
-      (moment.unix(crowdsale.deadline).diff(moment(), 'seconds') / 604800) *
+      (crowdsaleDeadline.diff(moment.utc(), 'seconds') / 604800) *
       crowdsale.earlybonus;
     const divisibleMsg = crowdsale.divisible
       ? crowdsalesMessages.divisible
@@ -144,6 +144,22 @@ export class CrowdsaleDetail extends React.PureComponent {
         />
       </div>
     );
+    
+    const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
+    const hashLink = (v) => `${pathname}/${v + 1}`;
+    const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
+
+    const listProps = {
+      ...detail,
+      items: detail.transactions,
+      inner: CrowdsaleTransaction,
+      onSetPage: this.props.onSetPage,
+      dessiredToken,
+      crowdsale,
+      hashLink,
+      getItemKey,
+    };
+
     return (
       <Container fluid className="mt-3 p-1">
         {warningMessage}
@@ -308,11 +324,8 @@ export class CrowdsaleDetail extends React.PureComponent {
                   </HeaderTitle>
                 </Col>
               </StyledRow>
-              <TransactionList
-                inner={CrowdsaleTransaction}
-                {...detail}
-                onSetPage={this.props.onSetPage}
-                options={{ dessiredToken, crowdsale }}
+              <List
+                {...listProps}
               />
             </HistoryContainer>
           </Col>

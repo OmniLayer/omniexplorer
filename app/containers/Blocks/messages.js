@@ -8,6 +8,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.containers.Blocks.header',
-    defaultMessage: 'This is Blocks container !',
+    defaultMessage: 'Latest Blocks',
   },
 });

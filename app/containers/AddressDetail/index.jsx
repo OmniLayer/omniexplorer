@@ -33,7 +33,8 @@ const Layout = styled(Container)`
 export class AddressDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.address = this.props.match.params.address.toString();
+    
+    this.address = props.match.params.address;
   }
 
   componentDidMount() {
@@ -56,7 +57,7 @@ export class AddressDetail extends React.PureComponent { // eslint-disable-line 
         </Row>
         <Row>
           <Col sm>
-            <Transactions addr={this.address} />
+            <Transactions addr={this.address} {...this.props} />
           </Col>
         </Row>
       </Layout>
