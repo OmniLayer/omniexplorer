@@ -62,9 +62,6 @@ const ListPagination = (props) => {
       : _page
   );
 
-  const pathname = props.addr ? `/address/${props.addr}` : '';
-  const hashLink = (v) => `${pathname}/${v + 1}`;
-
   const onClick = (e) => ((qtyPages > 1) && setPage(e, getPrevious()));
   return (
     <Pagination className="pagination justify-content-end mt-2 mb-2">
@@ -73,7 +70,7 @@ const ListPagination = (props) => {
         disabled={qtyPages === 1 || _page === 0}
         key="previous"
       >
-        <StyledPaginationLink previous href={hashLink(getPrevious())} />
+        <StyledPaginationLink previous href={props.hashLink(getPrevious())} />
       </StyledPaginationButton>
       {
         range.map((v) => {
@@ -85,7 +82,7 @@ const ListPagination = (props) => {
               className={isCurrent ? 'page-item active' : 'page-item'}
               key={v}
             >
-              <StyledPaginationLink href={hashLink(v)}>
+              <StyledPaginationLink href={props.hashLink(v)}>
                 {v + 1}
               </StyledPaginationLink>
             </StyledPaginationItem>
@@ -97,19 +94,20 @@ const ListPagination = (props) => {
         disabled={qtyPages === 1 || (_page + 1) === props.pageCount}
         key="next"
       >
-        <StyledPaginationLink next href={hashLink(getNext())} />
+        <StyledPaginationLink next href={props.hashLink(getNext())} />
       </StyledPaginationButton>
     </Pagination>
   );
 };
 
-Pagination.propTypes = {
+ListPagination.propTypes = {
   addr: PropTypes.object,
   currentPage: PropTypes.number,
   transactions: PropTypes.array,
   location: PropTypes.object,
   match: PropTypes.object,
   pageCount: PropTypes.number,
+  hashLink: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

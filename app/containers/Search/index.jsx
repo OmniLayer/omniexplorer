@@ -29,15 +29,17 @@ import searchSaga from './saga';
 import { loadSearch } from './actions';
 
 const StyledContainer = styled(Container)`
-      background-color: white;
-      margin: 3rem;
-      padding: 1rem;
-    `;
+  background-color: white;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  padding: 1rem;
+`;
 const StyledTH = styled.th`
-      border: none !important;
-    `;
+  border: none !important;
+`;
 
-export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Search extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.query = props.match.params.query.toString();
@@ -48,7 +50,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     let wallet = null;
     let assets = null;
     let tx = null;
-  
+
     if (this.props.search.loading) {
       return (
         <Container>
@@ -62,9 +64,12 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     }
 
     const walletlink = () => {
-      if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
+      if (
+        this.props.search.address.balance &&
+        this.props.search.address.balance.length > 0
+      ) {
         return (
-          <div class="container-fluid">
+          <div className="container-fluid">
             <Link
               to={{
                 pathname: `/address/${this.query}`,
@@ -77,29 +82,68 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
           </div>
         );
       }
-    }
+    };
 
-    if (this.props.search.address.balance && this.props.search.address.balance.length > 0) {
-      wallet = <Wallet {...this.props.search} addr={this.query} extra={ walletlink() }/>;
+    if (
+      this.props.search.address.balance &&
+      this.props.search.address.balance.length > 0
+    ) {
+      wallet = (
+        <Wallet {...this.props.search} addr={this.query} extra={walletlink()} />
+      );
     }
 
     if (this.props.search.asset.length > 0) {
+      const DetailRow = styled(Row)`
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      `;
+      const TableContainer = styled.div`
+        padding: 9px;
+      `;
       assets = (
-        <div className="table-responsive">
-          <Table className="table-profile">
-            <thead>
-              <tr>
-                <StyledTH></StyledTH>
-                <StyledTH>Property ID</StyledTH>
-                <StyledTH>Name</StyledTH>
-                <StyledTH>Issuer</StyledTH>
-              </tr>
-            </thead>
-            <tbody>
-              { this.props.search.asset.map((x, idx) => <Asset {...x} changeRoute={this.props.changeRoute} key={x[2]+idx} />) }
-            </tbody>
-          </Table>
-        </div>
+        <Container fluid>
+          <DetailRow>
+            <Col sm="12">
+              <TableContainer>
+                <Table responsive>
+                  <thead>
+
+                  <tr>
+                    <StyledTH span="3">
+                      <Row>
+                        <Col xs="9" className="align-self-end offset-md-3 text-sm-left">
+                          <h4>
+                            <strong className="d-block" id="laddress">
+                              Properties
+                            </strong>
+                          </h4>
+                        </Col>
+                      </Row>
+                    </StyledTH>
+                  </tr>
+                  
+                    <tr>
+                      <StyledTH />
+                      <StyledTH>ID</StyledTH>
+                      <StyledTH>Name</StyledTH>
+                      <StyledTH>Issuer</StyledTH>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.props.search.asset.map((x, idx) => (
+                      <Asset
+                        {...x}
+                        changeRoute={this.props.changeRoute}
+                        key={x[2] + idx}
+                      />
+                    ))}
+                  </tbody>
+                </Table>
+              </TableContainer>
+            </Col>
+          </DetailRow>
+        </Container>
       );
     }
 
@@ -111,7 +155,10 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
               <div>
                 <Jumbotron className="text-center">
                   <h3 className="display-3">No results found :(</h3>
-                  <p className="lead">Try using a valid transaction id, address, property id or asset name.</p>
+                  <p className="lead">
+                    Try using a valid transaction id, address, property id or
+                    asset name.
+                  </p>
                 </Jumbotron>
               </div>
             </Col>
@@ -124,23 +171,21 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       <StyledContainer fluid>
         <Row>
           <Col sm>
-            <h3>Showing results for: <mark>{this.query}</mark></h3>
+            <div className="text-truncate">
+              <h3>
+                Showing results for: <mark style={{overflow: 'scroll'}} className="d-block-down-md">{this.query}</mark>
+              </h3>
+            </div>
           </Col>
         </Row>
         <Row>
-          <Col sm>
-            { wallet }
-          </Col>
+          <Col sm>{wallet}</Col>
         </Row>
         <Row>
-          <Col sm>
-            { assets }
-          </Col>
+          <Col sm>{assets}</Col>
         </Row>
         <Row>
-          <Col sm>
-            { tx }
-          </Col>
+          <Col sm>{tx}</Col>
         </Row>
       </StyledContainer>
     );
@@ -159,15 +204,24 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadSearch: (query) => dispatch(loadSearch(query)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    loadSearch: query => dispatch(loadSearch(query)),
+    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
-const withReducer = injectReducer({ key: 'search', reducer: searchReducer });
-const withSaga = injectSaga({ key: 'search', saga: searchSaga });
+const withReducer = injectReducer({
+  key: 'search',
+  reducer: searchReducer,
+});
+const withSaga = injectSaga({
+  key: 'search',
+  saga: searchSaga,
+});
 
 export default compose(
   withReducer,

@@ -18,7 +18,6 @@ export default defineMessages({
   },
   header: {
     id: 'app.containers.CrowdsaleDetail.header',
-    defaultMessage:
-      'Property History',
-  }
+    defaultMessage: 'Crowdsale History',
+  },
 });

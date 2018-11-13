@@ -16,7 +16,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
-
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
 import AddressDetail from 'containers/AddressDetail';
@@ -28,6 +27,7 @@ import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
 import Promote from 'containers/Promote/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
+import BlockDetail from 'containers/BlockDetail';
 import HistoryChart from 'containers/HistoryChart';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
@@ -76,8 +76,15 @@ class App extends React.Component {
         </Helmet>
         <Header />
         <Switch>
-          <Route exact path="/:page(\d+)?" component={HomePage} />
-          <Route path="/tx/:tx" component={TransactionDetail} />
+          <Route
+            exact
+            path="/:block(\d+)?"
+            component={HomePage}
+          />
+          <Route
+            path="/tx/:tx"
+            component={TransactionDetail}
+          />
           <Route
             path="/address/:address/:page(\d+)?"
             component={AddressDetail}
@@ -104,9 +111,27 @@ class App extends React.Component {
             component={CrowdsaleDetail}
             key={location.pathname}
           />
-          <Route exact path="/promote" component={Promote} />
-          <Route exact path="/submitfeedback" component={Feedback} />
-          <Route exact path="/history" component={HistoryChart} />
+          <Route
+            exact
+            path="/block/:block(\d+)"
+            component={BlockDetail}
+            key={location.pathname}
+          />
+          <Route
+            exact
+            path="/promote"
+            component={Promote}
+          />
+          <Route
+            exact
+            path="/submitfeedback"
+            component={Feedback}
+          />
+          <Route
+            exact
+            path="/history"
+            component={HistoryChart}
+          />
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>

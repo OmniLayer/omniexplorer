@@ -12,26 +12,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  Row,
-  Col,
-} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
-import Transactions from 'containers/Transactions';
-
-import { compose } from 'redux';
-import injectSaga from 'utils/injectSaga';
-import sagaTransactions from 'containers/Transactions/saga';
+// import Transactions from 'containers/Transactions';
+import Blocks from 'containers/Blocks';
 
 const Layout = styled.div`
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   padding: 0;
 `;
 
-class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class HomePage extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <Layout className="container-fluid">
@@ -50,7 +45,7 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
         </Row>
         <Row>
           <Col sm>
-            <Transactions />
+            <Blocks />
           </Col>
         </Row>
       </Layout>
@@ -58,10 +53,4 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
   }
 }
 
-const withSagaTransaction = injectSaga({ key: 'transactions', saga: sagaTransactions });
-
-export default compose(
-  withSagaTransaction,
-  // withConnect,
-  // withRouter,
-)(HomePage);
+export default HomePage;
