@@ -146,7 +146,7 @@ export class CrowdsaleDetail extends React.PureComponent {
     );
     
     const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
-    const hashLink = (v) => `${pathname}/${v + 1}`;
+    const hashLink = (v) => `${pathname}/${v}`;
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
 
     const listProps = {

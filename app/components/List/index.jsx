@@ -12,8 +12,7 @@ class List extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const ListItem = this.props.inner;
-
-    // item.txid.slice(0, 22).concat(idx)
+    
     return (
       <div>
         {this.props.usePagination &&
