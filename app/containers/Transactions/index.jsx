@@ -68,19 +68,18 @@ export class Transactions extends React.Component {
       );
     } else {
       const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
-      const hashLink = v => `${pathname}/${v + 1}`;
+      const hashLink = v => `${pathname}/${v}`;
       const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
-
+      const { addr } = this.props;
       const props = {
         ...this.props.transactions,
-        ...this.props.addr,
+        addr,
         inner: Transaction,
         onSetPage: this.props.onSetPage,
         hashLink,
         getItemKey,
       };
       props.items = props.transactions;
-
       content = <List {...props} />;
     }
 
