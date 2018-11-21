@@ -13,7 +13,7 @@ const initialState = fromJS({
   error: false,
   transactions: [],
   pageCount: 0,
-  currentPage: 0,
+  currentPage: 1,
   total: 0,
 });
 

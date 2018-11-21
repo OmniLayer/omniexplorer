@@ -26,7 +26,7 @@ export const initialState = fromJS({
   error: false,
   blocks: [],
   pageCount: 0,
-  currentPage: 0,
+  currentPage: 1,
   txType: null,
 });
 
