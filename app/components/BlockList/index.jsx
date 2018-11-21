@@ -17,15 +17,21 @@ import { routeActions } from 'redux-simple-router';
 import connect from 'react-redux/es/connect/connect';
 import { compose } from 'redux';
 
-const StyledTr = styled.tr`
+const StyledTR = styled.tr`
   cursor: pointer;
 `;
+const StyledTable = styled(Table)`
+  th {
+    font-weight: normal;
+  }
+`;
+
 class BlockList extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const getItemKey = (item, idx) => item.timestamp.toString().concat(idx);
     return (
-      <Table responsive striped hover>
+      <StyledTable responsive striped hover>
         <thead>
           <tr>
             <th>
@@ -45,18 +51,18 @@ class BlockList extends React.PureComponent {
         <tbody>
           {this.props.blocks.map((block, idx) =>
             (
-              <StyledTr
+              <StyledTR
                 key={getItemKey(block, idx)}
                 onClick={() => this.props.changeRoute(`/block/${block.block}`)}
               >
                 <td>{block.block}</td>
                 <td>{block.block_hash}</td>
                 <td>{block.omni_tx_count}</td>
-                <td><FormattedUnixDateTime datetime={block.timestamp} useSeconds /></td>
-              </StyledTr>
+                <td><FormattedUnixDateTime datetime={block.timestamp} /></td>
+              </StyledTR>
             ))}
         </tbody>
-      </Table>
+      </StyledTable>
     );
   }
 }

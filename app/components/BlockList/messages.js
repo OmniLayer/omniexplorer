@@ -13,7 +13,7 @@ export default defineMessages({
   columns: {
     block: {
       id: 'app.components.BlockList.columns.block',
-      defaultMessage: '#',
+      defaultMessage: 'Height',
     },
     blockhash: {
       id: 'app.components.BlockList.columns.blockhash',
@@ -21,7 +21,7 @@ export default defineMessages({
     },
     txcount: {
       id: 'app.components.BlockList.columns.txcount',
-      defaultMessage: 'Txs Count',
+      defaultMessage: 'Transactions',
     },
     timestamp: {
       id: 'app.components.BlockList.columns.timestamp',

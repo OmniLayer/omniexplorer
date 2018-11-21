@@ -12,6 +12,7 @@
 
 import { fromJS } from 'immutable';
 import values from 'lodash/values';
+import orderBy from 'lodash/orderBy';
 
 import {
   LOAD_BLOCKS_SUCCESS,
@@ -39,7 +40,7 @@ function blocksReducer(state = initialState, action) {
         .set('blocks', [])
     case LOAD_BLOCKS_SUCCESS:
       return state
-        .set('blocks', values(action.blocks))
+        .set('blocks', orderBy(values(action.blocks), 'timestamp', 'desc'))
         .set('loading', false)
         .set('error', false);
     case LOAD_BLOCKS_ERROR:

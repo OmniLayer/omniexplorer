@@ -57,15 +57,16 @@ export class BlockDetail extends React.PureComponent {
   
     const getItemKey = (block, idx) => block.blockhash.slice(0, 22).concat(idx);
     const hashLink = txid => `/tx/${txid}`;
-    const block = this.props.blockdetail.block;
+    const { block } = this.props.blockdetail;
     return (
       <StyledContainer fluid>
         <ListHeader
           total={block.transactions.length}
-          totalLabel="transactions"
+          totalLabel=""
           messages={messages}
         />
         <List
+          usePagination={false}
           {...block}
           items={block.transactions}
           inner={Transaction}

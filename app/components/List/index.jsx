@@ -16,21 +16,25 @@ class List extends React.PureComponent {
     // item.txid.slice(0, 22).concat(idx)
     return (
       <div>
-        <ListPagination
-          {...this.props}
-          onSetPage={this.props.onSetPage}
-          hashLink={this.props.hashLink}
-        />
+        {this.props.usePagination &&
+          <ListPagination
+            {...this.props}
+            onSetPage={this.props.onSetPage}
+            hashLink={this.props.hashLink}
+          />
+        }
         <ul className="result-list">
           {this.props.items.map((item, idx) => (
             <ListItem {...this.props} key={this.props.getItemKey(item, idx)} {...item} />
           ))}
         </ul>
-        <ListPagination
-          {...this.props}
-          onSetPage={this.props.onSetPage}
-          hashLink={this.props.hashLink}
-        />
+        {this.props.usePagination &&
+          <ListPagination
+            {...this.props}
+            onSetPage={this.props.onSetPage}
+            hashLink={this.props.hashLink}
+          />
+        }
       </div>
     );
   }
@@ -41,6 +45,7 @@ List.propTypes = {
   getItemKey: PropTypes.func.isRequired,
   hashLink: PropTypes.func.isRequired,
   inner: PropTypes.func.isRequired,
+  usePagination: PropTypes.bool,
 };
 
 export default List;
