@@ -36,7 +36,7 @@ export class Transactions extends React.Component {
     this.props.loadTransactions(this.props.addr);
     console.log('Transactions did mount');
   }
-  
+
   render() {
     const StyledContainer = styled(Container)`
       background-color: #f0f3f4;
@@ -80,7 +80,7 @@ export class Transactions extends React.Component {
         getItemKey,
       };
       props.items = props.transactions;
-      content = <List {...props} />;
+      content = <List {...props} usePagination/>;
     }
 
     return (

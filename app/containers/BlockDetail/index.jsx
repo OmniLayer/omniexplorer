@@ -54,7 +54,7 @@ export class BlockDetail extends React.PureComponent {
         </Container>
       );
     }
-  
+
     const getItemKey = (block, idx) => block.blockhash.slice(0, 22).concat(idx);
     const hashLink = txid => `/tx/${txid}`;
     const { block } = this.props.blockdetail;
@@ -66,7 +66,6 @@ export class BlockDetail extends React.PureComponent {
           messages={messages}
         />
         <List
-          usePagination={false}
           {...block}
           items={block.transactions}
           inner={Transaction}
