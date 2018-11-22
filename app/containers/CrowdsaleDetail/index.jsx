@@ -111,7 +111,7 @@ export class CrowdsaleDetail extends React.PureComponent {
 
     // if the crowdsale doesn't exist redirect to not found
     if(!crowdsale.propertyiddesired) return <Redirect to='/not-found' />
-    
+
     const dessiredToken = this.props.properties(
       crowdsale.propertyiddesired.toString(),
     );
@@ -144,7 +144,7 @@ export class CrowdsaleDetail extends React.PureComponent {
         />
       </div>
     );
-    
+
     const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
     const hashLink = (v) => `${pathname}/${v}`;
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
@@ -317,7 +317,7 @@ export class CrowdsaleDetail extends React.PureComponent {
                     <FormattedMessage {...crowdsalesMessages.header} />
                     &nbsp;
                     {!!detail.total && (
-                      <small className="text-muted">
+                      <small>
                         {detail.total} {totalLabel}
                       </small>
                     )}
