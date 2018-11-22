@@ -14,7 +14,7 @@ class ListHeader extends React.PureComponent { // eslint-disable-line react/pref
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     const StyledRow = styled(Row)`
       background-color: black;
@@ -26,7 +26,7 @@ class ListHeader extends React.PureComponent { // eslint-disable-line react/pref
         letter-spacing: 0.1rem;
         font-weight: 300;
     `;
-    
+
     const totalLabel = `${this.props.totalLabel || 'transaction'}${this.props.total > 1 ? 's' : ''}`;
     return (
       <StyledRow className="text-center-down-sm pt-2 pb-2">
@@ -35,7 +35,7 @@ class ListHeader extends React.PureComponent { // eslint-disable-line react/pref
             <FormattedMessage {...this.props.messages.header} />
             &nbsp;
             {!!this.props.total &&
-            <small className="text-muted">{this.props.total} {totalLabel}</small>
+            <small>{this.props.total} {totalLabel}</small>
             }
           </HeaderTitle>
         </Col>

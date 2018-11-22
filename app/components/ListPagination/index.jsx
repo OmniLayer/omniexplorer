@@ -60,7 +60,7 @@ const ListPagination = props => {
   };
 
   const listPagination = buildListPagination(
-    props.currentPage,
+    props.currentPage || 1,
     props.pageCount,
   );
 
