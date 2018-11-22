@@ -36,7 +36,14 @@ const StyledContainer = styled(Container)`
 `;
 const StyledTH = styled.th`
   border: none !important;
+  font-weight: normal !important;
 `;
+const StyledAssetTH = styled(StyledTH).attrs({
+  colSpan: '4',
+})``;
+const StyledTR = styled.tr.attrs({
+  className: 'text-light bg-secondary',
+})``;
 
 export class Search extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -54,7 +61,7 @@ export class Search extends React.Component {
     if (this.props.search.loading) {
       return (
         <Container>
-          <LoadingIndicator />
+          <LoadingIndicator/>
         </Container>
       );
     }
@@ -89,7 +96,7 @@ export class Search extends React.Component {
       this.props.search.address.balance.length > 0
     ) {
       wallet = (
-        <Wallet {...this.props.search} addr={this.query} extra={walletlink()} />
+        <Wallet {...this.props.search} addr={this.query} extra={walletlink()}/>
       );
     }
 
@@ -102,48 +109,34 @@ export class Search extends React.Component {
         padding: 9px;
       `;
       assets = (
-        <Container fluid>
-          <DetailRow>
-            <Col sm="12">
-              <TableContainer>
-                <Table responsive>
-                  <thead>
-
-                  <tr>
-                    <StyledTH span="3">
-                      <Row>
-                        <Col xs="9" className="align-self-end offset-md-3 text-sm-left">
-                          <h4>
-                            <strong className="d-block" id="laddress">
-                              Properties
-                            </strong>
-                          </h4>
-                        </Col>
-                      </Row>
-                    </StyledTH>
-                  </tr>
-                  
-                    <tr>
-                      <StyledTH />
-                      <StyledTH>ID</StyledTH>
-                      <StyledTH>Name</StyledTH>
-                      <StyledTH>Issuer</StyledTH>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.props.search.asset.map((x, idx) => (
-                      <Asset
-                        {...x}
-                        changeRoute={this.props.changeRoute}
-                        key={x[2] + idx}
-                      />
-                    ))}
-                  </tbody>
-                </Table>
-              </TableContainer>
-            </Col>
-          </DetailRow>
-        </Container>
+        <Table responsive className="mt-1">
+          <thead>
+          <tr>
+            <StyledAssetTH>
+              <h4 className="align-self-end text-sm-left">
+                <strong className="d-block">
+                  Properties
+                </strong>
+              </h4>
+            </StyledAssetTH>
+          </tr>
+          <StyledTR>
+            <StyledTH/>
+            <StyledTH>ID</StyledTH>
+            <StyledTH>Name</StyledTH>
+            <StyledTH>Issuer</StyledTH>
+          </StyledTR>
+          </thead>
+          <tbody>
+          {this.props.search.asset.map((x, idx) => (
+            <Asset
+              {...x}
+              changeRoute={this.props.changeRoute}
+              key={x[2] + idx}
+            />
+          ))}
+          </tbody>
+        </Table>
       );
     }
 
@@ -173,7 +166,13 @@ export class Search extends React.Component {
           <Col sm>
             <div className="text-truncate">
               <h3>
-                Showing results for: <mark style={{overflow: 'scroll'}} className="d-block-down-md">{this.query}</mark>
+                Showing results for:{' '}
+                <mark
+                  style={{ overflow: 'scroll' }}
+                  className="d-block-down-md"
+                >
+                  {this.query}
+                </mark>
               </h3>
             </div>
           </Col>
@@ -194,7 +193,9 @@ export class Search extends React.Component {
 
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  changeRoute: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
+  search: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
