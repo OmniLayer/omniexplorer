@@ -11,16 +11,12 @@ import { routeActions } from 'redux-simple-router';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import {
-  Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-} from 'reactstrap';
+import { Container } from 'reactstrap';
 import styled from 'styled-components';
 import ListHeader from 'components/ListHeader';
 import BlockList from 'components/BlockList';
 import LoadingIndicator from 'components/LoadingIndicator';
+import JumpToBlock from 'components/JumpToBlock';
 
 import injectSaga from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
@@ -28,25 +24,6 @@ import sagaBlocks from 'containers/Blocks/saga';
 import { makeSelectBlocks, makeSelectLoading } from './selectors';
 import { loadBlocks, setBlockPage } from './actions';
 import messages from './messages';
-
-const StyledPagination = styled(Pagination).attrs({
-  className: 'pagination justify-content-end',
-})`
-  ul.pagination {
-    margin-bottom: 0;
-  }
-`;
-
-const StyledPaginationLink = styled(PaginationLink)`
-  border-radius: 3.2px;
-`;
-const StyledPaginationButton = styled(PaginationItem)`
-  margin: 0 2px;
-
-  &.disabled {
-    cursor: not-allowed;
-  }
-`;
 
 export class Blocks extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -72,10 +49,10 @@ export class Blocks extends React.Component {
     `;
 
     let content;
-    let pagination = <div />;
+    // let jumpToBlock = <div/>;
     const hasBlocks = () => (this.props.blocks.blocks || []).length === 0;
     if (this.props.loading) {
-      content = <LoadingIndicator />;
+      content = <LoadingIndicator/>;
     } else if (hasBlocks()) {
       content = (
         <StyledH3 className="lead text-center">
@@ -94,31 +71,14 @@ export class Blocks extends React.Component {
     } else {
       const { blocks } = this.props.blocks;
       content = (
-        <BlockList blocks={blocks} onSetBlockPage={this.props.onSetBlockPage} />
-      );
-
-      const hashLink = blockNum => `/${blockNum}`;
-      pagination = (
-        <StyledPagination>
-          <StyledPaginationButton className="mb-0">
-            <StyledPaginationLink
-              previous
-              href={hashLink(blocks[blocks.length - 1].block + 10)}
-            />
-          </StyledPaginationButton>
-          <StyledPaginationButton className="mb-0">
-            <StyledPaginationLink
-              next
-              href={hashLink(blocks[0].block - 1)} />
-          </StyledPaginationButton>
-        </StyledPagination>
+        <BlockList blocks={blocks} onSetBlockPage={this.props.onSetBlockPage}/>
       );
     }
 
     return (
       <StyledContainer fluid>
         <ListHeader totalLabel="Blocks" messages={messages}>
-          {pagination}
+          <JumpToBlock />
         </ListHeader>
         {content}
       </StyledContainer>
@@ -132,6 +92,7 @@ Blocks.propTypes = {
   onSetBlockPage: PropTypes.func,
   loading: PropTypes.bool,
   match: PropTypes.object,
+  changeRoute: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -145,7 +106,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadBlocks: addr => dispatch(loadBlocks(addr)),
     onSetBlockPage: p => dispatch(setBlockPage(p)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
