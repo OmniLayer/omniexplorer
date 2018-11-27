@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Container } from 'reactstrap';
@@ -75,12 +75,14 @@ export class Blocks extends React.Component {
       );
     }
 
+    const Footer = this.props.footer || <div/>;
     return (
       <StyledContainer fluid>
         <ListHeader totalLabel="Blocks" messages={messages}>
           <JumpToBlock />
         </ListHeader>
         {content}
+        {Footer}
       </StyledContainer>
     );
   }
