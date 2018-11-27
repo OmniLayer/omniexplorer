@@ -31,5 +31,9 @@ export default defineMessages({
       id: 'app.components.BlockList.columns.timestamp',
       defaultMessage: 'Timestamp',
     },
+    txtooltip: {
+      id: 'app.components.BlockList.columns.txtooltip',
+      defaultMessage: 'This represents the number of Omni Protocol Transactions in the block',
+    },
   },
 });

@@ -17,6 +17,8 @@ import { routeActions } from 'redux-simple-router';
 import connect from 'react-redux/es/connect/connect';
 import { compose } from 'redux';
 import ColoredHash from 'components/ColoredHash';
+import InformationIcon from 'react-icons/lib/io/informatcircled';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const StyledTR = styled.tr`
   cursor: pointer;
@@ -41,13 +43,17 @@ class BlockList extends React.PureComponent {
             <th>
               <FormattedMessage {...messages.columns.blockhash} />
             </th>
-            <th>
+            <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
+              <InformationIcon color="gray" className="ml-1" id="blockListTransactionCount" />
+              <UncontrolledTooltip placement="right-end" target="blockListTransactionCount">
+                <FormattedMessage {...messages.columns.txtooltip} />
+              </UncontrolledTooltip>
             </th>
-            <th>
+            <th className="text-right">
               <FormattedMessage {...messages.columns.usdcount} />
             </th>
-            <th>
+            <th className="text-right">
               <FormattedMessage {...messages.columns.timestamp} />
             </th>
           </tr>
@@ -61,9 +67,9 @@ class BlockList extends React.PureComponent {
               >
                 <td>{block.block}</td>
                 <td><ColoredHash hash={block.block_hash} /></td>
-                <td>{block.omni_tx_count}</td>
-                <td>{block.value.total_usd}</td>
-                <td><FormattedUnixDateTime datetime={block.timestamp} /></td>
+                <td className="text-right">{block.omni_tx_count}</td>
+                <td className="text-right">{block.value.total_usd}</td>
+                <td className="text-right"><FormattedUnixDateTime datetime={block.timestamp} /></td>
               </StyledTR>
             ))}
         </tbody>
