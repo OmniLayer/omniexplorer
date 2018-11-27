@@ -23,6 +23,10 @@ export default defineMessages({
       id: 'app.components.BlockList.columns.txcount',
       defaultMessage: 'Transactions',
     },
+    usdcount: {
+      id: 'app.components.BlockList.columns.usdcount',
+      defaultMessage: 'USD Total',
+    },
     timestamp: {
       id: 'app.components.BlockList.columns.timestamp',
       defaultMessage: 'Timestamp',
