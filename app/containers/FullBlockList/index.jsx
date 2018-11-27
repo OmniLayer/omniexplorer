@@ -20,7 +20,9 @@ const LoadMoreBlocks = styled.div.attrs({
 })`
   background-color: black;
   color: white;
-
+  
+  cursor: pointer;
+  padding: 0.5rem;
   letter-spacing: 0.1rem;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -30,16 +32,15 @@ const LoadMoreBlocks = styled.div.attrs({
   }
 `;
 
+
 export class FullBlockList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     const loadMoreBlocks = (
-      <LoadMoreBlocks>
+      <LoadMoreBlocks
+        onClick={()=>this.props.loadBlocks()}
+      >
         <Col sm>
-          <div
-            onClick={()=>this.props.loadBlocks()}
-          >
-            <FormattedMessage {...messages.footer} />
-          </div>
+          <FormattedMessage {...messages.footer} />
         </Col>
       </LoadMoreBlocks>
     );
