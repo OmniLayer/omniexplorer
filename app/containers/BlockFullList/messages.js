@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.BlockFullList.header',
     defaultMessage: 'This is BlockFullList container !',
   },
+  footer: {
+    id: 'app.containers.BlockFullList.footer',
+    defaultMessage: 'Load more...',
+  },
 });
