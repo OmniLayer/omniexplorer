@@ -11,12 +11,14 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import { Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ListHeader from 'components/ListHeader';
 import Transaction from 'components/Transaction';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
+import NoOmniTransactions from 'components/NoOmniTransactions';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -28,9 +30,13 @@ import sagaBlock from './saga';
 import messages from './messages';
 
 const StyledContainer = styled(Container)`
-      background-color: #f0f3f4;
-      overflow: auto;
-    `;
+  background-color: #f0f3f4;
+  overflow: auto;
+  
+  .wrapper-tx-timestamp {
+    display: none;
+  }
+`;
 
 export class BlockDetail extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -55,16 +61,16 @@ export class BlockDetail extends React.PureComponent {
       );
     }
 
-    const getItemKey = (block, idx) => block.blockhash.slice(0, 22).concat(idx);
-    const hashLink = txid => `/tx/${txid}`;
     const { block } = this.props.blockdetail;
-    return (
-      <StyledContainer fluid>
-        <ListHeader
-          total={block.transactions.length}
-          totalLabel=""
-          messages={messages}
-        />
+    let content;
+    if (!block.transactions || !block.transactions.length) {
+      content = <NoOmniTransactions />;
+    } else {
+      const getItemKey = (blockItem, idx) =>
+        blockItem.blockhash.slice(0, 22).concat(idx);
+      const hashLink = txid => `/tx/${txid}`;
+
+      content = (
         <List
           {...block}
           items={block.transactions}
@@ -72,6 +78,28 @@ export class BlockDetail extends React.PureComponent {
           getItemKey={getItemKey}
           hashLink={hashLink}
         />
+      );
+    }
+
+    return (
+      <StyledContainer fluid>
+        <ListHeader
+          totalLabel=""
+          messages={messages}
+          values={{
+            blockNumber: this.block,
+            txCount: block.transactions ? block.transactions.length : 0,
+            timestamp:
+              block.transactions && block.transactions[0] ? (
+                <FormattedUnixDateTime
+                  datetime={block.transactions[0].blocktime}
+                />
+              ) : (
+                '---'
+              ),
+          }}
+        />
+        {content}
       </StyledContainer>
     );
   }
@@ -99,9 +127,15 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'blockDetail', reducer });
+const withReducer = injectReducer({
+  key: 'blockDetail',
+  reducer,
+});
 
-const withSagaBlock = injectSaga({ key: 'blockDetail', saga: sagaBlock });
+const withSagaBlock = injectSaga({
+  key: 'blockDetail',
+  saga: sagaBlock,
+});
 
 export default compose(
   withReducer,
