@@ -7,21 +7,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Table } from 'reactstrap';
+import { Table, UncontrolledTooltip } from 'reactstrap';
 
 import { FormattedMessage } from 'react-intl';
-import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-
-import messages from './messages';
 import { routeActions } from 'redux-simple-router';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
+
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
-import { UncontrolledTooltip } from 'reactstrap';
+import messages from './messages';
 
 const StyledTR = styled.tr`
-  cursor: pointer;
+  // cursor: pointer;
 `;
 const StyledTable = styled(Table)`
   th {
@@ -63,10 +63,30 @@ class BlockList extends React.PureComponent {
             (
               <StyledTR
                 key={getItemKey(block, idx)}
-                onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+                // onClick={() => this.props.changeRoute(`/block/${block.block}`)}
               >
-                <td>{block.block}</td>
-                <td><ColoredHash hash={block.block_hash} /></td>
+                <td>
+                  <Link
+                    to={{
+                      pathname: `/block/${block.block}`,
+                      state: { state: this.props },
+                    }}
+                    onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+                  >
+                    {block.block}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    to={{
+                      pathname: `/block/${block.block}`,
+                      state: { state: this.props },
+                    }}
+                    onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+                  >
+                    <ColoredHash hash={block.block_hash} />
+                  </Link>
+                </td>
                 <td className="text-right">{block.omni_tx_count}</td>
                 <td className="text-right">{block.value.total_usd}</td>
                 <td className="text-right"><FormattedUnixDateTime datetime={block.timestamp} /></td>
