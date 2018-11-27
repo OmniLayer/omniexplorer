@@ -16,6 +16,7 @@ import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
 import LoadingIndicator from 'components/LoadingIndicator';
+import NoOmniTransactions from 'components/NoOmniTransactions';
 
 import injectSaga from 'utils/injectSaga';
 import sagaTransactions from 'containers/Transactions/saga';
@@ -42,30 +43,13 @@ export class Transactions extends React.Component {
       background-color: #f0f3f4;
       overflow: auto;
     `;
-    const StyledH3 = styled.h3`
-      padding: 3rem 0;
-    `;
 
     let content;
 
     if (this.props.loading) {
       content = <LoadingIndicator />;
     } else if ((this.props.transactions.transactions || []).length === 0) {
-      content = (
-        <StyledH3 className="lead text-center">
-          <p className="h3">No Omni Protocol transactions found</p>
-          <p className="h5">
-            If the transaction you are searching for was just broadcast it might
-            take a few minutes for the network to pass it around for us to see
-            it.
-          </p>
-          <p className="h5">
-            If the transaction you are searching for is a Bitcoin only
-            transaction you should use a bitcoin block explorer like{' '}
-            <a href="https://www.blocktrail.com">blocktrail.com</a>
-          </p>
-        </StyledH3>
-      );
+      content = <NoOmniTransactions />;
     } else {
       const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
       const hashLink = v => `${pathname}/${v}`;
@@ -80,7 +64,7 @@ export class Transactions extends React.Component {
         getItemKey,
       };
       props.items = props.transactions;
-      content = <List {...props} usePagination/>;
+      content = <List {...props} usePagination />;
     }
 
     return (
