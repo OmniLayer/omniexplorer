@@ -16,6 +16,7 @@ import messages from './messages';
 import { routeActions } from 'redux-simple-router';
 import connect from 'react-redux/es/connect/connect';
 import { compose } from 'redux';
+import ColoredHash from 'components/ColoredHash';
 
 const StyledTR = styled.tr`
   cursor: pointer;
@@ -44,6 +45,9 @@ class BlockList extends React.PureComponent {
               <FormattedMessage {...messages.columns.txcount} />
             </th>
             <th>
+              <FormattedMessage {...messages.columns.usdcount} />
+            </th>
+            <th>
               <FormattedMessage {...messages.columns.timestamp} />
             </th>
           </tr>
@@ -56,8 +60,9 @@ class BlockList extends React.PureComponent {
                 onClick={() => this.props.changeRoute(`/block/${block.block}`)}
               >
                 <td>{block.block}</td>
-                <td>{block.block_hash}</td>
+                <td><ColoredHash hash={block.block_hash} /></td>
                 <td>{block.omni_tx_count}</td>
+                <td>{block.value.total_usd}</td>
                 <td><FormattedUnixDateTime datetime={block.timestamp} /></td>
               </StyledTR>
             ))}
