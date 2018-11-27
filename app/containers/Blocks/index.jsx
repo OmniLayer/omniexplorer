@@ -21,19 +21,11 @@ import JumpToBlock from 'components/JumpToBlock';
 import injectSaga from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
 
-import { makeSelectBlocks, makeSelectLoading } from './selectors';
-import { loadBlocks, setBlockPage } from './actions';
+import { makeSelectBlocks, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
+import { loadBlocks } from './actions';
 import messages from './messages';
 
 export class Blocks extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-
-    const { block } = props.match.params;
-    this.props.onSetBlockPage(block);
-  }
-
   componentDidMount() {
     this.props.loadBlocks();
     console.log('Blocks did mount');
@@ -49,10 +41,9 @@ export class Blocks extends React.Component {
     `;
 
     let content;
-    // let jumpToBlock = <div/>;
     const hasBlocks = () => (this.props.blocks.blocks || []).length === 0;
-    if (this.props.loading) {
-      content = <LoadingIndicator/>;
+    if (this.props.loading && !this.props.previousBlock) {
+      content = <LoadingIndicator />;
     } else if (hasBlocks()) {
       content = (
         <StyledH3 className="lead text-center">
@@ -71,7 +62,12 @@ export class Blocks extends React.Component {
     } else {
       const { blocks } = this.props.blocks;
       content = (
+        <div>
         <BlockList blocks={blocks} onSetBlockPage={this.props.onSetBlockPage}/>
+        {this.props.previousBlock && this.props.loading &&
+          <LoadingIndicator />
+        }
+        </div>
       );
     }
 
@@ -93,6 +89,7 @@ Blocks.propTypes = {
   loadBlocks: PropTypes.func,
   onSetBlockPage: PropTypes.func,
   loading: PropTypes.bool,
+  previousBlock: PropTypes.any,
   match: PropTypes.object,
   changeRoute: PropTypes.func.isRequired,
 };
@@ -100,14 +97,14 @@ Blocks.propTypes = {
 const mapStateToProps = createStructuredSelector({
   blocks: makeSelectBlocks(),
   loading: makeSelectLoading(),
+  previousBlock: makeSelectPreviousBlock(),
   location: state => state.get('route').get('location'),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadBlocks: addr => dispatch(loadBlocks(addr)),
-    onSetBlockPage: p => dispatch(setBlockPage(p)),
+    loadBlocks: () => dispatch(loadBlocks()),
     changeRoute: url => dispatch(routeActions.push(url)),
   };
 }

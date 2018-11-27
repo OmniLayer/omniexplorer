@@ -1,6 +1,6 @@
 /**
  *
- * BlockFullList
+ * FullBlockList
  *
  */
 
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Blocks from 'containers/Blocks';
-
+import { loadBlocks } from 'containers/Blocks/actions';
 import styled from 'styled-components';
 import { Col } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
@@ -30,12 +30,16 @@ const LoadMoreBlocks = styled.div.attrs({
   }
 `;
 
-export class BlockFullList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class FullBlockList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     const loadMoreBlocks = (
       <LoadMoreBlocks>
         <Col sm>
-          <FormattedMessage {...messages.footer} />
+          <div
+            onClick={()=>this.props.loadBlocks()}
+          >
+            <FormattedMessage {...messages.footer} />
+          </div>
         </Col>
       </LoadMoreBlocks>
     );
@@ -49,14 +53,16 @@ export class BlockFullList extends React.PureComponent { // eslint-disable-line 
   }
 }
 
-BlockFullList.propTypes = {
+FullBlockList.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  loadBlocks: PropTypes.func.isRequired,
 };
 
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    loadBlocks: () => dispatch(loadBlocks()),
   };
 }
 
@@ -64,4 +70,4 @@ const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(
   withConnect,
-)(BlockFullList);
+)(FullBlockList);

@@ -15,10 +15,9 @@ import values from 'lodash/values';
 import orderBy from 'lodash/orderBy';
 
 import {
-  LOAD_BLOCKS_SUCCESS,
   LOAD_BLOCKS,
   LOAD_BLOCKS_ERROR,
-  SET_BLOCK_PAGE,
+  LOAD_BLOCKS_SUCCESS,
 } from './constants';
 
 // The initial state of the App
@@ -27,7 +26,7 @@ export const initialState = fromJS({
   error: false,
   blocks: [],
   pageCount: 0,
-  currentPage: 1,
+  previousBlock: '',
   txType: null,
 });
 
@@ -36,17 +35,21 @@ function blocksReducer(state = initialState, action) {
     case LOAD_BLOCKS:
       return state
         .set('loading', true)
-        .set('error', false)
-        .set('blocks', [])
-    case LOAD_BLOCKS_SUCCESS:
-      return state
-        .set('blocks', orderBy(values(action.blocks), 'timestamp', 'desc'))
-        .set('loading', false)
         .set('error', false);
+    case LOAD_BLOCKS_SUCCESS:
+      const hasBlocks = state.get('blocks').length > 0;
+      const blockValues = values(action.blocks);
+      const blocks = (hasBlocks ? state.get('blocks') : []).concat(blockValues);
+      
+      return state
+        .set('blocks', orderBy(blocks, 'timestamp', 'desc'))
+        .set('loading', false)
+        .set('error', false)
+        .set('previousBlock', blockValues[0].block - 1);
     case LOAD_BLOCKS_ERROR:
-      return state.set('error', action.error).set('loading', false);
-    case SET_BLOCK_PAGE:
-      return state.set('currentBlock', action.currentBlock);
+      return state
+        .set('error', action.error)
+        .set('loading', false);
     default:
       return state;
   }

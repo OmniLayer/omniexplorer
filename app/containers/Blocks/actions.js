@@ -19,7 +19,6 @@ import {
   LOAD_BLOCKS,
   LOAD_BLOCKS_SUCCESS,
   LOAD_BLOCKS_ERROR,
-  SET_BLOCK_PAGE,
 } from './constants';
 
 /**
@@ -58,19 +57,5 @@ export function blocksLoadingError(error) {
   return {
     type: LOAD_BLOCKS_ERROR,
     error,
-  };
-}
-
-/**
- * Dispatched when the page change
- *
- * @param  {number} page The page number
- *
- * @return {object} An action object with the page
- */
-export function setBlockPage(currentBlock) {
-  return {
-    type: SET_BLOCK_PAGE,
-    currentBlock,
   };
 }

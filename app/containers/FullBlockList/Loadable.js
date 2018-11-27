@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for BlockFullList
+ * Asynchronously loads the component for FullBlockList
  *
  */
 

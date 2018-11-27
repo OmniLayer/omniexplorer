@@ -28,7 +28,7 @@ const Layout = styled.div`
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const ViewBlockFullList = styled(Row)`
+    const ViewFullBlockList = styled(Row)`
       background-color: black;
       color: white;
 
@@ -42,7 +42,7 @@ class HomePage extends React.PureComponent {
     `;
 
     const viewFullList = (
-      <ViewBlockFullList>
+      <ViewFullBlockList>
         <Col sm>
           <Link
             to={{
@@ -54,7 +54,7 @@ class HomePage extends React.PureComponent {
             View full block list...
           </Link>
         </Col>
-      </ViewBlockFullList>
+      </ViewFullBlockList>
     );
 
     return (

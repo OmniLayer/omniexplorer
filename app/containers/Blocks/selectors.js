@@ -16,4 +16,7 @@ const makeSelectBlocks = () =>
 const makeSelectLoading = () =>
   createSelector(selectBlocksDomain, substate => substate.get('loading'));
 
-export { makeSelectBlocks, makeSelectLoading, selectBlocksDomain };
+const makeSelectPreviousBlock = () =>
+  createSelector(selectBlocksDomain, substate => substate.get('previousBlock'));
+
+export { makeSelectBlocks, makeSelectLoading, selectBlocksDomain, makeSelectPreviousBlock };
