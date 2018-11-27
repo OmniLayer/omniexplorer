@@ -116,6 +116,7 @@ export class AssetDetail extends React.PureComponent {
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   changeRoute: PropTypes.func.isRequired,
+  properties: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

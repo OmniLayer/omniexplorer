@@ -18,21 +18,14 @@ const Input = styled.input.attrs({
   type: 'number',
   placeholder: messages.placeholder.defaultMessage,
 })`
-	border: none;
-  appearance: none;
+  border: none !important;
+  appearance: none !important;
 `;
 const Wrapper = styled.div.attrs({
   className: 'input-group d-flex justify-content-end align-items-center',
 })`
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
-`;
-const StyledInputJumpTo = styled.input.attrs({
-  type: 'text',
-  name: 'blockToJump',
-})`
-  background-color: white;
-  color: black;
 `;
 
 class JumpToBlock extends React.PureComponent {
