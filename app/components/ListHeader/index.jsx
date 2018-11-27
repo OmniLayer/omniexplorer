@@ -32,7 +32,7 @@ class ListHeader extends React.PureComponent { // eslint-disable-line react/pref
       <StyledRow className="text-center-down-sm pt-2 pb-2">
         <Col sm>
           <HeaderTitle>
-            <FormattedMessage {...this.props.messages.header} />
+            <FormattedMessage {...this.props.messages.header} values={this.props.values} />
             &nbsp;
             {!!this.props.total &&
             <small>{this.props.total} {totalLabel}</small>
