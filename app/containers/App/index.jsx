@@ -29,6 +29,7 @@ import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
 import BlockDetail from 'containers/BlockDetail';
 import HistoryChart from 'containers/HistoryChart';
+import FullBlockList from 'containers/FullBlockList';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
@@ -131,6 +132,11 @@ class App extends React.Component {
             exact
             path="/history"
             component={HistoryChart}
+          />
+          <Route
+            exact
+            path="/blocks"
+            component={FullBlockList}
           />
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />

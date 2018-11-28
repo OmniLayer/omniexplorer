@@ -11,11 +11,9 @@ import { DEFAULT_NOT_NUMBER } from 'containers/App/constants';
 function SanitizedFormattedNumber(props) {
 // eslint-disable-next-line no-restricted-globals
   const isNumeric = (data) => (!isNaN(parseFloat(data)) && isFinite(data) && data.constructor !== Array);
-  if (props.value === undefined) {
-    props.value = '';
-  }
-  const value = props.value.toFixed ? props.value.toFixed(8) : parseFloat(props.value, 10).toString();
-  const hasDecimals = props.value && props.value.indexOf && props.value.indexOf('.') !== -1;
+  const propsValue = (props.value === undefined ? '' : props.value);
+  const value = propsValue.toFixed ? propsValue.toFixed(8) : parseFloat(propsValue, 10).toString();
+  const hasDecimals = propsValue && propsValue.indexOf && propsValue.indexOf('.') !== -1;
 
   let decimaldigits;
   if (hasDecimals || props.forceDecimals) {
@@ -34,17 +32,17 @@ function SanitizedFormattedNumber(props) {
       props.fractionDigits || (props.value < 8 ? value.slice(value.indexOf('.') + 1).length : 8)
   );
   const number = (isNumeric(value) ?
-    (
-      <span>
+      (
+        <span>
         <FormattedNumber
           value={value}
           minimunFractionDigits={fractionDigits}
           maximumFractionDigits={fractionDigits}
         />
-        {!!fractionDigits && decimaldigits}
+          {!!fractionDigits && decimaldigits}
       </span>
-    ) :
-    <span>{DEFAULT_NOT_NUMBER}</span>
+      ) :
+      <span>{DEFAULT_NOT_NUMBER}</span>
   );
 
   return number;

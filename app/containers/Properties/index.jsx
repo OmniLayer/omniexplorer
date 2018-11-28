@@ -83,7 +83,7 @@ export class Properties extends React.PureComponent { // eslint-disable-line rea
             <h3>
               Properties for ecosystem { this.ecosystem }
               &nbsp;
-              <small className="text-muted">({this.props.search.asset.length} properties)</small>
+              <small>({this.props.search.asset.length} properties)</small>
             </h3>
           </Col>
         </Row>

@@ -14,6 +14,7 @@ import { routeActions } from 'redux-simple-router';
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import styled from 'styled-components';
+import range from 'lodash/range';
 
 const StyledPaginationLink = styled(PaginationLink)`
   border-radius: 3.2px;
@@ -21,7 +22,7 @@ const StyledPaginationLink = styled(PaginationLink)`
 `;
 const StyledPaginationButton = styled(PaginationItem)`
   margin: 0 2px;
-  
+
   &.disabled {
     cursor: not-allowed;
   }
@@ -29,90 +30,100 @@ const StyledPaginationButton = styled(PaginationItem)`
 
 const StyledPaginationItem = styled(StyledPaginationButton)`
   &.active > .page-link {
-      background-color: #3498db;
-    }
+    background-color: #3498db;
+  }
 `;
 
-const ListPagination = (props) => {
-  const maxPagesQty = window.matchMedia('(max-width: 500px)').matches ? 5 : 10;
-  const pareInParams = parseInt(props.match.params.page - 1);
-  const _page = (isNaN(pareInParams) ? props.currentPage : pareInParams);
-  const pageNumber = Math.floor(_page / maxPagesQty) * maxPagesQty;
-  const pageCount = props.pageCount || 1;
-  const qtyPages = (pageCount < maxPagesQty ? pageCount : maxPagesQty);
-  const range = [...Array(qtyPages).keys()].map((x) => {
-    const current = x + pageNumber;
-    const result = (current < pageCount ? current : pageCount - x - 1);
-    return result;
-  }).sort();
+const ListPagination = props => {
+  const buildListPagination = (page, qtyPages) => {
+    const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
+      ? 5
+      : 10;
+    const startPage = (Math.floor((page - 1) / maxPagesByMedia)) * maxPagesByMedia + 1;
+    const minPaginationLength = qtyPages % maxPagesByMedia || 1;
+    const paginationLength = (startPage + maxPagesByMedia) < qtyPages ? maxPagesByMedia : minPaginationLength;
+    const listPagination = {
+      // + 1 because it's up to, but not including, `end`
+      range: range(paginationLength).map(x => {
+        const current = x + startPage;
+        const result = {
+          isCurrent: page === current,
+          value: current,
+        };
+        return result;
+      }),
+      count: qtyPages,
+      current: page,
+    };
+
+    return listPagination;
+  };
+
+  const listPagination = buildListPagination(
+    props.currentPage || 1,
+    props.pageCount,
+  );
 
   const setPage = (e, page) => {
     props.onSetPage(page);
   };
 
-  const getPrevious = () => (
-    _page > 0
-      ? _page - 1
-      : _page
-  );
+  const getPrevious = () =>
+    listPagination.current > 1
+      ? listPagination.current - 1
+      : listPagination.current;
 
-  const getNext = () => (
-    _page < props.pageCount
-      ? _page + 1
-      : _page
-  );
+  const getNext = () =>
+    listPagination.current < props.pageCount
+      ? listPagination.current + 1
+      : listPagination.current;
 
-  const onClick = (e) => ((qtyPages > 1) && setPage(e, getPrevious()));
   return (
     <Pagination className="pagination justify-content-end mt-2 mb-2">
       <StyledPaginationButton
-        onClick={onClick}
-        disabled={qtyPages === 1 || _page === 0}
+        disabled={listPagination.count === 1 || listPagination.current === 1}
         key="previous"
       >
-        <StyledPaginationLink previous href={props.hashLink(getPrevious())} />
+        <StyledPaginationLink previous href={props.hashLink(getPrevious())}/>
       </StyledPaginationButton>
-      {
-        range.map((v) => {
-          const isCurrent = v === _page;
-
-          return (
-            <StyledPaginationItem
-              onClick={(e) => setPage(e, v)}
-              className={isCurrent ? 'page-item active' : 'page-item'}
-              key={v}
-            >
-              <StyledPaginationLink href={props.hashLink(v)}>
-                {v + 1}
-              </StyledPaginationLink>
-            </StyledPaginationItem>
-          );
-        })
-      }
+      {listPagination.range.map(v => (
+        <StyledPaginationItem
+          onClick={e => setPage(e, v.value)}
+          className={v.isCurrent ? 'page-item active' : 'page-item'}
+          key={v.value}
+        >
+          <StyledPaginationLink href={props.hashLink(v.value)}>
+            {v.value}
+          </StyledPaginationLink>
+        </StyledPaginationItem>
+      ))}
       <StyledPaginationButton
-        onClick={onClick}
-        disabled={qtyPages === 1 || (_page + 1) === props.pageCount}
+        disabled={
+          listPagination.count === 1 ||
+          listPagination.current === listPagination.count
+        }
         key="next"
       >
-        <StyledPaginationLink next href={props.hashLink(getNext())} />
+        <StyledPaginationLink next href={props.hashLink(getNext())}/>
       </StyledPaginationButton>
     </Pagination>
   );
 };
 
 ListPagination.propTypes = {
-  addr: PropTypes.object,
+  addr: PropTypes.string,
   currentPage: PropTypes.number,
   transactions: PropTypes.array,
   location: PropTypes.object,
   match: PropTypes.object,
   pageCount: PropTypes.number,
   hashLink: PropTypes.func.isRequired,
+  onSetPage: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
@@ -123,7 +134,10 @@ function mapStateToProps(state) {
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(
   withConnect,

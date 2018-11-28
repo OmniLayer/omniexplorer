@@ -7,25 +7,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Table } from 'reactstrap';
+import { Table, UncontrolledTooltip } from 'reactstrap';
 
 import { FormattedMessage } from 'react-intl';
-import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-
-import messages from './messages';
 import { routeActions } from 'redux-simple-router';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 
-const StyledTr = styled.tr`
-  cursor: pointer;
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
+import ColoredHash from 'components/ColoredHash';
+import InformationIcon from 'react-icons/lib/io/informatcircled';
+import messages from './messages';
+
+const StyledTR = styled.tr`
+  // cursor: pointer;
 `;
+const StyledTable = styled(Table)`
+  th {
+    font-weight: normal;
+  }
+`;
+
 class BlockList extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const getItemKey = (item, idx) => item.timestamp.toString().concat(idx);
     return (
-      <Table responsive striped hover>
+      <StyledTable responsive striped hover>
         <thead>
           <tr>
             <th>
@@ -34,10 +43,17 @@ class BlockList extends React.PureComponent {
             <th>
               <FormattedMessage {...messages.columns.blockhash} />
             </th>
-            <th>
+            <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
+              <InformationIcon color="gray" className="ml-1" id="blockListTransactionCount" />
+              <UncontrolledTooltip placement="right-end" target="blockListTransactionCount">
+                <FormattedMessage {...messages.columns.txtooltip} />
+              </UncontrolledTooltip>
             </th>
-            <th>
+            <th className="text-right">
+              <FormattedMessage {...messages.columns.usdcount} />
+            </th>
+            <th className="text-right">
               <FormattedMessage {...messages.columns.timestamp} />
             </th>
           </tr>
@@ -45,18 +61,39 @@ class BlockList extends React.PureComponent {
         <tbody>
           {this.props.blocks.map((block, idx) =>
             (
-              <StyledTr
+              <StyledTR
                 key={getItemKey(block, idx)}
-                onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+                // onClick={() => this.props.changeRoute(`/block/${block.block}`)}
               >
-                <td>{block.block}</td>
-                <td>{block.block_hash}</td>
-                <td>{block.omni_tx_count}</td>
-                <td><FormattedUnixDateTime datetime={block.timestamp} useSeconds /></td>
-              </StyledTr>
+                <td>
+                  <Link
+                    to={{
+                      pathname: `/block/${block.block}`,
+                      state: { state: this.props },
+                    }}
+                    onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+                  >
+                    {block.block}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    to={{
+                      pathname: `/block/${block.block}`,
+                      state: { state: this.props },
+                    }}
+                    onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+                  >
+                    <ColoredHash hash={block.block_hash} />
+                  </Link>
+                </td>
+                <td className="text-right">{block.omni_tx_count}</td>
+                <td className="text-right">{block.value.total_usd}</td>
+                <td className="text-right"><FormattedUnixDateTime datetime={block.timestamp} /></td>
+              </StyledTR>
             ))}
         </tbody>
-      </Table>
+      </StyledTable>
     );
   }
 }

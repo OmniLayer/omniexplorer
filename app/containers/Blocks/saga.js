@@ -1,5 +1,5 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_BLOCKS } from 'containers/Blocks/constants';
+import { LOAD_BLOCKS, ADD_BLOCKS } from 'containers/Blocks/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
 import { blocksLoaded, blocksLoadingError } from './actions';
@@ -7,7 +7,7 @@ import { makeSelectBlocks } from './selectors';
 
 export function* getBlocks() {
   const state = yield select(makeSelectBlocks());
-  const { currentBlock } = state;
+  const currentBlock = state.previousBlock || '';
 
   const requestURL = `${API_URL_BASE}/transaction/blocks/${currentBlock}`;
 

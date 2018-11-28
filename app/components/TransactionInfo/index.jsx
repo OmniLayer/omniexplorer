@@ -54,10 +54,10 @@ function TransactionInfo(props) {
   let collapseDecoded = false;
   const toggleRawData = () => (collapseOmniData = !collapseOmniData);
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
-  
+
   const isValid = props.valid;
   const statusColor = (isValid ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light' : (props.confirmations === 0 ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light' : 'btn btn-group btn-primary btn-block btn-danger font-weight-light'));
-  
+
   const getStatus = (tx) => {
     if (tx.valid) {
       return (tx.confirmations < CONFIRMATIONS ?
@@ -75,7 +75,7 @@ function TransactionInfo(props) {
   const invalidReason = (props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`);
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
   const logo = getLogo(props.propertyid, props);
-  
+
   let warningMessage = null;
   let dtheader;
   if (props.confirmations === 0) {
@@ -100,7 +100,7 @@ function TransactionInfo(props) {
   } else {
     dtheader = 'Date/Time';
   }
-  
+
   const amountDisplay = (<TransactionAmount {...props} />);
   let tokenName;
   if (![4, -22, 25, 26].includes(props.type_int)) {
@@ -125,11 +125,11 @@ function TransactionInfo(props) {
       <td><strong>{props.ecosystem}</strong></td>
     </tr>);
   }
-  
+
   let btcDesired;
   let specificAction;
   if (props.type_int === 20) {
-    btcDesired = (<tr className="highlight">
+    btcDesired = (<tr>
       <td className="field">Bitcoin Desired</td>
       <td>
         <strong>
@@ -141,8 +141,8 @@ function TransactionInfo(props) {
     </tr>);
     specificAction = (`- ${props.action}`);
   }
-  
-  
+
+
   return (
     <StyledContainer fluid>
       {warningMessage}
@@ -216,7 +216,7 @@ function TransactionInfo(props) {
                   </span>
               </td>
             </tr>
-            <tr className="highlight">
+            <tr>
               <td className="field" style={{ paddingTop: '12px' }}>Status</td>
               <td className="field">
                 <div className={statusColor} style={{ width: '35%' }}>

@@ -21,6 +21,7 @@ import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import ColoredHash from 'components/ColoredHash';
 import getLogo from 'utils/getLogo';
 import './transaction.scss';
 
@@ -61,10 +62,11 @@ const WrapperTx = styled.div.attrs({
   className: 'location d-block-down-md text-truncate-down-md w-75',
 })`
   font-size: 1.25rem !important;
+  padding: 0 1rem;
 `;
 
 const WrapperTxDatetime = styled.div.attrs({
-  className: 'w-75 mb-3',
+  className: 'wrapper-tx-timestamp w-75 mb-3',
 })`
   font-size: 1.25rem !important;
   color: #333;
@@ -73,46 +75,46 @@ const WrapperTxDatetime = styled.div.attrs({
 class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-    
+
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-  
+
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-  
+
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-  
+
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-  
+
   getHighlightIfOwner(address) {
     return (this.isOwner(address) ? 'text-success' : '');
   }
-  
+
   isOwner(address) {
     return (this.props.addr ? this.props.addr === address : false);
   }
-  
+
   render() {
     const isValid = this.props.valid;
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
     statusCSSClass = (isValid ?  `${statusCSSClass} btn-blue`: (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
-    
+
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
@@ -128,14 +130,14 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
           'UNCONFIRMED' :
           'INVALID'
     );
-    
+
     const tokenLogo = getLogo(this.props.propertyid, this.props);
-    
+
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-    
+
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -145,13 +147,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-    
+
     const transactionAmount = this.props.amount || '';
-    
+
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-    
+
     const TransactionLabel = (tx, propertyname) => (tx.type_int === 51 ?
         <span>{tx.type} crowdsale started</span> :
       <div>
@@ -167,7 +169,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
         </div>
       </div>
     );
-    
+
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
@@ -199,7 +201,7 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   }}
                   onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
-                  {this.props.txid}
+                  <ColoredHash hash={this.props.txid} />
                 </Link>
               </WrapperTx>
               <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>

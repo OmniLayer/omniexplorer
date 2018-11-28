@@ -13,7 +13,7 @@ export default defineMessages({
   columns: {
     block: {
       id: 'app.components.BlockList.columns.block',
-      defaultMessage: '#',
+      defaultMessage: 'Height',
     },
     blockhash: {
       id: 'app.components.BlockList.columns.blockhash',
@@ -21,11 +21,19 @@ export default defineMessages({
     },
     txcount: {
       id: 'app.components.BlockList.columns.txcount',
-      defaultMessage: 'Txs Count',
+      defaultMessage: 'Transactions',
+    },
+    usdcount: {
+      id: 'app.components.BlockList.columns.usdcount',
+      defaultMessage: 'USD Total',
     },
     timestamp: {
       id: 'app.components.BlockList.columns.timestamp',
       defaultMessage: 'Timestamp',
+    },
+    txtooltip: {
+      id: 'app.components.BlockList.columns.txtooltip',
+      defaultMessage: 'This represents the number of Omni Protocol Transactions in the block',
     },
   },
 });

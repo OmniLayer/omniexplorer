@@ -12,13 +12,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Row, Col } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
-// import Transactions from 'containers/Transactions';
 import Blocks from 'containers/Blocks';
+import { Link } from 'react-router-dom';
 
 const Layout = styled.div`
   background-color: #f5f5f5;
@@ -28,6 +28,35 @@ const Layout = styled.div`
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
+    const ViewFullBlockList = styled(Row)`
+      background-color: black;
+      color: white;
+
+      letter-spacing: 0.1rem;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+
+      a {
+        color: white;
+      }
+    `;
+
+    const viewFullList = (
+      <ViewFullBlockList>
+        <Col sm>
+          <Link
+            to={{
+              pathname: `/blocks`,
+              state: { state: this.props },
+            }}
+            onClick={() => this.props.changeRoute(`/blocks`)}
+          >
+            View full block list...
+          </Link>
+        </Col>
+      </ViewFullBlockList>
+    );
+
     return (
       <Layout className="container-fluid">
         <Row noGutters>
@@ -45,7 +74,7 @@ class HomePage extends React.PureComponent {
         </Row>
         <Row>
           <Col sm>
-            <Blocks />
+            <Blocks footer={viewFullList} />
           </Col>
         </Row>
       </Layout>

@@ -12,16 +12,14 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 import {
   Button,
-  Col,
   Collapse,
-  Container,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Row,
   Table,
   UncontrolledTooltip,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import sortBy from 'lodash/sortBy';
@@ -51,12 +49,20 @@ const DetailRow = styled(Row)`
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })`
-  border-top: none;
+  border-top: none !important;
+  padding: 0 !important;
 `;
 
+const StyledTR = styled.tr.attrs({
+  className: 'text-light bg-secondary',
+})``;
 const StyledTH = styled.th`
   border: none !important;
+  font-weight: normal !important;
 `;
+const StyledTHTitle = styled(StyledTH).attrs({
+  colSpan: '5',
+})``;
 
 class Wallet extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -71,14 +77,14 @@ class Wallet extends React.PureComponent {
       modal: false,
     };
   }
-  
+
   toggle() {
     this.setState({ collapse: !this.state.collapse });
     this.setState({
       flaggedMessage: `${this.state.collapse ? 'Show' : 'Hide'} flagged tokens`,
     });
   }
-  
+
   toggleModal() {
     this.setState({
       modal: !this.state.modal,
@@ -111,141 +117,122 @@ class Wallet extends React.PureComponent {
     const hasFlagged = !!flaggedProps.length;
 
     return (
-      <Container fluid>
-        <DetailRow>
-          <Col sm="12">
-            <Table responsive>
-              <thead>
-                <tr>
-                  <StyledTH>
-                    <Row>
-                      <Col xs="9" className="align-self-end offset-md-3 text-sm-left">
-                        <h4>
-                          <strong className="d-block" id="laddress">
-                            <Button
-                              color="link"
-                              className="text-info"
-                              id="togglerFlagged"
-                              style={{
-                                textDecoration: 'none',
-                              }}
-                              onClick={this.toggleModal}
-                            >
-                              <StyledQRCodeIcon
-                                className="ml-1"
-                              />
-                            </Button>
-                            {this.props.addr}
-                            <Modal
-                              centered
-                              isOpen={this.state.modal}
-                              toggle={this.toggleModal}
-                            >
-                              <ModalHeader toggle={this.toggleModal}>
-                              </ModalHeader>
-                              <ModalBody className="text-center">
-                                <h3 className="text-truncate">{this.props.addr}</h3>
-                                <br/>
-                                <QRCode value={this.props.addr} size={256}/>
-                              </ModalBody>
-                              <ModalFooter>
-                                <Button color="secondary" onClick={this.toggleModal}>Close</Button>
-                              </ModalFooter>
-                            </Modal>
-                          </strong>
-                        </h4>
-                        {this.props.extra}
-                      </Col>
-                    </Row>
-                  </StyledTH>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="highlight">
-                  <StyledTD>
-                    <Table style={{ marginBottom: '5px' }}>
-                      <thead>
-                        <tr>
-                          <StyledTH />
-                          <StyledTH>ID</StyledTH>
-                          <StyledTH>Name</StyledTH>
-                          <StyledTH className="text-right" style={{minWidth: '13rem'}}>
-                            Available Balance
-                          </StyledTH>
-                          <StyledTH className="text-right" style={{minWidth: '13rem'}}>
-                            Reserved Balance
-                          </StyledTH>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {nonFlaggedProps.map(balance => (
-                          <Token {...balance} key={balance.id} />
-                        ))}
-                        <tr>
-                          <td colSpan="5" className="p-0 m-0 bg-white">
-                            <div className="text-center">
-                              {hasFlagged && (
-                                <div>
-                                  <Button
-                                    color="link"
-                                    className="text-info small"
-                                    id="togglerFlagged"
-                                    style={{
-                                      marginBottom: '1rem',
-                                      textDecoration: 'none',
-                                    }}
-                                    onClick={this.toggle}
-                                  >
-                                    {this.state.flaggedMessage}
-                                    <StyledInformationIcon
-                                      color="gray"
-                                      className="ml-1"
-                                      id="flaggedToolip"
-                                    />
-                                  </Button>
-                                  <UncontrolledTooltip
-                                    placement="right-end"
-                                    target="flaggedToolip"
-                                    style={{
-                                      textDecoration: 'none',
-                                    }}
-                                  >
-                                    <FormattedMessage {...walletMessages.flagged} />
-                                  </UncontrolledTooltip>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colSpan="5" className="p-0 m-0">
-                            <Collapse
-                              toggler="#togglerFlagged"
-                              isOpen={this.state.collapse}
-                            >
-                              <Table
-                                responsive
-                                className="table bg-light"
-                                style={{ marginBottom: '5px' }}
-                              >
-                                <tbody>
-                                  {flaggedProps.map(balance => (
-                                    <Token {...balance} key={balance.id} />
-                                  ))}
-                                </tbody>
-                              </Table>
-                            </Collapse>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </StyledTD>
-                </tr>
-              </tbody>
-            </Table>
-          </Col>
-        </DetailRow>
-      </Container>
+      <Table responsive style={{ marginBottom: '5px' }}>
+        <thead>
+        <tr>
+          <StyledTHTitle>
+            <h4 className="align-self-end text-sm-left">
+              <strong className="d-block">
+                <Button
+                  color="link"
+                  className="text-info"
+                  id="togglerFlagged"
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                  onClick={this.toggleModal}
+                >
+                  <StyledQRCodeIcon className="ml-1"/>
+                </Button>
+                {this.props.addr}
+                <Modal
+                  centered
+                  isOpen={this.state.modal}
+                  toggle={this.toggleModal}
+                >
+                  <ModalHeader toggle={this.toggleModal}/>
+                  <ModalBody className="text-center">
+                    <h3 className="text-truncate">{this.props.addr}</h3>
+                    <br/>
+                    <QRCode value={this.props.addr} size={256}/>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="secondary" onClick={this.toggleModal}>
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </Modal>
+              </strong>
+            </h4>
+            {this.props.extra}
+          </StyledTHTitle>
+        </tr>
+        <StyledTR>
+          <StyledTH/>
+          <StyledTH>ID</StyledTH>
+          <StyledTH>Name</StyledTH>
+          <StyledTH className="text-right">Available Balance</StyledTH>
+          <StyledTH className="text-right">Reserved Balance</StyledTH>
+        </StyledTR>
+        </thead>
+        <tbody>
+        {nonFlaggedProps.map(balance => (
+          <Token {...balance} key={balance.id}/>
+        ))}
+        <tr>
+          <td colSpan="5" className="p-0 m-0 bg-white">
+            <div className="text-center">
+              {hasFlagged && (
+                <div>
+                  <Button
+                    color="link"
+                    className="text-info small"
+                    id="togglerFlagged"
+                    style={{
+                      marginBottom: '1rem',
+                      textDecoration: 'none',
+                    }}
+                    onClick={this.toggle}
+                  >
+                    {this.state.flaggedMessage}
+                    <StyledInformationIcon
+                      color="gray"
+                      className="ml-1"
+                      id="flaggedToolip"
+                    />
+                  </Button>
+                  <UncontrolledTooltip
+                    placement="right-end"
+                    target="flaggedToolip"
+                    style={{
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <FormattedMessage {...walletMessages.flagged} />
+                  </UncontrolledTooltip>
+                </div>
+              )}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={5} className="p-0 m-0">
+            <Collapse toggler="#togglerFlagged" isOpen={this.state.collapse}>
+              <Table
+                responsive
+                className="table bg-light"
+                style={{ marginBottom: '5px' }}
+              >
+                <thead>
+                <StyledTR>
+                  <StyledTH/>
+                  <StyledTH>ID</StyledTH>
+                  <StyledTH>Name</StyledTH>
+                  <StyledTH className="text-right">Available Balance</StyledTH>
+                  <StyledTH className="text-right">Reserved Balance</StyledTH>
+                </StyledTR>
+                </thead>
+                <tbody>
+                {flaggedProps.map(balance => (
+                  <Token {...balance} key={balance.id}/>
+                ))}
+                </tbody>
+              </Table>
+            </Collapse>
+          </td>
+        </tr>
+        </tbody>
+      </Table>
     );
   }
 }
@@ -253,6 +240,7 @@ class Wallet extends React.PureComponent {
 Wallet.propTypes = {
   address: PropTypes.object.isRequired,
   addr: PropTypes.string.isRequired,
+  extra: PropTypes.any,
 };
 
 function mapDispatchToProps(dispatch) {
