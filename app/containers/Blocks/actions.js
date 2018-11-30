@@ -26,9 +26,10 @@ import {
  *
  * @return {object} An action object with a type of LOAD_BLOCKS
  */
-export function loadBlocks() {
+export function loadBlocks(block) {
   return {
     type: LOAD_BLOCKS,
+    block,
   };
 }
 
