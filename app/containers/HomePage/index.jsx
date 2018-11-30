@@ -12,15 +12,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Col, Row } from 'reactstrap';
+import { Container, Col, Row } from 'reactstrap';
 
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Blocks from 'containers/Blocks';
 import { Link } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
+import connect from 'react-redux/es/connect/connect';
+import { compose } from 'redux';
+import PropTypes from 'prop-types';
 
-const Layout = styled.div`
+const Layout = styled(Container)`
   background-color: #f5f5f5;
   padding: 0;
 `;
@@ -29,7 +33,7 @@ class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const ViewFullBlockList = styled(Row)`
-      background-color: black;
+      background-color: #7c8fa0;
       color: white;
 
       letter-spacing: 0.1rem;
@@ -47,9 +51,8 @@ class HomePage extends React.PureComponent {
           <Link
             to={{
               pathname: `/blocks`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/blocks`)}
           >
             View full block list...
           </Link>
@@ -58,7 +61,7 @@ class HomePage extends React.PureComponent {
     );
 
     return (
-      <Layout className="container-fluid">
+      <Layout fluid>
         <Row noGutters>
           <Col sm>
             <HeaderMessage />
@@ -74,7 +77,7 @@ class HomePage extends React.PureComponent {
         </Row>
         <Row>
           <Col sm>
-            <Blocks footer={viewFullList} />
+            <Blocks withPagination footer={viewFullList} />
           </Col>
         </Row>
       </Layout>
@@ -82,4 +85,17 @@ class HomePage extends React.PureComponent {
   }
 }
 
-export default HomePage;
+// export default HomePage;
+HomePage.propTypes = {
+  changeRoute: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(routeActions.push(url)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(null, mapDispatchToProps);
+export default compose(withConnect)(HomePage);
