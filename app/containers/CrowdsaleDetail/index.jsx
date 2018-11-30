@@ -37,6 +37,7 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
+import ContainerBase from 'components/ContainerBase';
 import moment from 'moment/src/moment';
 
 // Icons
@@ -55,6 +56,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
 import { setPage } from '../Transactions/actions';
+import ListHeader from 'components/ListHeader';
 
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
@@ -63,7 +65,7 @@ const StyledCard = styled(Card).attrs({
 `;
 
 const StyledDivContent = styled.div.attrs({
-  className: 'mt-3 mb-5 mx-auto text-md-left',
+  className: 'mt-3 mb-3 mx-auto text-md-left',
 })``;
 
 const StyledInformationIcon = styled(InformationIcon)`
@@ -71,23 +73,9 @@ const StyledInformationIcon = styled(InformationIcon)`
   font-size: 1.5rem;
 `;
 
-const HistoryContainer = styled(Container)`
-  background-color: #f0f3f4;
-`;
+const HistoryContainer = ContainerBase;
 
-const StyledRow = styled(Row).attrs({
-  className: 'pt-2 pb-2',
-})`
-  background-color: black;
-  color: white;
-`;
-
-const HeaderTitle = styled.span`
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  letter-spacing: 0.1rem;
-  font-weight: 300;
-`;
+const StyledRow = styled(Row).attrs({})``;
 
 export class CrowdsaleDetail extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -132,7 +120,7 @@ export class CrowdsaleDetail extends React.PureComponent {
       crowdsale.propertyname,
       this.crowdsaleid,
     );
-    const totalLabel = `transaction${detail.total > 1 ? 's' : ''}`;
+    // const totalLabel = `transaction${detail.total > 1 ? 's' : ''}`;
     const crowdsaleClosed = crowdsale.deadline * 1000 <= moment.utc().valueOf();
     const crowdsaleTimer = crowdsaleClosed ? null : (
       <div>
@@ -166,7 +154,7 @@ export class CrowdsaleDetail extends React.PureComponent {
         <Row>
           <Col sm="12" md="9">
             <StyledDivContent>
-              <Table responsive className="table-profile">
+              <Table responsive className="table-horizontal">
                 <thead>
                   <tr>
                     <td className="border-top-0">
@@ -313,15 +301,10 @@ export class CrowdsaleDetail extends React.PureComponent {
             <HistoryContainer fluid>
               <StyledRow>
                 <Col sm>
-                  <HeaderTitle>
-                    <FormattedMessage {...crowdsalesMessages.header} />
-                    &nbsp;
-                    {!!detail.total && (
-                      <small>
-                        {detail.total} {totalLabel}
-                      </small>
-                    )}
-                  </HeaderTitle>
+                  <ListHeader
+                    total={detail.total}
+                    message={crowdsalesMessages.header}
+                  />
                 </Col>
               </StyledRow>
               <List

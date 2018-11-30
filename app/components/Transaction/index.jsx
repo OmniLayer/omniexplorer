@@ -59,7 +59,7 @@ const WrapperLink = styled.div.attrs({
 `;
 
 const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md text-truncate-down-md w-75',
+  className: 'location d-block-down-md text-truncate-down-md',
 })`
   font-size: 1.25rem !important;
   padding: 0 1rem;
@@ -192,14 +192,13 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                 <span className="title text-muted">{this.props.propertyname} (#{this.props.propertyid})</span>
               </div>
             </Row>
-            <Row className="d-flex flex-center-down-md">
+            <Row className="d-flex flex-center-down-md mb-1 mt-1">
               <WrapperTx>
                 <Link
                   to={{
                     pathname: `/tx/${this.props.txid}`,
-                    state: { state: this.props },
+                    state: { state: this.props.state },
                   }}
-                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
                   <ColoredHash hash={this.props.txid} />
                 </Link>
@@ -221,9 +220,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                   className={statusCSSClass}
                   to={{
                     pathname: `/tx/${this.props.txid}`,
-                    state: { state: this.props },
+                    state: { state: this.props.state },
                   }}
-                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
                   {status}
               </Link>
@@ -239,9 +237,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                     className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
                     to={{
                       pathname: `/address/${this.props.sendingaddress}`,
-                      state: { state: this.props },
+                      state: { state: this.props.state },
                     }}
-                    onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
@@ -261,9 +258,8 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
                     className={addresscname}
                     to={{
                       pathname: `/address/${this.props.referenceaddress}`,
-                      state: { state: this.props },
+                      state: { state: this.props.state },
                     }}
-                    onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
                   >
                     {this.props.referenceaddress}
                   </StyledLink>

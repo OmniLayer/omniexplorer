@@ -74,9 +74,8 @@ class Token extends React.PureComponent {
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
             {this.props.id}
           </Link>
@@ -85,9 +84,8 @@ class Token extends React.PureComponent {
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
             {this.getTokenName()}
           </Link>

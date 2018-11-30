@@ -21,6 +21,7 @@ import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import ColoredHash from 'components/ColoredHash';
 import getLogo from 'utils/getLogo';
 import './transaction.scss';
 
@@ -58,7 +59,7 @@ const WrapperLink = styled.div.attrs({
 `;
 
 const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md text-truncate-down-md w-75',
+  className: 'location d-block-down-md text-truncate-down-md',
 })`
   font-size: 1.25rem !important;
 `;
@@ -97,46 +98,46 @@ const GrayArrowIconDown = styled(ArrowIconDown).attrs({
 class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-    
+
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-  
+
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-  
+
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-  
+
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-  
+
   getHighlightIfOwner(address) {
     return (this.isOwner(address) ? 'text-success' : '');
   }
-  
+
   isOwner(address) {
     return (this.props.addr ? this.props.addr === address : false);
   }
-  
+
   render() {
     const isValid = this.props.valid;
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
     statusCSSClass = (isValid ? `${statusCSSClass} btn-blue` : (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
-    
+
     const status = (
       isValid ?
         this.props.confirmations < CONFIRMATIONS ?
@@ -152,14 +153,14 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
           'UNCONFIRMED' :
           'INVALID'
     );
-    
+
     const tokenLogo = getLogo(this.props.propertyid, this.props);
-    
+
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-    
+
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -169,13 +170,13 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-    
+
     const transactionAmount = this.props.amount || '';
-    
+
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-    
+
     const TransactionLabel = (props) => (props.type_int === 51 ?
         <WrapperTxLabel>{props.crowdsale.propertyname} crowdsale started</WrapperTxLabel> :
         <WrapperTxLabel>
@@ -195,7 +196,7 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
           (+<SanitizedFormattedNumber value={props.issuertokens} fractionDigits={8}/> to Issuer)
         </WrapperTxLabel>
     );
-    
+
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
@@ -206,16 +207,15 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
               <TransactionLabel {...this.props} />
             </Row>
-            <Row className="d-flex flex-center-down-md">
+            <Row className="d-flex flex-center-down-md mb-sm-1 mt-sm-1">
               <WrapperTx>
                 <Link
                   to={{
                     pathname: `/tx/${this.props.txid}`,
-                    state: { state: this.props },
+                    state: { state: this.props.state },
                   }}
-                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
-                  {this.props.txid}
+                  <ColoredHash hash={this.props.txid} />
                 </Link>
               </WrapperTx>
               <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
@@ -235,9 +235,8 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
                 className={statusCSSClass}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
-                  state: { state: this.props },
+                  state: { state: this.props.state },
                 }}
-                onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
               >
                 {status}
               </Link>
@@ -253,9 +252,8 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
                     className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
                     to={{
                       pathname: `/address/${this.props.sendingaddress}`,
-                      state: { state: this.props },
+                      state: { state: this.props.state },
                     }}
-                    onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
@@ -275,9 +273,8 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
                     className={addresscname}
                     to={{
                       pathname: `/address/${this.props.referenceaddress}`,
-                      state: { state: this.props },
+                      state: { state: this.props.state },
                     }}
-                    onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
                   >
                     {this.props.referenceaddress}
                   </StyledLink>
