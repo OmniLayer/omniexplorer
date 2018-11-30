@@ -28,10 +28,8 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
   }
 
   render() {
-    const totalLabel = `${this.props.totalLabel || 'transaction'}${this.props.total > 1 ? 's' : ''}`;
-    
     return (
-      <ListHeader totalLabel={totalLabel} {...this.props} messages={messages}>
+      <ListHeader {...this.props} message={messages.header}>
         <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-md-right">
           <DropdownToggle caret color="info" className="font-weight-light">
             <FormattedMessage {...messages.transactionTypes} />
@@ -58,7 +56,6 @@ TransactionListHeader.propTypes = {
   className: PropTypes.string,
   selectType: PropTypes.func,
   total: PropTypes.number,
-  totalLabel: PropTypes.string,
 };
 
 export default TransactionListHeader;

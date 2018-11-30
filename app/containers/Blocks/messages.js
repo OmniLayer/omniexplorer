@@ -9,5 +9,8 @@ export default defineMessages({
   header: {
     id: 'app.containers.Blocks.header',
     defaultMessage: 'Latest Blocks',
+    one: 'Block',
+    other: 'Blocks',
+    zero: 'Blocks',
   },
 });
