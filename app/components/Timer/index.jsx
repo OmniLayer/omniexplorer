@@ -32,13 +32,13 @@ const TimerCardLabel = styled.p.attrs({
 export class Timer extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.state = {
       lastupdate: moment().unix(),
     };
-    
+
     this.calculateTimeUnits();
-    setInterval(
+    this.idInterval = setInterval(
       () => {
         this.calculateTimeUnits.call(this);
         this.setState({ lastupdate: moment().unix() });
@@ -46,7 +46,11 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
       this.props.interval,
     );
   }
-  
+
+  componentWillUnmount(){
+    clearInterval(this.idInterval);
+  }
+
   calculateTimeUnits() {
     // timeUnits = i18nService.getTimeUnits(this.millis);
     const timeUnits = {
@@ -57,34 +61,34 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
       months: 'month',
       years: 'year',
     }; // will contains time with units
-    
+
     if (this.props.datetime) {
       const since = (this.props.countdown ? moment.utc(this.props.datetime) : moment.utc());
       const to = (this.props.countdown ? moment.utc() : moment.utc(this.props.datetime));
-      
+
       this.years = since.diff(to, 'years');
       to.add(this.years, 'years');
-      
+
       this.months = since.diff(to, 'months');
       to.add(this.months, 'months');
-      
+
       this.days = since.diff(to, 'days');
       to.add(this.days, 'days');
-      
+
       this.hours = since.diff(to, 'hours');
       to.add(this.hours, 'hours');
-      
+
       this.minutes = since.diff(to, 'minutes');
       to.add(this.hours, 'minutes');
-      
+
       this.seconds = since.diff(to, 'seconds');
       to.add(this.hours, 'seconds');
-      
+
       this.millis = moment.unix(this.props.datetime).utc().diff(moment.utc());
     } else {
       throw new Error('datetime prop missing on Timer call');
     }
-    
+
     // plural - singular unit decision (old syntax, for backwards compatibility and English only, could be deprecated!)
     this.secondsS = (this.seconds === 1) ? '' : 's';
     this.minutesS = (this.minutes === 1) ? '' : 's';
@@ -92,7 +96,7 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
     this.daysS = (this.days === 1) ? '' : 's';
     this.monthsS = (this.months === 1) ? '' : 's';
     this.yearsS = (this.years === 1) ? '' : 's';
-    
+
     // new plural-singular unit decision functions (for custom units and multilingual support)
     this.secondUnit = timeUnits.seconds;
     this.minuteUnit = timeUnits.minutes;
@@ -100,7 +104,7 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
     this.dayUnit = timeUnits.days;
     this.monthUnit = timeUnits.months;
     this.yearUnit = timeUnits.years;
-    
+
     if (this.years > 99) {
       this.sseconds = '**';
       this.mminutes = '**';
@@ -118,7 +122,7 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
       this.yyears = this.years < 10 ? `0${this.years}` : this.years;
     }
   }
-  
+
   render() {
     return (
       <Container>

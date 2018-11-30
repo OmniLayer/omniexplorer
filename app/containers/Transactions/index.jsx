@@ -17,12 +17,17 @@ import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
+import ContainerBase from 'components/ContainerBase';
 
 import injectSaga from 'utils/injectSaga';
 import sagaTransactions from 'containers/Transactions/saga';
 
 import { makeSelectLoading, makeSelectTransactions } from './selectors';
 import { loadTransactions, setPage, setTransactionType } from './actions';
+
+const StyledContainer = styled(ContainerBase)`
+  overflow: auto;
+`;
 
 export class Transactions extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -39,11 +44,6 @@ export class Transactions extends React.Component {
   }
 
   render() {
-    const StyledContainer = styled(Container)`
-      background-color: #f0f3f4;
-      overflow: auto;
-    `;
-
     let content;
 
     if (this.props.loading) {

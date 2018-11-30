@@ -98,7 +98,7 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-  
+
   const crowdsaleClosed = (asset.deadline * 1000) <= moment.utc().valueOf();
   const closingLabel = crowdsaleClosed ? 'Closed' : 'Closing';
   return (
@@ -136,9 +136,8 @@ function AssetInfo(asset) {
           <Link
             to={{
               pathname: `/address/${asset.issuer}`,
-              state: { state: asset },
+              state: { state: asset.state },
             }}
-            onClick={() => asset.changeRoute(`/address/${asset.issuer}`)}
           >
             {asset.issuer}
           </Link>

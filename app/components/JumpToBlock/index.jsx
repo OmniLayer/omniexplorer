@@ -43,7 +43,7 @@ class JumpToBlock extends React.PureComponent {
   }
 
   handleKeyUp(e) {
-    const value = e.target.value;
+    const { value } = e.target;
     if (e.keyCode === 13 && value) {
       this.handleJumpToBlock(e);
     }
@@ -52,7 +52,7 @@ class JumpToBlock extends React.PureComponent {
   render() {
     return (
       <Wrapper className="jump-to-block-form">
-        <span>Jump to Block:&nbsp;</span>
+        <span className="d-none d-sm-inline">Jump to Block:&nbsp;</span>
         <Input
           className="form-control jump-to-block-input"
           value={this.state.blockToJump}

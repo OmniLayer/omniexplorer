@@ -46,9 +46,8 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           <Link
             to={{
               pathname: `/crowdsale/${this.props.propertyid}`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/crowdsale/${this.props.propertyid}`)}
           >
             {this.props.name}
             <br/>
@@ -59,9 +58,8 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           <Link
             to={{
               pathname: `/asset/${this.props.propertyiddesired}`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.propertyiddesired}`)}
           >
             {this.props.propertydesired.name}
             <br/>

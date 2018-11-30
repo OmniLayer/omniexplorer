@@ -9,6 +9,9 @@ export default defineMessages({
   header: {
     id: 'app.components.TransactionListHeader.header',
     defaultMessage: 'Latest Transactions',
+    one: 'Transaction',
+    other: 'Transactions',
+    zero: 'Transactions',
   },
   transactionTypes: {
     id: 'app.components.TransactionListHeader.paginationTitle',

@@ -22,18 +22,19 @@ import Wallet from 'components/Wallet';
 import TransactionInfo from 'components/TransactionInfo';
 import Asset from 'components/Asset';
 import LoadingIndicator from 'components/LoadingIndicator';
+import ContainerBase from 'components/ContainerBase';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
 import searchSaga from './saga';
 import { loadSearch } from './actions';
 
-const StyledContainer = styled(Container)`
-  background-color: white;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  padding: 1rem;
-`;
+// const StyledContainer = styled(Container)`
+//   background-color: white;
+//   margin-top: 3rem;
+//   margin-bottom: 3rem;
+//   padding: 1rem;
+// `;
 const StyledTH = styled.th`
   border: none !important;
   font-weight: normal !important;
@@ -61,7 +62,7 @@ export class Search extends React.Component {
     if (this.props.search.loading) {
       return (
         <Container>
-          <LoadingIndicator/>
+          <LoadingIndicator />
         </Container>
       );
     }
@@ -80,9 +81,8 @@ export class Search extends React.Component {
             <Link
               to={{
                 pathname: `/address/${this.query}`,
-                state: { state: this.props },
+                state: { state: this.props.state },
               }}
-              onClick={() => props.changeRoute(`/address/${this.query}`)}
             >
               Click Here for full address details.
             </Link>
@@ -96,7 +96,7 @@ export class Search extends React.Component {
       this.props.search.address.balance.length > 0
     ) {
       wallet = (
-        <Wallet {...this.props.search} addr={this.query} extra={walletlink()}/>
+        <Wallet {...this.props.search} addr={this.query} extra={walletlink()} />
       );
     }
 
@@ -111,30 +111,28 @@ export class Search extends React.Component {
       assets = (
         <Table responsive className="mt-1">
           <thead>
-          <tr>
-            <StyledAssetTH>
-              <h4 className="align-self-end text-sm-left">
-                <strong className="d-block">
-                  Properties
-                </strong>
-              </h4>
-            </StyledAssetTH>
-          </tr>
-          <StyledTR>
-            <StyledTH/>
-            <StyledTH>ID</StyledTH>
-            <StyledTH>Name</StyledTH>
-            <StyledTH>Issuer</StyledTH>
-          </StyledTR>
+            <tr>
+              <StyledAssetTH>
+                <h4 className="align-self-end text-sm-left">
+                  <strong className="d-block">Properties</strong>
+                </h4>
+              </StyledAssetTH>
+            </tr>
+            <StyledTR>
+              <StyledTH />
+              <StyledTH>ID</StyledTH>
+              <StyledTH>Name</StyledTH>
+              <StyledTH>Issuer</StyledTH>
+            </StyledTR>
           </thead>
           <tbody>
-          {this.props.search.asset.map((x, idx) => (
-            <Asset
-              {...x}
-              changeRoute={this.props.changeRoute}
-              key={x[2] + idx}
-            />
-          ))}
+            {this.props.search.asset.map((x, idx) => (
+              <Asset
+                {...x}
+                changeRoute={this.props.changeRoute}
+                key={x[2] + idx}
+              />
+            ))}
           </tbody>
         </Table>
       );
@@ -160,23 +158,24 @@ export class Search extends React.Component {
       );
     }
 
+    const StyledRow = styled(Row)`
+      background-color: #7c8fa0;
+      color: white;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    `;
     return (
-      <StyledContainer fluid>
-        <Row>
+      <ContainerBase fluid>
+        <StyledRow>
           <Col sm>
-            <div className="text-truncate">
-              <h3>
-                Showing results for:{' '}
-                <mark
-                  style={{ overflow: 'scroll' }}
-                  className="d-block-down-md"
-                >
-                  {this.query}
-                </mark>
-              </h3>
-            </div>
+            <h3>
+              Showing results for:&nbsp;
+              <div className="d-md-inline d-block-down-md" style={{ overflow: 'auto', overflowY: 'hidden' }}>
+                <mark>{this.query}</mark>
+              </div>
+            </h3>
           </Col>
-        </Row>
+        </StyledRow>
         <Row>
           <Col sm>{wallet}</Col>
         </Row>
@@ -186,7 +185,7 @@ export class Search extends React.Component {
         <Row>
           <Col sm>{tx}</Col>
         </Row>
-      </StyledContainer>
+      </ContainerBase>
     );
   }
 }

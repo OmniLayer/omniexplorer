@@ -19,6 +19,7 @@ import ListHeader from 'components/ListHeader';
 import Transaction from 'components/Transaction';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import NoOmniTransactions from 'components/NoOmniTransactions';
+import ContainerBase from 'components/ContainerBase';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -29,10 +30,9 @@ import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
 
-const StyledContainer = styled(Container)`
-  background-color: #f0f3f4;
+const StyledContainer = styled(ContainerBase)`
   overflow: auto;
-  
+
   .wrapper-tx-timestamp {
     display: none;
   }
@@ -84,8 +84,7 @@ export class BlockDetail extends React.PureComponent {
     return (
       <StyledContainer fluid>
         <ListHeader
-          totalLabel=""
-          messages={messages}
+          message={messages.header}
           values={{
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,

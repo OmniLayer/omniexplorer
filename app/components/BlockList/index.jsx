@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
 import messages from './messages';
 
@@ -40,58 +41,66 @@ class BlockList extends React.PureComponent {
             <th>
               <FormattedMessage {...messages.columns.block} />
             </th>
-            <th>
-              <FormattedMessage {...messages.columns.blockhash} />
+            <th className="text-right">
+              <FormattedMessage {...messages.columns.timestamp} />
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
-              <InformationIcon color="gray" className="ml-1" id="blockListTransactionCount" />
-              <UncontrolledTooltip placement="right-end" target="blockListTransactionCount">
+              <InformationIcon
+                color="gray"
+                className="ml-1"
+                id="blockListTransactionCount"
+              />
+              <UncontrolledTooltip
+                placement="right-end"
+                target="blockListTransactionCount"
+              >
                 <FormattedMessage {...messages.columns.txtooltip} />
               </UncontrolledTooltip>
             </th>
             <th className="text-right">
-              <FormattedMessage {...messages.columns.usdcount} />
+              <FormattedMessage {...messages.columns.usdvalue} />
             </th>
             <th className="text-right">
-              <FormattedMessage {...messages.columns.timestamp} />
+              <FormattedMessage {...messages.columns.blockhash} />
             </th>
           </tr>
         </thead>
         <tbody>
-          {this.props.blocks.map((block, idx) =>
-            (
-              <StyledTR
-                key={getItemKey(block, idx)}
-                // onClick={() => this.props.changeRoute(`/block/${block.block}`)}
-              >
-                <td>
-                  <Link
-                    to={{
-                      pathname: `/block/${block.block}`,
-                      state: { state: this.props },
-                    }}
-                    onClick={() => this.props.changeRoute(`/block/${block.block}`)}
-                  >
-                    {block.block}
-                  </Link>
-                </td>
-                <td>
-                  <Link
-                    to={{
-                      pathname: `/block/${block.block}`,
-                      state: { state: this.props },
-                    }}
-                    onClick={() => this.props.changeRoute(`/block/${block.block}`)}
-                  >
-                    <ColoredHash hash={block.block_hash} />
-                  </Link>
-                </td>
-                <td className="text-right">{block.omni_tx_count}</td>
-                <td className="text-right">{block.value.total_usd}</td>
-                <td className="text-right"><FormattedUnixDateTime datetime={block.timestamp} /></td>
-              </StyledTR>
-            ))}
+          {this.props.blocks.map((block, idx) => (
+            <StyledTR
+              key={getItemKey(block, idx)}
+              // onClick={() => this.props.changeRoute(`/block/${block.block}`)}
+            >
+              <td>
+                <Link
+                  to={{
+                    pathname: `/block/${block.block}`,
+                    state: { state: this.props.state },
+                  }}
+                >
+                  {block.block}
+                </Link>
+              </td>
+              <td className="text-right">
+                <FormattedUnixDateTime datetime={block.timestamp} />
+              </td>
+              <td className="text-right">{block.omni_tx_count}</td>
+              <td className="text-right">
+                $&nbsp;<SanitizedFormattedNumber value={block.value.total_usd} forceDecimals={true}/>
+              </td>
+              <td className="text-right">
+                <Link
+                  to={{
+                    pathname: `/block/${block.block}`,
+                    state: { state: this.props.state },
+                  }}
+                >
+                  <ColoredHash hash={block.block_hash} />
+                </Link>
+              </td>
+            </StyledTR>
+          ))}
         </tbody>
       </StyledTable>
     );

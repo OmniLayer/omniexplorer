@@ -5,9 +5,9 @@ import request from 'utils/request';
 import { blocksLoaded, blocksLoadingError } from './actions';
 import { makeSelectBlocks } from './selectors';
 
-export function* getBlocks() {
+export function* getBlocks({block}) {
   const state = yield select(makeSelectBlocks());
-  const currentBlock = state.previousBlock || '';
+  const currentBlock = block || state.previousBlock || '';
 
   const requestURL = `${API_URL_BASE}/transaction/blocks/${currentBlock}`;
 

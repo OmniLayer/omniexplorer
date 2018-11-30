@@ -19,5 +19,8 @@ export default defineMessages({
   header: {
     id: 'app.containers.CrowdsaleDetail.header',
     defaultMessage: 'Crowdsale History',
+    one: 'Transaction',
+    other: 'Transactions',
+    zero: 'Transactions',
   },
 });

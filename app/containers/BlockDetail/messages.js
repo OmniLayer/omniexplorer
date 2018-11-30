@@ -8,8 +8,9 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.containers.BlockDetail.header',
-    defaultMessage: `
-      Block {blockNumber}, {txCount} Transactions, created at {timestamp}
-    `,
+    defaultMessage: 'Block {blockNumber}, {txCount} Transactions, created at {timestamp}',
+    one: 'Block',
+    other: 'Blocks',
+    zero: 'Blocks',
   },
 });
