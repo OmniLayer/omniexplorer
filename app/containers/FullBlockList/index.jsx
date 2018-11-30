@@ -18,9 +18,9 @@ import messages from './messages';
 const LoadMoreBlocks = styled.div.attrs({
   className: 'text-center',
 })`
-  background-color: black;
+  background-color: #7c8fa0;
   color: white;
-  
+
   cursor: pointer;
   padding: 0.5rem;
   letter-spacing: 0.1rem;
@@ -32,13 +32,11 @@ const LoadMoreBlocks = styled.div.attrs({
   }
 `;
 
-
-export class FullBlockList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class FullBlockList extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   render() {
     const loadMoreBlocks = (
-      <LoadMoreBlocks
-        onClick={()=>this.props.loadBlocks()}
-      >
+      <LoadMoreBlocks onClick={() => this.props.loadBlocks()}>
         <Col sm>
           <FormattedMessage {...messages.footer} />
         </Col>
@@ -59,7 +57,6 @@ FullBlockList.propTypes = {
   loadBlocks: PropTypes.func.isRequired,
 };
 
-
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
@@ -67,8 +64,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
-export default compose(
-  withConnect,
-)(FullBlockList);
+export default compose(withConnect)(FullBlockList);
