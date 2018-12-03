@@ -35,18 +35,17 @@ const LoadMoreBlocks = styled.div.attrs({
 export class FullBlockList extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const loadMoreBlocks = (
-      <LoadMoreBlocks onClick={() => this.props.loadBlocks()}>
-        <Col sm>
-          <FormattedMessage {...messages.footer} />
-        </Col>
-      </LoadMoreBlocks>
-    );
+    // const loadMoreBlocks = (
+    //   <LoadMoreBlocks onClick={() => this.props.loadBlocks()}>
+    //     <Col sm>
+    //       <FormattedMessage {...messages.footer} />
+    //     </Col>
+    //   </LoadMoreBlocks>
+    // );
 
     return (
       <div>
-        <Blocks />
-        {loadMoreBlocks}
+        <Blocks withPagination />
       </div>
     );
   }
@@ -54,7 +53,7 @@ export class FullBlockList extends React.PureComponent {
 
 FullBlockList.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  loadBlocks: PropTypes.func.isRequired,
+  // loadBlocks: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
