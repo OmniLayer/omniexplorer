@@ -27,7 +27,7 @@ import {
 } from 'containers/App/constants';
 
 import ListHeader from 'components/ListHeader';
-import datetimeMessages from 'components/FormattedDateTime/messages';
+import { Messages as datetimeMessages } from 'components/FormattedDateTime';
 import messages from './messages';
 import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';

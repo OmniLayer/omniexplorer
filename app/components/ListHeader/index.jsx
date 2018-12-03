@@ -27,7 +27,7 @@ class ListHeader extends React.PureComponent {
     // const totalLabel = `${this.props.totalLabel || 'transaction'}${this.props.total > 1 ? 's' : ''}`;
     return (
       <StyledRow className="text-center-down-sm pt-2 pb-2">
-        <Col sm>
+        <Col sm md={8}>
           <HeaderTitle>
             <FormattedMessage
               {...this.props.message}

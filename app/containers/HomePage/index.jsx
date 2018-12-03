@@ -77,7 +77,7 @@ class HomePage extends React.PureComponent {
         </Row>
         <Row>
           <Col sm>
-            <Blocks withPagination footer={viewFullList} />
+            <Blocks footer={viewFullList} />
           </Col>
         </Row>
       </Layout>

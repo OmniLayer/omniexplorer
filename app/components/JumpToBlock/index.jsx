@@ -54,10 +54,12 @@ class JumpToBlock extends React.PureComponent {
       <Wrapper className="jump-to-block-form">
         <span className="d-none d-sm-inline">Jump to Block:&nbsp;</span>
         <Input
+          style={{ maxWidth: '9rem' }}
           className="form-control jump-to-block-input"
           value={this.state.blockToJump}
           onInput={e => this.setState({ blockToJump: e.target.value })}
           onKeyUp={e => this.handleKeyUp(e)}
+          min="6" max="10"
         />
         <SearchIcon
           className="jump-to-block-icon"

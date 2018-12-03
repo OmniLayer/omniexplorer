@@ -135,7 +135,7 @@ class App extends React.Component {
           />
           <Route
             exact
-            path="/blocks"
+            path="/blocks/:block(\d+)?"
             component={FullBlockList}
           />
           <Route path="" component={NotFoundPage} />
