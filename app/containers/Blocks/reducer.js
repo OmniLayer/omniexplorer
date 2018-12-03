@@ -23,6 +23,7 @@ import {
 // The initial state of the App
 export const initialState = fromJS({
   loading: false,
+  appendBlocks: false,
   error: false,
   blocks: [],
   pageCount: 0,
@@ -39,8 +40,7 @@ function blocksReducer(state = initialState, action) {
     case LOAD_BLOCKS_SUCCESS:
       const hasBlocks = state.get('blocks').length > 0;
       const blockValues = values(action.blocks);
-      const blocks = (hasBlocks ? state.get('blocks') : []).concat(blockValues);
-      
+      const blocks = (hasBlocks && state.get('appendBlocks') ? state.get('blocks') : []).concat(blockValues);
       return state
         .set('blocks', orderBy(blocks, 'timestamp', 'desc'))
         .set('loading', false)

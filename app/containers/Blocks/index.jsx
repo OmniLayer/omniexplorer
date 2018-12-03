@@ -16,74 +16,66 @@ import ListHeader from 'components/ListHeader';
 import BlockList from 'components/BlockList';
 import LoadingIndicator from 'components/LoadingIndicator';
 import JumpToBlock from 'components/JumpToBlock';
+import NoOmniBlocks from 'components/NoOmniBlocks';
 import ContainerBase from 'components/ContainerBase';
 
 import injectSaga from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
 
-import { makeSelectBlocks, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
+import {
+  makeSelectBlocks,
+  makeSelectLoading,
+  makeSelectPreviousBlock,
+} from './selectors';
 import { loadBlocks } from './actions';
 import messages from './messages';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
 `;
-const StyledH3 = styled.h3`
-  padding: 3rem 0;
-`;
 
 export class Blocks extends React.Component {
   constructor(props) {
     super(props);
+
     const { block } = this.props.match.params || '';
     this.block = block;
   }
 
   componentDidMount() {
     this.props.loadBlocks(this.block);
-    console.log('Blocks did mount');
   }
 
   render() {
     let content;
     let pagination;
 
-    const hasBlocks = () => (this.props.blocks.blocks || []).length === 0;
-    const notfoundblocks = (
-      <StyledH3 className="lead text-center">
-        <p className="h3">No Omni Protocol blocks found</p>
-        <p className="h5">
-          If the block you are searching for was just broadcast it might take a
-          few minutes for the network to pass it around for us to see it.
-        </p>
-        <p className="h5">
-          If the block you are searching for is a Bitcoin only block you should
-          use a bitcoin block explorer like{' '}
-          <a href="https://www.blocktrail.com">blocktrail.com</a>
-        </p>
-      </StyledH3>
-    );
+    const hasBlocks = () => (this.props.blocks.blocks || []).length > 0;
     if (this.props.loading && !this.props.previousBlock) {
-      content = <LoadingIndicator/>;
-    } else if (hasBlocks()) {
-      content = notfoundblocks;
+      content = <LoadingIndicator />;
+    } else if (!hasBlocks()) {
+      content = <NoOmniBlocks />;
     } else {
       const { blocks } = this.props.blocks;
-
       const list =
-        (this.block > blocks[0].block + 9)
-          ? notfoundblocks
-          : (<BlockList blocks={blocks}/>);
+        this.block > blocks[0].block + 9 ? (
+          <NoOmniBlocks />
+        ) : (
+          <BlockList blocks={blocks} />
+        );
 
       content = (
         <div>
           {list}
-          {this.props.previousBlock &&
-          this.props.loading && <LoadingIndicator/>}
+          {/*{this.props.previousBlock &&*/}
+            {/*this.props.loading && <LoadingIndicator />}*/}
         </div>
       );
 
-      let pathname = this.props.location.pathname.toLowerCase().indexOf('block') > -1 ? '/blocks/' : '/';
+      const pathname =
+        this.props.location.pathname.toLowerCase().indexOf('block') > -1
+          ? '/blocks/'
+          : '/';
       const hashLink = blockNum => `${pathname}${blockNum}`;
       const A = styled.a`
         text-decoration: none;
@@ -92,7 +84,7 @@ export class Blocks extends React.Component {
         }
       `;
       const previousBlockSet =
-        (this.block > blocks[0].block + 9)
+        this.block > blocks[0].block + 9
           ? blocks[0].block
           : blocks[blocks.length - 1].block - 1;
 
@@ -105,15 +97,13 @@ export class Blocks extends React.Component {
       );
     }
 
-    const Footer = this.props.footer || <div/>;
+    const Footer = this.props.footer || <div />;
     return (
       <StyledContainer fluid>
         <ListHeader message={messages.header}>
-          <JumpToBlock/>
+          <JumpToBlock />
         </ListHeader>
-        {this.props.withPagination &&
-          pagination
-        }
+        {this.props.withPagination && pagination}
         {content}
         {Footer}
       </StyledContainer>
@@ -128,6 +118,7 @@ Blocks.propTypes = {
   previousBlock: PropTypes.any,
   match: PropTypes.object,
   location: PropTypes.object,
+  withPagination: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({

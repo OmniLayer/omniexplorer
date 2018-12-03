@@ -7,7 +7,7 @@ import { makeSelectBlocks } from './selectors';
 
 export function* getBlocks({block}) {
   const state = yield select(makeSelectBlocks());
-  const currentBlock = block || state.previousBlock || '';
+  const currentBlock = block || (state.appendBlocks ? state.previousBlock || '' : '');
 
   const requestURL = `${API_URL_BASE}/transaction/blocks/${currentBlock}`;
 

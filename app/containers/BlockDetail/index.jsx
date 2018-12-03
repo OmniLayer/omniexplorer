@@ -18,8 +18,9 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import ListHeader from 'components/ListHeader';
 import Transaction from 'components/Transaction';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import NoOmniTransactions from 'components/NoOmniTransactions';
+import NoOmniBlockTransactions from 'components/NoOmniBlockTransactions';
 import ContainerBase from 'components/ContainerBase';
+import JumpToBlock from 'components/JumpToBlock';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -64,7 +65,7 @@ export class BlockDetail extends React.PureComponent {
     const { block } = this.props.blockdetail;
     let content;
     if (!block.transactions || !block.transactions.length) {
-      content = <NoOmniTransactions />;
+      content = <NoOmniBlockTransactions />;
     } else {
       const getItemKey = (blockItem, idx) =>
         blockItem.blockhash.slice(0, 22).concat(idx);
@@ -97,7 +98,9 @@ export class BlockDetail extends React.PureComponent {
                 '---'
               ),
           }}
-        />
+        >
+          <JumpToBlock />
+        </ListHeader>
         {content}
       </StyledContainer>
     );
