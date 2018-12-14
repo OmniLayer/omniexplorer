@@ -33,11 +33,11 @@ export default defineMessages({
     },
     txtooltip: {
       id: 'app.components.BlockList.columns.txtooltip',
-      defaultMessage: 'This represents the number of Omni Protocol Transactions in the block',
+      defaultMessage: 'Omni Protocol Transactions in the block',
     },
     usdtooltip: {
       id: 'app.components.BlockList.columns.usdooltip',
-      defaultMessage: 'The value is rounded to the nearest dollar',
+      defaultMessage: 'Rounded to the nearest dollar',
     },
   },
 });

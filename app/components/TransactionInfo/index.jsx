@@ -26,6 +26,7 @@ import {
 import TransactionAmount from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ContainerBase from 'components/ContainerBase';
+import StatusConfirmation from 'components/StatusConfirmation';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -58,36 +59,21 @@ const A = styled.a`
 `;
 
 function TransactionInfo(props) {
-  let collapseOmniData = false;
+  // let collapseOmniData = false;
   let collapseDecoded = false;
-  const toggleRawData = () => (collapseOmniData = !collapseOmniData);
+  // const toggleRawData = () => (collapseOmniData = !collapseOmniData);
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
 
-  const isValid = props.valid;
-  const statusColor = isValid
+  const statusColor = props.valid
     ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light'
     : props.confirmations === 0
       ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light'
       : 'btn btn-group btn-primary btn-block btn-danger font-weight-light';
 
-  const confirmedUnconfirmed = confirmations =>
-    confirmations === 0
-      ? 'UNCONFIRMED'
-      : pluralizeConfirmations(confirmations);
-
-  const pluralizeConfirmations = confirmations =>
-    confirmations > 1
-      ? `${props.confirmations} CONFIRMATIONS`
-      : `${props.confirmations} CONFIRMATION`;
-
-  const getStatus = tx => {
-    if (tx.valid) {
-      return tx.confirmations < CONFIRMATIONS
-        ? confirmedUnconfirmed(tx.confirmations)
-        : 'CONFIRMED';
-    }
-    return tx.confirmations === 0 ? 'UNCONFIRMED' : 'INVALID';
-  };
+  const status = StatusConfirmation({
+    ...props,
+    confirmed: CONFIRMATIONS,
+  });
   const invalidReason =
     props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`;
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
@@ -240,9 +226,9 @@ function TransactionInfo(props) {
                 </td>
                 <td className="field">
                   <div className={statusColor} style={{ width: '35%' }}>
-                    {getStatus(props)}
+                    {status}
                   </div>
-                  <div className="text-left">{!isValid && invalidReason}</div>
+                  <div className="text-left">{!props.valid && invalidReason}</div>
                 </td>
               </tr>
               <tr>
@@ -332,6 +318,7 @@ TransactionInfo.propTypes = {
   propertyname: PropTypes.string,
   propertyid: PropTypes.number,
   invalidreason: PropTypes.any,
+  valid: PropTypes.bool,
 };
 
 function mapDispatchToProps(dispatch) {

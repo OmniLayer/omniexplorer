@@ -18,11 +18,12 @@ import {
   LOAD_BLOCKS,
   LOAD_BLOCKS_ERROR,
   LOAD_BLOCKS_SUCCESS,
+  DISABLE_BLOCKS_LOADING,
 } from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
-  loading: false,
+  loading: true,
   appendBlocks: false,
   error: false,
   blocks: [],
@@ -33,6 +34,9 @@ export const initialState = fromJS({
 
 function blocksReducer(state = initialState, action) {
   switch (action.type) {
+    case DISABLE_BLOCKS_LOADING:
+      return state
+        .set('loading', false);
     case LOAD_BLOCKS:
       return state
         .set('loading', true)
@@ -45,7 +49,7 @@ function blocksReducer(state = initialState, action) {
         .set('blocks', orderBy(blocks, 'timestamp', 'desc'))
         .set('loading', false)
         .set('error', false)
-        .set('previousBlock', blockValues[0].block - 1);
+        .set('previousBlock', (blocks.length ? blockValues[0].block - 1 : null));
     case LOAD_BLOCKS_ERROR:
       return state
         .set('error', action.error)

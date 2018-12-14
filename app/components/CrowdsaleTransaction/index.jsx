@@ -22,6 +22,7 @@ import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
+import StatusConfirmation from 'components/StatusConfirmation';
 import getLogo from 'utils/getLogo';
 import './transaction.scss';
 
@@ -134,25 +135,15 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
   }
 
   render() {
-    const isValid = this.props.valid;
+    // const isValid = this.props.valid;
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
-    statusCSSClass = (isValid ? `${statusCSSClass} btn-blue` : (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
+    statusCSSClass = (this.props.valid ? `${statusCSSClass} btn-blue` : (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
 
-    const status = (
-      isValid ?
-        this.props.confirmations < CONFIRMATIONS ?
-          this.props.confirmations === 0 ?
-            'UNCONFIRMED' :
-            this.props.confirmations > 1 ?
-              `${this.props.confirmations} CONFIRMATIONS` :
-              `${this.props.confirmations} CONFIRMATION`
-          :
-          'CONFIRMED'
-        :
-        this.props.confirmations === 0 ?
-          'UNCONFIRMED' :
-          'INVALID'
-    );
+    const status = StatusConfirmation({
+      valid: this.props.valid,
+      confirmations: this.props.confirmations,
+      confirmed: CONFIRMATIONS,
+    });
 
     const tokenLogo = getLogo(this.props.propertyid, this.props);
 
@@ -215,7 +206,7 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
                     state: { state: this.props.state },
                   }}
                 >
-                  <ColoredHash hash={this.props.txid} />
+                  <ColoredHash hash={this.props.txid}/>
                 </Link>
               </WrapperTx>
               <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>

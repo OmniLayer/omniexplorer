@@ -48,6 +48,7 @@ import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
 
 import List from 'components/List';
 import CrowdsaleTransaction from 'components/CrowdsaleTransaction';
+import ListHeader from 'components/ListHeader';
 
 import crowdsalesMessages from './messages';
 import makeSelectCrowdsaleDetail from './selectors';
@@ -56,7 +57,6 @@ import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
 import { setPage } from '../Transactions/actions';
-import ListHeader from 'components/ListHeader';
 
 const StyledCard = styled(Card).attrs({
   className: 'text-center',

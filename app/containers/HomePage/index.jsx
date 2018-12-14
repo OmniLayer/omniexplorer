@@ -54,7 +54,7 @@ class HomePage extends React.PureComponent {
               state: { state: this.props.state },
             }}
           >
-            View full block list...
+            Navigate full block list...
           </Link>
         </Col>
       </ViewFullBlockList>
