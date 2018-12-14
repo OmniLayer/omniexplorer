@@ -98,7 +98,7 @@ class TransactionHistory extends React.PureComponent {
           attr="y"
           attrAxis="x"
           orientation="left"
-          title="Number of transactions"
+          title="Transactions"
         />
         {crosshairValues && (
           <Crosshair

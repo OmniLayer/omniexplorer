@@ -19,19 +19,24 @@ import JumpToBlock from 'components/JumpToBlock';
 import NoOmniBlocks from 'components/NoOmniBlocks';
 import ContainerBase from 'components/ContainerBase';
 
+import isEmpty from 'lodash/isEmpty';
 import injectSaga from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
+import { FIRST_BLOCK } from 'containers/App/constants';
 
-import {
-  makeSelectBlocks,
-  makeSelectLoading,
-  makeSelectPreviousBlock,
-} from './selectors';
-import { loadBlocks } from './actions';
+import { makeSelectBlocks, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
+import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
+`;
+
+const A = styled.a`
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 export class Blocks extends React.Component {
@@ -43,65 +48,71 @@ export class Blocks extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadBlocks(this.block);
+    if (this.block >= FIRST_BLOCK || isEmpty(this.block)) {
+      this.props.loadBlocks(this.block);
+    } else {
+      this.props.disableLoading();
+    }
   }
 
   render() {
     let content;
     let pagination;
 
-    const hasBlocks = () => (this.props.blocks.blocks || []).length > 0;
     if (this.props.loading && !this.props.previousBlock) {
-      content = <LoadingIndicator />;
-    } else if (!hasBlocks()) {
-      content = <NoOmniBlocks />;
+      content = <LoadingIndicator/>;
     } else {
       const { blocks } = this.props.blocks;
       const list =
-        this.block > blocks[0].block + 9 ? (
-          <NoOmniBlocks />
+        isEmpty(blocks) || this.block > blocks[0].block + 9 ? (
+          <NoOmniBlocks/>
         ) : (
-          <BlockList blocks={blocks} />
+          <BlockList blocks={blocks}/>
         );
 
-      content = (
-        <div>
-          {list}
-          {/*{this.props.previousBlock &&*/}
-            {/*this.props.loading && <LoadingIndicator />}*/}
-        </div>
-      );
+      content = <div>{list}</div>;
 
       const pathname =
         this.props.location.pathname.toLowerCase().indexOf('block') > -1
           ? '/blocks/'
           : '/';
       const hashLink = blockNum => `${pathname}${blockNum}`;
-      const A = styled.a`
-        text-decoration: none;
-        &:hover {
-          text-decoration: none;
+      const previousBlockSet = () => {
+        let result;
+        if (isEmpty(blocks)) {
+          result = this.block - 10;
+        } else if (this.block > blocks[0].block + 9) {
+          result = blocks[0].block;
+        } else {
+          result = blocks[blocks.length - 1].block - 1;
         }
-      `;
-      const previousBlockSet =
-        this.block > blocks[0].block + 9
-          ? blocks[0].block
-          : blocks[blocks.length - 1].block - 1;
+        return result;
+      };
+
+      const nextBlockSet = () => {
+        let result;
+        if (isEmpty(blocks) || this.block > blocks[0].block + 9) {
+          result = (parseInt(this.block, 10) || FIRST_BLOCK) + 10;
+        } else {
+          result = blocks[0].block + 10;
+        }
+        return result;
+      };
 
       pagination = (
         <h3 align="center">
-          <A href={hashLink(previousBlockSet)}>&lt;&lt; Previous</A>
+          <A href={hashLink(previousBlockSet())}>&lt;&lt; Previous</A>
           &nbsp;<span className="d-none d-sm-inline">Blocks mined</span>&nbsp;
-          <A href={hashLink(blocks[0].block + 10)}>Next &gt;&gt;</A>
+          <A href={hashLink(nextBlockSet())}>Next &gt;&gt;</A>
         </h3>
       );
     }
 
-    const Footer = this.props.footer || <div />;
+    const Footer = this.props.footer || <div/>;
     return (
       <StyledContainer fluid>
         <ListHeader message={messages.header}>
-          <JumpToBlock />
+          <JumpToBlock/>
         </ListHeader>
         {this.props.withPagination && pagination}
         {content}
@@ -114,6 +125,7 @@ export class Blocks extends React.Component {
 Blocks.propTypes = {
   blocks: PropTypes.object.isRequired,
   loadBlocks: PropTypes.func,
+  disableLoading: PropTypes.func,
   loading: PropTypes.bool,
   previousBlock: PropTypes.any,
   match: PropTypes.object,
@@ -132,6 +144,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadBlocks: block => dispatch(loadBlocks(block)),
+    disableLoading: () => dispatch(disableLoading()),
     changeRoute: url => dispatch(routeActions.push(url)),
   };
 }

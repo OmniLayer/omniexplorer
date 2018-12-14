@@ -21,6 +21,7 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import NoOmniBlockTransactions from 'components/NoOmniBlockTransactions';
 import ContainerBase from 'components/ContainerBase';
 import JumpToBlock from 'components/JumpToBlock';
+import { FIRST_BLOCK } from 'containers/App/constants';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -30,11 +31,13 @@ import reducer from './reducer';
 import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
+import { FormattedMessage } from 'react-intl';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
 
-  .wrapper-tx-timestamp {
+  .wrapper-tx-timestamp,
+  .wrapper-btn-block:not(.tx-invalid) {
     display: none;
   }
 `;
@@ -63,12 +66,21 @@ export class BlockDetail extends React.PureComponent {
     }
 
     const { block } = this.props.blockdetail;
+    const { confirmations } = (block.transactions || []).find(tx => tx.valid) || { confirmations: 'invalid' };
+
     let content;
-    if (!block.transactions || !block.transactions.length) {
+    if (this.block < FIRST_BLOCK || !block.transactions) {
       content = <NoOmniBlockTransactions />;
+    } else if (!block.transactions.length) {
+      content = (
+        <h3 className="text-center" style={{ margin: '3rem' }}>
+          <FormattedMessage {...messages.doesNotHaveTransactions} />
+        </h3>
+      );
     } else {
       const getItemKey = (blockItem, idx) =>
         blockItem.blockhash.slice(0, 22).concat(idx);
+
       const hashLink = txid => `/tx/${txid}`;
 
       content = (
@@ -89,6 +101,7 @@ export class BlockDetail extends React.PureComponent {
           values={{
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,
+            confirmations,
             timestamp:
               block.transactions && block.transactions[0] ? (
                 <FormattedUnixDateTime
