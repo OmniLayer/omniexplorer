@@ -23,13 +23,19 @@ import isEmpty from 'lodash/isEmpty';
 import injectSaga from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
 import { FIRST_BLOCK } from 'containers/App/constants';
+import { Row, Col } from 'reactstrap';
 
-import { makeSelectBlocks, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
+import {
+  makeSelectBlocks,
+  makeSelectLoading,
+  makeSelectPreviousBlock,
+} from './selectors';
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
+  padding-bottom: 0;
 `;
 
 const A = styled.a`
@@ -48,11 +54,7 @@ export class Blocks extends React.Component {
   }
 
   componentDidMount() {
-    if (this.block >= FIRST_BLOCK || isEmpty(this.block)) {
-      this.props.loadBlocks(this.block);
-    } else {
-      this.props.disableLoading();
-    }
+    this.props.loadBlocks(this.block);
   }
 
   render() {
@@ -60,14 +62,14 @@ export class Blocks extends React.Component {
     let pagination;
 
     if (this.props.loading && !this.props.previousBlock) {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator />;
     } else {
       const { blocks } = this.props.blocks;
       const list =
         isEmpty(blocks) || this.block > blocks[0].block + 9 ? (
-          <NoOmniBlocks/>
+          <NoOmniBlocks />
         ) : (
-          <BlockList blocks={blocks}/>
+          <BlockList blocks={blocks} />
         );
 
       content = <div>{list}</div>;
@@ -79,8 +81,9 @@ export class Blocks extends React.Component {
       const hashLink = blockNum => `${pathname}${blockNum}`;
       const previousBlockSet = () => {
         let result;
+        const previous = this.block - 10;
         if (isEmpty(blocks)) {
-          result = this.block - 10;
+          result = previous > FIRST_BLOCK ? previous : FIRST_BLOCK;
         } else if (this.block > blocks[0].block + 9) {
           result = blocks[0].block;
         } else {
@@ -100,22 +103,35 @@ export class Blocks extends React.Component {
       };
 
       pagination = (
-        <h3 align="center">
-          <A href={hashLink(previousBlockSet())}>&lt;&lt; Previous</A>
-          &nbsp;<span className="d-none d-sm-inline">Blocks mined</span>&nbsp;
-          <A href={hashLink(nextBlockSet())}>Next &gt;&gt;</A>
-        </h3>
+        <Row>
+          <Col sm={{size:2,offset:1}}>
+            <h3>
+            <A
+              href={hashLink(previousBlockSet())}
+            >
+              &lt;&lt; Previous
+            </A>
+            </h3>
+          </Col>
+          <Col sm={{size:2, offset:6}} className="text-right">
+            <h3>
+            <A href={hashLink(nextBlockSet())}>Next &gt;&gt;</A>
+            </h3>
+          </Col>
+        </Row>
       );
     }
 
-    const Footer = this.props.footer || <div/>;
+    const Footer = this.props.footer || <div />;
     return (
       <StyledContainer fluid>
         <ListHeader message={messages.header}>
-          <JumpToBlock/>
+          <JumpToBlock />
         </ListHeader>
-        {this.props.withPagination && pagination}
+        <h3 align="center"><span className="d-none d-sm-inline">Blocks</span>
+        </h3>
         {content}
+        {this.props.withPagination && pagination}
         {Footer}
       </StyledContainer>
     );

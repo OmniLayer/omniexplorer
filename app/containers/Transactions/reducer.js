@@ -18,6 +18,7 @@ import {
   LOAD_TRANSACTIONS_ERROR,
   SET_PAGE,
   SET_TRANSACTION_TYPE,
+  LOAD_UNCONFIRMED,
 } from './constants';
 
 // The initial state of the App
@@ -28,6 +29,7 @@ export const initialState = fromJS({
   pageCount: 0,
   currentPage: 1,
   txType: null,
+  unconfirmed: false,
 });
 
 function transactionsReducer(state = initialState, action) {
@@ -37,11 +39,19 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('transactions', [])
-        .set('pageCount', 0);
+        .set('pageCount', 0)
+        .set('unconfirmed', false);
+    case LOAD_UNCONFIRMED:
+      return state
+      .set('loading', true)
+      .set('error', false)
+      .set('transactions', [])
+      .set('unconfirmed', true);
     case LOAD_TRANSACTIONS_SUCCESS:
+      const unconfirmed = state.get('unconfirmed');
       return state
         .set('transactions', action.transactions)
-        .set('pageCount', action.pages)
+        .set('pageCount', unconfirmed ? action.transactions.length : action.pages)
         .set('loading', false)
         .set('error', false);
     case LOAD_TRANSACTIONS_ERROR:
