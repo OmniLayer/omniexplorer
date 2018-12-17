@@ -101,21 +101,21 @@ export class Blocks extends React.Component {
         }
         return result;
       };
-
+      
       pagination = (
         <Row>
           <Col sm={{size:2,offset:1}}>
             <h3>
-            <A
-              href={hashLink(previousBlockSet())}
-            >
-              &lt;&lt; Previous
-            </A>
+              <A href="javascript:void(0)" onClick={this.props.history.goBack}>&lt;&lt; Go back</A>
             </h3>
           </Col>
           <Col sm={{size:2, offset:6}} className="text-right">
             <h3>
-            <A href={hashLink(nextBlockSet())}>Next &gt;&gt;</A>
+              <A
+                href={hashLink(previousBlockSet())}
+              >
+                View More &gt;&gt;
+              </A>
             </h3>
           </Col>
         </Row>
@@ -142,6 +142,7 @@ Blocks.propTypes = {
   blocks: PropTypes.object.isRequired,
   loadBlocks: PropTypes.func,
   disableLoading: PropTypes.func,
+  changeRoute: PropTypes.func,
   loading: PropTypes.bool,
   previousBlock: PropTypes.any,
   match: PropTypes.object,
