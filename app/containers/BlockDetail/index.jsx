@@ -70,7 +70,7 @@ export class BlockDetail extends React.PureComponent {
 
     let content;
     if (this.block < FIRST_BLOCK || !block.transactions) {
-      content = <NoOmniBlockTransactions />;
+      content = <NoOmniBlockTransactions mainText={block.error} useDefaults={false} />;
     } else if (!block.transactions.length) {
       content = (
         <h3 className="text-center" style={{ margin: '3rem' }}>

@@ -172,7 +172,7 @@ class BlockList extends React.PureComponent {
                 <FormattedMessage {...messages.columns.usdtooltip} />
               </UncontrolledTooltip>
             </th>
-            <th className="text-right">
+            <th className="text-center">
               <FormattedMessage {...messages.columns.blockhash} />
             </th>
           </tr>
@@ -217,7 +217,7 @@ class BlockList extends React.PureComponent {
                   {getOmniTxValues(block)}
                 </UncontrolledTooltip>
               </td>
-              <td className="text-right">
+              <td className="text-center">
                 <Link
                   to={{
                     pathname: `/block/${block.block}`,

@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
+import Transactions from 'containers/Transactions';
 import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search/Loadable';
@@ -85,6 +86,10 @@ class App extends React.Component {
           <Route
             path="/tx/:tx"
             component={TransactionDetail}
+          />
+          <Route
+            path="/transactions/unconfirmed"
+            component={Transactions}
           />
           <Route
             path="/address/:address/:page(\d+)?"

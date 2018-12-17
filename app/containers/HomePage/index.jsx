@@ -10,6 +10,11 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
 import { Container, Col, Row } from 'reactstrap';
@@ -18,11 +23,8 @@ import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Blocks from 'containers/Blocks';
-import { Link } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
-import connect from 'react-redux/es/connect/connect';
-import { compose } from 'redux';
-import PropTypes from 'prop-types';
+
+import FooterRow from 'components/FooterRow';
 
 const Layout = styled(Container)`
   background-color: #f5f5f5;
@@ -32,32 +34,33 @@ const Layout = styled(Container)`
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const ViewFullBlockList = styled(Row)`
-      background-color: #7c8fa0;
-      color: white;
-
-      letter-spacing: 0.1rem;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: 14px;
-
-      a {
-        color: white;
-      }
-    `;
-
-    const viewFullList = (
-      <ViewFullBlockList>
-        <Col sm>
-          <Link
-            to={{
-              pathname: `/blocks`,
-              state: { state: this.props.state },
-            }}
-          >
-            Navigate full block list...
-          </Link>
-        </Col>
-      </ViewFullBlockList>
+    const footer = (
+      <div>
+        <FooterRow>
+          <Col sm>
+            <Link
+              to={{
+                pathname: `/blocks`,
+                state: { state: this.props.state },
+              }}
+            >
+              Navigate full block list...
+            </Link>
+          </Col>
+        </FooterRow>
+        <FooterRow>
+          <Col sm>
+            <Link
+              to={{
+                pathname: `/transactions/unconfirmed`,
+                state: { state: this.props.state },
+              }}
+            >
+              View Unconfirmed Transactions...
+            </Link>
+          </Col>
+        </FooterRow>
+      </div>
     );
 
     return (
@@ -77,7 +80,7 @@ class HomePage extends React.PureComponent {
         </Row>
         <Row>
           <Col sm>
-            <Blocks footer={viewFullList} />
+            <Blocks footer={footer} />
           </Col>
         </Row>
       </Layout>
