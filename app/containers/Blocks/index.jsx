@@ -128,8 +128,6 @@ export class Blocks extends React.Component {
         <ListHeader message={messages.header}>
           <JumpToBlock />
         </ListHeader>
-        <h3 align="center"><span className="d-none d-sm-inline">Blocks</span>
-        </h3>
         {content}
         {this.props.withPagination && pagination}
         {Footer}
