@@ -43,7 +43,7 @@ function blocksReducer(state = initialState, action) {
         .set('error', false);
     case LOAD_BLOCKS_SUCCESS:
       const hasBlocks = state.get('blocks').length > 0;
-      const blockValues = values(action.blocks);
+      const blockValues = action.blocks.blocks;
       const blocks = (hasBlocks && state.get('appendBlocks') ? state.get('blocks') : []).concat(blockValues);
       return state
         .set('blocks', orderBy(blocks, 'timestamp', 'desc'))
