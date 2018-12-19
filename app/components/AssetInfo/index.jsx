@@ -98,7 +98,6 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-  debugger;
   const crowdsaleClosed = (asset.deadline * 1000) <= moment.utc().valueOf();
   const closingLabel = crowdsaleClosed ? 'Closed' : 'Closing';
   return (
