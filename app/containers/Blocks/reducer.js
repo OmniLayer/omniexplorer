@@ -29,6 +29,7 @@ export const initialState = fromJS({
   blocks: [],
   pageCount: 0,
   previousBlock: '',
+  latest: -1,
   txType: null,
 });
 
@@ -44,12 +45,16 @@ function blocksReducer(state = initialState, action) {
     case LOAD_BLOCKS_SUCCESS:
       const hasBlocks = state.get('blocks').length > 0;
       const blockValues = action.blocks.blocks;
-      const blocks = (hasBlocks && state.get('appendBlocks') ? state.get('blocks') : []).concat(blockValues);
+      const blocks = (hasBlocks && state.get('appendBlocks')
+        ? state.get('blocks')
+        : []
+      ).concat(blockValues);
       return state
+        .set('latest', action.blocks.latest)
         .set('blocks', orderBy(blocks, 'timestamp', 'desc'))
         .set('loading', false)
         .set('error', false)
-        .set('previousBlock', (blocks.length ? blockValues[0].block - 1 : null));
+        .set('previousBlock', blocks.length ? blockValues[0].block - 1 : null);
     case LOAD_BLOCKS_ERROR:
       return state
         .set('error', action.error)
