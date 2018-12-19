@@ -132,17 +132,6 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-center">
               <FormattedMessage {...messages.columns.timestamp} />
-              <InformationIcon
-                color="gray"
-                className="ml-1"
-                id="blocktimestamp"
-              />
-              <UncontrolledTooltip
-                placement="right-end"
-                target="blocktimestamp"
-              >
-                <FormattedMessage {...datetimeMessages.utc} />
-              </UncontrolledTooltip>
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />

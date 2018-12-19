@@ -29,6 +29,7 @@ import {
   makeSelectBlocks,
   makeSelectLoading,
   makeSelectPreviousBlock,
+  makeSelectLatestBlock,
 } from './selectors';
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
@@ -101,21 +102,31 @@ export class Blocks extends React.Component {
         }
         return result;
       };
-      
+
+      const LinkPrevious = styled(A)``;
+      const LinkNext = (this.props.latest > blocks[0].block)
+        ? styled(A)``
+        : styled(A)`
+          pointer-events: none;
+          text-decoration: none;
+          opacity: 0.5;
+          cursor: not-allowed;
+        `;
+
       pagination = (
         <Row>
           <Col sm={{size:2,offset:1}}>
             <h3>
-              <A href="javascript:void(0)" onClick={this.props.history.goBack}>&lt;&lt; Go back</A>
+              <LinkPrevious
+                href={hashLink(previousBlockSet())}
+              >
+                &lt;&lt; Previous
+              </LinkPrevious>
             </h3>
           </Col>
           <Col sm={{size:2, offset:6}} className="text-right">
             <h3>
-              <A
-                href={hashLink(previousBlockSet())}
-              >
-                View More &gt;&gt;
-              </A>
+              <LinkNext href={hashLink(nextBlockSet())}>Next &gt;&gt;</LinkNext>
             </h3>
           </Col>
         </Row>
@@ -143,6 +154,7 @@ Blocks.propTypes = {
   changeRoute: PropTypes.func,
   loading: PropTypes.bool,
   previousBlock: PropTypes.any,
+  latest: PropTypes.any,
   match: PropTypes.object,
   location: PropTypes.object,
   withPagination: PropTypes.bool,
@@ -152,6 +164,7 @@ const mapStateToProps = createStructuredSelector({
   blocks: makeSelectBlocks(),
   loading: makeSelectLoading(),
   previousBlock: makeSelectPreviousBlock(),
+  latest: makeSelectLatestBlock(),
   location: state => state.get('route').get('location'),
 });
 

@@ -31,7 +31,7 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
     return (
       <ListHeader {...this.props} message={(this.props.customHeader || messages.header)}>
         <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-md-right">
-          <DropdownToggle caret color="info" className="font-weight-light">
+          <DropdownToggle disabled caret color="info" className="font-weight-light">
             <FormattedMessage {...messages.transactionTypes} />
           </DropdownToggle>
           <DropdownMenu right>
