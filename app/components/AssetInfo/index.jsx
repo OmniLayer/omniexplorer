@@ -98,7 +98,7 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-
+  debugger;
   const crowdsaleClosed = (asset.deadline * 1000) <= moment.utc().valueOf();
   const closingLabel = crowdsaleClosed ? 'Closed' : 'Closing';
   return (
@@ -121,14 +121,16 @@ function AssetInfo(asset) {
           </span>
         </td>
       </tr>
-      <tr>
-        <td className="field">{closingLabel}</td>
-        <td>
-          <span id="ldatetime">
-            <FormattedUnixDateTime datetime={asset.deadline} useSeconds={false} />
-          </span>
-        </td>
-      </tr>
+      {asset.type_int===51 &&
+        <tr>
+          <td className="field">{closingLabel}</td>
+          <td>
+            <span id="ldatetime">
+              <FormattedUnixDateTime datetime={asset.deadline} useSeconds={false} />
+            </span>
+          </td>
+        </tr>
+      }
       {assetData}
       <tr>
         <td className="field">Issuer</td>
