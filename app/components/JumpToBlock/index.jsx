@@ -38,10 +38,12 @@ class JumpToBlock extends React.PureComponent {
       tooltipOpen: false,
     };
   }
+  componentWillUnmount(){
+    clearTimeout(this.idTimeout);
+  }
 
   isValid(value){
-    const block = this.state.blockToJump.trim();
-    return this.props.onValidate && this.props.onValidate(block);
+    return this.props.onValidate && value && this.props.onValidate(value);
   }
 
   handleJumpToBlock(e) {
@@ -56,7 +58,7 @@ class JumpToBlock extends React.PureComponent {
         this.handleJumpToBlock(e);
       } else {
         this.setState({ tooltipOpen: true });
-        setTimeout(() => this.setState({ tooltipOpen: false }), 1500);
+        this.idTimeout = setTimeout(() => this.setState({ tooltipOpen: false }), 1500);
       }
     }
   }

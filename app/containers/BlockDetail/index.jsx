@@ -26,6 +26,7 @@ import { FIRST_BLOCK } from 'containers/App/constants';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
+import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import makeSelectBlockDetail from './selectors';
 import reducer from './reducer';
 import { loadBlock } from './actions';
@@ -60,7 +61,7 @@ export class BlockDetail extends React.PureComponent {
     if (this.props.blockdetail.loading) {
       return (
         <Container>
-          <LoadingIndicator />
+          <LoadingIndicator/>
         </Container>
       );
     }
@@ -71,7 +72,7 @@ export class BlockDetail extends React.PureComponent {
     let content;
     if (this.block < FIRST_BLOCK || !block.transactions) {
       const errMsg = `Block ${this.block} not found`;
-      content = <NoOmniBlockTransactions header={errMsg} mainText={block.error} useDefaults={false} />;
+      content = <NoOmniBlockTransactions header={errMsg} mainText={block.error} useDefaults={false}/>;
     } else if (!block.transactions.length) {
       content = (
         <h3 className="text-center" style={{ margin: '3rem' }}>
@@ -113,7 +114,7 @@ export class BlockDetail extends React.PureComponent {
               ),
           }}
         >
-          <JumpToBlock onValidate={(value)=> FIRST_BLOCK > value && value < block.latest} />
+          <JumpToBlock onValidate={(value) => (FIRST_BLOCK < value && value <= this.props.status.last_block)}/>
         </ListHeader>
         {content}
       </StyledContainer>
@@ -125,10 +126,12 @@ BlockDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadBlock: PropTypes.func,
   blockdetail: PropTypes.object.isRequired,
+  status: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
   blockdetail: makeSelectBlockDetail(),
+  status: makeSelectStatus(),
 });
 
 function mapDispatchToProps(dispatch) {
