@@ -137,7 +137,7 @@ export class Blocks extends React.Component {
     return (
       <StyledContainer fluid>
         <ListHeader message={messages.header}>
-          <JumpToBlock />
+          <JumpToBlock onValidate={(value) => (FIRST_BLOCK < value && value <= this.props.latest)}/>
         </ListHeader>
         {content}
         {this.props.withPagination && pagination}
