@@ -76,7 +76,7 @@ export class BlockDetail extends React.PureComponent {
     } else if (!block.transactions.length) {
       content = (
         <h3 className="text-center" style={{ margin: '3rem' }}>
-          <FormattedMessage {...messages.doesNotHaveTransactions} />
+          <FormattedMessage {...messages.doesNotHaveTransactions.body} />
         </h3>
       );
     } else {
@@ -95,11 +95,11 @@ export class BlockDetail extends React.PureComponent {
         />
       );
     }
-
+    
     return (
       <StyledContainer fluid>
         <ListHeader
-          message={messages.header}
+          message={block.transactions && block.transactions.length ? messages.header : messages.doesNotHaveTransactions.header}
           values={{
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,
