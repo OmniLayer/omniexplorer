@@ -19,7 +19,12 @@ function NoOmniBlockTransactions(props={useDefaults: true}) {
   return (
     <StyledH3 className="lead text-center">
       <p className="h3">
-        <FormattedMessage {...messages.header} />
+        {!props.header && props.useDefaults &&
+        <FormattedMessage {...messages.main} />
+        }
+        {props.header &&
+        props.header
+        }
       </p>
       <p className="h5">
         {!props.mainText && props.useDefaults &&

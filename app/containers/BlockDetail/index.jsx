@@ -70,7 +70,8 @@ export class BlockDetail extends React.PureComponent {
 
     let content;
     if (this.block < FIRST_BLOCK || !block.transactions) {
-      content = <NoOmniBlockTransactions mainText={block.error} useDefaults={false} />;
+      const errMsg = `Block ${this.block} not found`;
+      content = <NoOmniBlockTransactions header={errMsg} mainText={block.error} useDefaults={false} />;
     } else if (!block.transactions.length) {
       content = (
         <h3 className="text-center" style={{ margin: '3rem' }}>
@@ -112,7 +113,7 @@ export class BlockDetail extends React.PureComponent {
               ),
           }}
         >
-          <JumpToBlock />
+          <JumpToBlock onValidate={(value)=> FIRST_BLOCK > value && value < block.latest} />
         </ListHeader>
         {content}
       </StyledContainer>
