@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import SearchIcon from 'react-icons/lib/io/search';
 
 import messages from './messages';
+import { Tooltip } from 'reactstrap';
 
 const Input = styled.input.attrs({
   type: 'number',
@@ -34,7 +35,13 @@ class JumpToBlock extends React.PureComponent {
     super(props);
     this.state = {
       blockToJump: '',
+      tooltipOpen: false,
     };
+  }
+
+  isValid(value){
+    const block = this.state.blockToJump.trim();
+    return this.props.onValidate && this.props.onValidate(block);
   }
 
   handleJumpToBlock(e) {
@@ -45,7 +52,12 @@ class JumpToBlock extends React.PureComponent {
   handleKeyUp(e) {
     const { value } = e.target;
     if (e.keyCode === 13 && value) {
-      this.handleJumpToBlock(e);
+      if (this.isValid(value)) {
+        this.handleJumpToBlock(e);
+      } else {
+        this.setState({ tooltipOpen: true });
+        setTimeout(() => this.setState({ tooltipOpen: false }), 1500);
+      }
     }
   }
 
@@ -54,6 +66,7 @@ class JumpToBlock extends React.PureComponent {
       <Wrapper className="jump-to-block-form">
         <span className="d-none d-sm-inline">Jump to Block:&nbsp;</span>
         <Input
+          id="jump-to-block"
           style={{ maxWidth: '9rem' }}
           className="form-control jump-to-block-input"
           value={this.state.blockToJump}
@@ -66,6 +79,13 @@ class JumpToBlock extends React.PureComponent {
           size={24}
           onClick={e => this.handleJumpToBlock(e)}
         />
+        <Tooltip
+          hideArrow
+          isOpen={this.state.tooltipOpen}
+          target="jump-to-block"
+        >
+          Requested block is invalid
+        </Tooltip>
       </Wrapper>
     );
   }
