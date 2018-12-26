@@ -74,7 +74,6 @@ class JumpToBlock extends React.PureComponent {
           value={this.state.blockToJump}
           onInput={e => this.setState({ blockToJump: e.target.value })}
           onKeyUp={e => this.handleKeyUp(e)}
-          min="6" max="10"
         />
         <SearchIcon
           className="jump-to-block-icon"
