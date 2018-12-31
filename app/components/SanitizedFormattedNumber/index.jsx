@@ -15,12 +15,13 @@ function SanitizedFormattedNumber(props) {
   const value = propsValue.toFixed ? propsValue.toFixed(8) : parseFloat(propsValue, 10).toString();
   const hasDecimals = propsValue && propsValue.indexOf && propsValue.indexOf('.') !== -1;
 
+  const decimalPlaces = propsValue.indexOf ? propsValue.slice(propsValue.indexOf('.') + 1).length : value.slice(value.indexOf('.') + 1).length;
   let decimaldigits;
   if (hasDecimals || props.forceDecimals) {
     if (value % 1 === 0) {
       decimaldigits = `.${new Array(3).join('0')}`;
     } else {
-      decimaldigits = value.slice(value.indexOf('.') + 1).length < 2 ? '0' : '';
+      decimaldigits = decimalPlaces < 2 ? '0' : '';
     }
   } else {
     decimaldigits = '';
@@ -29,7 +30,7 @@ function SanitizedFormattedNumber(props) {
   const fractionDigits = (
     decimaldigits ?
       3 :
-      props.fractionDigits || (props.value < 8 ? value.slice(value.indexOf('.') + 1).length : 8)
+      props.fractionDigits || (props.value < 8 ? decimalPlaces : 8)
   );
   const number = (isNumeric(value) ?
       (
