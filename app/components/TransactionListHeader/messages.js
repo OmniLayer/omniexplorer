@@ -13,6 +13,13 @@ export default defineMessages({
     other: 'Transactions',
     zero: 'Transactions',
   },
+  count: {
+    id: 'app.components.TransactionListHeader.header',
+    defaultMessage: 'Pages',
+    one: 'Page',
+    other: 'Pages',
+    zero: 'Pages',
+  },
   transactionTypes: {
     id: 'app.components.TransactionListHeader.paginationTitle',
     defaultMessage: 'Show All Transaction Types',
