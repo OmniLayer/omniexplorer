@@ -83,7 +83,7 @@ export class Transactions extends React.Component {
           selectType={this.props.onSetTransactionType}
           total={this.props.transactions.pageCount}
           totalLabel="page"
-          customHeader={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
+          count={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
         />
         {content}
         {footer}
