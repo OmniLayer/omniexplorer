@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -27,12 +28,12 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
+import FooterLinks from 'components/FooterLinks';
 import makeSelectBlockDetail from './selectors';
 import reducer from './reducer';
 import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
-import { FormattedMessage } from 'react-intl';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
@@ -61,7 +62,7 @@ export class BlockDetail extends React.PureComponent {
     if (this.props.blockdetail.loading) {
       return (
         <Container>
-          <LoadingIndicator/>
+          <LoadingIndicator />
         </Container>
       );
     }
@@ -76,7 +77,12 @@ export class BlockDetail extends React.PureComponent {
     } else if (!block.transactions.length) {
       content = (
         <h3 className="text-center" style={{ margin: '3rem' }}>
-          <FormattedMessage {...messages.doesNotHaveTransactions.body} />
+          <FormattedMessage
+            {...messages.doesNotHaveTransactions.body}
+            values={{
+              blockNumber: this.block,
+            }}
+          />
         </h3>
       );
     } else {
@@ -95,7 +101,7 @@ export class BlockDetail extends React.PureComponent {
         />
       );
     }
-    
+    const footer = <FooterLinks unconfirmed blocklist/>;
     return (
       <StyledContainer fluid>
         <ListHeader
@@ -117,6 +123,7 @@ export class BlockDetail extends React.PureComponent {
           <JumpToBlock onValidate={(value) => (FIRST_BLOCK < value && value <= this.props.status.last_block)}/>
         </ListHeader>
         {content}
+        {footer}
       </StyledContainer>
     );
   }

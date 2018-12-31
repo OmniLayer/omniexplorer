@@ -33,7 +33,7 @@ export default defineMessages({
     },
     txtooltip: {
       id: 'app.components.BlockList.columns.txtooltip',
-      defaultMessage: 'Omni Protocol Transactions in the block',
+      defaultMessage: 'Omni Layer Transactions in the block',
     },
     usdtooltip: {
       id: 'app.components.BlockList.columns.usdooltip',

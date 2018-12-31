@@ -13,7 +13,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
@@ -23,8 +22,7 @@ import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Blocks from 'containers/Blocks';
-
-import FooterRow from 'components/FooterRow';
+import FooterLinks from 'components/FooterLinks';
 
 const Layout = styled(Container)`
   background-color: #f5f5f5;
@@ -34,35 +32,7 @@ const Layout = styled(Container)`
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const footer = (
-      <div>
-        <FooterRow>
-          <Col sm>
-            <Link
-              to={{
-                pathname: `/blocks`,
-                state: { state: this.props.state },
-              }}
-            >
-              Navigate full block list...
-            </Link>
-          </Col>
-        </FooterRow>
-        <FooterRow>
-          <Col sm>
-            <Link
-              to={{
-                pathname: `/transactions/unconfirmed`,
-                state: { state: this.props.state },
-              }}
-            >
-              View Unconfirmed Transactions...
-            </Link>
-          </Col>
-        </FooterRow>
-      </div>
-    );
-
+    const footer = <FooterLinks unconfirmed blocklist />;
     return (
       <Layout fluid>
         <Row noGutters>
