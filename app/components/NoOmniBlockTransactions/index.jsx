@@ -6,9 +6,9 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import messages from './messages';
 
 const StyledH3 = styled.h3`
   padding: 3rem 0;

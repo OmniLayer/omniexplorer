@@ -132,8 +132,7 @@ export class Blocks extends React.Component {
         </Row>
       );
     }
-
-    const Footer = this.props.footer || <div />;
+    const footer = this.props.footer || <div />;
     return (
       <StyledContainer fluid>
         <ListHeader message={messages.header}>
@@ -141,7 +140,7 @@ export class Blocks extends React.Component {
         </ListHeader>
         {content}
         {this.props.withPagination && pagination}
-        {Footer}
+        {footer}
       </StyledContainer>
     );
   }

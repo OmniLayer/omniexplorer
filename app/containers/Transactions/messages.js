@@ -8,7 +8,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   unconfirmedHeader: {
     id: 'app.components.Transactions.unconfirmedHeader',
-    defaultMessage: 'Latest Unconfirmed Transactions',
+    defaultMessage: 'Unconfirmed Transactions',
     one: 'Transaction',
     other: 'Transactions',
     zero: 'Transactions',

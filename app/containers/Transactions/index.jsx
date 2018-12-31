@@ -17,7 +17,7 @@ import Transaction from 'components/Transaction';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
 import ContainerBase from 'components/ContainerBase';
-import FooterRow from 'components/FooterRow';
+import FooterLinks from 'components/FooterLinks';
 
 import injectSaga from 'utils/injectSaga';
 import sagaTransactions from 'containers/Transactions/saga';
@@ -25,8 +25,6 @@ import sagaTransactions from 'containers/Transactions/saga';
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
-import { Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
@@ -57,9 +55,9 @@ export class Transactions extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator />;
     } else if ((this.props.transactions.transactions || []).length === 0) {
-      content = <NoOmniTransactions/>;
+      content = <NoOmniTransactions />;
     } else {
       const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
       const hashLink = v => `${pathname}/${v}`;
@@ -78,23 +76,7 @@ export class Transactions extends React.Component {
       props.items = props.transactions;
       content = <List {...props} />;
     }
-
-    const footer = (
-      <div>
-        <FooterRow>
-          <Col sm>
-            <Link
-              to={{
-                pathname: `/blocks`,
-                state: { state: this.props.state },
-              }}
-            >
-              Navigate full block list...
-            </Link>
-          </Col>
-        </FooterRow>
-      </div>
-    );
+    const footer = <FooterLinks blocklist />;
     return (
       <StyledContainer fluid>
         <TransactionListHeader
@@ -118,7 +100,6 @@ Transactions.propTypes = {
   loading: PropTypes.bool,
   addr: PropTypes.string,
   unconfirmed: PropTypes.bool,
-  // location: PropTypes.object,
   match: PropTypes.object,
   onSetTransactionType: PropTypes.func,
 };
@@ -127,7 +108,6 @@ const mapStateToProps = createStructuredSelector({
   transactions: makeSelectTransactions(),
   loading: makeSelectLoading(),
   unconfirmed: makeSelectUnconfirmed(),
-  // location: state => state.get('route').get('location'),
 });
 
 function mapDispatchToProps(dispatch) {

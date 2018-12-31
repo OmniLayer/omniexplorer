@@ -9,7 +9,7 @@ import React from 'react';
 export default defineMessages({
   header: {
     id: 'app.components.NoOmniTransactions.header',
-    defaultMessage: 'No Omni Protocol transactions found',
+    defaultMessage: 'No Omni Layer transactions found',
   },
   main: {
     id: 'app.components.NoOmniTransactions.main',

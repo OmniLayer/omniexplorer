@@ -15,7 +15,16 @@ export default defineMessages({
     zero: 'Blocks',
   },
   doesNotHaveTransactions: {
-    id: 'app.containers.BlockDetail.doesNotHaveTransactions',
-    defaultMessage: "The block doesn't have any transactions",
+    header: {
+      id: 'app.containers.BlockDetail.header',
+      defaultMessage: 'Block {blockNumber}, {txCount} Transactions',
+      one: 'Block',
+      other: 'Blocks',
+      zero: 'Blocks',
+    },
+    body:{
+      id: 'app.containers.BlockDetail.doesNotHaveTransactions',
+      defaultMessage: "Block {blockNumber} has no Omni Layer transactions",
+    },
   },
 });
