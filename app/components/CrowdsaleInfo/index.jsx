@@ -29,7 +29,7 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 
 class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const logo = getLogo(this.props.propertyid, this.props.propertydesired);
+    const logo = getLogo(this.props.propertyid, { flags: this.props.flags });
     return (
       <tr>
         <StyledTD>

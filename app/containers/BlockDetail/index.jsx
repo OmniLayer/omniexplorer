@@ -29,6 +29,7 @@ import injectReducer from 'utils/injectReducer';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
+import ColoredHash from 'components/ColoredHash';
 import makeSelectBlockDetail from './selectors';
 import reducer from './reducer';
 import { loadBlock } from './actions';
@@ -108,7 +109,7 @@ export class BlockDetail extends React.PureComponent {
           message={block.transactions && block.transactions.length ? messages.header : messages.doesNotHaveTransactions.header}
           values={{
             br: <br />,
-            hash: <small>{block.blockhash}</small>,
+            hash: <ColoredHash hash={block.blockhash} />,
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,
             confirmations,
