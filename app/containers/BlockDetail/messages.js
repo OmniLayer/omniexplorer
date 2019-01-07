@@ -9,7 +9,11 @@ import React from 'react';
 export default defineMessages({
   header: {
     id: 'app.containers.BlockDetail.header',
-    defaultMessage: 'Block {blockNumber}, {txCount} Transactions, created at {timestamp}, {confirmations} confirmations',
+    defaultMessage: `
+    Block {blockNumber}, {txCount} Transactions, created at {timestamp}, {confirmations} confirmations
+    {br}
+    Block hash: {hash}
+    `,
     one: 'Block',
     other: 'Blocks',
     zero: 'Blocks',
