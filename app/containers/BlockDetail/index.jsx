@@ -107,6 +107,8 @@ export class BlockDetail extends React.PureComponent {
         <ListHeader
           message={block.transactions && block.transactions.length ? messages.header : messages.doesNotHaveTransactions.header}
           values={{
+            br: <br />,
+            hash: <small>{block.blockhash}</small>,
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,
             confirmations,

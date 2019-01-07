@@ -55,6 +55,7 @@ function ColoredHash(props) {
       <StyledUncontrolledTooltip
         placement="bottom"
         target={hashId}
+        autohide={false}
       >
         {props.hash}
       </StyledUncontrolledTooltip>
