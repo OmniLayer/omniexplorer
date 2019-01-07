@@ -36,13 +36,10 @@ export const initialState = fromJS({
 function blocksReducer(state = initialState, action) {
   switch (action.type) {
     case DISABLE_BLOCKS_LOADING:
-      return state
-        .set('loading', false);
+      return state.set('loading', false);
     case LOAD_BLOCKS:
-      return state
-        .set('loading', true)
-        .set('error', false);
-    case LOAD_BLOCKS_SUCCESS:
+      return state.set('loading', true).set('error', false);
+    case LOAD_BLOCKS_SUCCESS: {
       const hasBlocks = state.get('blocks').length > 0;
       const blockValues = action.blocks.blocks;
       const blocks = (hasBlocks && state.get('appendBlocks')
@@ -51,14 +48,13 @@ function blocksReducer(state = initialState, action) {
       ).concat(blockValues);
       return state
         .set('latest', action.blocks.latest)
-        .set('blocks', orderBy(blocks, 'timestamp', 'desc'))
+        .set('blocks', orderBy(blocks, 'block', 'desc'))
         .set('loading', false)
         .set('error', false)
         .set('previousBlock', blocks.length ? blockValues[0].block - 1 : null);
+    }
     case LOAD_BLOCKS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return state.set('error', action.error).set('loading', false);
     default:
       return state;
   }
