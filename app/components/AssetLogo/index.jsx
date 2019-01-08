@@ -23,7 +23,7 @@ function AssetLogo({ asset, prop, id }) {
     <span>
       <IMGLogo src={logo} alt={asset.name} id={id} />
       <UncontrolledTooltip placement="top-end" target={id}>
-        {asset.name}
+        #{prop}: {asset.name}
       </UncontrolledTooltip>
     </span>
   );
