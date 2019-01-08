@@ -15,14 +15,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 
-import {
-  FormattedUnixDateTime,
-  Messages as datetimeMessages,
-} from 'components/FormattedDateTime';
+import AssetLogo from 'components/AssetLogo';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
-import getLogo from 'utils/getLogo';
 import messages from './messages';
 
 const StyledTR = styled.tr`
@@ -33,12 +30,7 @@ const StyledTable = styled(Table)`
     font-weight: normal;
   }
 `;
-const IMGLogo = styled.img`
-  display: inline;
-  width: 2rem;
-  height: 2rem;
-  margin-right: 1rem;
-`;
+
 class BlockList extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -113,13 +105,23 @@ class BlockList extends React.PureComponent {
 
     const getOmniTxLogos = block => {
       const logos = Object.keys(block.value.details).map((prop, idx) => {
-        const logo = getLogo(prop);
+        const id = `id${block.block}${prop}`;
+        const asset = block.value.details[prop];
         return (
-          <IMGLogo key={prop}
-          src={logo}
-          alt=""
-        />
-      );
+          <Link
+            key={id}
+            to={{
+              pathname: `/asset/${prop}`,
+              state: { state: this.props.state },
+            }}
+          >
+            <AssetLogo
+              asset={asset}
+              prop={prop}
+              id={id}
+            />
+          </Link>
+        );
       });
       return logos;
     };
