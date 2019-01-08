@@ -8,7 +8,17 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.components.TransactionListHeader.header',
-    defaultMessage: 'Latest Transactions',
+    defaultMessage: 'Transactions',
+    one: 'Transaction',
+    other: 'Transactions',
+    zero: 'Transactions',
+  },
+  count: {
+    id: 'app.components.TransactionListHeader.header',
+    defaultMessage: 'Pages',
+    one: 'Page',
+    other: 'Pages',
+    zero: 'Pages',
   },
   transactionTypes: {
     id: 'app.components.TransactionListHeader.paginationTitle',

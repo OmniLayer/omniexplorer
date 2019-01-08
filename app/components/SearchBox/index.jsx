@@ -19,7 +19,9 @@ const Input = styled.input.attrs({
   placeholder: messages.placeholder.defaultMessage,
 })``;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs({
+  className: 'mb-3 mb-sm-0',
+})`
   & div.input-group > input.form-control.searchbox-input {
     outline: none;
     border-radius: 19px;

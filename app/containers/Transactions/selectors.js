@@ -17,4 +17,7 @@ const makeSelectTransactions = () =>
 const makeSelectLoading = () =>
   createSelector(selectTransactionsDomain, substate => substate.get('loading'));
 
-export { makeSelectTransactions, makeSelectLoading, selectTransactionsDomain };
+const makeSelectUnconfirmed = () =>
+  createSelector(selectTransactionsDomain, substate => substate.get('unconfirmed'));
+
+export { makeSelectTransactions, makeSelectLoading, selectTransactionsDomain, makeSelectUnconfirmed };

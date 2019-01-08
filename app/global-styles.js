@@ -62,11 +62,13 @@ injectGlobal`
     font-weight: 400;
   }
   
-  @include media-breakpoint-down(sm) {
-  
-  }
-  
   :disabled:hover {
     cursor: not-allowed;
+  }
+  
+  .table-responsive .table th,
+  .table-responsive .table td {
+  	padding-right: 0.5rem;
+  	padding-left: 0.5rem;
   }
 `;

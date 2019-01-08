@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { shallowWithState } from 'enzyme-redux';
 
-import TransactionList from '../index';
+import Transaction from '../index';
 
-describe('<TransactionList />', () => {
-  const ReactComponent = () => <TransactionList />;
-  it('should render <TransactionList />', () => {
+describe('<Transaction />', () => {
+  const ReactComponent = () => <Transaction />;
+  it('should render <Transaction />', () => {
     const expectedState = { mockedStated: true };
     const mapStateToProps = state => ({
       state,

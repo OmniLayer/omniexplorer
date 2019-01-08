@@ -3,7 +3,7 @@
  * Crowdsales reducer
  *
  */
-
+import sortBy from 'lodash/sortBy';
 import { fromJS } from 'immutable';
 import {
   ECOSYSTEM_PROD,
@@ -23,9 +23,6 @@ const initialState = fromJS({
   crowdsales: [],
   ecosystem: ECOSYSTEM_PROD,
 });
-
-const sortDateFordward = array =>
-  array.sort((current, previous) => current.deadline > previous.deadline);
 
 function crowdsalesReducer(state = initialState, action) {
   const { error, ecosystem, payload, type } = action;
@@ -47,7 +44,7 @@ function crowdsalesReducer(state = initialState, action) {
         .set('error', false)
         .set('loading', false)
         .set('status', payload.status)
-        .set('crowdsales', sortDateFordward(payload.crowdsales));
+        .set('crowdsales', sortBy(payload.crowdsales, 'deadline'));
     case LOAD_CROWDSALES_ERROR:
       return state.set('error', error).set('loading', false);
     default:

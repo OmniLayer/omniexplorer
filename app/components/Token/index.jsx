@@ -20,11 +20,17 @@ const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
 
-class Token extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class Token extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    this.getTokenName = () => (this.props.properties.get('tokens').get(this.props.id.toString()) || { name: '' }).name;
+    this.getTokenName = () =>
+      (
+        this.props.properties.get('tokens').get(this.props.id.toString()) || {
+          name: '',
+        }
+      ).name;
   }
 
   componentDidMount() {
@@ -38,9 +44,9 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
     let available;
 
     if (this.props.divisible) {
-      frozen = (this.props.frozen) / 1e8;
-      reserved = (this.props.reserved ? this.props.reserved / 1e8 : 0);
-      available = (this.props.value) / 1e8;
+      frozen = this.props.frozen / 1e8;
+      reserved = this.props.reserved ? this.props.reserved / 1e8 : 0;
+      available = this.props.value / 1e8;
     } else {
       frozen = this.props.frozen;
       reserved = this.props.reserved;
@@ -49,53 +55,55 @@ class Token extends React.PureComponent { // eslint-disable-line react/prefer-st
 
     let value;
     let vlabel;
-    
+
     if (available == 0 && frozen > 0) {
       value = frozen;
-      vlabel = " Frozen!";
+      vlabel = ' Frozen!';
     } else {
       value = available;
     }
-    
+
     const logo = getLogo(this.props.id, this.props.propertyinfo);
-    
+
     return (
       <tr>
         <StyledTD style={{ width: '56px' }}>
-          <img
-            style={{ width: '4rem', height: '4rem' }}
-            src={ logo }
-          />
+          <img style={{ width: '4rem', height: '4rem' }} src={logo} />
         </StyledTD>
-        <StyledTD style={{ paddingTop: '13px' }}>
+        <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
-            { this.props.id }
+            {this.props.id}
           </Link>
         </StyledTD>
-        <StyledTD style={{ paddingTop: '13px' }}>
+        <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
           <Link
             to={{
               pathname: `/asset/${this.props.id}`,
-              state: { state: this.props },
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.id}`)}
           >
-            { this.getTokenName() }
+            {this.getTokenName()}
           </Link>
-        </StyledTD>
-        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
-          <SanitizedFormattedNumber value={reserved} />
         </StyledTD>
         <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>
-            <SanitizedFormattedNumber value={value} />{vlabel}
+            <SanitizedFormattedNumber
+              value={value}
+              forceDecimals={this.props.divisible}
+            />
+            {vlabel}
           </strong>
+        </StyledTD>
+        <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
+          <SanitizedFormattedNumber
+            value={reserved}
+            forceDecimals={this.props.divisible}
+          />
         </StyledTD>
       </tr>
     );
@@ -115,14 +123,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getProperty: (propertyId) => dispatch(startFetch(propertyId)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    getProperty: propertyId => dispatch(startFetch(propertyId)),
+    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
-export default compose(
-  withConnect,
-)(Token);
+export default compose(withConnect)(Token);

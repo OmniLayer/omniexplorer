@@ -16,9 +16,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
-
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
+import Transactions from 'containers/Transactions';
 import AddressDetail from 'containers/AddressDetail';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search/Loadable';
@@ -28,7 +28,9 @@ import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
 import Promote from 'containers/Promote/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
+import BlockDetail from 'containers/BlockDetail';
 import HistoryChart from 'containers/HistoryChart';
+import FullBlockList from 'containers/FullBlockList';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
@@ -63,13 +65,32 @@ class App extends React.Component {
   render() {
     return (
       <AppWrapper>
-        <Helmet titleTemplate="%s - Omni Explorer" defaultTitle="Omni Explorer">
-          <meta name="description" content="Omni Explorer" />
+        <Helmet
+          titleTemplate="%s - Omni Explorer"
+          defaultTitle="Omni Explorer - The block explorer for Omni, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+        >
+          <meta
+            name="description"
+            content="The block explorer for Omni, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+          />
+          <link rel="canonical" href="https://omniexplorer.info" />
+          <meta name="referrer" content="always" />
         </Helmet>
         <Header />
         <Switch>
-          <Route exact path="/:page(\d+)?" component={HomePage} />
-          <Route path="/tx/:tx" component={TransactionDetail} />
+          <Route
+            exact
+            path="/:block(\d+)?"
+            component={HomePage}
+          />
+          <Route
+            path="/tx/:tx"
+            component={TransactionDetail}
+          />
+          <Route
+            path="/transactions/unconfirmed"
+            component={Transactions}
+          />
           <Route
             path="/address/:address/:page(\d+)?"
             component={AddressDetail}
@@ -96,9 +117,32 @@ class App extends React.Component {
             component={CrowdsaleDetail}
             key={location.pathname}
           />
-          <Route exact path="/promote" component={Promote} />
-          <Route exact path="/submitfeedback" component={Feedback} />
-          <Route exact path="/history" component={HistoryChart} />
+          <Route
+            exact
+            path="/block/:block(\d+)"
+            component={BlockDetail}
+            key={location.pathname}
+          />
+          <Route
+            exact
+            path="/promote"
+            component={Promote}
+          />
+          <Route
+            exact
+            path="/submitfeedback"
+            component={Feedback}
+          />
+          <Route
+            exact
+            path="/history"
+            component={HistoryChart}
+          />
+          <Route
+            exact
+            path="/blocks/:block(\d+)?"
+            component={FullBlockList}
+          />
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>

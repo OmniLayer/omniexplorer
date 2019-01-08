@@ -35,7 +35,7 @@ function Promote() {
         <h4 className="panel-title lead">Register Your Property</h4>
       </HeaderContainer>
       <BodyContainer className="panel-body">
-        <p>OmniExplorer.info is the de-facto block explorer for the Omni Layer and our visitors are already familiar with and/or already using the Omni Protocol, providing a unique stage from which to showcase your property to thousands of Omni users.</p>
+        <p>OmniExplorer.info is the de-facto block explorer for the Omni Layer and our visitors are already familiar with and/or already using Omni Layer, providing a unique stage from which to showcase your property to thousands of Omni users.</p>
         <p>Please note:</p><ul>
         <li>Since we do not track visiting browsers we thus cannot provide demographics or unique visitor percentages etc to sponsors.</li>
         <li>Issuers must be able to sign a message from the issuing address to prove property ownership before registration will be permitted.</li>
