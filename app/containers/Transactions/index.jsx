@@ -1,3 +1,4 @@
+/* eslint-disable radix,no-restricted-globals */
 /**
  *
  * Transactions
@@ -9,89 +10,83 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Container } from 'reactstrap';
 import styled from 'styled-components';
-import TransactionList from 'components/TransactionList';
+import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
-import ListPagination from 'components/ListPagination';
-
+import Transaction from 'components/Transaction';
 import LoadingIndicator from 'components/LoadingIndicator';
+import NoOmniTransactions from 'components/NoOmniTransactions';
+import ContainerBase from 'components/ContainerBase';
+import FooterLinks from 'components/FooterLinks';
 
-import { makeSelectLoading, makeSelectTransactions } from './selectors';
-import { loadTransactions, setPage, setTransactionType } from './actions';
+import injectSaga from 'utils/injectSaga';
+import sagaTransactions from 'containers/Transactions/saga';
 
-export class Transactions extends React.Component { // eslint-disable-line react/prefer-stateless-function
+import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
+import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
+import messages from './messages';
+
+const StyledContainer = styled(ContainerBase)`
+  overflow: auto;
+  padding-bottom: 0;
+`;
+
+export class Transactions extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    const page = this.getCurrentPage(this.props.location.get('pathname'));
-    this.props.onSetPage(page);
+    const { page } = props.match.params;
+    this.props.onSetPage(!page || isNaN(page) ? 0 : parseInt(page));
   }
 
   componentDidMount() {
-    this.props.loadTransactions(this.props.addr);
+    const unconfirmed = this.props.location.pathname.includes('unconfirmed');
+    if (unconfirmed) {
+      this.props.loadUnconfirmed();
+    } else {
+      this.props.loadTransactions(this.props.addr);
+    }
+
     console.log('Transactions did mount');
   }
 
-  getCurrentPage(pathname) {
-    let page;
-    if (pathname.charAt(pathname.length - 1) === '/') {
-      page = pathname.slice(0, -1).substr(pathname.lastIndexOf('/') + 1);
-    } else {
-      page = pathname.substr(pathname.lastIndexOf('/') + 1);
-    }
-    return (!page || isNaN(page) ? 0 : page);
-  }
-
   render() {
-    const StyledContainer = styled(Container)`
-      background-color: #F0F3F4;
-      overflow: auto;
-    `;
-    const StyledH3 = styled.h3`
-      padding: 3rem 0;
-    `;
-
     let content;
 
     if (this.props.loading) {
-      content = (
-        <LoadingIndicator />
-      );
+      content = <LoadingIndicator />;
     } else if ((this.props.transactions.transactions || []).length === 0) {
-      content = (
-        <StyledH3 className="lead text-center">
-          <p className="h3">
-            No Omni Protocol transactions found
-          </p>
-          <p className="h5">
-            If the transaction you are searching for was just broadcast it might take a few minutes for the network to
-            pass it around for us to see it.
-          </p>
-          <p className="h5">
-            If the transaction you are searching for is a Bitcoin only transaction you should use a bitcoin block
-            explorer like <a href="https://www.blocktrail.com">blocktrail.com</a>
-          </p>
-        </StyledH3>
-      );
+      content = <NoOmniTransactions />;
     } else {
+      const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
+      const hashLink = v => `${pathname}/${v}`;
+      const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
+      const { addr } = this.props;
+      const usePagination = !this.props.unconfirmed;
       const props = {
         ...this.props.transactions,
-        addr: this.props.addr,
+        addr,
+        inner: Transaction,
+        onSetPage: this.props.onSetPage,
+        hashLink,
+        getItemKey,
+        usePagination,
       };
-      content = (
-        <div>
-          <ListPagination {...props} onSetPage={this.props.onSetPage} />
-          <TransactionList {...props} />
-          <ListPagination {...props} onSetPage={this.props.onSetPage} />
-        </div>
-      );
+      props.items = props.transactions;
+      content = <List {...props} />;
     }
-
+    const footer = <FooterLinks blocklist />;
     return (
       <StyledContainer fluid>
-        <TransactionListHeader selectType={this.props.onSetTransactionType} total={this.props.transactions.pageCount} totalLabel="page" />
+        <TransactionListHeader
+          selectType={this.props.onSetTransactionType}
+          total={this.props.transactions.pageCount}
+          totalLabel="page"
+          count={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
+        />
         {content}
+        {footer}
       </StyledContainer>
     );
   }
@@ -99,29 +94,43 @@ export class Transactions extends React.Component { // eslint-disable-line react
 
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
+  loadUnconfirmed: PropTypes.func,
   transactions: PropTypes.object.isRequired,
   onSetPage: PropTypes.func,
   loading: PropTypes.bool,
   addr: PropTypes.string,
-  location: PropTypes.object,
+  unconfirmed: PropTypes.bool,
+  match: PropTypes.object,
   onSetTransactionType: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   transactions: makeSelectTransactions(),
   loading: makeSelectLoading(),
-  location: (state) => state.get('route').get('location'),
+  unconfirmed: makeSelectUnconfirmed(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadTransactions: (addr) => dispatch(loadTransactions(addr)),
-    onSetPage: (p) => dispatch(setPage(p)),
-    onSetTransactionType: (txtype) => dispatch(setTransactionType(txtype)),
+    loadTransactions: addr => dispatch(loadTransactions(addr)),
+    loadUnconfirmed: () => dispatch(loadUnconfirmed()),
+    onSetPage: p => dispatch(setPage(p)),
+    onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
-export default compose(withConnect)(Transactions);
+const withSagaTransaction = injectSaga({
+  key: 'transactions',
+  saga: sagaTransactions,
+});
+
+export default compose(
+  withConnect,
+  withSagaTransaction,
+)(Transactions);

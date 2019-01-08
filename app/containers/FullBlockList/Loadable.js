@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for Transactions
+ * Asynchronously loads the component for FullBlockList
  *
  */
 

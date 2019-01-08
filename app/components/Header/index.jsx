@@ -79,12 +79,6 @@ class Header extends React.PureComponent {
                 <StyledNavItem>
                   <NavLink href="/">Home</NavLink>
                 </StyledNavItem>
-                <StyledNavItem>
-                  <NavLink href="#" id="cs1">Exchange</NavLink>
-                  <UncontrolledTooltip placement="top" target="cs1">
-                    Coming Soon.
-                  </UncontrolledTooltip>
-                </StyledNavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     API
@@ -121,20 +115,11 @@ class Header extends React.PureComponent {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
-                <StyledNavItem>
-                  <NavLink href="#" id="cs2">Usage Graphs</NavLink>
-                  <UncontrolledTooltip placement="top" target="cs2">
-                    Coming Soon.
-                  </UncontrolledTooltip>
-                </StyledNavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     Misc
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem header>
-                      <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
-                    </DropdownItem>
                     <DropdownItem>
                       <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>
                     </DropdownItem>

@@ -4,7 +4,6 @@
  *
  */
 
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -18,30 +17,40 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import Asset from 'components/Asset';
-import Ecosystem from 'components/Ecosystem';
 import LoadingIndicator from 'components/LoadingIndicator';
+import ContainerBase from 'components/ContainerBase';
+import ListHeader from 'components/ListHeader';
 
 import makeSelectSearch from 'containers/Search/selectors';
 import searchReducer from 'containers/Search/reducer';
 import searchSaga from 'containers/Search/saga';
 import { loadSearch } from 'containers/Search/actions';
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_TEST_NAME, ECOSYSTEM_PROD_NAME } from 'containers/App/constants';
+import {
+  ECOSYSTEM_PROD,
+  ECOSYSTEM_TEST,
+  ECOSYSTEM_TEST_NAME,
+  ECOSYSTEM_PROD_NAME,
+} from 'containers/App/constants';
+import messages from './messages';
 
-const StyledContainer = styled(Container)`
-      
-      margin: 3rem;
-      padding: 1rem;
-    `;
+const StyledContainer = styled(ContainerBase)`
+  margin-top: 1rem;
+`;
 const StyledTH = styled.th`
-      border: none !important;
-    `;
+  border: none !important;
+`;
 
-export class Properties extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class Properties extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    this.query = (props.match.params.query.toString() === ECOSYSTEM_PROD_NAME.toLowerCase() ? ECOSYSTEM_PROD : ECOSYSTEM_TEST);
-    this.ecosystem = (this.query === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME);
+    this.query =
+      props.match.params.query.toString() === ECOSYSTEM_PROD_NAME.toLowerCase()
+        ? ECOSYSTEM_PROD
+        : ECOSYSTEM_TEST;
+    this.ecosystem =
+      this.query === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME;
     this.props.loadSearch(this.query);
   }
 
@@ -55,42 +64,43 @@ export class Properties extends React.PureComponent { // eslint-disable-line rea
     }
 
     const assets = (
-      <div className="table-responsive">
-        <Table className="table-profile">
-          <thead>
-            <tr>
-              <StyledTH></StyledTH>
-              <StyledTH>Property ID</StyledTH>
-              <StyledTH>Name</StyledTH>
-              <StyledTH>Issuer</StyledTH>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.search.asset.map((x, idx) => (<Asset
+      <Table responsive>
+        <thead>
+          <tr>
+            <StyledTH />
+            <StyledTH>Property ID</StyledTH>
+            <StyledTH>Name</StyledTH>
+            <StyledTH>Issuer</StyledTH>
+          </tr>
+        </thead>
+        <tbody>
+          {this.props.search.asset.map((x, idx) => (
+            <Asset
               {...x}
               changeRoute={this.props.changeRoute}
               key={x[2] + idx}
-            />))}
-          </tbody>
-        </Table>
-      </div>
+            />
+          ))}
+        </tbody>
+      </Table>
     );
 
     return (
       <StyledContainer fluid>
         <Row>
           <Col sm>
-            <h3>
-              Properties for ecosystem { this.ecosystem }
-              &nbsp;
-              <small className="text-muted">({this.props.search.asset.length} properties)</small>
-            </h3>
+            <ListHeader
+              total={this.props.search.asset.length}
+              totalLabel="Property"
+              message={messages.header}
+              values={{
+                ecosystem: this.ecosystem,
+              }}
+            />
           </Col>
         </Row>
         <Row>
-          <Col sm>
-            {assets}
-          </Col>
+          <Col sm>{assets}</Col>
         </Row>
       </StyledContainer>
     );
@@ -99,7 +109,10 @@ export class Properties extends React.PureComponent { // eslint-disable-line rea
 
 Properties.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  changeRoute: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
+  search: PropTypes.any,
+  match: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -109,12 +122,15 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadSearch: (query) => dispatch(loadSearch(query)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    loadSearch: query => dispatch(loadSearch(query)),
+    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({
   key: 'search',

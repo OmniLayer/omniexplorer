@@ -13,7 +13,7 @@ const initialState = fromJS({
   error: false,
   transactions: [],
   pageCount: 0,
-  currentPage: 0,
+  currentPage: 1,
   total: 0,
 });
 
@@ -37,9 +37,11 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', false)
         .set('error', false);
     case LOAD_CROWDSALE_TRANSACTIONS_ERROR:
-      return state.set('error', action.error).set('loading', false);
+      return state.set('error', action.error)
+        .set('loading', false);
     case SET_CROWDSALES_TRANSACTIONS_PAGE:
-      return state.set('loading', true).set('currentPage', action.page);
+      return state.set('loading', true)
+        .set('currentPage', action.page);
     default:
       return state;
   }

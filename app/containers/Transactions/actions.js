@@ -21,6 +21,7 @@ import {
   LOAD_TRANSACTIONS_ERROR,
   SET_PAGE,
   SET_TRANSACTION_TYPE,
+  LOAD_UNCONFIRMED,
 } from './constants';
 
 /**
@@ -89,5 +90,16 @@ export function setTransactionType(txType) {
   return {
     type: SET_TRANSACTION_TYPE,
     txType,
+  };
+}
+
+/**
+ * Load the transactions, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_TRANSACTIONS
+ */
+export function loadUnconfirmed() {
+  return {
+    type: LOAD_UNCONFIRMED,
   };
 }

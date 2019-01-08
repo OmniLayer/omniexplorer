@@ -16,6 +16,7 @@ import injectSaga from 'utils/injectSaga';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import TransactionInfo from 'components/TransactionInfo';
+import ContainerBase from 'components/ContainerBase';
 
 import makeSelectTransactionDetail from './selectors';
 import sagaTxDetail from './saga';
@@ -27,39 +28,34 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     super(props);
 
     this.txid = this.props.match.params.tx.toString();
-  }
-
-  componentDidMount() {
     this.props.loadTransaction(this.txid);
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.match.params.tx !== this.txid) {
-      this.props.loadTransaction(this.txid);
-    }
   }
 
   render() {
     if (this.props.txdetail.loading) {
       return (
         <Container>
-          <LoadingIndicator />
+          <LoadingIndicator/>
         </Container>
       );
     }
 
     if (this.props.txdetail.transaction.notFound) {
       return (
-        <Container>
+        <ContainerBase fluid>
           <h1> Transaction
-          <small> { this.txid.slice(0, 24) }... </small>
+            <small> {this.txid.slice(0, 24)}... </small>
             not found
           </h1>
-        </Container>
+        </ContainerBase>
       );
     }
 
-    return (<TransactionInfo {...this.props.txdetail.transaction} />);
+    return (
+      <ContainerBase fluid>
+        <TransactionInfo {...this.props.txdetail.transaction} />
+      </ContainerBase>
+    );
   }
 }
 
@@ -82,8 +78,14 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'transactionDetail', reducer });
-const withSaga = injectSaga({ key: 'transactionDetail', saga: sagaTxDetail });
+const withReducer = injectReducer({
+  key: 'transactionDetail',
+  reducer,
+});
+const withSaga = injectSaga({
+  key: 'transactionDetail',
+  saga: sagaTxDetail,
+});
 
 export default compose(
   withReducer,

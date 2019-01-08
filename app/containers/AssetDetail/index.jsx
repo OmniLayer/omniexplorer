@@ -12,16 +12,18 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
-import { Card, CardBody, Col, Container, Row, Table } from 'reactstrap';
+import { Col, Container, Row, Table } from 'reactstrap';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
 import AssetInfo from 'components/AssetInfo';
 import LoadingIndicator from 'components/LoadingIndicator';
+import ContainerBase from 'components/ContainerBase';
+
 import getLogo from 'utils/getLogo';
 import getWarningMessage from 'utils/getWarningMessage';
 
-const StyledContainer = styled(Container)``;
+const StyledContainer = styled(ContainerBase)``;
 const DetailRow = styled(Row)`
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -70,7 +72,7 @@ export class AssetDetail extends React.PureComponent {
         {warningMessage}
         <DetailRow>
           <Col sm>
-            <Table responsive className="table-profile">
+            <Table responsive className="table-horizontal">
               <thead>
                 <tr>
                   <th>
@@ -90,10 +92,8 @@ export class AssetDetail extends React.PureComponent {
                         <Link
                           to={{
                             pathname: `/tx/${asset.creationtxid}`,
+                            state: { state: this.props.state },
                           }}
-                          onClick={() =>
-                            this.props.changeRoute(`/tx/${asset.creationtxid}`)
-                          }
                         >
                           {asset.creationtxid}
                         </Link>
@@ -114,7 +114,10 @@ export class AssetDetail extends React.PureComponent {
 
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  getProperty: PropTypes.func.isRequired,
   changeRoute: PropTypes.func.isRequired,
+  properties: PropTypes.func.isRequired,
+  match: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({

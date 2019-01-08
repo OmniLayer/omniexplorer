@@ -21,6 +21,8 @@ import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import ColoredHash from 'components/ColoredHash';
+import StatusConfirmation from 'components/StatusConfirmation';
 import getLogo from 'utils/getLogo';
 import './transaction.scss';
 
@@ -53,76 +55,87 @@ const WrapperLink = styled.div.attrs({
   font-size: 1.25rem !important;
   width: 44%;
   color: #333;
-  background: #EFF5FB;
+  background: #eff5fb;
   border-color: #e2e7eb;
 `;
 
-class Transaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+const WrapperTx = styled.div.attrs({
+  className: 'location d-block-down-md text-truncate-down-md',
+})`
+  font-size: 1.25rem !important;
+  padding: 0 1rem;
+`;
+
+const WrapperTxDatetime = styled.div.attrs({
+  className: 'wrapper-tx-timestamp w-75 mb-3',
+})`
+  font-size: 1.25rem !important;
+  color: #333;
+`;
+
+class Transaction extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-    
+
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-  
+
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-  
+
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-  
+
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-  
+
   getHighlightIfOwner(address) {
-    return (this.isOwner(address) ? 'text-success' : '');
+    return this.isOwner(address) ? 'text-success' : '';
   }
-  
+
   isOwner(address) {
-    return (this.props.addr ? this.props.addr === address : false);
+    return this.props.addr ? this.props.addr === address : false;
   }
-  
+
   render() {
-    const isValid = this.props.valid;
-    
-    const statusColor = (isValid ? 'btn btn-primary btn-block btn-blue font-weight-light' : (this.props.confirmations === 0 ? 'btn btn-primary btn-block btn-warning font-weight-light' : 'btn btn-primary btn-block btn-danger font-weight-light'));
-    
-    const status = (
-      isValid ?
-        this.props.confirmations < CONFIRMATIONS ?
-          this.props.confirmations === 0 ?
-            'UNCONFIRMED' :
-            this.props.confirmations > 1 ?
-              `${this.props.confirmations} CONFIRMATIONS` :
-              `${this.props.confirmations} CONFIRMATION`
-          :
-          'CONFIRMED'
-        :
-        this.props.confirmations === 0 ?
-          'UNCONFIRMED' :
-          'INVALID'
-    );
-    
+    let statusCSSClass =
+      'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
+
+    const invalidClass = confirmations =>
+      confirmations === 0
+        ? `${statusCSSClass} tx-invalid btn-warning`
+        : `${statusCSSClass} tx-invalid btn-danger`;
+
+    statusCSSClass = this.props.valid
+      ? `${statusCSSClass} btn-blue`
+      : invalidClass(this.props.confirmations);
+
+    const status = StatusConfirmation({
+      ...this.props,
+      confirmed: CONFIRMATIONS,
+    });
     const tokenLogo = getLogo(this.props.propertyid, this.props);
-    
+
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-    
+
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -132,124 +145,161 @@ class Transaction extends React.PureComponent { // eslint-disable-line react/pre
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-    
+
     const transactionAmount = this.props.amount || '';
-    
+
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-    
+
     return (
-      <Row className="transation-result mx-auto text-center-down-md">
-        <Col sm="9">
-          <Row className="transaction-header">
-            <Col sm="2" md="1">
-              <IMG src={tokenLogo} />
-            </Col>
-            <Col sm>
-              <span className="title d-block-down-md">
-                {this.props.type}
-              </span>
-              <div className="location d-block-down-md">
+      <div className="transation-result mx-auto text-center-down-md">
+        <Row className="align-items-end pb-0">
+          <Col sm="12" md="1">
+            <IMG src={tokenLogo} />
+          </Col>
+          <Col sm="12" md="5">
+            <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
+              <div className="p-md-2 pt-xs-2 pr-xs-2">
+                <span className="title d-block-down-md">{this.props.type}</span>
+              </div>
+              <div className="p-md-2 pt-xs-2 pl-xs-2">
+                <span className="title d-block-down-md">
+                  <SanitizedFormattedNumber value={transactionAmount} />
+                </span>
+              </div>
+              <div className="p-md-2 pb-sm-2">
+                <span className="title text-muted">
+                  {this.props.propertyname} (#{this.props.propertyid})
+                </span>
+              </div>
+            </Row>
+            <Row className="d-flex flex-center-down-md mb-1 mt-1">
+              <WrapperTx>
                 <Link
-                  className="text-truncate"
                   to={{
                     pathname: `/tx/${this.props.txid}`,
-                    state: { transaction: this.props },
+                    state: { state: this.props.state },
                   }}
-                  onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
                 >
-                  {this.props.txid}
+                  <ColoredHash hash={this.props.txid} />
                 </Link>
-                <CopyToClipboard text={this.props.txid} onCopy={this.toggleTxTooltip}>
-                  <StyledCopyIcon className="d-inline-flex d-md-none" size={24} id={txcopyid}/>
-                </CopyToClipboard>
-                <Tooltip hideArrow isOpen={this.state.tooltipTxOpen} target={txcopyid}>
-                  Transaction Id Copied
-                </Tooltip>
-                <div className="d-block-down-md">
-                  <FormattedUnixDateTime datetime={this.props.blocktime}/>
-                </div>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm>
-              <div className="desc">
-                <AddressWrapper>
-                  <WrapperLink>
-                    <StyledLink
-                      className={` ${this.getHighlightIfOwner(this.props.sendingaddress)}`}
-                      to={{
-                        pathname: `/address/${this.props.sendingaddress}`,
-                        state: { transaction: this.props },
-                      }}
-                      onClick={() => this.props.changeRoute(`/address/${this.props.sendingaddress}`)}
-                    >
-                      {this.props.sendingaddress}
-                    </StyledLink>
-                  </WrapperLink>
-                  <CopyToClipboard text={this.props.sendingaddress} onCopy={this.toggleSenderTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={sendercopyid}/>
-                  </CopyToClipboard>
-                  <Tooltip hideArrow isOpen={this.state.tooltipSenderOpen} target={sendercopyid}>
-                    Sender Address Copied
-                  </Tooltip>
-                </AddressWrapper>
-                <ArrowIconRight size={20} color="gray" className={`d-none ${arrowcnameright} ${arrowcname}`}/>
-                <ArrowIconDown size={20} color="gray" className={`d-md-none ${arrowcname}`}/>
-                <AddressWrapper className={showreferencecname}>
-                  <WrapperLink>
-                    <StyledLink
-                      className={addresscname}
-                      to={{
-                        pathname: `/address/${this.props.referenceaddress}`,
-                        state: { transaction: this.props },
-                      }}
-                      onClick={() => this.props.changeRoute(`/address/${this.props.referenceaddress}`)}
-                    >
-                      {this.props.referenceaddress}
-                    </StyledLink>
-                  </WrapperLink>
-                  <CopyToClipboard text={this.props.referenceaddress} onCopy={this.toggleRefererTooltip}>
-                    <StyledCopyIcon className="d-inline-flex" size={24} id={referercopyid}/>
-                  </CopyToClipboard>
-                  <Tooltip hideArrow isOpen={this.state.tooltipRefererOpen} target={referercopyid}>
-                    Reference Address Copied
-                  </Tooltip>
-                </AddressWrapper>
-              </div>
-            </Col>
-          </Row>
-        </Col>
-        <Col sm="3" className="result-price text-center">
-          <Row>
-            <Col sm>
-              <h4 className="title">
-                <SanitizedFormattedNumber value={transactionAmount}/>
-              </h4>
-            </Col>
-          </Row>
-          <Row className="transaction-asset">
-            <Col sm>
-              <small>{this.props.propertyname} (#{this.props.propertyid})</small>
-            </Col>
-          </Row>
-          <Row className="h-56-md-up d-flex align-items-md-center align-items-sm-end">
-            <Col sm className="btn-group mb-1 my-auto">
+              </WrapperTx>
+              <CopyToClipboard
+                text={this.props.txid}
+                onCopy={this.toggleTxTooltip}
+              >
+                <StyledCopyIcon
+                  className="d-inline-flex d-md-none"
+                  size={24}
+                  id={txcopyid}
+                />
+              </CopyToClipboard>
+              <Tooltip
+                hideArrow
+                isOpen={this.state.tooltipTxOpen}
+                target={txcopyid}
+              >
+                Transaction Id Copied
+              </Tooltip>
+            </Row>
+          </Col>
+          <Col sm="12" md="5">
+            <div className="d-flex flex-column text-center align-items-center">
+              <WrapperTxDatetime>
+                <FormattedUnixDateTime datetime={this.props.blocktime} />
+              </WrapperTxDatetime>
               <Link
-                className={statusColor}
+                className={statusCSSClass}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
+                  state: { state: this.props.state },
                 }}
-                onClick={() => this.props.changeRoute(`/tx/${this.props.txid}`)}
               >
                 {status}
               </Link>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm>
+            <div className="desc">
+              <AddressWrapper>
+                <WrapperLink>
+                  <StyledLink
+                    className={` ${this.getHighlightIfOwner(
+                      this.props.sendingaddress,
+                    )}`}
+                    to={{
+                      pathname: `/address/${this.props.sendingaddress}`,
+                      state: { state: this.props.state },
+                    }}
+                  >
+                    {this.props.sendingaddress}
+                  </StyledLink>
+                </WrapperLink>
+                <CopyToClipboard
+                  text={this.props.sendingaddress}
+                  onCopy={this.toggleSenderTooltip}
+                >
+                  <StyledCopyIcon
+                    className="d-inline-flex"
+                    size={24}
+                    id={sendercopyid}
+                  />
+                </CopyToClipboard>
+                <Tooltip
+                  hideArrow
+                  isOpen={this.state.tooltipSenderOpen}
+                  target={sendercopyid}
+                >
+                  Sender Address Copied
+                </Tooltip>
+              </AddressWrapper>
+              <ArrowIconRight
+                size={20}
+                color="gray"
+                className={`d-none ${arrowcnameright} ${arrowcname}`}
+              />
+              <ArrowIconDown
+                size={20}
+                color="gray"
+                className={`d-md-none ${arrowcname}`}
+              />
+              <AddressWrapper className={showreferencecname}>
+                <WrapperLink>
+                  <StyledLink
+                    className={addresscname}
+                    to={{
+                      pathname: `/address/${this.props.referenceaddress}`,
+                      state: { state: this.props.state },
+                    }}
+                  >
+                    {this.props.referenceaddress}
+                  </StyledLink>
+                </WrapperLink>
+                <CopyToClipboard
+                  text={this.props.referenceaddress}
+                  onCopy={this.toggleRefererTooltip}
+                >
+                  <StyledCopyIcon
+                    className="d-inline-flex"
+                    size={24}
+                    id={referercopyid}
+                  />
+                </CopyToClipboard>
+                <Tooltip
+                  hideArrow
+                  isOpen={this.state.tooltipRefererOpen}
+                  target={referercopyid}
+                >
+                  Reference Address Copied
+                </Tooltip>
+              </AddressWrapper>
+            </div>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }
@@ -271,11 +321,14 @@ Transaction.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default compose(withConnect)(Transaction);
