@@ -10,31 +10,31 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
-import {
-  Row,
-  Col,
-} from 'reactstrap';
+import { Container, Col, Row } from 'reactstrap';
 
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
-import Transactions from 'containers/Transactions';
+import Blocks from 'containers/Blocks';
+import FooterLinks from 'components/FooterLinks';
 
-import { compose } from 'redux';
-import injectSaga from 'utils/injectSaga';
-import sagaTransactions from 'containers/Transactions/saga';
-
-const Layout = styled.div`
-  background-color: #F5F5F5;
+const Layout = styled(Container)`
+  background-color: #f5f5f5;
   padding: 0;
 `;
 
-class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class HomePage extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   render() {
+    const footer = <FooterLinks unconfirmed blocklist />;
     return (
-      <Layout className="container-fluid">
+      <Layout fluid>
         <Row noGutters>
           <Col sm>
             <HeaderMessage />
@@ -50,7 +50,7 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
         </Row>
         <Row>
           <Col sm>
-            <Transactions />
+            <Blocks footer={footer} />
           </Col>
         </Row>
       </Layout>
@@ -58,10 +58,17 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
   }
 }
 
-const withSagaTransaction = injectSaga({ key: 'transactions', saga: sagaTransactions });
+// export default HomePage;
+HomePage.propTypes = {
+  changeRoute: PropTypes.func.isRequired,
+};
 
-export default compose(
-  withSagaTransaction,
-  // withConnect,
-  // withRouter,
-)(HomePage);
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(routeActions.push(url)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(null, mapDispatchToProps);
+export default compose(withConnect)(HomePage);

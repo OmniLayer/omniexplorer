@@ -2,12 +2,23 @@ import { select, all, call, put, takeLatest } from 'redux-saga/effects';
 import {
   LOAD_TRANSACTIONS,
   SET_TRANSACTION_TYPE,
+  LOAD_UNCONFIRMED,
 } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import { transactionsLoaded, transactionsLoadingError } from './actions';
 import { makeSelectTransactions } from './selectors';
+
+export function* getUnconfirmed(){
+  const requestURL = `${API_URL_BASE}/transaction/unconfirmed`;
+  try {
+    const transactions = yield call(request, requestURL);
+    yield put(transactionsLoaded(transactions.data,1));
+  } catch (err) {
+    yield put(transactionsLoadingError(err));
+  }
+}
 
 export function* getTransactions({ addr }) {
   const state = yield select(makeSelectTransactions());
@@ -23,32 +34,27 @@ export function* getTransactions({ addr }) {
       type: 'cors',
     };
 
-    if (addr) {
-      const body = encoderURIParams({ addr, tx_type: txType });
+    const options = { tx_type: txType };
 
-      Object.assign(getTransactionsOptions, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body,
-      });
-    } else {
-      Object.assign(getTransactionsOptions, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    if(addr){
+      options.addr = addr;
     }
+    const body = encoderURIParams({ addr, tx_type: txType });
+
+    Object.assign(getTransactionsOptions, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body,
+    });
 
     const transactions = yield call(
       request,
       requestURL,
       getTransactionsOptions,
     );
-    yield put(
-      transactionsLoaded(transactions.transactions, transactions.pages),
-    );
+    yield put(transactionsLoaded(transactions.transactions, transactions.pages));
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }
@@ -61,5 +67,6 @@ export default function* root() {
   yield all([
     takeLatest(LOAD_TRANSACTIONS, getTransactions),
     takeLatest(SET_TRANSACTION_TYPE, getTransactions),
+    takeLatest(LOAD_UNCONFIRMED, getUnconfirmed),
   ]);
 }

@@ -56,18 +56,25 @@ module.exports = options => ({
         use: 'file-loader',
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        // test: /\.(jpg|png|gif)$/,
+        test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
           'file-loader',
           {
             loader: 'image-webpack-loader',
-            options: {
-              progressive: true,
-              optimizationLevel: 7,
-              interlaced: false,
+            query: {
+              mozjpeg: {
+                progressive: true,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 4,
+              },
               pngquant: {
-                quality: '65-90',
-                speed: 4,
+                quality: '75-90',
+                speed: 3,
               },
             },
           },

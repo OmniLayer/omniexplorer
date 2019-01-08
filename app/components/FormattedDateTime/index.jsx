@@ -6,7 +6,8 @@ function _interopDefault(ex) { return (ex && (typeof ex === 'object') && 'defaul
 
 var _FormattedDateTime = _interopDefault(require('./FormattedDateTime'));
 var _FormattedUnixDateTime = _interopDefault(require('./FormattedUnixDateTime'));
-
+var _Messages = _interopDefault(require('./messages'));
 
 exports.FormattedDateTime = _FormattedDateTime;
 exports.FormattedUnixDateTime = _FormattedUnixDateTime;
+exports.Messages = _Messages;
