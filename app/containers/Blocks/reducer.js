@@ -11,7 +11,6 @@
  */
 
 import { fromJS } from 'immutable';
-import values from 'lodash/values';
 import orderBy from 'lodash/orderBy';
 
 import {

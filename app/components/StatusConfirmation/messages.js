@@ -28,5 +28,5 @@ export default defineMessages({
   invalid: {
     id: 'app.components.StatusConfirmation.invalid',
     defaultMessage: 'INVALID',
-  }
+  },
 });

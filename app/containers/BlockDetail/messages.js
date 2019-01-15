@@ -4,7 +4,6 @@
  * This contains all the text for the BlockDetail component.
  */
 import { defineMessages } from 'react-intl';
-import React from 'react';
 
 export default defineMessages({
   header: {
@@ -26,9 +25,9 @@ export default defineMessages({
       other: 'Blocks',
       zero: 'Blocks',
     },
-    body:{
+    body: {
       id: 'app.containers.BlockDetail.doesNotHaveTransactions',
-      defaultMessage: "Block {blockNumber} has no Omni Layer transactions",
+      defaultMessage: 'Block {blockNumber} has no Omni Layer transactions',
     },
   },
 });
