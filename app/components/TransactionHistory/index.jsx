@@ -6,8 +6,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import connect from 'react-redux/es/connect/connect';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import sortBy from 'lodash/sortBy';
