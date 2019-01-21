@@ -7,10 +7,14 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { LOAD_TRANSACTIONS, SET_TRANSACTION_TYPE } from '../constants';
+import {
+  LOAD_TRANSACTIONS,
+  SET_TRANSACTION_TYPE,
+  LOAD_UNCONFIRMED,
+} from '../constants';
 import { transactionsLoadingError, transactionsLoaded } from '../actions';
 import { initialState } from '../reducer';
-import root, { getTransactions } from '../saga';
+import root, { getTransactions, getUnconfirmed } from '../saga';
 
 const txid = 'dbf8b73aa9149ae3e8a96e85c64c48d8061d65c026b16c899e77bb6a607bd45x';
 
@@ -57,9 +61,11 @@ describe('getTransaction Saga', () => {
     const url = `${API_URL_BASE}/transaction/general/0`;
     const getTransactionsOptions = {
       type: 'cors',
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
+      body: '',
     };
 
     saga
@@ -84,6 +90,7 @@ describe('Root Saga', () => {
     const expectedYield = all([
       takeLatest(LOAD_TRANSACTIONS, getTransactions),
       takeLatest(SET_TRANSACTION_TYPE, getTransactions),
+      takeLatest(LOAD_UNCONFIRMED, getUnconfirmed),
     ]);
 
     // act

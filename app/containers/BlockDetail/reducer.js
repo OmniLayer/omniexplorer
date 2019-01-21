@@ -12,7 +12,7 @@ const initialBlock = {
   transactions: [],
 };
 
-const initialState = fromJS({
+export const initialState = fromJS({
   loading: true,
   error: false,
   block: initialBlock,
