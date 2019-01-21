@@ -156,6 +156,8 @@ function TransactionInfo(props) {
     specificAction = `- ${props.action}`;
   }
 
+  const recipient = props.referenceaddress || (props.purchases || [{}])[0].referenceaddress;
+
   return (
     <ContainerBase fluid>
       {warningMessage}
@@ -198,11 +200,11 @@ function TransactionInfo(props) {
                 <td>
                   <Link
                     to={{
-                      pathname: `/address/${props.referenceaddress}`,
+                      pathname: `/address/${recipient}`,
                       state: { state: props.state },
                     }}
                   >
-                    {props.referenceaddress}
+                    {recipient}
                   </Link>
                 </td>
               </tr>
