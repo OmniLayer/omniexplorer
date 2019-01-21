@@ -1,18 +1,15 @@
-
-import {
-  defaultAction,
-} from '../actions';
-import {
-  DEFAULT_ACTION,
-} from '../constants';
+import { FIRST_BLOCK } from 'containers/App/constants';
+import { LOAD_BLOCKS } from '../constants';
+import { loadBlocks } from '../actions';
 
 describe('Blocks actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('Load Blocks Action', () => {
+    it('has a type of LOAD_BLOCK', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOAD_BLOCKS,
+        block: FIRST_BLOCK,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(loadBlocks(FIRST_BLOCK)).toEqual(expected);
     });
   });
 });

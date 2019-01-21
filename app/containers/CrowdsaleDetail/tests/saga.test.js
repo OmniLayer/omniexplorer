@@ -9,8 +9,8 @@ import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
 import {
-  updateCrowdsaleTransactionsFetch,
   errorCrowdsaleTransactionsFetch,
+  updateCrowdsaleTransactionsFetch,
 } from 'containers/CrowdsaleDetail/actions';
 
 import { LOAD_CROWDSALE_TRANSACTIONS } from '../constants';
@@ -36,7 +36,7 @@ describe('getCrowdsaleTransactions Saga', () => {
     expect(callDescriptor).toMatchSnapshot();
   });
 
-  it('should dispatch the addressLoaded action if it requests the data successfully', () => {
+  it('should dispatch the updateCrowdsaleTransactionsFetch action if it requests the data successfully', () => {
     const response = {
       pages: 3,
       page: 3,
@@ -46,9 +46,20 @@ describe('getCrowdsaleTransactions Saga', () => {
 
     const id = 31;
     const startPage = 3;
-    const saga = testSaga(getCrowdsaleTransactions, { id, start: startPage });
+    const saga = testSaga(getCrowdsaleTransactions, {
+      id,
+      start: startPage,
+      count: 1000,
+    });
     const url = `${API_URL_BASE}/properties/gethistory/${id}`;
-    const body = encoderURIParams({ start: startPage, count: 1000 }, true);
+    const body = encoderURIParams(
+      {
+        startPage,
+        count: 1000,
+      },
+      true,
+    );
+    // const body = encoderURIParams({ start: startPage, count: 1000 }, true);
 
     const options = {
       method: 'POST',
@@ -61,6 +72,7 @@ describe('getCrowdsaleTransactions Saga', () => {
 
     saga
       .next()
+      .next({ currentPage: 0 })
       .call(request, url, options)
       .next(response)
       .put(

@@ -15,11 +15,7 @@
  *    }
  */
 
-import {
-  LOAD_BLOCK,
-  LOAD_BLOCK_SUCCESS,
-  LOAD_BLOCK_ERROR,
-} from './constants';
+import { LOAD_BLOCK, LOAD_BLOCK_SUCCESS, LOAD_BLOCK_ERROR } from './constants';
 
 /**
  * Load the block, this action starts the request saga

@@ -10,11 +10,11 @@ import encoderURIParams from 'utils/encoderURIParams';
 import { transactionsLoaded, transactionsLoadingError } from './actions';
 import { makeSelectTransactions } from './selectors';
 
-export function* getUnconfirmed(){
+export function* getUnconfirmed() {
   const requestURL = `${API_URL_BASE}/transaction/unconfirmed`;
   try {
     const transactions = yield call(request, requestURL);
-    yield put(transactionsLoaded(transactions.data,1));
+    yield put(transactionsLoaded(transactions.data, 1));
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }
@@ -36,7 +36,7 @@ export function* getTransactions({ addr }) {
 
     const options = { tx_type: txType };
 
-    if(addr){
+    if (addr) {
       options.addr = addr;
     }
     const body = encoderURIParams({ addr, tx_type: txType });
@@ -54,7 +54,9 @@ export function* getTransactions({ addr }) {
       requestURL,
       getTransactionsOptions,
     );
-    yield put(transactionsLoaded(transactions.transactions, transactions.pages));
+    yield put(
+      transactionsLoaded(transactions.transactions, transactions.pages),
+    );
   } catch (err) {
     yield put(transactionsLoadingError(err));
   }

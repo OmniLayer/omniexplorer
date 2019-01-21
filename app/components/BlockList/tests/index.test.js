@@ -1,10 +1,18 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { connect } from 'react-redux';
+import { shallowWithState } from 'enzyme-redux';
 
-// import BlockList from '../index';
+import { BlockList } from '../index';
 
 describe('<BlockList />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  const ReactComponent = () => <BlockList />;
+  it('should render <BlockList />', () => {
+    const expectedState = { mockedStated: true };
+    const mapStateToProps = state => ({
+      state,
+    });
+    const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
+    const component = shallowWithState(<ConnectedComponent />, expectedState);
+    expect(component.props().state).toBe(expectedState);
   });
 });
