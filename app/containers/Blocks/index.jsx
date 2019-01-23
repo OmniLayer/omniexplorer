@@ -117,12 +117,12 @@ export class Blocks extends React.Component {
         <Row>
           <Col sm={{size:2,offset:1}}>
             <h3>
-              <LinkNext href={hashLink(nextBlockSet())}>&lt;&lt; Newer</LinkNext>
+              <LinkPrevious href={hashLink(previousBlockSet())}>&lt;&lt; Older</LinkPrevious>
             </h3>
           </Col>
           <Col sm={{size:2, offset:6}} className="text-right">
             <h3>
-              <LinkPrevious href={hashLink(previousBlockSet())}>Older &gt;&gt;</LinkPrevious>
+              <LinkNext href={hashLink(nextBlockSet())}>Newer &gt;&gt;</LinkNext>
             </h3>
           </Col>
         </Row>
