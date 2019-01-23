@@ -36,7 +36,7 @@ describe('getCrowdsales Saga', () => {
     expect(callDescriptor).toMatchSnapshot();
   });
 
-  it('should dispatch the addressLoaded action if it requests the data successfully', () => {
+  it('should dispatch the crowdsalesLoaded action if it requests the data successfully', () => {
     const response = {
       balance: [
         {
@@ -82,7 +82,7 @@ describe('getCrowdsales Saga', () => {
       .put(crowdsalesLoaded(response));
   });
 
-  it('should call the addressLoadingError action if the response errors', () => {
+  it('should call the crowdsalesLoadingError action if the response errors', () => {
     const response = new Error('Some error');
     const putDescriptor = getCrowdsalesGenerator.throw(response).value;
     expect(putDescriptor).toEqual(put(crowdsalesLoadingError(response)));

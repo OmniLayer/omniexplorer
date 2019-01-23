@@ -1,10 +1,18 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { connect } from 'react-redux';
+import { shallowWithState } from 'enzyme-redux';
 
-// import JumpToBlock from '../index';
+import { JumpToBlock } from '../index';
 
 describe('<JumpToBlock />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  const ReactComponent = () => <JumpToBlock />;
+  it('should render <JumpToBlock />', () => {
+    const expectedState = { mockedStated: true };
+    const mapStateToProps = state => ({
+      state,
+    });
+    const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
+    const component = shallowWithState(<ConnectedComponent />, expectedState);
+    expect(component.props().state).toBe(expectedState);
   });
 });

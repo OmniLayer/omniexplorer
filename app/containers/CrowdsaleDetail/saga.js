@@ -13,9 +13,9 @@ import makeSelectCrowdsaleDetail from './selectors';
 export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
   const requestURL = `${API_URL_BASE}/properties/gethistory/${id}`;
   const state = yield select(makeSelectCrowdsaleDetail());
-  start = state.currentPage || start;
+  const startPage = state.currentPage || start;
 
-  const body = encoderURIParams({ start, count }, true);
+  const body = encoderURIParams({ startPage, count }, true);
 
   try {
     const getTransactionsOptions = {
@@ -37,7 +37,7 @@ export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
         transactions.transactions,
         transactions.pages,
         transactions.total,
-        start,
+        startPage,
       ),
     );
   } catch (err) {

@@ -25,7 +25,9 @@ export function* getAddress({ addr }) {
 
     const wallet = yield call(request, requestURL, options);
     yield put(addressLoaded(wallet));
-    yield wallet.balance.map(property => put(updateFetch(property.propertyinfo)));
+    yield wallet.balance.map(property =>
+      put(updateFetch(property.propertyinfo)),
+    );
   } catch (err) {
     yield put(addressLoadingError(err));
   }

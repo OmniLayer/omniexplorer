@@ -28,7 +28,7 @@ describe('getSearch Saga', () => {
     expect(callDescriptor).toMatchSnapshot();
   });
 
-  it('should dispatch the addressLoaded action if it requests the data successfully', () => {
+  it('should dispatch the searchLoaded action if it requests the data successfully', () => {
     const response = {
       balance: [
         {
@@ -72,7 +72,7 @@ describe('getSearch Saga', () => {
       .put(searchLoaded(response));
   });
 
-  it('should call the addressLoadingError action if the response errors', () => {
+  it('should call the searchLoadingError action if the response errors', () => {
     const response = new Error('Some error');
     const putDescriptor = getSearchGenerator.throw(response).value;
     expect(putDescriptor).toEqual(put(searchLoadingError(response)));

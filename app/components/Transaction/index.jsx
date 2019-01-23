@@ -24,6 +24,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
 import getLogo from 'utils/getLogo';
+import getTransactionHeading from 'utils/getTransactionHeading';
 import './transaction.scss';
 
 const IMG = styled.img`
@@ -161,7 +162,9 @@ class Transaction extends React.PureComponent {
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
               <div className="p-md-2 pt-xs-2 pr-xs-2">
-                <span className="title d-block-down-md">{this.props.type}</span>
+                <span className="title d-block-down-md">
+                  {getTransactionHeading(this.props)}
+                </span>
               </div>
               <div className="p-md-2 pt-xs-2 pl-xs-2">
                 <span className="title d-block-down-md">

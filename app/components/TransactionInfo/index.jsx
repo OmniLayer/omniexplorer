@@ -31,6 +31,7 @@ import StatusConfirmation from 'components/StatusConfirmation';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import getLogo from 'utils/getLogo';
+import getTransactionHeading from 'utils/getTransactionHeading';
 
 const StyledCard = styled(Card)`
   background-color: #2a72b5;
@@ -172,7 +173,7 @@ function TransactionInfo(props) {
                 <th />
                 <th>
                   <h4>
-                    {props.type} {specificAction}
+                    {getTransactionHeading(props)} {specificAction}
                     <SubtitleDetail>{props.txid}</SubtitleDetail>
                   </h4>
                 </th>
@@ -195,19 +196,21 @@ function TransactionInfo(props) {
                   </Link>
                 </td>
               </tr>
-              <tr>
-                <td className="field">Recipient</td>
-                <td>
-                  <Link
-                    to={{
-                      pathname: `/address/${recipient}`,
-                      state: { state: props.state },
-                    }}
-                  >
-                    {recipient}
-                  </Link>
-                </td>
-              </tr>
+              {recipient &&
+                <tr>
+                  <td className="field">Recipient</td>
+                  <td>
+                    <Link
+                      to={{
+                        pathname: `/address/${recipient}`,
+                        state: { state: props.state },
+                      }}
+                    >
+                      {recipient}
+                    </Link>
+                  </td>
+                </tr>
+              }
               <tr>
                 <td className="field">{dtheader}</td>
                 <td>
