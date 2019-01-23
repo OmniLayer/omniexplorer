@@ -196,19 +196,21 @@ function TransactionInfo(props) {
                   </Link>
                 </td>
               </tr>
-              <tr>
-                <td className="field">Recipient</td>
-                <td>
-                  <Link
-                    to={{
-                      pathname: `/address/${recipient}`,
-                      state: { state: props.state },
-                    }}
-                  >
-                    {recipient}
-                  </Link>
-                </td>
-              </tr>
+              {recipient &&
+                <tr>
+                  <td className="field">Recipient</td>
+                  <td>
+                    <Link
+                      to={{
+                        pathname: `/address/${recipient}`,
+                        state: { state: props.state },
+                      }}
+                    >
+                      {recipient}
+                    </Link>
+                  </td>
+                </tr>
+              }
               <tr>
                 <td className="field">{dtheader}</td>
                 <td>
