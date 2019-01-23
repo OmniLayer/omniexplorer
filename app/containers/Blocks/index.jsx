@@ -104,7 +104,7 @@ export class Blocks extends React.Component {
       };
 
       const LinkPrevious = styled(A)``;
-      const LinkNext = (this.props.latest > blocks[0].block)
+      const LinkNext = (isEmpty(blocks) || this.props.latest > blocks[0].block)
         ? styled(A)``
         : styled(A)`
           pointer-events: none;
