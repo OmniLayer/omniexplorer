@@ -29,7 +29,6 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import getLogo from 'utils/getLogo';
 import getWarningMessage from 'utils/getWarningMessage';
 import { startDeepFetch } from 'components/Token/actions';
 import AssetInfo from 'components/AssetInfo';
@@ -38,6 +37,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
 import ContainerBase from 'components/ContainerBase';
+import AssetLogo from 'components/AssetLogo';
 import moment from 'moment/src/moment';
 
 // Icons
@@ -84,6 +84,7 @@ export class CrowdsaleDetail extends React.PureComponent {
 
     this.crowdsaleid = this.props.match.params.crowdsaleid.toString();
     this.props.getPropertyDeep(this.crowdsaleid);
+    console.log(`crowdsale id: ${this.crowdsaleid}`);
     this.props.getCrowdsaleTransactions(this.crowdsaleid);
   }
 
@@ -114,7 +115,6 @@ export class CrowdsaleDetail extends React.PureComponent {
     const divisibleMsg = crowdsale.divisible
       ? crowdsalesMessages.divisible
       : crowdsalesMessages.indivisible;
-    const logo = getLogo(crowdsale.propertyid, crowdsale);
     const warningMessage = getWarningMessage(
       crowdsale.flags,
       crowdsale.propertyname,
@@ -158,12 +158,19 @@ export class CrowdsaleDetail extends React.PureComponent {
                 <thead>
                   <tr>
                     <td className="border-top-0">
-                      <img
-                        src={logo}
-                        alt={crowdsale.type}
-                        className="img-thumbnail d-md-inline-block"
-                        style={{ width: '4rem', height: '4rem' }}
-                      />
+                      <Link
+                        to={{
+                          pathname: `/asset/${crowdsale.propertyid}`,
+                          state: { state: this.props.state },
+                        }}
+                      >
+                        <AssetLogo
+                          asset={crowdsale}
+                          prop={crowdsale.propertyid}
+                          className="img-thumbnail d-md-inline-block"
+                          style={{width: '4rem', height: '4rem'}}
+                        />
+                      </Link>
                     </td>
                     <td className="border-top-0 align-bottom">
                       <h2 className="d-md-inline-block align-bottom mb-0">

@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import styled from 'styled-components';
-import getLogo from 'utils/getLogo';
+import AssetLogo from 'components/AssetLogo';
 import { startFetch } from './actions';
 
 const StyledTD = styled.td.attrs({
@@ -63,12 +63,21 @@ class Token extends React.PureComponent {
       value = available;
     }
 
-    const logo = getLogo(this.props.id, this.props.propertyinfo);
-
     return (
       <tr>
         <StyledTD style={{ width: '56px' }}>
-          <img style={{ width: '4rem', height: '4rem' }} src={logo} />
+          <Link
+            to={{
+              pathname: `/asset/${this.props.id}`,
+              state: { state: this.props.state },
+            }}
+          >
+            <AssetLogo
+              asset={this.props.propertyinfo}
+              prop={this.props.id}
+              style={{width: '4rem', height: '4rem'}}
+            />
+          </Link>
         </StyledTD>
         <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
           <Link

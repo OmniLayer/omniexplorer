@@ -23,14 +23,8 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
-import getLogo from 'utils/getLogo';
+import AssetLogo from 'components/AssetLogo';
 import './transaction.scss';
-
-const IMG = styled.img`
-  width: 48px;
-  height: 48px;
-  margin-right: 7px;
-`;
 
 const AddressWrapper = styled.div.attrs({
   className: 'w-100-down-md address-wrapper',
@@ -135,7 +129,6 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
   }
 
   render() {
-    // const isValid = this.props.valid;
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
     statusCSSClass = (this.props.valid ? `${statusCSSClass} btn-blue` : (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
 
@@ -144,8 +137,6 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
       confirmations: this.props.confirmations,
       confirmed: CONFIRMATIONS,
     });
-
-    const tokenLogo = getLogo(this.props.propertyid, this.props);
 
     let arrowcname;
     let arrowcnameright;
@@ -161,8 +152,6 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-
-    const transactionAmount = this.props.amount || '';
 
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
@@ -188,11 +177,32 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
         </WrapperTxLabel>
     );
 
+    const txAsset = this.props.type_int === 51 ?
+      {
+        ...this.props.crowdsale,
+        name: this.props.crowdsale.propertyname,
+      } :
+      {
+        ...this.props.dessiredToken,
+        name: this.props.dessiredToken.propertyname,
+      }
+
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
-            <IMG src={tokenLogo}/>
+            <Link
+              to={{
+                pathname: `/asset/${txAsset.propertyid}`,
+                state: { state: this.props.state },
+              }}
+            >
+              <AssetLogo
+                asset={txAsset}
+                prop={txAsset.propertyid}
+                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+              />
+            </Link>
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">

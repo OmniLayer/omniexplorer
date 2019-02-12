@@ -23,15 +23,9 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
-import getLogo from 'utils/getLogo';
+import AssetLogo from 'components/AssetLogo';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import './transaction.scss';
-
-const IMG = styled.img`
-  width: 48px;
-  height: 48px;
-  margin-right: 7px;
-`;
 
 const AddressWrapper = styled.div.attrs({
   className: 'w-100-down-md address-wrapper',
@@ -130,7 +124,6 @@ class Transaction extends React.PureComponent {
       ...this.props,
       confirmed: CONFIRMATIONS,
     });
-    const tokenLogo = getLogo(this.props.propertyid, this.props);
 
     let arrowcname;
     let arrowcnameright;
@@ -157,7 +150,18 @@ class Transaction extends React.PureComponent {
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
-            <IMG src={tokenLogo} />
+            <Link
+              to={{
+                pathname: `/asset/${this.props.propertyid}`,
+                state: { state: this.props.state },
+              }}
+            >
+              <AssetLogo
+                asset={{...this.props, name: this.props.propertyname }}
+                prop={this.props.propertyid}
+                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+              />
+            </Link>
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">

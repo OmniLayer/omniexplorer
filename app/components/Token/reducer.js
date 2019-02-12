@@ -17,17 +17,24 @@ const propertyReducer = (state = initialState, action = {}) => {
 
   switch (type) {
     case LOAD_PROPERTY_ERROR: {
-      return state.set('isFetching', false).set('error', error);
-    }
-    case LOAD_PROPERTY: {
-      return state.set('isFetching', true).set('error', null);
-    }
-    case LOAD_PROPERTY_SUCCESS:
       return state
         .set('isFetching', false)
-        .set('lastFetched', Date.now())
-        .set('error', null)
-        .setIn(['tokens', payload.propertyid.toString()], payload);
+        .set('lastFetched', 0)
+        .set('error', error);
+    }
+    case LOAD_PROPERTY: {
+      return state
+        .set('lastFetched', 0)
+        .set('isFetching', true)
+        .set('error', null);
+    }
+    case LOAD_PROPERTY_SUCCESS: {
+      return state
+      .set('isFetching', false)
+      .set('lastFetched', Date.now())
+      .set('error', null)
+      .setIn(['tokens', payload.propertyid.toString()], payload);
+    }
     default: {
       return state;
     }
