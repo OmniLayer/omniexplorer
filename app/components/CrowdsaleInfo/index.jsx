@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -15,7 +14,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 import styled from 'styled-components';
-import getLogo from 'utils/getLogo';
+import AssetLogo from 'components/AssetLogo';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -29,18 +28,21 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 
 class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const logo = getLogo(this.props.propertyid, { flags: this.props.flags });
     return (
       <tr>
         <StyledTD>
-          <img
-            style={{
-              width: '4rem',
-              height: '4rem',
+          <Link
+            to={{
+              pathname: `/crowdsale/${this.props.propertyid}`,
+              state: { state: this.props.state },
             }}
-            src={logo}
-            alt={this.props.name}
-          />
+          >
+            <AssetLogo
+              asset={this.props}
+              prop={this.props.propertyid}
+              style={{width: '4rem', height: '4rem'}}
+            />
+          </Link>
         </StyledTD>
         <StyledTDTextLeft>
           <Link

@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import getTransactionHeading from 'utils/getTransactionHeading';
 
-describe('getLogo', () => {
+describe('getTransactionHeading', () => {
   const [type51, type54, typeUnknown] = [
     {
       type_int: 51,

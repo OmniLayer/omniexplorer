@@ -13,10 +13,13 @@ import { Container } from 'reactstrap';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import getWarningMessage from 'utils/getWarningMessage';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import TransactionInfo from 'components/TransactionInfo';
 import ContainerBase from 'components/ContainerBase';
+import { startFetch } from 'components/Token/actions';
+import { makeSelectProperties, makeSelectProperty } from 'components/Token/selectors';
 
 import makeSelectTransactionDetail from './selectors';
 import sagaTxDetail from './saga';
@@ -31,14 +34,26 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     this.props.loadTransaction(this.txid);
   }
 
-  render() {
-    if (this.props.txdetail.loading) {
-      return (
-        <Container>
-          <LoadingIndicator/>
-        </Container>
-      );
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.props.txdetail.loading && !this.props.tokens.isFetching && !this.props.tokens.lastFetched) {
+      // At this point, we're in the "commit" phase, so it's safe to load the new data.
+      this.props.getProperty(this.props.txdetail.transaction.propertyid);
     }
+  }
+
+  render() {
+    const loading = (
+      <Container>
+        <LoadingIndicator />
+      </Container>
+    );
+
+    if (this.props.txdetail.loading) {
+      return loading;
+    }
+
+    const property = this.props.properties(this.props.txdetail.transaction.propertyid);
+    if (!property) return loading;
 
     if (this.props.txdetail.transaction.notFound) {
       return (
@@ -51,9 +66,16 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
       );
     }
 
+    const warningMessage = getWarningMessage(
+      property.flags,
+      property.name,
+      property.propertyid,
+    );
+
     return (
       <ContainerBase fluid>
-        <TransactionInfo {...this.props.txdetail.transaction} />
+        {warningMessage}
+        <TransactionInfo {...this.props.txdetail.transaction} asset={property}/>
       </ContainerBase>
     );
   }
@@ -63,17 +85,22 @@ TransactionDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadTransaction: PropTypes.func,
   txdetail: PropTypes.object,
+  getProperty: PropTypes.func.isRequired,
+  properties: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadTransaction: (addr, page) => dispatch(loadTransaction(addr, page)),
     dispatch,
+    loadTransaction: (addr, page) => dispatch(loadTransaction(addr, page)),
+    getProperty: propertyId => dispatch(startFetch(propertyId)),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   txdetail: makeSelectTransactionDetail(),
+  tokens: makeSelectProperties(),
+  properties: state => makeSelectProperty(state),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

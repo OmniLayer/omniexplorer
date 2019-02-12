@@ -17,13 +17,13 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Row,
   Table,
   UncontrolledTooltip,
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import sortBy from 'lodash/sortBy';
 import Token from 'components/Token';
+import LoadingIndicator from 'components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
 import walletMessages from './messages';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
@@ -85,7 +85,7 @@ class Wallet extends React.PureComponent {
   }
 
   render() {
-    if (!this.props.address) return null;
+    const loading = !this.props.address || !this.props.address.balance.length;
 
     const isFlagged = propertyinfo =>
       propertyinfo.flags &&
@@ -159,7 +159,14 @@ class Wallet extends React.PureComponent {
           </StyledTR>
         </thead>
         <tbody>
-          {nonFlaggedProps.map(balance => (
+          {loading &&
+            <tr>
+              <td colSpan="5" className="text-center">
+                <LoadingIndicator />
+              </td>
+            </tr>
+          }
+          {!loading && nonFlaggedProps.map(balance => (
             <Token {...balance} key={balance.id} />
           ))}
           <tr>
