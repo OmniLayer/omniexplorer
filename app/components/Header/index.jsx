@@ -138,7 +138,7 @@ class Header extends React.PureComponent {
         <div className="w-100 ml-auto d-block-only-sm-down">
           <SearchBox />
         </div>
-        <div className="w-100 ml-auto d-block-only-sm-down">
+        <div className="w-100 ml-auto d-block-only-sm-down d-none">
           <Alert color="warning">
             <span>
               <strong>Planned Maintenance: </strong>
