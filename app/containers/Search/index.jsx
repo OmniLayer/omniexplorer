@@ -17,6 +17,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import getPropByTx from 'utils/getPropByTx';
 
 import Wallet from 'components/Wallet';
 import TransactionInfo from 'components/TransactionInfo';
@@ -25,7 +26,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 
 import { startFetch } from 'components/Token/actions';
-import { makeSelectProperties, makeSelectProperty, makeSelectLoading } from 'components/Token/selectors';
+import { makeSelectLoading, makeSelectProperties, makeSelectProperty } from 'components/Token/selectors';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
@@ -68,7 +69,7 @@ export class Search extends React.Component {
 
     const loading = (
       <Container>
-        <LoadingIndicator />
+        <LoadingIndicator/>
       </Container>
     );
 
@@ -77,8 +78,9 @@ export class Search extends React.Component {
     }
 
     if (!isEmpty(this.props.search.tx.type)) {
-      const property = this.props.properties(this.props.search.tx.propertyid);
-      if(!property) return loading;
+      const property = getPropByTx(this.props.search.tx, this.props.properties);
+
+      if (!property) return loading;
       tx = <TransactionInfo {...this.props.search.tx} asset={property} />;
     }
 
@@ -107,7 +109,7 @@ export class Search extends React.Component {
       this.props.search.address.balance.length > 0
     ) {
       wallet = (
-        <Wallet {...this.props.search} addr={this.query} extra={walletlink()} />
+        <Wallet {...this.props.search} addr={this.query} extra={walletlink()}/>
       );
     }
 
@@ -115,28 +117,28 @@ export class Search extends React.Component {
       assets = (
         <Table responsive className="mt-1">
           <thead>
-            <tr>
-              <StyledAssetTH>
-                <h4 className="align-self-end text-sm-left">
-                  <strong className="d-block">Properties</strong>
-                </h4>
-              </StyledAssetTH>
-            </tr>
-            <StyledTR>
-              <StyledTH />
-              <StyledTH>ID</StyledTH>
-              <StyledTH>Name</StyledTH>
-              <StyledTH>Issuer</StyledTH>
-            </StyledTR>
+          <tr>
+            <StyledAssetTH>
+              <h4 className="align-self-end text-sm-left">
+                <strong className="d-block">Properties</strong>
+              </h4>
+            </StyledAssetTH>
+          </tr>
+          <StyledTR>
+            <StyledTH/>
+            <StyledTH>ID</StyledTH>
+            <StyledTH>Name</StyledTH>
+            <StyledTH>Issuer</StyledTH>
+          </StyledTR>
           </thead>
           <tbody>
-            {this.props.search.asset.map((x, idx) => (
-              <Asset
-                {...x}
-                changeRoute={this.props.changeRoute}
-                key={x[2] + idx}
-              />
-            ))}
+          {this.props.search.asset.map((x, idx) => (
+            <Asset
+              {...x}
+              changeRoute={this.props.changeRoute}
+              key={x[2] + idx}
+            />
+          ))}
           </tbody>
         </Table>
       );
@@ -174,7 +176,10 @@ export class Search extends React.Component {
           <Col sm>
             <h3>
               Showing results for:&nbsp;
-              <div className="d-md-inline d-block-down-md" style={{ overflow: 'auto', overflowY: 'hidden' }}>
+              <div className="d-md-inline d-block-down-md" style={{
+                overflow: 'auto',
+                overflowY: 'hidden',
+              }}>
                 <mark>{this.query}</mark>
               </div>
             </h3>

@@ -24,6 +24,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
 import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 import './transaction.scss';
 
 const AddressWrapper = styled.div.attrs({
@@ -191,18 +192,13 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
-            <Link
-              to={{
-                pathname: `/asset/${txAsset.propertyid}`,
-                state: { state: this.props.state },
-              }}
-            >
+            <AssetLink asset={txAsset.propertyid} state={this.props.state}>
               <AssetLogo
                 asset={txAsset}
                 prop={txAsset.propertyid}
                 style={{width: '4rem', height: '4rem', marginRight: '7px'}}
               />
-            </Link>
+            </AssetLink>
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">

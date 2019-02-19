@@ -14,6 +14,7 @@ import { Container } from 'reactstrap';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import getWarningMessage from 'utils/getWarningMessage';
+import getPropByTx from 'utils/getPropByTx';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import TransactionInfo from 'components/TransactionInfo';
@@ -52,7 +53,8 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
       return loading;
     }
 
-    const property = this.props.properties(this.props.txdetail.transaction.propertyid);
+    const property = getPropByTx(this.props.txdetail.transaction, this.props.properties);
+    // const property = this.props.properties(this.props.txdetail.transaction.propertyid);
     if (!property) return loading;
 
     if (this.props.txdetail.transaction.notFound) {
