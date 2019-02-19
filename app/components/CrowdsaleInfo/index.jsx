@@ -9,12 +9,12 @@ import PropTypes from 'prop-types';
 import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 
 import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -26,62 +26,77 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
   white-space: pre-wrap;
 `;
 
-class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class CrowdsaleInfo extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   render() {
+    
     return (
       <tr>
         <StyledTD>
-          <Link
-            to={{
-              pathname: `/crowdsale/${this.props.propertyid}`,
-              state: { state: this.props.state },
-            }}
+          <AssetLink
+            asset={this.props.propertyid}
+            state={this.props.state}
+            basepath="/crowdsale"
           >
             <AssetLogo
               asset={this.props}
               prop={this.props.propertyid}
-              style={{width: '4rem', height: '4rem'}}
+              style={{
+                width: '4rem',
+                height: '4rem',
+              }}
             />
-          </Link>
+          </AssetLink>
         </StyledTD>
         <StyledTDTextLeft>
-          <Link
-            to={{
-              pathname: `/crowdsale/${this.props.propertyid}`,
-              state: { state: this.props.state },
-            }}
+          <AssetLink
+            asset={this.props.propertyid}
+            state={this.props.state}
+            basepath="/crowdsale"
           >
             {this.props.name}
             <br/>
             {`(#${this.props.propertyid})`}
-          </Link>
+          </AssetLink>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <Link
-            to={{
-              pathname: `/asset/${this.props.propertyiddesired}`,
-              state: { state: this.props.state },
-            }}
+          <AssetLink
+            asset={this.props.propertyiddesired}
+            state={this.props.state}
           >
             {this.props.propertydesired.name}
             <br/>
             {`(#${this.props.propertyiddesired})`}
-          </Link>
+          </AssetLink>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.tokensperunit} forceDecimals={true}/>
+          <SanitizedFormattedNumber
+            value={this.props.tokensperunit}
+            forceDecimals
+          />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
           <span>
-            <FormattedUnixDateTime datetime={this.props.deadline} useSeconds={false}/>
+            <FormattedUnixDateTime
+              datetime={this.props.deadline}
+              useSeconds={false}
+            />
           </span>
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <SanitizedFormattedNumber value={this.props.totaltokens} fractionDigits={8}/>
+          <SanitizedFormattedNumber
+            value={this.props.totaltokens}
+            fractionDigits={8}
+          />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <a className="btn btn-primary" target="_blank"
-             href={`https://www.omniwallet.org/assets/details/${this.props.propertyid}`}>
+          <a
+            className="btn btn-primary"
+            target="_blank"
+            href={`https://www.omniwallet.org/assets/details/${
+              this.props.propertyid
+              }`}
+          >
             Buy with
             <br/>
             Omniwallet
@@ -105,11 +120,14 @@ CrowdsaleInfo.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
 export default compose(withConnect)(CrowdsaleInfo);

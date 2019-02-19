@@ -19,7 +19,7 @@ const propertyReducer = (state = initialState, action = {}) => {
     case LOAD_PROPERTY_ERROR: {
       return state
         .set('isFetching', false)
-        .set('lastFetched', 0)
+        .set('lastFetched', Date.now())
         .set('error', error);
     }
     case LOAD_PROPERTY: {

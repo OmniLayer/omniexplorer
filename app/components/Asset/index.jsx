@@ -8,6 +8,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -24,30 +25,28 @@ function Asset(props) {
     issuer: props[2],
     flags: props[3],
   };
+
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
-        <Link
-          to={{
-            pathname: `/asset/${asset.id}`,
-            state: { state: props.state },
-          }}
-        >
-          <AssetLogo asset={asset} prop={asset.id} style={{width: '4rem', height: '4rem'}}/>
-        </Link>
+        <AssetLink asset={asset.id} state={props.state} >
+          <AssetLogo
+            asset={asset}
+            prop={asset.id}
+            style={{
+              width: '4rem',
+              height: '4rem',
+            }}
+          />
+        </AssetLink>
       </StyledTD>
+      <StyledTDTextLeft>#{props[0]}</StyledTDTextLeft>
       <StyledTDTextLeft>
-        #{props[0]}
-      </StyledTDTextLeft>
-      <StyledTDTextLeft>
-        <Link
-          to={{
-            pathname: `/asset/${asset.id}`,
-            state: { state: props.state },
-          }}
-        >
-          {`${asset.name.substring(0, 20)}${(asset.name.length > 20 ? '...' : '')}`}
-        </Link>
+        <AssetLink asset={asset.id} state={props.state} >
+          {`${asset.name.substring(0, 20)}${
+            asset.name.length > 20 ? '...' : ''
+          }`}
+        </AssetLink>
       </StyledTDTextLeft>
       <StyledTDTextLeft>
         <Link

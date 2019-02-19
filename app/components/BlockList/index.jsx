@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
@@ -139,16 +140,11 @@ class BlockList extends React.PureComponent {
       const logos = Object.keys(block.value.details).map((prop, idx) => {
         const key = `id${block.block}${prop}`;
         const asset = this.props.properties(prop);
+
         return (
-          <Link
-            key={key}
-            to={{
-              pathname: `/asset/${prop}`,
-              state: { state: this.props.state },
-            }}
-          >
+          <AssetLink key={key} asset={prop} state={this.props.state}>
             <AssetLogo asset={asset} prop={prop} style={{width: '2rem', height: '2rem'}}/>
-          </Link>
+          </AssetLink>
         );
       });
       return logos;

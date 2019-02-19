@@ -38,6 +38,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
 import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 import moment from 'moment/src/moment';
 
 // Icons
@@ -158,19 +159,14 @@ export class CrowdsaleDetail extends React.PureComponent {
                 <thead>
                   <tr>
                     <td className="border-top-0">
-                      <Link
-                        to={{
-                          pathname: `/asset/${crowdsale.propertyid}`,
-                          state: { state: this.props.state },
-                        }}
-                      >
+                      <AssetLink asset={crowdsale.propertyid} state={this.props.state}>
                         <AssetLogo
                           asset={crowdsale}
                           prop={crowdsale.propertyid}
                           className="img-thumbnail d-md-inline-block"
                           style={{width: '4rem', height: '4rem'}}
                         />
-                      </Link>
+                      </AssetLink>
                     </td>
                     <td className="border-top-0 align-bottom">
                       <h2 className="d-md-inline-block align-bottom mb-0">

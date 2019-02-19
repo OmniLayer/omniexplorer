@@ -34,26 +34,27 @@ const WarningTooltip = styled(UncontrolledTooltip).attrs({
 `;
 
 function AssetLogo({ asset, prop, className, style}) {
-  const id = `id${Date.now()}${prop}`;
+  const id = `id${Date.now()}${prop ? prop : ''}`;
   const logo = getLogo(prop, asset);
   const hasWarning = some(asset.flags, (value, key) => key !== 'registered' && value);
 
   const Tooltip = hasWarning ? WarningTooltip : UncontrolledTooltip;
   const tooltipText = hasWarning ? 'Warning!' : `#${prop}: ${asset.name}`;
+  const CurrentTooltip =<Tooltip placement="top-end" target={id}>
+    {tooltipText}
+  </Tooltip>;
 
   return (
     <span>
       <IMGLogo src={logo} alt={asset.name} id={id} className={className} style={style}/>
-      <Tooltip placement="top-end" target={id}>
-        {tooltipText}
-      </Tooltip>
+      { CurrentTooltip }
     </span>
   );
 }
 
 AssetLogo.propTypes = {
   asset: PropTypes.object.isRequired,
-  prop: PropTypes.any.isRequired,
+  // prop: PropTypes.any.isRequired,
 };
 
 export default AssetLogo;

@@ -13,22 +13,14 @@ import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { Link } from 'react-router-dom';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardText,
-  Col,
-  Collapse,
-  Row,
-  Table,
-} from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import StatusConfirmation from 'components/StatusConfirmation';
 import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -77,7 +69,7 @@ function TransactionInfo(props) {
     confirmed: CONFIRMATIONS,
   });
   const invalidReason =
-    props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`;
+    props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || 'invalid transaction'}`;
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
 
   let warningMessage = null;
@@ -114,16 +106,11 @@ function TransactionInfo(props) {
       <tr>
         <td className="field">Property</td>
         <td>
-          <Link
-            to={{
-              pathname: `/asset/${props.propertyid}`,
-              state: { state: props.state },
-            }}
-          >
+          <AssetLink asset={props.propertyid} state={props.state}>
             <strong>
               {props.propertyname} &#40;#{props.propertyid}&#41;
             </strong>
-          </Link>
+          </AssetLink>
         </td>
       </tr>
     );
@@ -148,7 +135,7 @@ function TransactionInfo(props) {
         <td>
           <strong>
             <span id="lamount">
-              <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
+              <SanitizedFormattedNumber value={props.bitcoindesired}/> BTC
             </span>
           </strong>
         </td>
@@ -168,19 +155,17 @@ function TransactionInfo(props) {
             <thead>
             <tr>
               <th>
-                <Link
-                  to={{
-                    pathname: `/asset/${props.asset.propertyid}`,
-                    state: { state: props.state },
-                  }}
-                >
-                <AssetLogo
-                  asset={props.asset}
-                  prop={props.asset.propertyid}
-                  className="img-thumbnail"
-                  style={{width: '4rem', height: '4rem'}}
-                />
-                </Link>
+                <AssetLink asset={props.asset.propertyid} state={props.state}>
+                  <AssetLogo
+                    asset={props.asset}
+                    prop={props.asset.propertyid}
+                    className="img-thumbnail"
+                    style={{
+                      width: '4rem',
+                      height: '4rem',
+                    }}
+                  />
+                </AssetLink>
               </th>
               <th>
                 <h4>
@@ -226,16 +211,18 @@ function TransactionInfo(props) {
               <td className="field">{dtheader}</td>
               <td>
                   <span id="ldatetime">
-                    <FormattedUnixDateTime datetime={props.blocktime} />
+                    <FormattedUnixDateTime datetime={props.blocktime}/>
                   </span>
               </td>
             </tr>
+            {props.block &&
             <tr>
               <td className="field">In Block</td>
               <td>
                 <span id="lblocknum">{props.block}</span>
               </td>
             </tr>
+            }
             <tr>
               <td className="field" style={{ paddingTop: '12px' }}>
                 Status
@@ -318,7 +305,7 @@ function TransactionInfo(props) {
           </Table>
         </Col>
       </DetailRow>
-      <Row />
+      <Row/>
     </div>
   );
 }
@@ -345,6 +332,7 @@ function mapDispatchToProps(dispatch) {
     changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
+
 const mapStateToProps = createStructuredSelector({
   properties: state => makeSelectProperty(state),
 });
