@@ -21,6 +21,8 @@ import StatusConfirmation from 'components/StatusConfirmation';
 import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
+import ExplorerLink from 'components/ExplorerLink';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -280,6 +282,12 @@ function TransactionInfo(props) {
                       Click here for raw transaction...
                     </a>
                   </span>
+              </td>
+            </tr>
+            <tr>
+              <td className="field">Other explorers</td>
+              <td>
+                  <ExplorerLink explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
               </td>
             </tr>
             <tr className="d-none">
