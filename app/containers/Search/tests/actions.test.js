@@ -1,4 +1,3 @@
-
 import { loadSearch } from '../actions';
 import { LOAD_SEARCH } from '../constants';
 

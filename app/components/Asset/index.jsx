@@ -18,7 +18,7 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 })``;
 
 function Asset(props) {
-  
+  const logo = getLogo(props[0], { flags: props[3] });
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
@@ -27,7 +27,7 @@ function Asset(props) {
             width: '4rem',
             height: '4rem',
           }}
-          src={getLogo(props[0])}
+          src={logo}
         />
       </StyledTD>
       <StyledTDTextLeft>
@@ -37,8 +37,8 @@ function Asset(props) {
         <Link
           to={{
             pathname: `/asset/${props[0]}`,
+            state: { state: props.state },
           }}
-          onClick={() => props.changeRoute(`/asset/${props[0]}`)}
         >
           {`${props[1].substring(0, 20)}${(props[1].length > 20 ? '...' : '')}`}
         </Link>
@@ -47,8 +47,8 @@ function Asset(props) {
         <Link
           to={{
             pathname: `/address/${props[2]}`,
+            state: { state: props.state },
           }}
-          onClick={() => props.changeRoute(`/address/${props[2]}`)}
         >
           {props[2]}
         </Link>

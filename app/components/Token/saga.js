@@ -1,5 +1,14 @@
+/* eslint-disable no-console */
 import { delay } from 'redux-saga';
-import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery,
+} from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
@@ -12,7 +21,7 @@ function* fetchSingleProperty(action) {
     // load token if is still not requested
     yield call(delay, 1000);
 
-    const state = yield select((st) => st);
+    const state = yield select(st => st);
     const tokens = state.get('token').get('tokens');
 
     if (!tokens.get(action.id.toString())) {
@@ -42,7 +51,7 @@ export function* watchFetchProperty() {
 
 function* fetchPropertyDeep(action) {
   try {
-    const state = yield select((st) => st);
+    const state = yield select(st => st);
     const tokens = state.get('token').get('tokens');
     let property = tokens.get(action.id.toString());
 
@@ -77,7 +86,6 @@ function* fetchProperty(propertyId) {
 
   return property;
 }
-
 
 /**
  * Root saga manages watcher lifecycle

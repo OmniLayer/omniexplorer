@@ -14,6 +14,7 @@ import SearchBox from 'components/SearchBox';
 import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 
 import {
+  Alert,
   Collapse,
   DropdownItem,
   DropdownMenu,
@@ -25,7 +26,6 @@ import {
   NavItem,
   NavLink,
   UncontrolledDropdown,
-  UncontrolledTooltip,
 } from 'reactstrap';
 
 const IMG = styled.img`
@@ -79,12 +79,6 @@ class Header extends React.PureComponent {
                 <StyledNavItem>
                   <NavLink href="/">Home</NavLink>
                 </StyledNavItem>
-                <StyledNavItem>
-                  <NavLink href="#" id="cs1">Exchange</NavLink>
-                  <UncontrolledTooltip placement="top" target="cs1">
-                    Coming Soon.
-                  </UncontrolledTooltip>
-                </StyledNavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     API
@@ -121,20 +115,11 @@ class Header extends React.PureComponent {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
-                <StyledNavItem>
-                  <NavLink href="#" id="cs2">Usage Graphs</NavLink>
-                  <UncontrolledTooltip placement="top" target="cs2">
-                    Coming Soon.
-                  </UncontrolledTooltip>
-                </StyledNavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     Misc
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem header>
-                      <NavLink href="/">Feature Activations (Coming Soon)</NavLink>
-                    </DropdownItem>
                     <DropdownItem>
                       <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>
                     </DropdownItem>
@@ -152,6 +137,14 @@ class Header extends React.PureComponent {
         </Navbar>
         <div className="w-100 ml-auto d-block-only-sm-down">
           <SearchBox />
+        </div>
+        <div className="w-100 ml-auto d-block-only-sm-down d-none">
+          <Alert color="warning">
+            <span>
+              <strong>Planned Maintenance: </strong>
+              Starting at 18:30UTC On Feb 18th OmniExplorer will have a short maintenance window to upgrade back-end components. We expect this Maintenance to last up to an hour and during the maintenance Omni Explorer services will be unavailable. Once complete this message will be removed
+            </span>
+          </Alert>
         </div>
       </div>
     );

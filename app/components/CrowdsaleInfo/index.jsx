@@ -29,6 +29,7 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 
 class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const logo = getLogo(this.props.propertyid, { flags: this.props.flags });
     return (
       <tr>
         <StyledTD>
@@ -37,7 +38,7 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
               width: '4rem',
               height: '4rem',
             }}
-            src={getLogo(this.props.propertyid)}
+            src={logo}
             alt={this.props.name}
           />
         </StyledTD>
@@ -45,8 +46,8 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           <Link
             to={{
               pathname: `/crowdsale/${this.props.propertyid}`,
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/crowdsale/${this.props.propertyid}`)}
           >
             {this.props.name}
             <br/>
@@ -57,10 +58,10 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
           <Link
             to={{
               pathname: `/asset/${this.props.propertyiddesired}`,
+              state: { state: this.props.state },
             }}
-            onClick={() => this.props.changeRoute(`/asset/${this.props.propertyiddesired}`)}
           >
-            {this.props.propertyiddesiredname}
+            {this.props.propertydesired.name}
             <br/>
             {`(#${this.props.propertyiddesired})`}
           </Link>
@@ -92,12 +93,11 @@ class CrowdsaleInfo extends React.PureComponent { // eslint-disable-line react/p
 CrowdsaleInfo.propTypes = {
   name: PropTypes.string.isRequired,
   propertyid: PropTypes.number.isRequired,
-  propertyiddesiredname: PropTypes.string.isRequired,
-  tokensissued: PropTypes.string.isRequired,
+  propertydesired: PropTypes.any.isRequired,
   totaltokens: PropTypes.string.isRequired,
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
-  propertyiddesired: PropTypes.number.isRequired,
+  propertyiddesired: PropTypes.any.isRequired,
   changeRoute: PropTypes.func.isRequired,
 };
 

@@ -10,6 +10,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import transactionsReducer from 'containers/Transactions/reducer';
 import tokenReducer from 'components/Token/reducer';
 import statusReducer from 'components/ServiceBlock/reducer';
+import blocksReducer from 'containers/Blocks/reducer';
 /*
  * routeReducer
  *
@@ -48,10 +49,12 @@ export default function createReducer(injectedReducers) {
     token: tokenReducer,
     status: statusReducer,
     transactions: transactionsReducer,
-    global: () => fromJS({
-      loading: false,
-      error: false,
-    }),
+    blocks: blocksReducer,
+    global: () =>
+      fromJS({
+        loading: false,
+        error: false,
+      }),
     ...injectedReducers,
   });
 }

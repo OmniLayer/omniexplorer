@@ -1,4 +1,3 @@
-
 import { loadAddress } from '../actions';
 import { LOAD_ADDRESS } from '../constants';
 

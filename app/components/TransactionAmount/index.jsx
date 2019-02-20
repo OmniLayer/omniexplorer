@@ -36,7 +36,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
     //  DEx Purchase
     if (this.props.type_int === -22) {
       return (
-        <tr className="highlight">
+        <tr>
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
@@ -72,7 +72,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
     //  Send All
     if (this.props.type_int === 4) {
       return (
-        <tr className="highlight">
+        <tr>
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
@@ -101,14 +101,14 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
     //  OmniDex Trade transaction
     if ([25, 26].includes(this.props.type_int)) {
       return (
-        <tr className="highlight">
+        <tr>
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
               <Collapse isOpen={true}>
                 <div>
                   <span>
-                    <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertyiddesiredname } (#{ this.props.propertyiddesired }) Desired
+                    <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertydesired.name } (#{ this.props.propertyiddesired }) Desired
                   </span>
                 </div>
                 <div>
@@ -126,7 +126,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
     // Crowdsale Purchase
     if (this.props.type === 'Crowdsale Purchase') {
       return (
-        <tr className="highlight">
+        <tr>
           <td className="field">Amount</td>
           <td>
             <strong id="crowdsaleamount">
@@ -156,7 +156,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
 
     // other transactions
     return (
-      <tr className="highlight">
+      <tr>
         <td className="field">Amount</td>
         <td>
           <strong>

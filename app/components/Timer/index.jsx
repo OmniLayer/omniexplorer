@@ -38,13 +38,17 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
     };
 
     this.calculateTimeUnits();
-    setInterval(
+    this.idInterval = setInterval(
       () => {
         this.calculateTimeUnits.call(this);
         this.setState({ lastupdate: moment().unix() });
       },
       this.props.interval,
     );
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.idInterval);
   }
 
   calculateTimeUnits() {
@@ -80,7 +84,7 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
       this.seconds = since.diff(to, 'seconds');
       to.add(this.hours, 'seconds');
 
-      this.millis = moment.unix(this.props.datetime).diff(moment());
+      this.millis = moment.unix(this.props.datetime).utc().diff(moment.utc());
     } else {
       throw new Error('datetime prop missing on Timer call');
     }
@@ -101,13 +105,22 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
     this.monthUnit = timeUnits.months;
     this.yearUnit = timeUnits.years;
 
-    // add leading zero if number is smaller than 10
-    this.sseconds = this.seconds < 10 ? `0${this.seconds}` : this.seconds;
-    this.mminutes = this.minutes < 10 ? `0${this.minutes}` : this.minutes;
-    this.hhours = this.hours < 10 ? `0${this.hours}` : this.hours;
-    this.ddays = this.days < 10 ? `0${this.days}` : this.days;
-    this.mmonths = this.months < 10 ? `0${this.months}` : this.months;
-    this.yyears = this.years < 10 ? `0${this.years}` : this.years;
+    if (this.years > 99) {
+      this.sseconds = '**';
+      this.mminutes = '**';
+      this.hhours = '**';
+      this.ddays = '**';
+      this.mmonths = '**';
+      this.yyears = '**';
+    } else {
+      // add leading zero if number is smaller than 10
+      this.sseconds = this.seconds < 10 ? `0${this.seconds}` : this.seconds;
+      this.mminutes = this.minutes < 10 ? `0${this.minutes}` : this.minutes;
+      this.hhours = this.hours < 10 ? `0${this.hours}` : this.hours;
+      this.ddays = this.days < 10 ? `0${this.days}` : this.days;
+      this.mmonths = this.months < 10 ? `0${this.months}` : this.months;
+      this.yyears = this.years < 10 ? `0${this.years}` : this.years;
+    }
   }
 
   render() {

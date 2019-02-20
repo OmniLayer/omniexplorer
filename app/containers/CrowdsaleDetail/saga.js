@@ -1,15 +1,21 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { select, all, call, put, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_CROWDSALE_TRANSACTIONS } from './constants';
-import { errorCrowdsaleTransactionsFetch, updateCrowdsaleTransactionsFetch } from './actions';
+import {
+  errorCrowdsaleTransactionsFetch,
+  updateCrowdsaleTransactionsFetch,
+} from './actions';
+import makeSelectCrowdsaleDetail from './selectors';
 
-export function* getCrowdsaleTransactions({ start = 0, count = 1000, id }) {
+export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
   const requestURL = `${API_URL_BASE}/properties/gethistory/${id}`;
+  const state = yield select(makeSelectCrowdsaleDetail());
+  const startPage = state.currentPage || start;
 
-  const body = encoderURIParams({ start, count }, true);
+  const body = encoderURIParams({ startPage, count }, true);
 
   try {
     const getTransactionsOptions = {
@@ -21,8 +27,19 @@ export function* getCrowdsaleTransactions({ start = 0, count = 1000, id }) {
       body,
     };
 
-    const transactions = yield call(request, requestURL, getTransactionsOptions);
-    yield put(updateCrowdsaleTransactionsFetch(transactions.transactions, transactions.pages, transactions.total, start));
+    const transactions = yield call(
+      request,
+      requestURL,
+      getTransactionsOptions,
+    );
+    yield put(
+      updateCrowdsaleTransactionsFetch(
+        transactions.transactions,
+        transactions.pages,
+        transactions.total,
+        startPage,
+      ),
+    );
   } catch (err) {
     yield put(errorCrowdsaleTransactionsFetch(err));
   }
@@ -32,7 +49,5 @@ export function* getCrowdsaleTransactions({ start = 0, count = 1000, id }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([
-    takeEvery(LOAD_CROWDSALE_TRANSACTIONS, getCrowdsaleTransactions),
-  ]);
+  yield all([takeEvery(LOAD_CROWDSALE_TRANSACTIONS, getCrowdsaleTransactions)]);
 }

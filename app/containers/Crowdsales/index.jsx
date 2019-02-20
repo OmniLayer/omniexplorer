@@ -19,30 +19,38 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import CrowdsaleInfo from 'components/CrowdsaleInfo';
 import LoadingIndicator from 'components/LoadingIndicator';
-import { ECOSYSTEM_PROD, ECOSYSTEM_TEST, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
+import ContainerBase from 'components/ContainerBase';
+import {
+  ECOSYSTEM_PROD,
+  ECOSYSTEM_PROD_NAME,
+  ECOSYSTEM_TEST,
+} from 'containers/App/constants';
 
+import ListHeader from 'components/ListHeader';
+import { Messages as datetimeMessages } from 'components/FormattedDateTime';
+import messages from './messages';
 import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';
 import crowdsalesSaga from './saga';
 import { loadCrowdsales } from './actions';
-import messages from '../../components/FormattedDateTime/messages';
-// import messages from './messages';
 
-
-const StyledContainer = styled(Container)`
-      
-      margin: 3rem;
-      padding: 1rem;
-    `;
+const StyledContainer = styled(ContainerBase)`
+  margin-top: 1rem;
+`;
 const StyledTH = styled.th`
-      border: none !important;
-    `;
+  border: none !important;
+`;
 
-export class Crowdsales extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Crowdsales extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    this.ecosystem = (props.match.params.ecosystem.toString() === ECOSYSTEM_PROD_NAME.toLowerCase() ? ECOSYSTEM_PROD : ECOSYSTEM_TEST);
+    this.ecosystem =
+      props.match.params.ecosystem.toString() ===
+      ECOSYSTEM_PROD_NAME.toLowerCase()
+        ? ECOSYSTEM_PROD
+        : ECOSYSTEM_TEST;
   }
 
   componentDidMount() {
@@ -60,57 +68,63 @@ export class Crowdsales extends React.Component { // eslint-disable-line react/p
     }
 
     const assets = (
-      <div className="table-responsive">
-        <Table className="table-profile">
-          <thead>
-            <tr>
-              <StyledTH></StyledTH>
-              <StyledTH>Crowdsale</StyledTH>
-              <StyledTH>Buy With</StyledTH>
-              <StyledTH>Rate</StyledTH>
-              <StyledTH>
+      <Table responsive>
+        <thead>
+          <tr>
+            <StyledTH />
+            <StyledTH>Crowdsale</StyledTH>
+            <StyledTH>Buy With</StyledTH>
+            <StyledTH>Rate</StyledTH>
+            <StyledTH>
               Closing Datetime
-                <InformationIcon color="gray" className="ml-1" id="crowdsalesClosingDate" />
-                <UncontrolledTooltip placement="right-end" target="crowdsalesClosingDate">
-                  <FormattedMessage {...messages.utc} />
-                </UncontrolledTooltip>
-              </StyledTH>
-              <StyledTH>Tokens Created</StyledTH>
-              <StyledTH></StyledTH>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.crowdsales.crowdsales.filter((x) => x.active).map((x, idx) =>
-              (<CrowdsaleInfo
+              <InformationIcon
+                color="gray"
+                className="ml-1"
+                id="crowdsalesClosingDate"
+              />
+              <UncontrolledTooltip
+                placement="right-end"
+                target="crowdsalesClosingDate"
+              >
+                <FormattedMessage {...datetimeMessages.utc} />
+              </UncontrolledTooltip>
+            </StyledTH>
+            <StyledTH>Tokens Created</StyledTH>
+            <StyledTH />
+          </tr>
+        </thead>
+        <tbody>
+          {this.props.crowdsales.crowdsales
+            .filter(x => x.active)
+            .map((x, idx) => (
+              <CrowdsaleInfo
                 {...x}
                 changeRoute={this.props.changeRoute}
                 key={x.creationtxid}
-              />))}
-          </tbody>
-        </Table>
-      </div>
+              />
+            ))}
+        </tbody>
+      </Table>
     );
 
     return (
       <StyledContainer fluid>
         <Row>
           <Col sm>
-            <h3>
-              Crowdsales for ecosystem {this.props.crowdsales.ecosystemName}
-              &nbsp;
-              <small className="text-muted">{this.props.crowdsales.crowdsales.length} crowdsales</small>
-            </h3>
+            <ListHeader
+              total={this.props.crowdsales.crowdsales.length}
+              message={messages.header}
+              values={{
+                ecosystem: this.props.crowdsales.ecosystemName,
+              }}
+            />
           </Col>
         </Row>
         <Row>
-          <Col sm>
-            {assets}
-          </Col>
+          <Col sm>{assets}</Col>
         </Row>
         <Row>
-          <Col sm>
-            {loading}
-          </Col>
+          <Col sm>{loading}</Col>
         </Row>
       </StyledContainer>
     );
@@ -136,12 +150,15 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadCrowdsales: (ecosystem) => dispatch(loadCrowdsales(ecosystem)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    loadCrowdsales: ecosystem => dispatch(loadCrowdsales(ecosystem)),
+    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({
   key: 'crowdsales',

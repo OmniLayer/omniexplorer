@@ -13,21 +13,23 @@
 import { fromJS } from 'immutable';
 
 import {
-  LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_ERROR,
+  LOAD_TRANSACTIONS_SUCCESS,
+  LOAD_UNCONFIRMED,
   SET_PAGE,
   SET_TRANSACTION_TYPE,
 } from './constants';
 
 // The initial state of the App
-const initialState = fromJS({
+export const initialState = fromJS({
   loading: false,
   error: false,
   transactions: [],
   pageCount: 0,
-  currentPage: 0,
+  currentPage: 1,
   txType: null,
+  unconfirmed: false,
 });
 
 function transactionsReducer(state = initialState, action) {
@@ -37,23 +39,31 @@ function transactionsReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('transactions', [])
-        .set('pageCount', 0);
-    case LOAD_TRANSACTIONS_SUCCESS:
+        .set('pageCount', 0)
+        .set('unconfirmed', false);
+    case LOAD_UNCONFIRMED:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('transactions', [])
+        .set('unconfirmed', true);
+    case LOAD_TRANSACTIONS_SUCCESS: {
+      const unconfirmed = state.get('unconfirmed');
       return state
         .set('transactions', action.transactions)
-        .set('pageCount', action.pages)
+        .set(
+          'pageCount',
+          unconfirmed ? action.transactions.length : action.pages,
+        )
         .set('loading', false)
         .set('error', false);
+    }
     case LOAD_TRANSACTIONS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return state.set('error', action.error).set('loading', false);
     case SET_PAGE:
-      return state
-        .set('currentPage', action.page);
+      return state.set('currentPage', action.page);
     case SET_TRANSACTION_TYPE:
-      return state
-        .set('txType', action.txType);
+      return state.set('txType', action.txType);
     default:
       return state;
   }

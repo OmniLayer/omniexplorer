@@ -11,12 +11,16 @@ const webpack = require('webpack');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = (options) => ({
+module.exports = options => ({
   entry: options.entry,
-  output: Object.assign({ // Compile into js/build.js
-    path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/',
-  }, options.output), // Merge with env dependent settings
+  output: Object.assign(
+    {
+      // Compile into js/build.js
+      path: path.resolve(process.cwd(), 'build'),
+      publicPath: '/',
+    },
+    options.output,
+  ), // Merge with env dependent settings
   module: {
     rules: [
       {
@@ -52,18 +56,25 @@ module.exports = (options) => ({
         use: 'file-loader',
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        // test: /\.(jpg|png|gif)$/,
+        test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
           'file-loader',
           {
             loader: 'image-webpack-loader',
-            options: {
-              progressive: true,
-              optimizationLevel: 7,
-              interlaced: false,
+            query: {
+              mozjpeg: {
+                progressive: true,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 4,
+              },
               pngquant: {
-                quality: '65-90',
-                speed: 4,
+                quality: '75-90',
+                speed: 3,
               },
             },
           },
@@ -103,22 +114,19 @@ module.exports = (options) => ({
       },
     }),
     // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-    new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/),
+    new webpack.ContextReplacementPlugin(
+      /\.\/locale$/,
+      'empty-module',
+      false,
+      /js$/,
+    ),
     new webpack.NamedModulesPlugin(),
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
-    extensions: [
-      '.js',
-      '.jsx',
-      '.react.js',
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main',
-    ],
+    extensions: ['.js', '.jsx', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

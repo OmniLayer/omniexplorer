@@ -1,4 +1,3 @@
-
 import { loadTransactions } from '../actions';
 import { LOAD_TRANSACTIONS } from '../constants';
 
@@ -8,7 +7,6 @@ describe('Transactions actions', () => {
       const expected = {
         type: LOAD_TRANSACTIONS,
         addr: null,
-        page: 0,
       };
       expect(loadTransactions()).toEqual(expected);
     });

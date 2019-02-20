@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
 import {
@@ -37,7 +37,7 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
-import Moment from 'react-moment';
+import ContainerBase from 'components/ContainerBase';
 import moment from 'moment/src/moment';
 
 // Icons
@@ -46,16 +46,17 @@ import GPlusIcon from 'react-icons/lib/io/social-googleplus';
 import TwitterIcon from 'react-icons/lib/io/social-twitter';
 import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
 
-import FormattedUnixDateTime from 'components/FormattedDateTime/FormattedUnixDateTime';
-import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
-import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
-import crowdsalesMessages from './messages';
+import List from 'components/List';
+import CrowdsaleTransaction from 'components/CrowdsaleTransaction';
+import ListHeader from 'components/ListHeader';
 
+import crowdsalesMessages from './messages';
 import makeSelectCrowdsaleDetail from './selectors';
 import { startCrowdsaleTransactionsFetch } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import './crowdsaledetail.scss';
+import { setPage } from '../Transactions/actions';
 
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
@@ -64,27 +65,20 @@ const StyledCard = styled(Card).attrs({
 `;
 
 const StyledDivContent = styled.div.attrs({
-  className: 'mt-3 mb-5 mx-auto text-md-left',
-})`
-`;
+  className: 'mt-3 mb-3 mx-auto text-md-left',
+})``;
 
 const StyledInformationIcon = styled(InformationIcon)`
   color: cadetblue !important;
-	font-size: 1.5rem;
+  font-size: 1.5rem;
 `;
 
-const Countdown = (props, context) => {
-  const d = new Date(context.remaining);
-  const { seconds, milliseconds } = {
-    seconds: d.getUTCSeconds(),
-    milliseconds: d.getUTCMilliseconds(),
-  };
-  return (
-    <p>{`${seconds}.${milliseconds}`}</p>
-  );
-};
+const HistoryContainer = ContainerBase;
 
-export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+const StyledRow = styled(Row).attrs({})``;
+
+export class CrowdsaleDetail extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
@@ -103,44 +97,64 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
     const crowdsale = this.props.properties(this.crowdsaleid);
     if (!crowdsale) return loading;
 
-    const dessiredToken = this.props.properties(crowdsale.propertyiddesired.toString());
+    // if the crowdsale doesn't exist redirect to not found
+    if(!crowdsale.propertyiddesired) return <Redirect to='/not-found' />
+
+    const dessiredToken = this.props.properties(
+      crowdsale.propertyiddesired.toString(),
+    );
     if (!dessiredToken) return loading;
 
     const detail = this.props.crowdsaledetail;
-
-    const TransactionLabel = (props) => (props.tx.type_int === 51 ?
-      <span>{crowdsale.propertyname} crowdsale started</span> :
-      <span>
-        <SanitizedFormattedNumber
-          value={props.tx.amount}
-          forceDecimals={crowdsale.divisible}
-        /> {dessiredToken.propertyname}
-          &nbsp;
-        <ArrowIconRight size={20} color="lightgreen" className="d-none d-md-inline-flex" />
-        <ArrowIconDown size={20} color="lightgreen" className="d-md-none d-block" />
-          &nbsp;
-        <SanitizedFormattedNumber
-          value={props.tx.purchasedtokens}
-          fractionDigits={8}
-        /> {crowdsale.propertyname}
-          &nbsp;
-          (+<SanitizedFormattedNumber value={props.tx.issuertokens} fractionDigits={8} /> to Issuer)
-      </span>
+    //@TODO: review below if it's ok or it should be with moment.unix(crowdsale.deadline).utc() && moment.utc()
+    const crowdsaleDeadline = moment.unix(crowdsale.deadline).utc();
+    const earlybonus =
+      (crowdsaleDeadline.diff(moment.utc(), 'seconds') / 604800) *
+      crowdsale.earlybonus;
+    const divisibleMsg = crowdsale.divisible
+      ? crowdsalesMessages.divisible
+      : crowdsalesMessages.indivisible;
+    const logo = getLogo(crowdsale.propertyid, crowdsale);
+    const warningMessage = getWarningMessage(
+      crowdsale.flags,
+      crowdsale.propertyname,
+      this.crowdsaleid,
     );
-    
-    // const earlybonus = ((crowdsale.deadline - (new Date()).getTime()/1000)) / 604800) * crowdsale.earlybonus;
-    const earlybonus = (moment.unix(crowdsale.deadline).diff(moment(),'seconds') / 604800) * crowdsale.earlybonus;
-    const divisibleMsg = (crowdsale.divisible ? crowdsalesMessages.divisible : crowdsalesMessages.indivisible);
-    const logo = getLogo(crowdsale.propertyid);
-    const warningMessage = getWarningMessage(crowdsale.flags);
+    // const totalLabel = `transaction${detail.total > 1 ? 's' : ''}`;
+    const crowdsaleClosed = crowdsale.deadline * 1000 <= moment.utc().valueOf();
+    const crowdsaleTimer = crowdsaleClosed ? null : (
+      <div>
+        <h5 className="text-light d-block">Time Until Closing:</h5>
+        <Timer
+          countdown
+          datetime={crowdsale.deadline * 1000}
+          maxTimeUnit="year"
+        />
+      </div>
+    );
+
+    const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
+    const hashLink = (v) => `${pathname}/${v}`;
+    const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
+
+    const listProps = {
+      ...detail,
+      items: detail.transactions,
+      inner: CrowdsaleTransaction,
+      onSetPage: this.props.onSetPage,
+      dessiredToken,
+      crowdsale,
+      hashLink,
+      getItemKey,
+    };
 
     return (
       <Container fluid className="mt-3 p-1">
-        { warningMessage }
-        <Row className="w-100">
+        {warningMessage}
+        <Row>
           <Col sm="12" md="9">
             <StyledDivContent>
-              <Table responsive className="table-profile">
+              <Table responsive className="table-horizontal">
                 <thead>
                   <tr>
                     <td className="border-top-0">
@@ -153,9 +167,17 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                     </td>
                     <td className="border-top-0 align-bottom">
                       <h2 className="d-md-inline-block align-bottom mb-0">
-                        {crowdsale.name} <span className="badge badge-secondary">{`(#${crowdsale.propertyid})`}</span>
-                        <StyledInformationIcon color="gray" className="ml-1" id="crowdsaleDivisible" />
-                        <UncontrolledTooltip placement="right-end" target="crowdsaleDivisible">
+                        {crowdsale.name}{' '}
+                        <span>{`(#${crowdsale.propertyid})`}</span>
+                        <StyledInformationIcon
+                          color="gray"
+                          className="ml-1"
+                          id="crowdsaleDivisible"
+                        />
+                        <UncontrolledTooltip
+                          placement="right-end"
+                          target="crowdsaleDivisible"
+                        >
                           <FormattedMessage {...divisibleMsg} />
                         </UncontrolledTooltip>
                       </h2>
@@ -165,100 +187,51 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                 <AssetInfo {...crowdsale} />
               </Table>
             </StyledDivContent>
-            <div>
-              <h2>
-                Property History <small className="text-muted">{detail.total} transactions</small>
-              </h2>
-              <Table striped>
-                <tbody>
-                  {(detail.transactions || []).map((tx, idx) => (
-                    <tr key={tx.txid.slice(0, 22).concat(idx)}>
-                      <td>
-                        <Row>
-                          <Col>
-                            <span className="small">
-                              <Link
-                                to={{
-                                  pathname: `/tx/${tx.txid}`,
-                                }}
-                                onClick={() => this.props.changeRoute(`/tx/${tx.txid}`)}
-                              >
-                                {tx.txid}
-                              </Link>
-                            </span>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col md="5">
-                            <span className="text-muted">
-                              <FormattedUnixDateTime datetime={tx.blocktime} />
-                            </span>
-                          &nbsp;
-                          (~<Moment fromNow>{tx.blocktime * 1000}</Moment>)
-                          </Col>
-                          <Col md="7">
-                            <Link
-                              to={{
-                                pathname: `/address/${tx.sendingaddress}`,
-                              }}
-                              onClick={() => this.props.changeRoute(`/address/${tx.sendingaddress}`)}
-                            >
-                              {tx.sendingaddress}
-                            </Link>
-
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <TransactionLabel tx={tx} />
-                          </Col>
-                        </Row>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
           </Col>
           <Col sm="12" md="3">
-            <Row>
-              <StyledCard color="info">
-                <CardBody>
-                  <h3 className="text-light card-title">Active Crowdsale</h3>
-                  <h5 className="text-light d-block">Time Until Closing:</h5>
-                  <Timer countdown datetime={crowdsale.deadline * 1000} maxTimeUnit="year" />
-                </CardBody>
-                <ListGroup className="list-group-flush" color="info">
-                  <ListGroupItem>
-                    <h5>Total tokens created</h5>
-                    <h3>
-                      <span>
-                        <SanitizedFormattedNumber value={crowdsale.totaltokens} />
-                      </span>
-                    </h3>
-                  </ListGroupItem>
-                  <ListGroupItem>
-                    <h5>Tokens Purchased</h5>
-                    <h3>
-                      <span>
-                        <SanitizedFormattedNumber
-                          value={crowdsale.totaltokens - crowdsale.issuerbonustokens}
-                          forceDecimals={crowdsale.divisible}
-                        />
-                      </span>
-                    </h3>
-                  </ListGroupItem>
-                  <ListGroupItem>
-                    <h5>Tokens created for the issuer ({crowdsale.percenttoissuer}%)</h5>
-                    <h3>
-                      <span>
-                        <SanitizedFormattedNumber
-                          value={crowdsale.issuerbonustokens}
-                          forceDecimals={crowdsale.divisible}
-                        />
-                      </span>
-                    </h3>
-                  </ListGroupItem>
+            <StyledCard color="info">
+              <CardBody>
+                <h3 className="text-light card-title">
+                  {`${crowdsaleClosed ? 'Closed' : 'Active'} Crowdsale`}
+                </h3>
+                {crowdsaleTimer}
+              </CardBody>
+              <ListGroup className="list-group-flush" color="info">
+                <ListGroupItem>
+                  <h5>Total tokens created</h5>
+                  <h3>
+                    <span>
+                      <SanitizedFormattedNumber value={crowdsale.totaltokens} />
+                    </span>
+                  </h3>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <h5>Tokens Purchased</h5>
+                  <h3>
+                    <span>
+                      <SanitizedFormattedNumber
+                        value={
+                          crowdsale.totaltokens - crowdsale.issuerbonustokens
+                        }
+                        forceDecimals={crowdsale.divisible}
+                      />
+                    </span>
+                  </h3>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <h5>
+                    Tokens created for the issuer ({crowdsale.percenttoissuer}%)
+                  </h5>
+                  <h3>
+                    <span>
+                      <SanitizedFormattedNumber
+                        value={crowdsale.issuerbonustokens}
+                        forceDecimals={crowdsale.divisible}
+                      />
+                    </span>
+                  </h3>
+                </ListGroupItem>
+                {!crowdsaleClosed &&
                   <ListGroupItem>
                     <h5>Current early bird bonus</h5>
                     <h3>
@@ -271,44 +244,73 @@ export class CrowdsaleDetail extends React.PureComponent { // eslint-disable-lin
                       </span>
                     </h3>
                   </ListGroupItem>
-                </ListGroup>
-                <CardBody>
-                  <CardTitle className="text-light">Share this page</CardTitle>
-                  <Link
-                    to={{
-                      pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
-                    }}
-                    target="_blank"
-                  >
-                    <FacebookIcon size={32} />
-                  </Link>
-                  <Link
-                    to={{
-                      pathname: `https://plus.google.com/share?url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
-                    }}
-                    target="_blank"
-                  >
-                    <GPlusIcon size={32} />
-                  </Link>
-                  <Link
-                    to={{
-                      pathname: `https://twitter.com/home?status=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}`,
-                    }}
-                    target="_blank"
-                  >
-                    <TwitterIcon size={32} />
-                  </Link>
-                  <Link
-                    to={{
-                      pathname: `https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.omniwallet.org/assets/details/${crowdsale.propertyid}&amp;title=Checkout%20this%20Crowdsale!&amp;summary=&amp;source=`,
-                    }}
-                    target="_blank"
-                  >
-                    <LinkedinIcon size={32} />
-                  </Link>
-                </CardBody>
-              </StyledCard>
-            </Row>
+                }
+              </ListGroup>
+              <CardBody>
+                <CardTitle className="text-light">Share this page</CardTitle>
+                <Link
+                  to={{
+                    pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${
+                      crowdsale.propertyid
+                    }`,
+                    state: { state: this.props },
+                  }}
+                  target="_blank"
+                >
+                  <FacebookIcon size={32} />
+                </Link>
+                <Link
+                  to={{
+                    pathname: `https://plus.google.com/share?url=https://www.omniwallet.org/assets/details/${
+                      crowdsale.propertyid
+                    }`,
+                    state: { state: this.props },
+                  }}
+                  target="_blank"
+                >
+                  <GPlusIcon size={32} />
+                </Link>
+                <Link
+                  to={{
+                    pathname: `https://twitter.com/home?status=https://www.omniwallet.org/assets/details/${
+                      crowdsale.propertyid
+                    }`,
+                    state: { state: this.props },
+                  }}
+                  target="_blank"
+                >
+                  <TwitterIcon size={32} />
+                </Link>
+                <Link
+                  to={{
+                    pathname: `https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.omniwallet.org/assets/details/${
+                      crowdsale.propertyid
+                    }&amp;title=Checkout%20this%20Crowdsale!&amp;summary=&amp;source=`,
+                    state: { state: this.props },
+                  }}
+                  target="_blank"
+                >
+                  <LinkedinIcon size={32} />
+                </Link>
+              </CardBody>
+            </StyledCard>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <HistoryContainer fluid>
+              <StyledRow>
+                <Col sm>
+                  <ListHeader
+                    total={detail.total}
+                    message={crowdsalesMessages.header}
+                  />
+                </Col>
+              </StyledRow>
+              <List
+                {...listProps}
+              />
+            </HistoryContainer>
           </Col>
         </Row>
       </Container>
@@ -323,23 +325,30 @@ CrowdsaleDetail.propTypes = {
   getPropertyDeep: PropTypes.func.isRequired,
   getCrowdsaleTransactions: PropTypes.func.isRequired,
   crowdsaledetail: PropTypes.object,
+  onSetPage: PropTypes.func.isRequired,
+  match: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
   crowdsaledetail: makeSelectCrowdsaleDetail(),
-  properties: (state) => makeSelectProperty(state),
+  properties: state => makeSelectProperty(state),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    getPropertyDeep: (crowdsaleId) => dispatch(startDeepFetch(crowdsaleId)),
-    getCrowdsaleTransactions: (crowdsaleId) => dispatch(startCrowdsaleTransactionsFetch(crowdsaleId)),
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    getPropertyDeep: crowdsaleId => dispatch(startDeepFetch(crowdsaleId)),
+    getCrowdsaleTransactions: crowdsaleId =>
+      dispatch(startCrowdsaleTransactionsFetch(crowdsaleId)),
+    changeRoute: url => dispatch(routeActions.push(url)),
+    onSetPage: p => dispatch(setPage(p)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({
   key: 'crowdsaleDetail',

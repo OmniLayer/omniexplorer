@@ -5,10 +5,10 @@ import { shallowWithState } from 'enzyme-redux';
 import Token from '../index';
 
 describe('<Token />', () => {
-  const ReactComponent = () => (<Token />);
+  const ReactComponent = () => <Token />;
   it('should render <Token />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);

@@ -5,10 +5,10 @@ import { shallowWithState } from 'enzyme-redux';
 import TransactionHistory from '../index';
 
 describe('<TransactionHistory />', () => {
-  const ReactComponent = () => (<TransactionHistory />);
+  const ReactComponent = () => <TransactionHistory />;
   it('should render <TransactionHistory />', () => {
     const expectedState = { mockedStated: true };
-    const mapStateToProps = (state) => ({
+    const mapStateToProps = state => ({
       state,
     });
     const ConnectedComponent = connect(mapStateToProps)(ReactComponent);

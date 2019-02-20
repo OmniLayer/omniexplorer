@@ -1,18 +1,16 @@
+import { startCrowdsaleTransactionsFetch } from '../actions';
+import { LOAD_CROWDSALE_TRANSACTIONS } from '../constants';
 
-import {
-  defaultAction,
-} from '../actions';
-import {
-  DEFAULT_ACTION,
-} from '../constants';
+const crowdsaleId = 31;
 
-describe('CrowdsaleDetail actions', () => {
+describe('Crowdsales actions', () => {
   describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+    it('has a type of LOAD_CROWDSALE_TRANSACTIONS', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOAD_CROWDSALE_TRANSACTIONS,
+        id: crowdsaleId,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(startCrowdsaleTransactionsFetch(crowdsaleId)).toEqual(expected);
     });
   });
 });

@@ -20,7 +20,7 @@ const mockStore = configureMockStore(middlewares);
  * Default messages, it'll be used when messages is not given
  * You can pass your messages to the IntlProvider. Optional: remove if unneeded.
  */
-const defaultMessages = require('../translations/en'); // en.json
+const defaultMessages = require('../translations/en.json'); // en.json
 
 /**
  * When using React-Intl `injectIntl` on components, props.intl is required.
@@ -33,11 +33,14 @@ function nodeWithIntlProp(node, intl, store) {
 }
 
 function getIntlShape(messages = defaultMessages) {
-// Create the IntlProvider to retrieve context for wrapping around.
-  const intlProvider = new IntlProvider({
-    locale: 'en',
-    messages,
-  }, {});
+  // Create the IntlProvider to retrieve context for wrapping around.
+  const intlProvider = new IntlProvider(
+    {
+      locale: 'en',
+      messages,
+    },
+    {},
+  );
   const { intl } = intlProvider.getChildContext();
   return intl;
 }
