@@ -19,11 +19,10 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import AssetInfo from 'components/AssetInfo';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
+import AssetLogo from 'components/AssetLogo';
 
-import getLogo from 'utils/getLogo';
 import getWarningMessage from 'utils/getWarningMessage';
 
-const StyledContainer = styled(ContainerBase)``;
 const DetailRow = styled(Row)`
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -55,7 +54,6 @@ export class AssetDetail extends React.PureComponent {
       );
     }
 
-    const logo = getLogo(asset.propertyid, asset);
     const warningMessage = getWarningMessage(
       asset.flags,
       asset.name,
@@ -68,7 +66,7 @@ export class AssetDetail extends React.PureComponent {
     }
 
     return (
-      <StyledContainer fluid>
+      <ContainerBase fluid>
         {warningMessage}
         <DetailRow>
           <Col sm>
@@ -76,12 +74,11 @@ export class AssetDetail extends React.PureComponent {
               <thead>
                 <tr>
                   <th>
-                    <img
-                      src={logo}
-                      alt={asset.type}
+                    <AssetLogo
+                      asset={asset}
+                      prop={asset.propertyid}
                       className="img-thumbnail"
-                      width="42px"
-                      height="42px"
+                      style={{width: '4rem', height: '4rem'}}
                     />
                   </th>
                   <th>
@@ -107,7 +104,7 @@ export class AssetDetail extends React.PureComponent {
           </Col>
         </DetailRow>
         <Row />
-      </StyledContainer>
+      </ContainerBase>
     );
   }
 }

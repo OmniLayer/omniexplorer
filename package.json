@@ -216,6 +216,13 @@
     ]
   },
   "jest": {
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "collectCoverageFrom": [
       "app/**/*.{js,jsx}",
       "!app/**/*.test.{js,jsx}",
@@ -299,6 +306,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.12",
     "add-asset-html-webpack-plugin": "2.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",

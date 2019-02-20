@@ -111,7 +111,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
         ${ (Math.round((props.omni_usd + 0.00001) * 100) / 100).toFixed(2) }
       </span>
     );
-  
+
     return (
       <Container className="d-md-flex">
         <div className="d-inline-block">
@@ -140,6 +140,7 @@ class ServiceBlock extends React.PureComponent { // eslint-disable-line react/pr
 ServiceBlock.propTypes = {
   getStatus: PropTypes.func,
   status: PropTypes.object,
+  last_block: PropTypes.number,
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -23,14 +23,10 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
-import getLogo from 'utils/getLogo';
+import AssetLink from 'components/AssetLink';
+import AssetLogo from 'components/AssetLogo';
+import getTransactionHeading from 'utils/getTransactionHeading';
 import './transaction.scss';
-
-const IMG = styled.img`
-  width: 48px;
-  height: 48px;
-  margin-right: 7px;
-`;
 
 const AddressWrapper = styled.div.attrs({
   className: 'w-100-down-md address-wrapper',
@@ -129,7 +125,6 @@ class Transaction extends React.PureComponent {
       ...this.props,
       confirmed: CONFIRMATIONS,
     });
-    const tokenLogo = getLogo(this.props.propertyid, this.props);
 
     let arrowcname;
     let arrowcnameright;
@@ -156,12 +151,20 @@ class Transaction extends React.PureComponent {
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
-            <IMG src={tokenLogo} />
+            <AssetLink asset={this.props.propertyid} state={this.props.state}>
+              <AssetLogo
+                asset={{...this.props, name: this.props.propertyname }}
+                prop={this.props.propertyid}
+                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+              />
+            </AssetLink>
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
               <div className="p-md-2 pt-xs-2 pr-xs-2">
-                <span className="title d-block-down-md">{this.props.type}</span>
+                <span className="title d-block-down-md">
+                  {getTransactionHeading(this.props)}
+                </span>
               </div>
               <div className="p-md-2 pt-xs-2 pl-xs-2">
                 <span className="title d-block-down-md">

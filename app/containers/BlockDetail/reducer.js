@@ -6,17 +6,13 @@
 
 import { fromJS } from 'immutable';
 
-import {
-  LOAD_BLOCK,
-  LOAD_BLOCK_SUCCESS,
-  LOAD_BLOCK_ERROR,
-} from './constants';
+import { LOAD_BLOCK, LOAD_BLOCK_SUCCESS, LOAD_BLOCK_ERROR } from './constants';
 
 const initialBlock = {
   transactions: [],
 };
 
-const initialState = fromJS({
+export const initialState = fromJS({
   loading: true,
   error: false,
   block: initialBlock,

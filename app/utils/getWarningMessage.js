@@ -13,8 +13,9 @@ const StyledCardBody = styled(CardBody)`
 
 export default (flags, tokenName, tokenId) => {
   let warningMessage = null;
-  const tokenDesc = (tokenName && tokenId ? `- ${tokenName} Token (#${tokenId})` : '' );
-  
+  const tokenDesc =
+    tokenName && tokenId ? `- ${tokenName} Token (#${tokenId})` : '';
+
   if (flags.scam) {
     warningMessage = (
       <Row>
@@ -84,12 +85,10 @@ export default (flags, tokenName, tokenId) => {
             </CardHeader>
             <StyledCardBody>
               <CardText>
-                Please note that the issuer of this property { tokenDesc },
-                has informed OmniExplorer.info that this property is deprecated and
+                Please note that the issuer of this property {tokenDesc}, has
+                informed OmniExplorer.info that this property is deprecated and
                 should no longer be used.<br />
-                <b>
-                  The issuer has advised that the token has been replaced.
-                </b>
+                <b>The issuer has advised that the token has been replaced.</b>
               </CardText>
             </StyledCardBody>
           </StyledCard>

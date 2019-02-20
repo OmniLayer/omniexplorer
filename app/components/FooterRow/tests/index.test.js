@@ -1,10 +1,18 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { connect } from 'react-redux';
+import { shallowWithState } from 'enzyme-redux';
 
-// import FooterRow from '../index';
+import { FooterRow } from '../index';
 
 describe('<FooterRow />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  const ReactComponent = () => <FooterRow />;
+  it('should render <FooterRow />', () => {
+    const expectedState = { mockedStated: true };
+    const mapStateToProps = state => ({
+      state,
+    });
+    const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
+    const component = shallowWithState(<ConnectedComponent />, expectedState);
+    expect(component.props().state).toBe(expectedState);
   });
 });

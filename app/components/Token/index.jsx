@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import styled from 'styled-components';
-import getLogo from 'utils/getLogo';
+import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
 import { startFetch } from './actions';
 
 const StyledTD = styled.td.attrs({
@@ -63,32 +64,26 @@ class Token extends React.PureComponent {
       value = available;
     }
 
-    const logo = getLogo(this.props.id, this.props.propertyinfo);
-
     return (
       <tr>
         <StyledTD style={{ width: '56px' }}>
-          <img style={{ width: '4rem', height: '4rem' }} src={logo} />
+          <AssetLink asset={this.props.id} state={this.props.state}>
+            <AssetLogo
+              asset={this.props.propertyinfo}
+              prop={this.props.id}
+              style={{width: '4rem', height: '4rem'}}
+            />
+          </AssetLink>
         </StyledTD>
         <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
-          <Link
-            to={{
-              pathname: `/asset/${this.props.id}`,
-              state: { state: this.props.state },
-            }}
-          >
+          <AssetLink asset={this.props.id} state={this.props.state}>
             {this.props.id}
-          </Link>
+          </AssetLink>
         </StyledTD>
         <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
-          <Link
-            to={{
-              pathname: `/asset/${this.props.id}`,
-              state: { state: this.props.state },
-            }}
-          >
+          <AssetLink asset={this.props.id} state={this.props.state}>
             {this.getTokenName()}
-          </Link>
+          </AssetLink>
         </StyledTD>
         <StyledTD style={{ textAlign: 'right', paddingTop: '13px' }}>
           <strong>

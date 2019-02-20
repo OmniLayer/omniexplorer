@@ -7,22 +7,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Table, UncontrolledTooltip } from 'reactstrap';
+import { Container, Table, UncontrolledTooltip } from 'reactstrap';
 
 import { FormattedMessage } from 'react-intl';
 import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 
-import {
-  FormattedUnixDateTime,
-  Messages as datetimeMessages,
-} from 'components/FormattedDateTime';
+import { startFetch } from 'components/Token/actions';
+import { makeSelectProperty } from 'components/Token/selectors';
+import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
+import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import LoadingIndicator from 'components/LoadingIndicator';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
-import getLogo from 'utils/getLogo';
+
 import messages from './messages';
 
 const StyledTR = styled.tr`
@@ -33,15 +36,37 @@ const StyledTable = styled(Table)`
     font-weight: normal;
   }
 `;
-const IMGLogo = styled.img`
-  display: inline;
-  width: 2rem;
-  height: 2rem;
-  margin-right: 1rem;
-`;
+
 class BlockList extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    const { blocks } = this.props;
+    this.propertyList = this.getDistinctTokensFromBlockList(blocks);
+    this.propertyList.map(this.props.getProperty);
+  }
+
+  getDistinctTokensFromBlockList(blocks) {
+    const properties = Object.values(blocks)
+      .map(block => Object.keys(block.value.details))
+      .flat();
+    const distincts = [...new Set(properties)];
+    return distincts;
+  }
+
   // eslint-disable-line react/prefer-stateless-function
   render() {
+    const loading = (
+      <Container>
+        <LoadingIndicator />
+      </Container>
+    );
+
+    const continueLoading = this.propertyList.some(
+      property => !this.props.properties(property),
+    );
+    if (continueLoading) return loading;
+
     const getItemKey = (item, idx) => item.timestamp.toString().concat(idx);
 
     const invalidTxTooltipMsg = (block, txsAcumulator) =>
@@ -113,13 +138,14 @@ class BlockList extends React.PureComponent {
 
     const getOmniTxLogos = block => {
       const logos = Object.keys(block.value.details).map((prop, idx) => {
-        const logo = getLogo(prop);
+        const key = `id${block.block}${prop}`;
+        const asset = this.props.properties(prop);
+
         return (
-          <IMGLogo key={prop}
-          src={logo}
-          alt=""
-        />
-      );
+          <AssetLink key={key} asset={prop} state={this.props.state}>
+            <AssetLogo asset={asset} prop={prop} style={{width: '2rem', height: '2rem'}}/>
+          </AssetLink>
+        );
       });
       return logos;
     };
@@ -184,7 +210,15 @@ class BlockList extends React.PureComponent {
               </td>
               <td className="text-right">
                 {getOmniTxLogos(block)}
-                <div style={{width:'3rem', display: 'inline-block'}} id={`omnitxcount${idx}`}>{block.omni_tx_count}</div>
+                <div
+                  style={{
+                    width: '3rem',
+                    display: 'inline-block',
+                  }}
+                  id={`omnitxcount${idx}`}
+                >
+                  {block.omni_tx_count}
+                </div>
                 <UncontrolledTooltip
                   placement="right-end"
                   target={`omnitxcount${idx}`}
@@ -227,17 +261,24 @@ class BlockList extends React.PureComponent {
 BlockList.propTypes = {
   blocks: PropTypes.array.isRequired,
   changeRoute: PropTypes.func.isRequired,
+  getProperty: PropTypes.func.isRequired,
+  properties: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     changeRoute: url => dispatch(routeActions.push(url)),
+    getProperty: propertyId => dispatch(startFetch(propertyId)),
     dispatch,
   };
 }
 
+const mapStateToProps = createStructuredSelector({
+  properties: state => makeSelectProperty(state),
+});
+
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 
