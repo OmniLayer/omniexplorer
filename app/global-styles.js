@@ -51,9 +51,11 @@ injectGlobal`
   a:link,
   a:visited,
   a:hover,
-  a:active {
-    background-color: transparent; 
+  a:active { 
     text-decoration: none;
+    &:not(.btn){
+      background-color: transparent;
+    }
   }
   
   .table td, .table th {
