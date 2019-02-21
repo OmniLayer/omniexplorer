@@ -8,3 +8,13 @@
     column-count: 6;
   }
 }
+
+.network-share-button {
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+
+  &:hover:not(:active) {
+    opacity: 0.75;
+  }
+}
