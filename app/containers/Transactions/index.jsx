@@ -25,6 +25,7 @@ import sagaTransactions from 'containers/Transactions/saga';
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
+import { Button, ButtonGroup } from 'reactstrap';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
@@ -38,12 +39,24 @@ export class Transactions extends React.Component {
 
     const { page } = props.match.params;
     this.props.onSetPage(!page || isNaN(page) ? 0 : parseInt(page));
+    this.state = { loadConfirmed: true };
+
+    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+  }
+
+  onRadioBtnClick(loadConfirmed) {
+    this.setState({ loadConfirmed });
+    if (loadConfirmed) {
+      this.props.loadTransactions(this.props.addr);
+    } else {
+      this.props.loadUnconfirmed(this.props.addr);
+    }
   }
 
   componentDidMount() {
     const unconfirmed = this.props.location.pathname.includes('unconfirmed');
     if (unconfirmed) {
-      this.props.loadUnconfirmed();
+      this.props.loadUnconfirmed(this.props.addr);
     } else {
       this.props.loadTransactions(this.props.addr);
     }
@@ -55,9 +68,9 @@ export class Transactions extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator />;
+      content = <LoadingIndicator/>;
     } else if ((this.props.transactions.transactions || []).length === 0) {
-      content = <NoOmniTransactions />;
+      content = <NoOmniTransactions/>;
     } else {
       const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
       const hashLink = v => `${pathname}/${v}`;
@@ -76,7 +89,7 @@ export class Transactions extends React.Component {
       props.items = props.transactions;
       content = <List {...props} />;
     }
-    const footer = <FooterLinks blocklist />;
+    const footer = <FooterLinks blocklist/>;
     return (
       <StyledContainer fluid>
         <TransactionListHeader
@@ -84,6 +97,22 @@ export class Transactions extends React.Component {
           total={this.props.transactions.pageCount}
           totalLabel="page"
           count={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
+          extra={!!this.props.addr &&
+          <ButtonGroup>
+            <Button
+              onClick={() => this.onRadioBtnClick(true)}
+              active={!!this.state.loadConfirmed}
+            >
+              Confirmed
+            </Button>
+            <Button
+              onClick={() => this.onRadioBtnClick(false)}
+              active={!this.state.loadConfirmed}
+            >
+              Unconfirmed
+            </Button>
+          </ButtonGroup>
+          }
         />
         {content}
         {footer}
@@ -114,7 +143,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadTransactions: addr => dispatch(loadTransactions(addr)),
-    loadUnconfirmed: () => dispatch(loadUnconfirmed()),
+    loadUnconfirmed: addr => dispatch(loadUnconfirmed(addr)),
     onSetPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };
