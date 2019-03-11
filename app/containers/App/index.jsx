@@ -33,6 +33,7 @@ import HistoryChart from 'containers/HistoryChart';
 import FullBlockList from 'containers/FullBlockList';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import DevTools from 'utils/devTools';
 import Moment from 'react-moment';
@@ -73,81 +74,83 @@ class App extends React.Component {
             name="description"
             content="The block explorer for Omni, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
           />
-          <link rel="canonical" href="https://omniexplorer.info" />
-          <meta name="referrer" content="always" />
+          <link rel="canonical" href="https://omniexplorer.info"/>
+          <meta name="referrer" content="always"/>
         </Helmet>
-        <Header />
-        <Switch>
-          <Route
-            exact
-            path="/:block(\d+)?"
-            component={HomePage}
-          />
-          <Route
-            path="/tx/:tx"
-            component={TransactionDetail}
-          />
-          <Route
-            path="/transactions/unconfirmed"
-            component={Transactions}
-          />
-          <Route
-            path="/address/:address/:page(\d+)?"
-            component={AddressDetail}
-            key={location.pathname}
-          />
-          <Route
-            path="/search/:query"
-            component={Search}
-            key={location.pathname}
-          />
-          <Route
-            path="/properties/:query"
-            component={Properties}
-            key={location.pathname}
-          />
-          <Route
-            path="/asset/:propertyid(\d+)"
-            component={AssetDetail}
-            key={location.pathname}
-          />
-          <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
-          <Route
-            path="/crowdsale/:crowdsaleid(\d+)"
-            component={CrowdsaleDetail}
-            key={location.pathname}
-          />
-          <Route
-            exact
-            path="/block/:block(\d+)"
-            component={BlockDetail}
-            key={location.pathname}
-          />
-          <Route
-            exact
-            path="/promote"
-            component={Promote}
-          />
-          <Route
-            exact
-            path="/submitfeedback"
-            component={Feedback}
-          />
-          <Route
-            exact
-            path="/history"
-            component={HistoryChart}
-          />
-          <Route
-            exact
-            path="/blocks/:block(\d+)?"
-            component={FullBlockList}
-          />
-          <Route path="" component={NotFoundPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-        <Footer />
-        {isDev ? <DevTools /> : <div />}
+        <Header/>
+        <ErrorBoundary>
+          <Switch>
+            <Route
+              exact
+              path="/:block(\d+)?"
+              component={HomePage}
+            />
+            <Route
+              path="/tx/:tx"
+              component={TransactionDetail}
+            />
+            <Route
+              path="/transactions/unconfirmed"
+              component={Transactions}
+            />
+            <Route
+              path="/address/:address/:page(\d+)?"
+              component={AddressDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/search/:query"
+              component={Search}
+              key={location.pathname}
+            />
+            <Route
+              path="/properties/:query"
+              component={Properties}
+              key={location.pathname}
+            />
+            <Route
+              path="/asset/:propertyid(\d+)"
+              component={AssetDetail}
+              key={location.pathname}
+            />
+            <Route exact path="/crowdsales/:ecosystem" component={Crowdsales}/>
+            <Route
+              path="/crowdsale/:crowdsaleid(\d+)"
+              component={CrowdsaleDetail}
+              key={location.pathname}
+            />
+            <Route
+              exact
+              path="/block/:block(\d+)"
+              component={BlockDetail}
+              key={location.pathname}
+            />
+            <Route
+              exact
+              path="/promote"
+              component={Promote}
+            />
+            <Route
+              exact
+              path="/submitfeedback"
+              component={Feedback}
+            />
+            <Route
+              exact
+              path="/history"
+              component={HistoryChart}
+            />
+            <Route
+              exact
+              path="/blocks/:block(\d+)?"
+              component={FullBlockList}
+            />
+            <Route path="" component={NotFoundPage}/>
+            <Route component={NotFoundPage}/>
+          </Switch>
+        </ErrorBoundary>
+        <Footer/>
+        {isDev ? <DevTools/> : <div/>}
       </AppWrapper>
     );
   }

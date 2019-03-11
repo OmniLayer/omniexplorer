@@ -6,7 +6,7 @@
  */
 export default (tx, getProperty) => {
   const property =
-    tx.valid && tx.propertyid
+    tx.propertyid
       ? getProperty(tx.propertyid)
       : {
         ...tx,
