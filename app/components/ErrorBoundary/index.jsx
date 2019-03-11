@@ -39,19 +39,30 @@ class ErrorBoundary extends React.Component {
 
     if (lastParsed) {
       const lastParsedDiff = moment
-        .utc()
-        .diff(moment.utc(lastParsed), 'minutes');
-
+      .utc()
+      .diff(moment.utc(lastParsed), 'minutes');
+      debugger;
       if (lastParsedDiff > 10) {
         content = (
           <div>
             <Alert color="warning">
-              <span>{this.props.error || 'Backend is currently lagged'}</span>
+              <span>We are currently experiencing delayed updates from our backend. Please try again later</span>
             </Alert>
             {this.props.children}
           </div>
         );
       }
+    }
+
+    if (this.props.error) {
+      content = (
+        <div>
+          <Alert color="warning">
+            <span>{this.props.error}</span>
+          </Alert>
+          {this.props.children}
+        </div>
+      );
     }
 
     return content;
