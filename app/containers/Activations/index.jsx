@@ -82,7 +82,7 @@ export class Activations extends React.Component {
             <th className="text-center">
               <FormattedMessage {...messages.columns.id} />
             </th>
-            <th className="text-center">
+            <th className="text-left">
               <FormattedMessage {...messages.columns.name} />
             </th>
             <th className="text-right">

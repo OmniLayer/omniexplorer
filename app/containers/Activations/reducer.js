@@ -5,6 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
+import orderBy from 'lodash/orderBy';
 
 import { LOAD_ACTIVATIONS, LOAD_ACTIVATIONS_ERROR, LOAD_ACTIVATIONS_SUCCESS } from './constants';
 
@@ -28,9 +29,9 @@ function ActivationsReducer(state = initialState, action) {
       return state.set('loading', true);
     case LOAD_ACTIVATIONS_SUCCESS:
       return state
-      .set('pendingactivations', activations.pendingactivations)
-      .set('completedactivations', activations.completedactivations)
-      .set('list', activations.completedactivations)
+      .set('pendingactivations', orderBy(activations.pendingactivations, 'featureid', 'asc'))
+      .set('completedactivations', orderBy(activations.completedactivations, 'featureid', 'asc'))
+      .set('list',  orderBy(activations.completedactivations, 'featureid', 'asc'))
       .set('loading', false)
       .set('error', null);
     case LOAD_ACTIVATIONS_ERROR:

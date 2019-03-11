@@ -17,15 +17,15 @@ export default defineMessages({
     },
     name: {
       id: 'app.containers.Activations.columns.name',
-      defaultMessage: 'Name',
+      defaultMessage: 'Description',
     },
     block: {
       id: 'app.containers.Activations.columns.block',
-      defaultMessage: 'Block',
+      defaultMessage: 'Activation Block',
     },
     minimumVersion: {
       id: 'app.containers.Activations.columns.minimumversion',
-      defaultMessage: 'Minimum Version',
+      defaultMessage: 'Client Min Version',
     },
   }
 });
