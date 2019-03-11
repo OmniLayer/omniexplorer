@@ -31,6 +31,7 @@ import Crowdsales from 'containers/Crowdsales';
 import BlockDetail from 'containers/BlockDetail';
 import HistoryChart from 'containers/HistoryChart';
 import FullBlockList from 'containers/FullBlockList';
+import Activations from 'containers/Activations';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -144,6 +145,11 @@ class App extends React.Component {
               exact
               path="/blocks/:block(\d+)?"
               component={FullBlockList}
+            />
+            <Route
+              exact
+              path="/activations"
+              component={Activations}
             />
             <Route path="" component={NotFoundPage}/>
             <Route component={NotFoundPage}/>
