@@ -8,8 +8,8 @@ import { errorFetch, updateFetch } from './actions';
 function* fetchStatus() {
   try {
     const requestURL = `${API_URL_BASE}/system/status`;
-    const property = yield call(request, requestURL);
-    yield put(updateFetch(property));
+    const status = yield call(request, requestURL);
+    yield put(updateFetch(status));
   } catch (err) {
     yield put(errorFetch(err));
   }
