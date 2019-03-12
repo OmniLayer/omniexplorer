@@ -121,6 +121,7 @@ export class Activations extends React.Component {
               <Button
                 onClick={() => this.onRadioBtnClick(false)}
                 active={!this.state.completed}
+                disabled
               >
                 Pending
               </Button>
