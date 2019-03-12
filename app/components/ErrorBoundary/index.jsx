@@ -41,7 +41,7 @@ class ErrorBoundary extends React.Component {
       const lastParsedDiff = moment
       .utc()
       .diff(moment.utc(lastParsed), 'minutes');
-      debugger;
+
       if (lastParsedDiff > 10) {
         content = (
           <div>
