@@ -85,7 +85,7 @@ export class Activations extends React.Component {
             <th className="text-left">
               <FormattedMessage {...messages.columns.name} />
             </th>
-            <th className="text-right">
+            <th className="text-center">
               <FormattedMessage {...messages.columns.block} />
             </th>
             <th className="text-center">
@@ -98,7 +98,7 @@ export class Activations extends React.Component {
             <StyledTR key={getItemKey(activation, idx)}>
               <td className="text-center">{activation.featureid}</td>
               <td className="text-left">{activation.featurename}</td>
-              <td className="text-right">{activation.activationblock}</td>
+              <td className="text-center">{activation.activationblock}</td>
               <td className="text-center">{activation.minimumversion}</td>
             </StyledTR>
           ))}
