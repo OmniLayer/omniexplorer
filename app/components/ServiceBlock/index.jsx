@@ -55,7 +55,7 @@ const BlockInfo = (props) => (
     <div className="text-white">
       <span>
         <small>
-          { `${props.last_parsed} UTC` }
+          { `${props.block_time} UTC` }
         </small>
       </span>
     </div>
