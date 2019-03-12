@@ -121,6 +121,9 @@ class Header extends React.PureComponent {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
+                      <NavLink href="/activations">Feature Activations</NavLink>
+                    </DropdownItem>
+                    <DropdownItem>
                       <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>
                     </DropdownItem>
                     <DropdownItem>
