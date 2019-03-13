@@ -127,6 +127,9 @@ function TransactionInfo(props) {
       </tr>
     );
   }
+  if (!props.valid && ([50, 51, 54].includes(props.type_int) || !props.type_int)) {
+    tokenName = null;
+  }
 
   let btcDesired;
   let specificAction;
