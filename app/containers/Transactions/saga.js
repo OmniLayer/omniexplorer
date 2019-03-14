@@ -58,7 +58,7 @@ export function* getTransactions({ addr }) {
       getTransactionsOptions,
     );
     yield put(
-      transactionsLoaded(transactions.transactions, transactions.pages),
+      transactionsLoaded(transactions.transactions, transactions.pages, addr),
     );
   } catch (err) {
     yield put(transactionsLoadingError(err));

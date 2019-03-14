@@ -49,11 +49,12 @@ function transactionsReducer(state = initialState, action) {
         .set('unconfirmed', true);
     case LOAD_TRANSACTIONS_SUCCESS: {
       const unconfirmed = state.get('unconfirmed');
+      const transactions = action.addr ? action.transactions.filter(tx => !!tx.confirmations) : action.transactions;
       return state
-        .set('transactions', action.transactions)
+        .set('transactions', transactions)
         .set(
           'pageCount',
-          unconfirmed ? action.transactions.length : action.pages,
+          unconfirmed ? transactions.length : action.pages,
         )
         .set('loading', false)
         .set('error', false);

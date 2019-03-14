@@ -22,7 +22,7 @@ const StyledPaginationLink = styled(PaginationLink)`
 `;
 const StyledPaginationButton = styled(PaginationItem)`
   margin: 0 2px;
-
+  background-color: white;
   &.disabled {
     cursor: not-allowed;
   }
