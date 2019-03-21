@@ -25,7 +25,7 @@ export default defineMessages({
       'transaction you should use a bitcoin block explorer like\n' +
       '{link}',
     values: {
-      link: <a href="https://www.blocktrail.com">blocktrail.com</a>,
+      link: <a href="https://www.blockchair.com">blockchair.com</a>,
     },
   },
 });

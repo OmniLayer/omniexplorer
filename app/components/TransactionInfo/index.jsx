@@ -9,28 +9,23 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
+import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { Link } from 'react-router-dom';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardText,
-  Col,
-  Collapse,
-  Row,
-  Table,
-} from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import ContainerBase from 'components/ContainerBase';
 import StatusConfirmation from 'components/StatusConfirmation';
+import { makeSelectProperty } from 'components/Token/selectors';
+import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
+import ExplorerLink from 'components/ExplorerLink';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
-import getLogo from 'utils/getLogo';
 import getTransactionHeading from 'utils/getTransactionHeading';
 
 const StyledCard = styled(Card)`
@@ -76,9 +71,8 @@ function TransactionInfo(props) {
     confirmed: CONFIRMATIONS,
   });
   const invalidReason =
-    props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || ''}`;
+    props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || 'invalid transaction'}`;
   const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
-  const logo = getLogo(props.propertyid, props);
 
   let warningMessage = null;
   let dtheader;
@@ -114,16 +108,11 @@ function TransactionInfo(props) {
       <tr>
         <td className="field">Property</td>
         <td>
-          <Link
-            to={{
-              pathname: `/asset/${props.propertyid}`,
-              state: { state: props.state },
-            }}
-          >
+          <AssetLink asset={props.propertyid} state={props.state}>
             <strong>
               {props.propertyname} &#40;#{props.propertyid}&#41;
             </strong>
-          </Link>
+          </AssetLink>
         </td>
       </tr>
     );
@@ -138,6 +127,9 @@ function TransactionInfo(props) {
       </tr>
     );
   }
+  if (!props.valid && ([50, 51, 54].includes(props.type_int) || !props.type_int)) {
+    tokenName = null;
+  }
 
   let btcDesired;
   let specificAction;
@@ -148,7 +140,7 @@ function TransactionInfo(props) {
         <td>
           <strong>
             <span id="lamount">
-              <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
+              <SanitizedFormattedNumber value={props.bitcoindesired}/> BTC
             </span>
           </strong>
         </td>
@@ -160,155 +152,172 @@ function TransactionInfo(props) {
   const recipient = props.referenceaddress || (props.purchases || [{}])[0].referenceaddress;
 
   return (
-    <ContainerBase fluid>
+    <div>
       {warningMessage}
       <DetailRow>
-        <Col sm="2" className="col-auto mx-auto">
-          <img src={logo} alt={props.type} className="img-thumbnail" />
-        </Col>
         <Col sm>
-          <Table responsive>
+          <Table responsive className="table-horizontal">
             <thead>
-              <tr>
-                <th />
-                <th>
-                  <h4>
-                    {getTransactionHeading(props)} {specificAction}
-                    <SubtitleDetail>{props.txid}</SubtitleDetail>
-                  </h4>
-                </th>
-              </tr>
+            <tr>
+              <th>
+                <AssetLink asset={props.asset.propertyid} state={props.state}>
+                  <AssetLogo
+                    asset={props.asset}
+                    prop={props.asset.propertyid}
+                    className="img-thumbnail"
+                    style={{
+                      width: '4rem',
+                      height: '4rem',
+                    }}
+                  />
+                </AssetLink>
+              </th>
+              <th>
+                <h4>
+                  {getTransactionHeading(props)} {specificAction}
+                  <SubtitleDetail>{props.txid}</SubtitleDetail>
+                </h4>
+              </th>
+            </tr>
             </thead>
             <tbody>
-              {amountDisplay}
-              {tokenName}
-              {btcDesired}
-              <tr>
-                <td className="field">Sender</td>
-                <td>
-                  <Link
-                    to={{
-                      pathname: `/address/${props.sendingaddress}`,
-                      state: { state: props.state },
-                    }}
-                  >
-                    {props.sendingaddress}
-                  </Link>
-                </td>
-              </tr>
-              {recipient &&
-                <tr>
-                  <td className="field">Recipient</td>
-                  <td>
-                    <Link
-                      to={{
-                        pathname: `/address/${recipient}`,
-                        state: { state: props.state },
-                      }}
-                    >
-                      {recipient}
-                    </Link>
-                  </td>
-                </tr>
-              }
-              <tr>
-                <td className="field">{dtheader}</td>
-                <td>
+            {amountDisplay}
+            {tokenName}
+            {btcDesired}
+            <tr>
+              <td className="field">Sender</td>
+              <td>
+                <Link
+                  to={{
+                    pathname: `/address/${props.sendingaddress}`,
+                    state: { state: props.state },
+                  }}
+                >
+                  {props.sendingaddress}
+                </Link>
+              </td>
+            </tr>
+            {recipient &&
+            <tr>
+              <td className="field">Recipient</td>
+              <td>
+                <Link
+                  to={{
+                    pathname: `/address/${recipient}`,
+                    state: { state: props.state },
+                  }}
+                >
+                  {recipient}
+                </Link>
+              </td>
+            </tr>
+            }
+            <tr>
+              <td className="field">{dtheader}</td>
+              <td>
                   <span id="ldatetime">
-                    <FormattedUnixDateTime datetime={props.blocktime} />
+                    <FormattedUnixDateTime datetime={props.blocktime}/>
                   </span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">In Block</td>
-                <td>
-                  <span id="lblocknum">{props.block}</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field" style={{ paddingTop: '12px' }}>
-                  Status
-                </td>
-                <td className="field">
-                  <div className={statusColor} style={{ width: '35%' }}>
-                    {status}
-                  </div>
-                  <div className="text-left">{!props.valid && invalidReason}</div>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">Bitcoin Fees</td>
-                <td>
-                  <span id="lfees">{props.fee} BTC</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">Omni Fees</td>
-                <td>
-                  <span id="lomnifees">0.00 OMNI</span>
-                </td>
-              </tr>
-              <tr className="d-none">
-                <td className="field">Payload</td>
-                <td>
-                  <span id="lpayloadsize">16</span> bytes
-                </td>
-              </tr>
-              <tr className="d-none">
-                <td className="field">Size</td>
-                <td>
-                  <span id="ltxsize">N/A</span>
-                </td>
-              </tr>
-              <tr className="d-none">
-                <td className="field">Class</td>
-                <td>
-                  <span id="lclass">C (nulldata)</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">Type/Version</td>
-                <td>
+              </td>
+            </tr>
+            {props.block &&
+            <tr>
+              <td className="field">In Block</td>
+              <td>
+                <span id="lblocknum">{props.block}</span>
+              </td>
+            </tr>
+            }
+            <tr>
+              <td className="field" style={{ paddingTop: '12px' }}>
+                Status
+              </td>
+              <td className="field">
+                <div className={statusColor} style={{ width: '35%' }}>
+                  {status}
+                </div>
+                <div className="text-left">{!props.valid && invalidReason}</div>
+              </td>
+            </tr>
+            <tr>
+              <td className="field">Bitcoin Fees</td>
+              <td>
+                <span id="lfees">{props.fee} BTC</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="field">Omni Fees</td>
+              <td>
+                <span id="lomnifees">0.00 OMNI</span>
+              </td>
+            </tr>
+            <tr className="d-none">
+              <td className="field">Payload</td>
+              <td>
+                <span id="lpayloadsize">16</span> bytes
+              </td>
+            </tr>
+            <tr className="d-none">
+              <td className="field">Size</td>
+              <td>
+                <span id="ltxsize">N/A</span>
+              </td>
+            </tr>
+            <tr className="d-none">
+              <td className="field">Class</td>
+              <td>
+                <span id="lclass">C (nulldata)</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="field">Type/Version</td>
+              <td>
                   <span id="ltypever">
                     Type {props.type_int}, Version {props.version}
                   </span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">Raw Data</td>
-                <td>
+              </td>
+            </tr>
+            <tr>
+              <td className="field">Raw Data</td>
+              <td>
                   <span id="lrawgettx">
                     <a href={rawTransactionURL} target="_blank">
                       Click here for raw transaction...
                     </a>
                   </span>
-                </td>
-              </tr>
-              <tr className="d-none">
-                <td colSpan="2">
-                  <A
-                    href="#collapseRawData"
-                    color="primary"
-                    onClick={toggleDecoded}
-                    style={{ marginBottom: '1rem' }}
-                  >
-                    Decoded Raw Payload
-                  </A>
-                  <Collapse isOpen={collapseDecoded}>
+              </td>
+            </tr>
+            <tr>
+              <td className="field">Other explorers</td>
+              <td>
+                  <ExplorerLink explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
+              </td>
+            </tr>
+            <tr className="d-none">
+              <td colSpan="2">
+                <A
+                  href="#collapseRawData"
+                  color="primary"
+                  onClick={toggleDecoded}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  Decoded Raw Payload
+                </A>
+                <Collapse isOpen={collapseDecoded}>
                     <span id="lrawgettx">
                       <a href="/rawpayload">
                         (Coming Soon) Click here for raw payload...
                       </a>
                     </span>
-                  </Collapse>
-                </td>
-              </tr>
+                </Collapse>
+              </td>
+            </tr>
             </tbody>
           </Table>
         </Col>
       </DetailRow>
-      <Row />
-    </ContainerBase>
+      <Row/>
+    </div>
   );
 }
 
@@ -324,17 +333,23 @@ TransactionInfo.propTypes = {
   propertyid: PropTypes.number,
   invalidreason: PropTypes.any,
   valid: PropTypes.bool,
+  properties: PropTypes.func.isRequired,
+  asset: PropTypes.object.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
+    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
+const mapStateToProps = createStructuredSelector({
+  properties: state => makeSelectProperty(state),
+});
+
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 

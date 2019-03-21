@@ -45,7 +45,17 @@ injectGlobal`
     -o-transition: color 100ms ease-in-out;
     -ms-transition: color 100ms ease-in-out;
     -moz-transition: color 100ms ease-in-out;
-    -webkit-transition: color 100ms ease-in-out
+    -webkit-transition: color 100ms ease-in-out;
+  }
+  
+  a:link,
+  a:visited,
+  a:hover,
+  a:active { 
+    text-decoration: none;
+    &:not(.btn){
+      background-color: transparent;
+    }
   }
   
   .table td, .table th {

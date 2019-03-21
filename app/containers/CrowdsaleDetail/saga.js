@@ -15,7 +15,7 @@ export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
   const state = yield select(makeSelectCrowdsaleDetail());
   const startPage = state.currentPage || start;
 
-  const body = encoderURIParams({ startPage, count }, true);
+  const body = encoderURIParams({ start: startPage, count }, true);
 
   try {
     const getTransactionsOptions = {

@@ -24,7 +24,7 @@ function* fetchSingleProperty(action) {
     const state = yield select(st => st);
     const tokens = state.get('token').get('tokens');
 
-    if (!tokens.get(action.id.toString())) {
+    if (action.id && !tokens.get(action.id.toString())) {
       const property = yield call(fetchProperty, action.id);
 
       if (!property) {

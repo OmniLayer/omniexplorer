@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
-import { Col, Row, Tooltip } from 'reactstrap';
+import { Col, Row, Tooltip, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -23,15 +23,10 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
-import getLogo from 'utils/getLogo';
+import AssetLink from 'components/AssetLink';
+import AssetLogo from 'components/AssetLogo';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import './transaction.scss';
-
-const IMG = styled.img`
-  width: 48px;
-  height: 48px;
-  margin-right: 7px;
-`;
 
 const AddressWrapper = styled.div.attrs({
   className: 'w-100-down-md address-wrapper',
@@ -73,6 +68,14 @@ const WrapperTxDatetime = styled.div.attrs({
   font-size: 1.25rem !important;
   color: #333;
 `;
+
+const WarningTooltip = styled(UncontrolledTooltip).attrs({
+  innerClassName: 'bg-danger',
+})`
+  &.bs-tooltip-top .arrow::before {
+        border-top-color: #dc3545 !important;
+    }
+    `;
 
 class Transaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -130,7 +133,6 @@ class Transaction extends React.PureComponent {
       ...this.props,
       confirmed: CONFIRMATIONS,
     });
-    const tokenLogo = getLogo(this.props.propertyid, this.props);
 
     let arrowcname;
     let arrowcnameright;
@@ -152,12 +154,19 @@ class Transaction extends React.PureComponent {
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
+    const invalidid = `invalid-${txcopyid}`;
 
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
-            <IMG src={tokenLogo} />
+            <AssetLink asset={this.props.propertyid} state={this.props.state}>
+              <AssetLogo
+                asset={{...this.props, name: this.props.propertyname }}
+                prop={this.props.propertyid}
+                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+              />
+            </AssetLink>
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
@@ -218,9 +227,18 @@ class Transaction extends React.PureComponent {
                   pathname: `/tx/${this.props.txid}`,
                   state: { state: this.props.state },
                 }}
+                id={invalidid}
               >
                 {status}
               </Link>
+              {this.props.invalidreason &&
+                <WarningTooltip
+                  placement="top"
+                  target={invalidid}
+                >
+                  { this.props.invalidreason }
+                </WarningTooltip>
+              }
             </div>
           </Col>
         </Row>

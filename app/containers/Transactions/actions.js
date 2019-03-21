@@ -43,11 +43,12 @@ export function loadTransactions(addr = null) {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS_SUCCESS passing the transactions
  */
-export function transactionsLoaded(transactions, pages) {
+export function transactionsLoaded(transactions, pages, addr) {
   return {
     type: LOAD_TRANSACTIONS_SUCCESS,
     transactions,
     pages,
+    addr,
   };
 }
 
@@ -98,8 +99,9 @@ export function setTransactionType(txType) {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS
  */
-export function loadUnconfirmed() {
+export function loadUnconfirmed(addr = null) {
   return {
     type: LOAD_UNCONFIRMED,
+    addr,
   };
 }
