@@ -14,7 +14,7 @@ const StyledCardBody = styled(CardBody)`
 export default (flags, tokenName, tokenId) => {
   let warningMessage = null;
   const tokenDesc =
-    tokenName && tokenId ? `- ${tokenName} Token (#${tokenId})` : '';
+    tokenName && tokenId ? `${tokenName} Token (#${tokenId})` : '';
 
   if (flags.scam) {
     warningMessage = (

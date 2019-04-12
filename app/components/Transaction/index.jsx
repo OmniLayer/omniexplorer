@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { routeActions } from 'redux-simple-router';
-import { Col, Row, Tooltip } from 'reactstrap';
+import { Col, Row, Tooltip, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -68,6 +68,14 @@ const WrapperTxDatetime = styled.div.attrs({
   font-size: 1.25rem !important;
   color: #333;
 `;
+
+const WarningTooltip = styled(UncontrolledTooltip).attrs({
+  innerClassName: 'bg-danger',
+})`
+  &.bs-tooltip-top .arrow::before {
+        border-top-color: #dc3545 !important;
+    }
+    `;
 
 class Transaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -146,6 +154,7 @@ class Transaction extends React.PureComponent {
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
+    const invalidid = `invalid-${txcopyid}`;
 
     return (
       <div className="transation-result mx-auto text-center-down-md">
@@ -218,9 +227,18 @@ class Transaction extends React.PureComponent {
                   pathname: `/tx/${this.props.txid}`,
                   state: { state: this.props.state },
                 }}
+                id={invalidid}
               >
                 {status}
               </Link>
+              {this.props.invalidreason &&
+                <WarningTooltip
+                  placement="top"
+                  target={invalidid}
+                >
+                  { this.props.invalidreason }
+                </WarningTooltip>
+              }
             </div>
           </Col>
         </Row>

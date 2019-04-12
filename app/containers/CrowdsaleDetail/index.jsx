@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
 import {
@@ -40,12 +40,22 @@ import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import moment from 'moment/src/moment';
+import {Helmet} from "react-helmet";
 
-// Icons
-import FacebookIcon from 'react-icons/lib/io/social-facebook';
-import GPlusIcon from 'react-icons/lib/io/social-googleplus';
-import TwitterIcon from 'react-icons/lib/io/social-twitter';
-import LinkedinIcon from 'react-icons/lib/io/social-linkedin';
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  RedditIcon,
+  RedditShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from 'react-share';
 
 import List from 'components/List';
 import CrowdsaleTransaction from 'components/CrowdsaleTransaction';
@@ -92,7 +102,7 @@ export class CrowdsaleDetail extends React.PureComponent {
   render() {
     const loading = (
       <Container>
-        <LoadingIndicator />
+        <LoadingIndicator/>
       </Container>
     );
 
@@ -100,7 +110,7 @@ export class CrowdsaleDetail extends React.PureComponent {
     if (!crowdsale) return loading;
 
     // if the crowdsale doesn't exist redirect to not found
-    if(!crowdsale.propertyiddesired) return <Redirect to='/not-found' />
+    if (!crowdsale.propertyiddesired) return <Redirect to='/not-found'/>;
 
     const dessiredToken = this.props.properties(
       crowdsale.propertyiddesired.toString(),
@@ -149,43 +159,53 @@ export class CrowdsaleDetail extends React.PureComponent {
       getItemKey,
     };
 
+    const shareUrl = `https://www.omniexplorer.info/crowdsale/${crowdsale.propertyid}`;
+    const shareTitle = (crowdsale.data || crowdsale.name || crowdsale.propertyname || crowdsale.type);
     return (
       <Container fluid className="mt-3 p-1">
+        <Helmet>
+          <meta name="twitter:card" content="summary"></meta>
+          <meta property="twitter:title" content={`OmniLayer crowdsale`} />
+          <meta name="twitter:description" content={shareTitle} />
+        </Helmet>
         {warningMessage}
         <Row>
           <Col sm="12" md="9">
             <StyledDivContent>
               <Table responsive className="table-horizontal">
                 <thead>
-                  <tr>
-                    <td className="border-top-0">
-                      <AssetLink asset={crowdsale.propertyid} state={this.props.state}>
-                        <AssetLogo
-                          asset={crowdsale}
-                          prop={crowdsale.propertyid}
-                          className="img-thumbnail d-md-inline-block"
-                          style={{width: '4rem', height: '4rem'}}
-                        />
-                      </AssetLink>
-                    </td>
-                    <td className="border-top-0 align-bottom">
-                      <h2 className="d-md-inline-block align-bottom mb-0">
-                        {crowdsale.name}{' '}
-                        <span>{`(#${crowdsale.propertyid})`}</span>
-                        <StyledInformationIcon
-                          color="gray"
-                          className="ml-1"
-                          id="crowdsaleDivisible"
-                        />
-                        <UncontrolledTooltip
-                          placement="right-end"
-                          target="crowdsaleDivisible"
-                        >
-                          <FormattedMessage {...divisibleMsg} />
-                        </UncontrolledTooltip>
-                      </h2>
-                    </td>
-                  </tr>
+                <tr>
+                  <td className="border-top-0">
+                    <AssetLink asset={crowdsale.propertyid} state={this.props.state}>
+                      <AssetLogo
+                        asset={crowdsale}
+                        prop={crowdsale.propertyid}
+                        className="img-thumbnail d-md-inline-block"
+                        style={{
+                          width: '4rem',
+                          height: '4rem',
+                        }}
+                      />
+                    </AssetLink>
+                  </td>
+                  <td className="border-top-0 align-bottom">
+                    <h2 className="d-md-inline-block align-bottom mb-0">
+                      {crowdsale.name}{' '}
+                      <span>{`(#${crowdsale.propertyid})`}</span>
+                      <StyledInformationIcon
+                        color="gray"
+                        className="ml-1"
+                        id="crowdsaleDivisible"
+                      />
+                      <UncontrolledTooltip
+                        placement="right-end"
+                        target="crowdsaleDivisible"
+                      >
+                        <FormattedMessage {...divisibleMsg} />
+                      </UncontrolledTooltip>
+                    </h2>
+                  </td>
+                </tr>
                 </thead>
                 <AssetInfo {...crowdsale} />
               </Table>
@@ -204,7 +224,7 @@ export class CrowdsaleDetail extends React.PureComponent {
                   <h5>Total tokens created</h5>
                   <h3>
                     <span>
-                      <SanitizedFormattedNumber value={crowdsale.totaltokens} />
+                      <SanitizedFormattedNumber value={crowdsale.totaltokens}/>
                     </span>
                   </h3>
                 </ListGroupItem>
@@ -235,9 +255,9 @@ export class CrowdsaleDetail extends React.PureComponent {
                   </h3>
                 </ListGroupItem>
                 {!crowdsaleClosed &&
-                  <ListGroupItem>
-                    <h5>Current early bird bonus</h5>
-                    <h3>
+                <ListGroupItem>
+                  <h5>Current early bird bonus</h5>
+                  <h3>
                       <span>
                         <SanitizedFormattedNumber
                           value={earlybonus}
@@ -245,59 +265,65 @@ export class CrowdsaleDetail extends React.PureComponent {
                           fractionDigits={3}
                         />%
                       </span>
-                    </h3>
-                  </ListGroupItem>
+                  </h3>
+                </ListGroupItem>
                 }
               </ListGroup>
               <CardBody>
                 <CardTitle className="text-light">Share this page</CardTitle>
-                <Link
-                  to={{
-                    pathname: `https://www.facebook.com/sharer/sharer.php?u=https://www.omniwallet.org/assets/details/${
-                      crowdsale.propertyid
-                    }`,
-                    state: { state: this.props },
-                  }}
-                  target="_blank"
-                >
-                  <FacebookIcon size={32} />
-                </Link>
-                <Link
-                  to={{
-                    pathname: `https://plus.google.com/share?url=https://www.omniwallet.org/assets/details/${
-                      crowdsale.propertyid
-                    }`,
-                    state: { state: this.props },
-                  }}
-                  target="_blank"
-                >
-                  <GPlusIcon size={32} />
-                </Link>
-                <Link
-                  to={{
-                    pathname: `https://twitter.com/home?status=https://www.omniwallet.org/assets/details/${
-                      crowdsale.propertyid
-                    }`,
-                    state: { state: this.props },
-                  }}
-                  target="_blank"
-                >
-                  <TwitterIcon size={32} />
-                </Link>
-                <Link
-                  to={{
-                    pathname: `https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.omniwallet.org/assets/details/${
-                      crowdsale.propertyid
-                    }&amp;title=Checkout%20this%20Crowdsale!&amp;summary=&amp;source=`,
-                    state: { state: this.props },
-                  }}
-                  target="_blank"
-                >
-                  <LinkedinIcon size={32} />
-                </Link>
+                <FacebookShareButton
+                  url={shareUrl}
+                  quote={shareTitle}
+                  className="network-share-button">
+                  <FacebookIcon
+                    size={32}
+                    round/>
+                </FacebookShareButton>
+                <TwitterShareButton
+                  url={shareUrl}
+                  title={shareTitle}
+                  className="network-share-button">
+                  <TwitterIcon size={32} round/>
+                </TwitterShareButton>
+                <LinkedinShareButton
+                  url={shareUrl}
+                  title={shareTitle}
+                  windowWidth={750}
+                  windowHeight={600}
+                  className="network-share-button">
+                  <LinkedinIcon
+                    size={32}
+                    round/>
+                </LinkedinShareButton>
+                <TelegramShareButton
+                  url={shareUrl}
+                  title={shareTitle}
+                  className="network-share-button">
+                  <TelegramIcon size={32} round/>
+                </TelegramShareButton>
+                <WhatsappShareButton
+                  url={shareUrl}
+                  title={shareTitle}
+                  separator=":: "
+                  className="network-share-button">
+                  <WhatsappIcon size={32} round/>
+                </WhatsappShareButton>
+                <RedditShareButton
+                  url={shareUrl}
+                  title={shareTitle}
+                  windowWidth={660}
+                  windowHeight={460}
+                  className="network-share-button">
+                  <RedditIcon
+                    size={32}
+                    round/>
+                </RedditShareButton>
               </CardBody>
             </StyledCard>
           </Col>
+        </Row>
+        <Row>
+          &nbsp;
         </Row>
         <Row>
           <Col>

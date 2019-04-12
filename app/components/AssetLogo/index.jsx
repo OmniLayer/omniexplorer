@@ -36,10 +36,11 @@ const WarningTooltip = styled(UncontrolledTooltip).attrs({
 function AssetLogo({ asset, prop, className, style}) {
   const id = `id${Date.now()}${prop ? prop : ''}`;
   const logo = getLogo(prop, asset);
+
   const hasWarning = some(asset.flags, (value, key) => key !== 'registered' && value);
 
   const Tooltip = hasWarning ? WarningTooltip : UncontrolledTooltip;
-  const tooltipText = hasWarning ? 'Warning!' : `#${prop}: ${asset.name}`;
+  const tooltipText = hasWarning ? asset.invalidreason || 'Warning!' : `#${prop}: ${asset.name}`;
   const CurrentTooltip =<Tooltip placement="top-end" target={id}>
     {tooltipText}
   </Tooltip>;

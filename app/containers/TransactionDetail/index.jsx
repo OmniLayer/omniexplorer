@@ -70,7 +70,7 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
 
     const warningMessage = getWarningMessage(
       property.flags,
-      property.name,
+      property.name || property.propertyname,
       property.propertyid,
     );
 

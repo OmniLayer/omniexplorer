@@ -30,6 +30,7 @@ import injectReducer from 'utils/injectReducer';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
 import ColoredHash from 'components/ColoredHash';
+import BlockPagination from 'components/BlockPagination';
 import makeSelectBlockDetail from './selectors';
 import reducer from './reducer';
 import { loadBlock } from './actions';
@@ -125,6 +126,7 @@ export class BlockDetail extends React.PureComponent {
         >
           <JumpToBlock onValidate={(value) => (FIRST_BLOCK < value && value <= this.props.status.last_block)}/>
         </ListHeader>
+        <BlockPagination block={this.block} latest={this.props.status.last_block}/>
         {content}
         {footer}
       </StyledContainer>

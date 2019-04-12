@@ -8,7 +8,7 @@ import React from 'react';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Col, Row } from 'reactstrap';
+import { Button, ButtonGroup, Col, Row } from 'reactstrap';
 
 class ListHeader extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -26,6 +26,7 @@ class ListHeader extends React.PureComponent {
 
     // const totalLabel = `${this.props.totalLabel || 'transaction'}${this.props.total > 1 ? 's' : ''}`;
     const countMessage = this.props.countMessage || this.props.message;
+
     return (
       <StyledRow className="text-center-down-sm pt-2 pb-2">
         <Col sm md={8}>
@@ -45,6 +46,10 @@ class ListHeader extends React.PureComponent {
               </small>
             )}
           </HeaderTitle>
+          &nbsp;
+          {this.props.extra &&
+          <div className="d-inline-block">{this.props.extra}</div>
+          }
         </Col>
         {this.props.children &&
           <Col sm>{this.props.children}</Col>
