@@ -247,7 +247,7 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td className="field">Omni Fees</td>
+              <td className="field">Omni Layer Fees</td>
               <td>
                 <span id="lomnifees">0.00 OMNI</span>
               </td>
