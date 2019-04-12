@@ -36,7 +36,7 @@ const NameLogo = () => (
       <IMG src={featureLogoPNG} alt="feature logo" className="card-img-top" />
     </div>
     <div className="d-inline-block bg-inverse text-white text-nowrap">
-      <h5>Omni</h5>
+      <h5>Omni Token</h5>
       <span>Featured Property</span>
     </div>
   </ContainerLogo>
