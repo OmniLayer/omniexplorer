@@ -1,7 +1,7 @@
 {
   "name": "omniexplorer",
   "version": "3.5.0",
-  "description": "Omni Explorer is a Block Explorer and Analytics Platform for Omni",
+  "description": "Omni Explorer is a Block Explorer and Analytics Platform for the Omni Layer",
   "repository": {
     "type": "git",
     "url": "https://github.com/omniLayer/omniexplorer.git"

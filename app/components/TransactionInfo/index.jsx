@@ -23,6 +23,7 @@ import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
 import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
+import { EXTERNAL_EXPLORER_OTOCASH } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -257,7 +258,7 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td className="field">Omni Fees</td>
+              <td className="field">Omni Layer Fees</td>
               <td>
                 <span id="lomnifees">0.00 OMNI</span>
               </td>
@@ -301,7 +302,11 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">Other explorers</td>
               <td>
-                  <ExplorerLink explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
+                  <ExplorerLink className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
+                {
+                  (props.propertyid === 701) &&
+                  <ExplorerLink className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_OTOCASH} tx={props.txid}/>
+                }
               </td>
             </tr>
             <tr className="d-none">
