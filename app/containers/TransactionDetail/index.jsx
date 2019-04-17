@@ -54,7 +54,6 @@ export class TransactionDetail extends React.Component { // eslint-disable-line 
     }
 
     const property = getPropByTx(this.props.txdetail.transaction, this.props.properties);
-    // const property = this.props.properties(this.props.txdetail.transaction.propertyid);
     if (!property) return loading;
 
     if (this.props.txdetail.transaction.notFound) {

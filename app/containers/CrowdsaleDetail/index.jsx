@@ -118,7 +118,6 @@ export class CrowdsaleDetail extends React.PureComponent {
     if (!dessiredToken) return loading;
 
     const detail = this.props.crowdsaledetail;
-    //@TODO: review below if it's ok or it should be with moment.unix(crowdsale.deadline).utc() && moment.utc()
     const crowdsaleDeadline = moment.unix(crowdsale.deadline).utc();
     const earlybonus =
       (crowdsaleDeadline.diff(moment.utc(), 'seconds') / 604800) *

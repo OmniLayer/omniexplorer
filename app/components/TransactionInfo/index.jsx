@@ -104,7 +104,7 @@ function TransactionInfo(props) {
 
   const amountDisplay = <TransactionAmount {...props} />;
   let tokenName;
-  if (![4, -22, 25, 26].includes(props.type_int)) {
+  if (![4, -22, 25, 26, 65534].includes(props.type_int)) {
     tokenName = (
       <tr>
         <td className="field">Property</td>
@@ -124,6 +124,17 @@ function TransactionInfo(props) {
         <td className="field">Ecosystem</td>
         <td>
           <strong>{props.ecosystem}</strong>
+        </td>
+      </tr>
+    );
+  }
+
+  if(props.type_int === 65534){
+    tokenName = (
+      <tr>
+        <td className="field">Feature Activation</td>
+        <td>
+          <strong>{props.asset.name}</strong>
         </td>
       </tr>
     );
