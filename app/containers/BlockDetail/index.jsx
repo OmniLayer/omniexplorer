@@ -67,7 +67,9 @@ export class BlockDetail extends React.PureComponent {
 
   render() {
     console.log('block detail render');
-    if (this.props.blockdetail.loading) {
+
+    const statusLoading = (!this.props || !this.props.status || !this.props.status.last_block);
+    if (this.props.blockdetail.loading || statusLoading) {
       return (
         <Container>
           <LoadingIndicator/>
@@ -75,6 +77,7 @@ export class BlockDetail extends React.PureComponent {
       );
     }
 
+    const { last_block: lastBlock } = this.props.status;
     const { block } = this.props.blockdetail;
     const { confirmations } = (block.transactions || []).find(
       tx => tx.valid,
@@ -163,13 +166,13 @@ export class BlockDetail extends React.PureComponent {
         >
           <JumpToBlock
             onValidate={value =>
-              FIRST_BLOCK < value && value <= this.props.status.last_block
+              FIRST_BLOCK < value && value <= lastBlock
             }
           />
         </ListHeader>
         <BlockPagination
           block={this.block}
-          latest={this.props.status.last_block}
+          latest={lastBlock}
         />
         {content}
         {footer}
