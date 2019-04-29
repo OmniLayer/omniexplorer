@@ -41,7 +41,6 @@ const explorers = {
 };
 
 function ExplorerLink({ explorerId, tx, className }) {
-  debugger;
   const explorer = explorers[explorerId];
   const logo = require(`images/external_logos/logo-${explorer.name}.png`);
   const href = `${explorer.pathbase}${tx}`;

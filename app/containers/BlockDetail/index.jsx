@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import { Container } from 'reactstrap';
+import { Button, ButtonGroup, Container } from 'reactstrap';
 
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -52,6 +52,12 @@ export class BlockDetail extends React.PureComponent {
     super(props);
 
     this.block = props.match.params.block;
+    this.state = { showValidTxs: true };
+    this.onShowInvalidTxs = this.onShowInvalidTxs.bind(this);
+  }
+
+  onShowInvalidTxs(showValidTxs) {
+    this.setState({ showValidTxs });
   }
 
   componentDidMount() {
@@ -64,18 +70,31 @@ export class BlockDetail extends React.PureComponent {
     if (this.props.blockdetail.loading) {
       return (
         <Container>
-          <LoadingIndicator />
+          <LoadingIndicator/>
         </Container>
       );
     }
 
     const { block } = this.props.blockdetail;
-    const { confirmations } = (block.transactions || []).find(tx => tx.valid) || { confirmations: 'invalid' };
+    const { confirmations } = (block.transactions || []).find(
+      tx => tx.valid,
+    ) || { confirmations: 'invalid' };
 
     let content;
+    let txs = [];
+
+    const getItemKey = (blockItem, idx) => blockItem.blockhash.slice(0, 22).concat(idx);
+    const hashLink = txid => `/tx/${txid}`;
+
     if (this.block < FIRST_BLOCK || !block.transactions) {
       const errMsg = `Block ${this.block} not found`;
-      content = <NoOmniBlockTransactions header={errMsg} mainText={block.error} useDefaults={false}/>;
+      content = (
+        <NoOmniBlockTransactions
+          header={errMsg}
+          mainText={block.error}
+          useDefaults={false}
+        />
+      );
     } else if (!block.transactions.length) {
       content = (
         <h3 className="text-center" style={{ margin: '3rem' }}>
@@ -88,15 +107,12 @@ export class BlockDetail extends React.PureComponent {
         </h3>
       );
     } else {
-      const getItemKey = (blockItem, idx) =>
-        blockItem.blockhash.slice(0, 22).concat(idx);
-
-      const hashLink = txid => `/tx/${txid}`;
+      txs = block.transactions.filter(x => (this.state.showValidTxs ? x.valid : !x.valid));
 
       content = (
         <List
           {...block}
-          items={block.transactions}
+          items={txs}
           inner={Transaction}
           getItemKey={getItemKey}
           hashLink={hashLink}
@@ -104,13 +120,33 @@ export class BlockDetail extends React.PureComponent {
       );
     }
     const footer = <FooterLinks unconfirmed blocklist/>;
+    const invalidCount = this.state.showValidTxs ? block.transactions.length - txs.length : txs.length;
+
+    const pluralize = invalidCount > 1 ? 's' : '';
+    const validInvalidTxs = invalidCount ?
+      <ButtonGroup>
+        <Button
+          className="btn btn-warning"
+          onClick={() => this.onShowInvalidTxs(!this.state.showValidTxs)}
+          active={!this.state.showValidTxs}
+        >
+          {(this.state.showValidTxs ? 'Show' : 'Hide')}
+          {` (${invalidCount}) invalid${pluralize}`}
+        </Button>
+      </ButtonGroup>
+      : null;
+
     return (
       <StyledContainer fluid>
         <ListHeader
-          message={block.transactions && block.transactions.length ? messages.header : messages.doesNotHaveTransactions.header}
+          message={
+            block.transactions && block.transactions.length
+              ? messages.header
+              : messages.doesNotHaveTransactions.header
+          }
           values={{
-            br: <br />,
-            hash: <ColoredHash hash={block.blockhash} />,
+            br: <br/>,
+            hash: <ColoredHash hash={block.blockhash}/>,
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,
             confirmations,
@@ -122,11 +158,19 @@ export class BlockDetail extends React.PureComponent {
               ) : (
                 '---'
               ),
+            filters: validInvalidTxs,
           }}
         >
-          <JumpToBlock onValidate={(value) => (FIRST_BLOCK < value && value <= this.props.status.last_block)}/>
+          <JumpToBlock
+            onValidate={value =>
+              FIRST_BLOCK < value && value <= this.props.status.last_block
+            }
+          />
         </ListHeader>
-        <BlockPagination block={this.block} latest={this.props.status.last_block}/>
+        <BlockPagination
+          block={this.block}
+          latest={this.props.status.last_block}
+        />
         {content}
         {footer}
       </StyledContainer>
