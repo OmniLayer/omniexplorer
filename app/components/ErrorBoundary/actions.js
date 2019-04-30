@@ -3,7 +3,7 @@ import {
   ERROR_CLEAN,
 } from './constants';
 
-export function errorClean() {
+export function cleanError() {
   return {
     type: ERROR_CLEAN,
   };
