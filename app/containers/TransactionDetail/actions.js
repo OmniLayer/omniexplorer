@@ -18,7 +18,6 @@
 import {
   LOAD_TRANSACTION,
   LOAD_TRANSACTION_SUCCESS,
-  LOAD_TRANSACTION_ERROR,
 } from './constants';
 
 /**
@@ -44,19 +43,5 @@ export function transactionLoaded(transaction) {
   return {
     type: LOAD_TRANSACTION_SUCCESS,
     transaction,
-  };
-}
-
-/**
- * Dispatched when loading the transaction fails
- *
- * @param  {object} error The error
- *
- * @return {object} An action object with a type of LOAD_TRANSACTION_ERROR passing the error
- */
-export function transactionLoadingError(error) {
-  return {
-    type: LOAD_TRANSACTION_ERROR,
-    error,
   };
 }

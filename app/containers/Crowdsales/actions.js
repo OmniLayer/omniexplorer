@@ -18,7 +18,6 @@
 import {
   LOAD_CROWDSALES,
   LOAD_CROWDSALES_SUCCESS,
-  LOAD_CROWDSALES_ERROR,
 } from './constants';
 
 /**
@@ -44,19 +43,5 @@ export function crowdsalesLoaded(payload) {
   return {
     type: LOAD_CROWDSALES_SUCCESS,
     payload,
-  };
-}
-
-/**
- * Dispatched when loading the crowdsales fails
- *
- * @param  {object} error The error
- *
- * @return {object} An action object with a type of LOAD_CROWDSALES_ERROR passing the error
- */
-export function crowdsalesLoadingError(error) {
-  return {
-    type: LOAD_CROWDSALES_ERROR,
-    error,
   };
 }

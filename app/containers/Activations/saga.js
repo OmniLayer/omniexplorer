@@ -1,21 +1,15 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 import { API_URL_BASE, MOCKED_ACTIVATIONS } from 'containers/App/constants';
 import { LOAD_ACTIVATIONS } from './constants';
-import { activationsLoaded, activationsLoadingError } from './actions';
-import encoderURIParams from 'utils/encoderURIParams';
-import request from 'utils/request';
+import { activationsLoaded } from './actions';
 
 export function* getActivations() {
   const requestURL = `${API_URL_BASE}/activations`;
 
-  try {
-    //TODO: use api instead of mocked response
-    // const activations = yield call(request, requestURL);
+  //TODO: use api instead of mocked response
+  // const activations = yield call(request, requestURL);
 
-    yield put(activationsLoaded(MOCKED_ACTIVATIONS));
-  } catch (err) {
-    yield put(activationsLoadingError(err));
-  }
+  yield put(activationsLoaded(MOCKED_ACTIVATIONS));
 }
 
 /**

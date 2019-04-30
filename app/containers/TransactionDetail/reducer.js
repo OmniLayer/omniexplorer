@@ -7,7 +7,6 @@
 import { fromJS } from 'immutable';
 import {
   LOAD_TRANSACTION,
-  LOAD_TRANSACTION_ERROR,
   LOAD_TRANSACTION_SUCCESS,
 } from './constants';
 
@@ -35,8 +34,6 @@ function transactionDetailReducer(state = initialState, action) {
         )
         .set('error', false)
         .set('loading', false);
-    case LOAD_TRANSACTION_ERROR:
-      return state.set('error', action.error).set('loading', false);
     default:
       return state;
   }

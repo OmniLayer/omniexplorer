@@ -1,17 +1,7 @@
 import {
   LOAD_STATUS,
   LOAD_STATUS_SUCCESS,
-  LOAD_STATUS_ERROR,
 } from './constants';
-
-/**
- * Log an error if the async call fails
- * @param {object} error - the error thrown.
- */
-export const errorFetch = error => ({
-  type: LOAD_STATUS_ERROR,
-  error,
-});
 
 // Start the fetch, toggle is `isFetching` value
 export const startFetch = () => ({

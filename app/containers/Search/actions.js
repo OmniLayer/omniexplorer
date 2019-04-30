@@ -18,7 +18,6 @@
 import {
   LOAD_SEARCH,
   LOAD_SEARCH_SUCCESS,
-  LOAD_SEARCH_ERROR,
 } from './constants';
 
 /**
@@ -44,19 +43,5 @@ export function searchLoaded(payload) {
   return {
     type: LOAD_SEARCH_SUCCESS,
     payload,
-  };
-}
-
-/**
- * Dispatched when loading the search fails
- *
- * @param  {object} error The error
- *
- * @return {object} An action object with a type of LOAD_SEARCH_ERROR passing the error
- */
-export function searchLoadingError(error) {
-  return {
-    type: LOAD_SEARCH_ERROR,
-    error,
   };
 }

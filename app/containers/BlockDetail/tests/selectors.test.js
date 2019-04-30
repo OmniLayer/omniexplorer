@@ -8,7 +8,7 @@ import makeSelectBlockDetail, { selectBlockDetailDomain } from '../selectors';
 
 describe('selectCrowdsaleDetailDomain', () => {
   it('should select the crodwsaleDetail state', () => {
-    const blocksDetailState = fromJS({ loading: true, error: false, block: { transactions: [] } });
+    const blocksDetailState = fromJS({ loading: true, block: { transactions: [] } });
     const mockedState = fromJS({ blockDetail: initialState });
     expect(selectBlockDetailDomain(mockedState)).toEqual(blocksDetailState);
   });
