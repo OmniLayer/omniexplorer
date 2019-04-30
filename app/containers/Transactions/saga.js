@@ -1,13 +1,9 @@
-import { select, all, call, put, takeLatest } from 'redux-saga/effects';
-import {
-  LOAD_TRANSACTIONS,
-  SET_TRANSACTION_TYPE,
-  LOAD_UNCONFIRMED,
-} from 'containers/Transactions/constants';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
-import { transactionsLoaded, transactionsLoadingError } from './actions';
+import { transactionsLoaded } from './actions';
 import { makeSelectTransactions } from './selectors';
 
 export function* getUnconfirmed({ addr }) {
@@ -15,12 +11,8 @@ export function* getUnconfirmed({ addr }) {
     ? `${API_URL_BASE}/transaction/unconfirmed/${addr}`
     : `${API_URL_BASE}/transaction/unconfirmed`;
 
-  try {
-    const transactions = yield call(request, requestURL);
-    yield put(transactionsLoaded(transactions.data, 1));
-  } catch (err) {
-    yield put(transactionsLoadingError(err));
-  }
+  const transactions = yield call(request, requestURL);
+  yield put(transactionsLoaded(transactions.data, 1));
 }
 
 export function* getTransactions({ addr }) {
@@ -32,37 +24,36 @@ export function* getTransactions({ addr }) {
     ? `${API_URL_BASE}/transaction/address/${page}`
     : `${API_URL_BASE}/transaction/general/${page}`;
 
-  try {
-    const getTransactionsOptions = {
-      type: 'cors',
-    };
+  const getTransactionsOptions = {
+    type: 'cors',
+  };
 
-    const options = { tx_type: txType };
+  const options = { tx_type: txType };
 
-    if (addr) {
-      options.addr = addr;
-    }
-    const body = encoderURIParams({ addr, tx_type: txType });
-
-    Object.assign(getTransactionsOptions, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body,
-    });
-
-    const transactions = yield call(
-      request,
-      requestURL,
-      getTransactionsOptions,
-    );
-    yield put(
-      transactionsLoaded(transactions.transactions, transactions.pages, addr),
-    );
-  } catch (err) {
-    yield put(transactionsLoadingError(err));
+  if (addr) {
+    options.addr = addr;
   }
+  const body = encoderURIParams({
+    addr,
+    tx_type: txType,
+  });
+
+  Object.assign(getTransactionsOptions, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body,
+  });
+
+  const transactions = yield call(
+    request,
+    requestURL,
+    getTransactionsOptions,
+  );
+  yield put(
+    transactionsLoaded(transactions.transactions, transactions.pages, addr),
+  );
 }
 
 /**
