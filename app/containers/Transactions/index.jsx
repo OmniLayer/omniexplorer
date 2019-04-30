@@ -102,12 +102,14 @@ export class Transactions extends React.Component {
             <Button
               onClick={() => this.onRadioBtnClick(true)}
               active={!!this.state.loadConfirmed}
+              disabled={!!this.state.loadConfirmed}
             >
               Confirmed
             </Button>
             <Button
               onClick={() => this.onRadioBtnClick(false)}
               active={!this.state.loadConfirmed}
+              disabled={!this.state.loadConfirmed}
             >
               Unconfirmed
             </Button>

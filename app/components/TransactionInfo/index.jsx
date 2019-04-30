@@ -245,7 +245,7 @@ function TransactionInfo(props) {
                 Status
               </td>
               <td className="field">
-                <div className={statusColor} style={{ width: '35%' }}>
+                <div className={statusColor} style={{ width: '35%', cursor: 'default' }}>
                   {status}
                 </div>
                 <div className="text-left">{!props.valid && invalidReason}</div>
