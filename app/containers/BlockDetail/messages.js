@@ -12,6 +12,7 @@ export default defineMessages({
     Block {blockNumber}, {txCount} Transactions, created at {timestamp}, {confirmations} confirmations
     {br}
     Block hash: {hash}
+    {filters}
     `,
     one: 'Block',
     other: 'Blocks',
