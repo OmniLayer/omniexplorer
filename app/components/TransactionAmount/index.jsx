@@ -54,10 +54,10 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                   <div key={idx}>
                     <div className="mt-2">
                       <span>
-                        <AssetLink asset={1} state={this.props.state}>
-                          <AssetLogo asset={{...this.props, name: 'OMNI', type_int: 1}} prop={1} style={{width: '2rem', height: '2rem'}}/>
+                        <AssetLink asset={purchase.propertyid} state={this.props.state}>
+                          <AssetLogo asset={{...this.props, name: purchase.propertyname, type_int: purchase.propertyid}} prop={purchase.propertyid} style={{width: '2rem', height: '2rem'}}/>
                         </AssetLink>
-                        <SanitizedFormattedNumber value={purchase.amountbought} /> OMNI Bought
+                        <SanitizedFormattedNumber value={purchase.amountbought} /> { purchase.propertyname }
                       </span>
                     </div>
                     <div className="mt-2">
