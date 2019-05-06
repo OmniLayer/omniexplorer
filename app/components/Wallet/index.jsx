@@ -25,9 +25,9 @@ import sortBy from 'lodash/sortBy';
 import Token from 'components/Token';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
-import walletMessages from './messages';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
 import QRCodeIcon from 'react-icons/lib/fa/qrcode';
+import walletMessages from './messages';
 
 const StyledInformationIcon = styled(InformationIcon)`
   color: cadetblue !important;
@@ -85,7 +85,7 @@ class Wallet extends React.PureComponent {
   }
 
   render() {
-    const loading = !this.props.address || !this.props.address.balance.length;
+    const loading = (!this.props.address || !this.props.address.balance.length);
 
     const isFlagged = propertyinfo =>
       propertyinfo.flags &&

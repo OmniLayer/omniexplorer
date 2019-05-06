@@ -2,7 +2,7 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { LOAD_BLOCKS } from 'containers/Blocks/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
-import { blocksLoaded, blocksLoadingError } from './actions';
+import { blocksLoaded } from './actions';
 import { makeSelectBlocks } from './selectors';
 
 export function* getBlocks({ block }) {
@@ -12,12 +12,8 @@ export function* getBlocks({ block }) {
 
   const requestURL = `${API_URL_BASE}/transaction/blocks/${currentBlock}`;
 
-  try {
-    const blocks = yield call(request, requestURL);
-    yield put(blocksLoaded(blocks));
-  } catch (err) {
-    yield put(blocksLoadingError(err));
-  }
+  const blocks = yield call(request, requestURL);
+  yield put(blocksLoaded(blocks));
 }
 
 /**

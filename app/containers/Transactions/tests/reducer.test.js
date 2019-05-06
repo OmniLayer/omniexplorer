@@ -3,7 +3,6 @@ import transactionsReducer from '../reducer';
 
 export const initialState = fromJS({
   loading: false,
-  error: false,
   transactions: [],
   pageCount: 0,
   currentPage: 1,

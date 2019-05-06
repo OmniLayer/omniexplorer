@@ -15,7 +15,6 @@ import orderBy from 'lodash/orderBy';
 
 import {
   LOAD_BLOCKS,
-  LOAD_BLOCKS_ERROR,
   LOAD_BLOCKS_SUCCESS,
   DISABLE_BLOCKS_LOADING,
 } from './constants';
@@ -24,7 +23,6 @@ import {
 export const initialState = fromJS({
   loading: true,
   appendBlocks: false,
-  error: false,
   blocks: [],
   pageCount: 0,
   previousBlock: '',
@@ -37,7 +35,7 @@ function blocksReducer(state = initialState, action) {
     case DISABLE_BLOCKS_LOADING:
       return state.set('loading', false);
     case LOAD_BLOCKS:
-      return state.set('loading', true).set('error', false);
+      return state.set('loading', true);
     case LOAD_BLOCKS_SUCCESS: {
       const hasBlocks = state.get('blocks').length > 0;
       const blockValues = action.blocks.blocks;
@@ -49,11 +47,8 @@ function blocksReducer(state = initialState, action) {
         .set('latest', action.blocks.latest)
         .set('blocks', orderBy(blocks, 'block', 'desc'))
         .set('loading', false)
-        .set('error', false)
         .set('previousBlock', blocks.length ? blockValues[0].block - 1 : null);
     }
-    case LOAD_BLOCKS_ERROR:
-      return state.set('error', action.error).set('loading', false);
     default:
       return state;
   }

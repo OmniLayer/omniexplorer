@@ -18,7 +18,6 @@
 import {
   LOAD_BLOCKS,
   LOAD_BLOCKS_SUCCESS,
-  LOAD_BLOCKS_ERROR,
   DISABLE_BLOCKS_LOADING,
 } from './constants';
 
@@ -45,20 +44,6 @@ export function blocksLoaded(blocks) {
   return {
     type: LOAD_BLOCKS_SUCCESS,
     blocks,
-  };
-}
-
-/**
- * Dispatched when loading the blocks fails
- *
- * @param  {object} error The error
- *
- * @return {object} An action object with a type of LOAD_BLOCKS_ERROR passing the error
- */
-export function blocksLoadingError(error) {
-  return {
-    type: LOAD_BLOCKS_ERROR,
-    error,
   };
 }
 

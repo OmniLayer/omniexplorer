@@ -1,18 +1,8 @@
 import {
   LOAD_CROWDSALE_TRANSACTIONS,
   LOAD_CROWDSALE_TRANSACTIONS_SUCCESS,
-  LOAD_CROWDSALE_TRANSACTIONS_ERROR,
   SET_CROWDSALES_TRANSACTIONS_PAGE,
 } from './constants';
-
-/**
- * Log an error if the async call fails
- * @param {object} error - the error thrown.
- */
-export const errorCrowdsaleTransactionsFetch = error => ({
-  type: LOAD_CROWDSALE_TRANSACTIONS_ERROR,
-  error,
-});
 
 // Start the fetch, toggle is `isFetching` value
 export const startCrowdsaleTransactionsFetch = crowdsaleId => ({

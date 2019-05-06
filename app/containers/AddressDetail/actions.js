@@ -18,7 +18,6 @@
 import {
   LOAD_ADDRESS,
   LOAD_ADDRESS_SUCCESS,
-  LOAD_ADDRESS_ERROR,
 } from './constants';
 
 /**
@@ -44,19 +43,5 @@ export function addressLoaded(address) {
   return {
     type: LOAD_ADDRESS_SUCCESS,
     address,
-  };
-}
-
-/**
- * Dispatched when loading the address fails
- *
- * @param  {object} error The error
- *
- * @return {object} An action object with a type of LOAD_ADDRESS_ERROR passing the error
- */
-export function addressLoadingError(error) {
-  return {
-    type: LOAD_ADDRESS_ERROR,
-    error,
   };
 }

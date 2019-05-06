@@ -129,6 +129,7 @@ export class Blocks extends React.Component {
       );
     }
     const footer = this.props.footer || <div />;
+
     return (
       <StyledContainer fluid>
         <ListHeader message={messages.header}>

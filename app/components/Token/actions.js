@@ -1,18 +1,8 @@
 import {
   LOAD_PROPERTY,
   LOAD_PROPERTY_SUCCESS,
-  LOAD_PROPERTY_ERROR,
   LOAD_PROPERTY_DEEP,
 } from './constants';
-
-/**
- * Log an error if the async call fails
- * @param {object} error - the error thrown.
- */
-export const errorFetch = error => ({
-  type: LOAD_PROPERTY_ERROR,
-  error,
-});
 
 // Start the fetch, toggle is `isFetching` value
 export const startFetch = tokenid => ({

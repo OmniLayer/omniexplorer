@@ -23,6 +23,7 @@ import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
 import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
+import { EXTERNAL_EXPLORER_OTOCASH } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -103,7 +104,7 @@ function TransactionInfo(props) {
 
   const amountDisplay = <TransactionAmount {...props} />;
   let tokenName;
-  if (![4, -22, 25, 26].includes(props.type_int)) {
+  if (![4, -22, 25, 26, 65534].includes(props.type_int)) {
     tokenName = (
       <tr>
         <td className="field">Property</td>
@@ -123,6 +124,17 @@ function TransactionInfo(props) {
         <td className="field">Ecosystem</td>
         <td>
           <strong>{props.ecosystem}</strong>
+        </td>
+      </tr>
+    );
+  }
+
+  if(props.type_int === 65534){
+    tokenName = (
+      <tr>
+        <td className="field">Feature Activation</td>
+        <td>
+          <strong>{props.asset.name}</strong>
         </td>
       </tr>
     );
@@ -233,7 +245,7 @@ function TransactionInfo(props) {
                 Status
               </td>
               <td className="field">
-                <div className={statusColor} style={{ width: '35%' }}>
+                <div className={statusColor} style={{ width: '35%', cursor: 'default' }}>
                   {status}
                 </div>
                 <div className="text-left">{!props.valid && invalidReason}</div>
@@ -246,7 +258,7 @@ function TransactionInfo(props) {
               </td>
             </tr>
             <tr>
-              <td className="field">Omni Fees</td>
+              <td className="field">Omni Layer Fees</td>
               <td>
                 <span id="lomnifees">0.00 OMNI</span>
               </td>
@@ -290,7 +302,11 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">Other explorers</td>
               <td>
-                  <ExplorerLink explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
+                  <ExplorerLink className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
+                {
+                  (props.propertyid === 701) &&
+                  <ExplorerLink className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_OTOCASH} tx={props.txid}/>
+                }
               </td>
             </tr>
             <tr className="d-none">

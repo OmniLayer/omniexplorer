@@ -51,6 +51,16 @@ function AssetInfo(asset) {
     );
   }
 
+  if(asset.type_int === 65534){
+    propertyID= (
+      <tr>
+        <td className="field">Feature Activation</td>
+        <td>
+          <strong>#{asset.name}</strong>
+        </td>
+      </tr>
+    );
+  }
   let asseturl;
   const Strike = styled.span`
     text-decoration: line-through;

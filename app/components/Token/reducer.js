@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 import {
   LOAD_PROPERTY,
-  LOAD_PROPERTY_ERROR,
   LOAD_PROPERTY_SUCCESS,
 } from './constants';
 
@@ -16,12 +15,6 @@ const propertyReducer = (state = initialState, action = {}) => {
   const { error, payload, type } = action;
 
   switch (type) {
-    case LOAD_PROPERTY_ERROR: {
-      return state
-        .set('isFetching', false)
-        .set('lastFetched', Date.now())
-        .set('error', error);
-    }
     case LOAD_PROPERTY: {
       return state
         .set('lastFetched', 0)

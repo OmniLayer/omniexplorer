@@ -12,13 +12,11 @@ import {
 } from 'containers/App/constants';
 import {
   LOAD_CROWDSALES,
-  LOAD_CROWDSALES_ERROR,
   LOAD_CROWDSALES_SUCCESS,
 } from './constants';
 
 const initialState = fromJS({
   loading: true,
-  error: false,
   status: '',
   crowdsales: [],
   ecosystem: ECOSYSTEM_PROD,
@@ -45,8 +43,6 @@ function crowdsalesReducer(state = initialState, action) {
         .set('loading', false)
         .set('status', payload.status)
         .set('crowdsales', sortBy(payload.crowdsales, 'deadline'));
-    case LOAD_CROWDSALES_ERROR:
-      return state.set('error', error).set('loading', false);
     default:
       return state;
   }

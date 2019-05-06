@@ -15,7 +15,7 @@
  *    }
  */
 
-import { LOAD_BLOCK, LOAD_BLOCK_SUCCESS, LOAD_BLOCK_ERROR } from './constants';
+import { LOAD_BLOCK, LOAD_BLOCK_SUCCESS } from './constants';
 
 /**
  * Load the block, this action starts the request saga
@@ -40,19 +40,5 @@ export function blockLoaded(block) {
   return {
     type: LOAD_BLOCK_SUCCESS,
     block,
-  };
-}
-
-/**
- * Dispatched when loading the block fails
- *
- * @param  {object} error The error
- *
- * @return {object} An action object with a type of LOAD_BLOCK_ERROR passing the error
- */
-export function blockLoadingError(error) {
-  return {
-    type: LOAD_BLOCK_ERROR,
-    error,
   };
 }

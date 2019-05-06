@@ -10,6 +10,9 @@ import styled from 'styled-components';
 import { Collapse } from 'reactstrap';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
+import AssetLogo from 'components/AssetLogo';
+import AssetLink from 'components/AssetLink';
+
 const A = styled.a`
       color: #41addd;
 
@@ -49,13 +52,19 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               <Collapse isOpen={this.state.collapseAmount}>
                 { (this.props.purchases || []).map((purchase, idx) => (
                   <div key={idx}>
-                    <div>
+                    <div className="mt-2">
                       <span>
-                        <SanitizedFormattedNumber value={purchase.amountbought} /> OMNI Bought
+                        <AssetLink asset={purchase.propertyid} state={this.props.state}>
+                          <AssetLogo asset={{...this.props, name: purchase.propertyname, type_int: purchase.propertyid}} prop={purchase.propertyid} style={{width: '2rem', height: '2rem'}}/>
+                        </AssetLink>
+                        <SanitizedFormattedNumber value={purchase.amountbought} /> { purchase.propertyname }
                       </span>
                     </div>
-                    <div>
+                    <div className="mt-2">
                       <span>
+                        <AssetLink asset={0} state={this.state}>
+                          <AssetLogo asset={{...this.props, name: 'BTC', type_int: 1}} prop={0} style={{width: '2rem', height: '2rem'}}/>
+                        </AssetLink>
                         <SanitizedFormattedNumber value={purchase.amountpaid} /> BTC Paid
                       </span>
                     </div>
@@ -84,9 +93,13 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               >Click to show subsends of SendAll</A>
               <Collapse isOpen={this.state.collapseAmount}>
                 { (this.props.subsends || []).map((send, idx) => (
-                  <div key={idx}>
+                  <div key={idx} className="mt-2">
                     <span>
-                      <SanitizedFormattedNumber value={send.amount} /> { send.propertyname } (#{ send.propertyid })
+                      <AssetLink asset={send.propertyid} state={this.state}>
+                        <AssetLogo asset={{...send, name: send.propertyname}} prop={send.propertyid} style={{width: '2rem', height: '2rem'}}/>
+                      </AssetLink>
+                      <SanitizedFormattedNumber value={send.amount} /> &nbsp;
+                      { send.propertyname } (#{ send.propertyid })
                     </span>
                   </div>
                 )
@@ -108,12 +121,18 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               <Collapse isOpen={true}>
                 <div>
                   <span>
+                    <AssetLink asset={this.props.propertyiddesired} state={this.state}>
+                      <AssetLogo asset={this.props.propertydesired} prop={this.props.propertyiddesired} style={{width: '2rem', height: '2rem'}}/>
+                    </AssetLink>
                     <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertydesired.name } (#{ this.props.propertyiddesired }) Desired
                   </span>
                 </div>
-                <div>
+                <div className="mt-2">
                   <span>
-                    <SanitizedFormattedNumber value={this.props.amountforsale} /> { this.props.propertyidforsalename } (#{ this.props.propertyidforsale }) For Sale
+                    <AssetLink asset={this.props.propertyidforsale} state={this.state}>
+                      <AssetLogo asset={this.props.propertyforsale} prop={this.props.propertyidforsale} style={{width: '2rem', height: '2rem'}}/>
+                    </AssetLink>
+                    <SanitizedFormattedNumber value={this.props.amountforsale} /> { this.props.propertyforsale.name } (#{ this.props.propertyidforsale }) For Sale
                   </span>
                 </div>
               </Collapse>
@@ -131,18 +150,27 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
           <td>
             <strong id="crowdsaleamount">
               <Collapse isOpen={true}>
-                <div>
+                <div className="mt-2">
                   <span>
+                    <AssetLink asset={this.props.propertyid} state={this.state}>
+                      <AssetLogo asset={{...this.props, name:this.props.propertyname}} prop={this.props.propertyid} style={{width: '2rem', height: '2rem'}}/>
+                    </AssetLink>
                     <SanitizedFormattedNumber value={this.props.amount} /> { this.props.propertyname } (#{ this.props.propertyid }) Sent
                   </span>
                 </div>
-                <div>
+                <div className="mt-2">
                   <span>
+                    <AssetLink asset={this.props.purchasedpropertyid} state={this.state}>
+                      <AssetLogo asset={{...this.props, name:this.props.purchasedpropertyname}} prop={this.props.purchasedpropertyid} style={{width: '2rem', height: '2rem'}}/>
+                    </AssetLink>
                     <SanitizedFormattedNumber value={this.props.purchasedtokens} /> { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased
                   </span>
                 </div>
-                <div>
+                <div className="mt-2">
                   <span>
+                    <AssetLink asset={this.props.purchasedpropertyid} state={this.state}>
+                      <AssetLogo asset={{...this.props, name:this.props.purchasedpropertyname}} prop={this.props.purchasedpropertyid} style={{width: '2rem', height: '2rem'}}/>
+                    </AssetLink>
                     <SanitizedFormattedNumber value={this.props.issuertokens} /> { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer
                   </span>
                 </div>

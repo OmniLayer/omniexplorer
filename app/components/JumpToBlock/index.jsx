@@ -23,7 +23,7 @@ const Input = styled.input.attrs({
   appearance: none !important;
 `;
 const Wrapper = styled.div.attrs({
-  className: 'input-group d-flex justify-content-end align-items-center',
+  className: 'input-group d-flex justify-content-center justify-content-md-end align-items-center',
 })`
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
