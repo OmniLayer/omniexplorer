@@ -36,8 +36,17 @@ import reducer from './reducer';
 import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
+import {
+  ALL_BLOCK_TRANSACTIONS,
+  VALID_BLOCK_TRANSACTIONS,
+  INVALID_BLOCK_TRANSACTIONS,
+} from './constants';
 
-const StyledContainer = styled(ContainerBase)`
+import './blockdetail.scss';
+
+const StyledContainer = styled(ContainerBase).attrs({
+  className: 'blockdetail-container',
+})`
   overflow: auto;
 
   .wrapper-tx-timestamp,
@@ -53,13 +62,32 @@ export class BlockDetail extends React.PureComponent {
 
     this.block = props.match.params.block;
     this.state = {
-      showValidTxs: true,
+      showTxType: ALL_BLOCK_TRANSACTIONS,
     };
+    this.transactions = null;
+
     this.onShowInvalidTxs = this.onShowInvalidTxs.bind(this);
+    this.getTransactions = this.getTransactions.bind(this);
   }
 
-  onShowInvalidTxs(showValidTxs) {
-    this.setState({ showValidTxs });
+  getTransactions() {
+    console.log('call getTransactions');
+    const { block } = this.props.blockdetail;
+
+    if (!this.transactions) {
+      this.transactions = {
+        [ALL_BLOCK_TRANSACTIONS]: block.transactions,
+        [VALID_BLOCK_TRANSACTIONS]: block.transactions.filter(x => x.valid),
+        [INVALID_BLOCK_TRANSACTIONS]: block.transactions.filter(x => !x.valid),
+      };
+    }
+
+    const txs = this.transactions[this.state.showTxType];
+    return txs;
+  }
+
+  onShowInvalidTxs(showTxType) {
+    this.setState({ showTxType });
   }
 
   componentDidMount() {
@@ -112,7 +140,7 @@ export class BlockDetail extends React.PureComponent {
         </h3>
       );
     } else {
-      txs = block.transactions.filter(x => (this.state.showValidTxs ? x.valid : !x.valid));
+      txs = this.getTransactions();
 
       content = (
         <List
@@ -125,22 +153,32 @@ export class BlockDetail extends React.PureComponent {
       );
     }
     const footer = <FooterLinks unconfirmed blocklist/>;
-    const invalidCount = this.state.showValidTxs ? block.transactions.length - txs.length : txs.length;
-
-    const pluralize = invalidCount > 1 ? 's' : '';
+    const invalidCount = !!this.transactions[INVALID_BLOCK_TRANSACTIONS];
+    const dropdownToggle = ()=>{
+      switch (this.state.showTxType) {
+        case ALL_BLOCK_TRANSACTIONS:
+          return 'All Transactions';
+        case VALID_BLOCK_TRANSACTIONS:
+          return 'Valid Transactions';
+        case INVALID_BLOCK_TRANSACTIONS:
+          return 'Invalid Transactions';
+        default:
+          return 'Transactions';
+      }
+    }
+    // const pluralize = invalidCount > 1 ? 's' : '';
     const dropdown = <UncontrolledDropdown className="float-md-right">
       <DropdownToggle caret>
-        {(this.state.showValidTxs ? ' Valid' : 'Invalid')} Transactions
+        {dropdownToggle()}
       </DropdownToggle>
       <DropdownMenu right>
-        <DropdownItem onClick={() => this.onShowInvalidTxs(true)}>Show Valid</DropdownItem>
-        <DropdownItem onClick={() => this.onShowInvalidTxs(false)}>Show Invalid</DropdownItem>
+        <DropdownItem onClick={() => this.onShowInvalidTxs(ALL_BLOCK_TRANSACTIONS)}>Show All</DropdownItem>
+        <DropdownItem onClick={() => this.onShowInvalidTxs(VALID_BLOCK_TRANSACTIONS)}>Show Valid</DropdownItem>
+        <DropdownItem onClick={() => this.onShowInvalidTxs(INVALID_BLOCK_TRANSACTIONS)}>Show Invalid</DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>;
 
-    const validInvalidTxs = invalidCount ?
-      dropdown
-      : null;
+    const validInvalidTxs = invalidCount ? dropdown : null;
 
     return (
       <StyledContainer fluid>
