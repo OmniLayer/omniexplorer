@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import { Button, ButtonGroup, Container } from 'reactstrap';
+import { Container, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -52,7 +52,9 @@ export class BlockDetail extends React.PureComponent {
     super(props);
 
     this.block = props.match.params.block;
-    this.state = { showValidTxs: true };
+    this.state = {
+      showValidTxs: true,
+    };
     this.onShowInvalidTxs = this.onShowInvalidTxs.bind(this);
   }
 
@@ -126,17 +128,18 @@ export class BlockDetail extends React.PureComponent {
     const invalidCount = this.state.showValidTxs ? block.transactions.length - txs.length : txs.length;
 
     const pluralize = invalidCount > 1 ? 's' : '';
+    const dropdown = <UncontrolledDropdown className="float-md-right">
+      <DropdownToggle caret>
+        {(this.state.showValidTxs ? ' Valid' : 'Invalid')} Transactions
+      </DropdownToggle>
+      <DropdownMenu right>
+        <DropdownItem onClick={() => this.onShowInvalidTxs(true)}>Show Valid</DropdownItem>
+        <DropdownItem onClick={() => this.onShowInvalidTxs(false)}>Show Invalid</DropdownItem>
+      </DropdownMenu>
+    </UncontrolledDropdown>;
+
     const validInvalidTxs = invalidCount ?
-      <ButtonGroup>
-        <Button
-          className="btn btn-warning"
-          onClick={() => this.onShowInvalidTxs(!this.state.showValidTxs)}
-          active={!this.state.showValidTxs}
-        >
-          {(this.state.showValidTxs ? 'Show' : 'Hide')}
-          {` (${invalidCount}) invalid${pluralize}`}
-        </Button>
-      </ButtonGroup>
+      dropdown
       : null;
 
     return (
@@ -161,7 +164,6 @@ export class BlockDetail extends React.PureComponent {
               ) : (
                 '---'
               ),
-            filters: validInvalidTxs,
           }}
         >
           <JumpToBlock
@@ -169,6 +171,8 @@ export class BlockDetail extends React.PureComponent {
               FIRST_BLOCK < value && value <= lastBlock
             }
           />
+          <br/>
+          {validInvalidTxs}
         </ListHeader>
         <BlockPagination
           block={this.block}
