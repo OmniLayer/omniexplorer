@@ -4,7 +4,6 @@ import blocksReducer from '../reducer';
 export const initialState = fromJS({
   loading: true,
   appendBlocks: false,
-  error: false,
   blocks: [],
   pageCount: 0,
   previousBlock: '',

@@ -223,6 +223,7 @@ class Transaction extends React.PureComponent {
               </WrapperTxDatetime>
               <Link
                 className={statusCSSClass}
+                style={{ cursor: 'default' }}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
                   state: { state: this.props.state },

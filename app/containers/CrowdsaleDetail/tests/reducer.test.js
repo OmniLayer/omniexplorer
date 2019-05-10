@@ -5,7 +5,6 @@ describe('crowdsaleDetailReducer', () => {
   it('returns the initial state', () => {
     const state = {
       loading: false,
-      error: false,
       transactions: [],
       pageCount: 0,
       currentPage: 1,

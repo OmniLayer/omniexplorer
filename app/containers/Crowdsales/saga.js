@@ -4,26 +4,22 @@ import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_CROWDSALES } from './constants';
-import { crowdsalesLoaded, crowdsalesLoadingError } from './actions';
+import { crowdsalesLoaded } from './actions';
 
 export function* getCrowdsales({ ecosystem }) {
   const requestURL = `${API_URL_BASE}/properties/listactivecrowdsales`;
 
-  try {
-    const body = encoderURIParams({ ecosystem });
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body,
-    };
+  const body = encoderURIParams({ ecosystem });
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body,
+  };
 
-    const crowdsales = yield call(request, requestURL, options);
-    yield put(crowdsalesLoaded(crowdsales));
-  } catch (err) {
-    yield put(crowdsalesLoadingError(err));
-  }
+  const crowdsales = yield call(request, requestURL, options);
+  yield put(crowdsalesLoaded(crowdsales));
 }
 
 /**

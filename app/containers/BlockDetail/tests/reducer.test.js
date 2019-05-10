@@ -7,7 +7,6 @@ const initialBlock = {
 
 const initialState = fromJS({
   loading: true,
-  error: false,
   block: initialBlock,
 });
 

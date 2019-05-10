@@ -3,7 +3,6 @@ import searchReducer from '../reducer';
 
 const initialState = fromJS({
   loading: true,
-  error: false,
   query: '',
   address: {
     balance: [],

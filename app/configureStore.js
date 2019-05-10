@@ -8,8 +8,17 @@ import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import DevTools from 'utils/devTools';
 import createReducer from './reducers';
+import { GLOBAL_ON_SAGA_ERROR } from 'constants.js';
 
-const sagaMiddleware = createSagaMiddleware();
+let dispatchFn;
+
+const sagaMiddleware = createSagaMiddleware({
+  onError: e => {
+    // And let's modify this one just for clarity on screen shots
+    console.log('Global saga error handler', e);
+    dispatchFn({ type: GLOBAL_ON_SAGA_ERROR, error: e });
+  },
+});
 
 // Import DevTools, only for dev environment
 const isDev = process.env.NODE_ENV !== 'production';
@@ -44,6 +53,15 @@ export default function configureStore(initialState = {}, history) {
     composeEnhancers(...enhancers),
   );
 
+  //dispatch
+  let dispatch = store.dispatch;
+  const middlewareAPI = {
+    getState: store.getState,
+    dispatch: (action) => dispatch(action)
+  };
+  dispatch = compose(sagaMiddleware(middlewareAPI))(store.dispatch);
+  dispatchFn = dispatch;
+
   // Extensions
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
@@ -57,5 +75,9 @@ export default function configureStore(initialState = {}, history) {
     });
   }
 
-  return store;
+  // return store;
+  return {
+    ...store,
+    dispatch,
+  };
 }

@@ -49,7 +49,6 @@ describe('getAddress Saga', () => {
         },
         {
           divisible: true,
-          error: false,
           id: 0,
           pendingneg: '0',
           pendingpos: '0',
