@@ -26,6 +26,7 @@ import { FIRST_BLOCK } from 'containers/App/constants';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import isEmpty from 'lodash/isEmpty';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
@@ -115,6 +116,7 @@ export class BlockDetail extends React.PureComponent {
 
     let content;
     let txs = [];
+    let hasInvalid = false;
 
     const getItemKey = (blockItem, idx) => blockItem.blockhash.slice(0, 22).concat(idx);
     const hashLink = txid => `/tx/${txid}`;
@@ -141,6 +143,7 @@ export class BlockDetail extends React.PureComponent {
       );
     } else {
       txs = this.getTransactions();
+      hasInvalid = !isEmpty(this.transactions[INVALID_BLOCK_TRANSACTIONS]);
 
       content = (
         <List
@@ -153,7 +156,6 @@ export class BlockDetail extends React.PureComponent {
       );
     }
     const footer = <FooterLinks unconfirmed blocklist/>;
-    const invalidCount = !!this.transactions[INVALID_BLOCK_TRANSACTIONS];
     const dropdownToggle = ()=>{
       switch (this.state.showTxType) {
         case ALL_BLOCK_TRANSACTIONS:
@@ -166,7 +168,7 @@ export class BlockDetail extends React.PureComponent {
           return 'Transactions';
       }
     }
-    // const pluralize = invalidCount > 1 ? 's' : '';
+    // const pluralize = hasInvalid > 1 ? 's' : '';
     const dropdown = <UncontrolledDropdown className="float-md-right">
       <DropdownToggle caret>
         {dropdownToggle()}
@@ -178,7 +180,7 @@ export class BlockDetail extends React.PureComponent {
       </DropdownMenu>
     </UncontrolledDropdown>;
 
-    const validInvalidTxs = invalidCount ? dropdown : null;
+    const validInvalidTxs = hasInvalid ? dropdown : null;
 
     return (
       <StyledContainer fluid>
