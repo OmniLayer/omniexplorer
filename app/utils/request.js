@@ -33,10 +33,15 @@ function checkStatus(response) {
   return response;
 }
 
-function getOptions(url, options) {
+/**
+ * Build options for the request
+ * @param options
+ * @returns {object}
+ */
+function getOptions(options) {
   return {
-    url,
-    method: options.method || 'get',
+    method: 'get',
+    ...options,
   };
 }
 
@@ -53,8 +58,9 @@ function ajax(url, options) {
  *
  * @return {object}           The response data
  */
-export default function request(url, options) {
-  // return fetch(url, options)
+export default function request(url, opts) {
+  const options = getOptions(opts);
+
   return ajax(url, options)
   .then(checkStatus)
   .then(parseJSON);
