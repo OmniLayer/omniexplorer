@@ -40,7 +40,10 @@ function Asset(props) {
           />
         </AssetLink>
       </StyledTD>
-      <StyledTDTextLeft>#{props[0]}</StyledTDTextLeft>
+      <StyledTDTextLeft>
+        <AssetLink asset={asset.id} state={props.state} >
+          #{props[0]}
+        </AssetLink></StyledTDTextLeft>
       <StyledTDTextLeft>
         <AssetLink asset={asset.id} state={props.state} >
           {`${asset.name.substring(0, 20)}${
