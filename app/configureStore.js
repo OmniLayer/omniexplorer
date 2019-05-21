@@ -13,7 +13,7 @@ import { GLOBAL_ON_SAGA_ERROR } from 'constants.js';
 let dispatchFn;
 
 const sagaMiddleware = createSagaMiddleware({
-  onError: e => {
+  onError: (e, sagaStack) => {
     // And let's modify this one just for clarity on screen shots
     console.log('Global saga error handler', e);
     dispatchFn({ type: GLOBAL_ON_SAGA_ERROR, error: e });

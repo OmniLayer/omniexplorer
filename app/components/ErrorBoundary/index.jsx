@@ -50,8 +50,8 @@ class ErrorBoundary extends React.Component {
     if (this.props.st.error) {
       content = (
         <div>
-          <Modal isOpen={true}>
-            <ModalHeader>Something was wrong..</ModalHeader>
+          <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop={true}>
+            <ModalHeader toggle={this.props.cleanError}>Something was wrong..</ModalHeader>
             <ModalBody>
               <Jumbotron>
                 <h1>{this.props.st.error && this.props.st.error.toString()}</h1>
