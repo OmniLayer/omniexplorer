@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Container, Table, UncontrolledTooltip } from 'reactstrap';
+import { Table, UncontrolledTooltip } from 'reactstrap';
 
 import { FormattedMessage } from 'react-intl';
 import { routeActions } from 'redux-simple-router';
@@ -17,13 +17,11 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 
 import { startFetch } from 'components/Token/actions';
-import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import LoadingIndicator from 'components/LoadingIndicator';
 import InformationIcon from 'react-icons/lib/io/informatcircled';
 
 import messages from './messages';
@@ -42,8 +40,7 @@ class BlockList extends React.PureComponent {
     super(props);
 
     const { blocks } = this.props;
-    this.propertyList = this.getDistinctTokensFromBlockList(blocks);
-    this.propertyList.map(this.props.getProperty);
+    this.getDistinctTokensFromBlockList(blocks);
   }
 
   getDistinctTokensFromBlockList(blocks) {
@@ -56,17 +53,6 @@ class BlockList extends React.PureComponent {
 
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const loading = (
-      <Container>
-        <LoadingIndicator />
-      </Container>
-    );
-
-    const continueLoading = this.propertyList.some(
-      property => !this.props.properties(property),
-    );
-    if (continueLoading) return loading;
-
     const getItemKey = (item, idx) => item.timestamp.toString().concat(idx);
 
     const invalidTxTooltipMsg = (block, txsAcumulator) =>
@@ -139,7 +125,7 @@ class BlockList extends React.PureComponent {
     const getOmniTxLogos = block => {
       const logos = Object.keys(block.value.details).map((prop, idx) => {
         const key = `id${block.block}${prop}`;
-        const asset = this.props.properties(prop);
+        const asset = block.value.details[prop];
 
         return (
           <AssetLink key={key} asset={prop} state={this.props.state}>
@@ -149,6 +135,7 @@ class BlockList extends React.PureComponent {
       });
       return logos;
     };
+    
     return (
       <StyledTable responsive striped hover>
         <thead>
@@ -262,7 +249,6 @@ BlockList.propTypes = {
   blocks: PropTypes.array.isRequired,
   changeRoute: PropTypes.func.isRequired,
   getProperty: PropTypes.func.isRequired,
-  properties: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -274,7 +260,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  properties: state => makeSelectProperty(state),
+  // properties: state => makeSelectProperty(state),
 });
 
 const withConnect = connect(
