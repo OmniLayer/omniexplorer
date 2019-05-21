@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment/src/moment';
 import { cleanError } from './actions';
 import reducer from './reducer';
+import PropTypes from 'prop-types';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -48,17 +49,29 @@ class ErrorBoundary extends React.Component {
     let content = this.props.children;
 
     if (this.props.st.error) {
+      const { error } = this.props.st;
+
+      if (error.message === 'Failed to fetch' && !error.response) {
+        error.message = 'Please limit consecutive requests to no more than 5 every 10s.';
+        error.title = 'Rate Limit Reached';
+      }
+
+      if (error.response) {
+        error.title = 'Failed to fetch';
+        error.message = error.response.msg;
+      }
+
       content = (
         <div>
-          <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop={true}>
-            <ModalHeader toggle={this.props.cleanError}>Something was wrong..</ModalHeader>
+          <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop>
+            <ModalHeader toggle={this.props.cleanError}><h3>{error.title || 'Something was wrong..'}</h3></ModalHeader>
             <ModalBody>
               <Jumbotron>
-                <h1>{this.props.st.error && this.props.st.error.toString()}</h1>
-                <br/>
-                <h3>
+                <h3>{error.message}</h3>
+                <br />
+                <h5>
                   Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few seconds.
-                </h3>
+                </h5>
               </Jumbotron>
             </ModalBody>
           </Modal>
@@ -71,9 +84,9 @@ class ErrorBoundary extends React.Component {
           <Jumbotron>
             <h1>Something was wrong..</h1>
             <hr className="my-2" />
-            <br/>
+            <br />
             <h3>{this.state.error && this.state.error.toString()}</h3>
-            <br/>
+            <br />
             <h5>
               Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few seconds.
             </h5>
@@ -104,7 +117,11 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-ErrorBoundary.propTypes = {};
+ErrorBoundary.propTypes = {
+  cleanError: PropTypes.func.isRequired,
+  st: PropTypes.object,
+};
+
 const mapStateToProps = createStructuredSelector({
   status: makeSelectStatus(),
   st: state => state.get('errorBoundary').toJS(),
