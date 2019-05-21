@@ -22,8 +22,7 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
-import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
-import { EXTERNAL_EXPLORER_OTOCASH } from 'components/ExplorerLink/constants';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR, EXTERNAL_EXPLORER_OTOCASH } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';

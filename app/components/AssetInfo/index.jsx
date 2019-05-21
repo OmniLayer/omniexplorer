@@ -22,7 +22,7 @@ function AssetInfo(asset) {
 
   let tokenName;
   let propertyID;
-  if (![4, -22, 25, 26].includes(asset.propertyid)) {
+  if (![4, -22, 25, 26].includes(asset.type_int)) {
     tokenName = (
       <tr>
         <td className="field">Name</td>
@@ -40,7 +40,8 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-  if (asset.propertyid === 28) {
+
+  if (asset.type_int === 28) {
     tokenName = (
       <tr>
         <td className="field">Ecosystem</td>
