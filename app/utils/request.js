@@ -1,5 +1,4 @@
 import 'whatwg-fetch';
-import axios from 'axios';
 
 /**
  * Parses the JSON returned by a network request
@@ -12,8 +11,7 @@ function parseJSON(response) {
   if (response.status === 204 || response.status === 205) {
     return null;
   }
-  // return response.json();
-  return response.data;
+  return response.json();
 }
 
 /**
@@ -34,23 +32,6 @@ function checkStatus(response) {
 }
 
 /**
- * Build options for the request
- * @param options
- * @returns {object}
- */
-function getOptions(options) {
-  return {
-    method: 'get',
-    ...options,
-  };
-}
-
-function ajax(url, options) {
-  const result = axios({ url, ...options });
-  return result;
-}
-
-/**
  * Requests a URL, returning a promise
  *
  * @param  {string} url       The URL we want to request
@@ -58,10 +39,8 @@ function ajax(url, options) {
  *
  * @return {object}           The response data
  */
-export default function request(url, opts) {
-  const options = getOptions(opts);
-
-  return ajax(url, options)
+export default function request(url, options) {
+  return fetch(url, options)
   .then(checkStatus)
   .then(parseJSON);
 }
