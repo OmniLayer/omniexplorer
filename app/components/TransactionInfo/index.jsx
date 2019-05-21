@@ -235,7 +235,14 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">In Block</td>
               <td>
-                <span id="lblocknum">{props.block}</span>
+                <Link
+                  to={{
+                    pathname: `/block/${props.block}`,
+                    state: { state: props.state },
+                  }}
+                >
+                  <span id="lblocknum">{props.block}</span>
+                </Link>
               </td>
             </tr>
             }
