@@ -52,7 +52,7 @@ class ErrorBoundary extends React.Component {
       const { error } = this.props.st;
 
       if (error.message === 'Failed to fetch' && !error.response) {
-        error.message = 'Please limit consecutive requests to no more than 5 every 10s.';
+        error.message = 'Please limit consecutive requests.';
         error.title = 'Rate Limit Reached';
       }
 
@@ -64,13 +64,15 @@ class ErrorBoundary extends React.Component {
       content = (
         <div>
           <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop>
-            <ModalHeader toggle={this.props.cleanError}><h3>{error.title || 'Something was wrong..'}</h3></ModalHeader>
+            <ModalHeader toggle={this.props.cleanError}>
+              {error.title || 'Something was wrong..'}
+            </ModalHeader>
             <ModalBody>
-              <Jumbotron>
+              <Jumbotron className="text-center">
                 <h3>{error.message}</h3>
                 <br />
                 <h5>
-                  Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few seconds.
+                  Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few minutes.
                 </h5>
               </Jumbotron>
             </ModalBody>
