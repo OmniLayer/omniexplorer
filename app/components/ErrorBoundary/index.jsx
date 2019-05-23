@@ -54,15 +54,13 @@ class ErrorBoundary extends React.Component {
       content = (
         <div>
           <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop>
-            <ModalHeader toggle={this.props.cleanError}>
-              {error.title || 'Something was wrong..'}
-            </ModalHeader>
+            <ModalHeader toggle={this.props.cleanError}></ModalHeader>
             <ModalBody>
               <Jumbotron className="text-center">
                 <h3>{error.message}</h3>
                 <br />
                 <h5>
-                  Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few minutes.
+                  Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few moments.
                 </h5>
               </Jumbotron>
             </ModalBody>
