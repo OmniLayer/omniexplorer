@@ -51,16 +51,6 @@ class ErrorBoundary extends React.Component {
     if (this.props.st.error) {
       const { error } = this.props.st;
 
-      if (error.message === 'Failed to fetch' && !error.response) {
-        error.message = 'Please limit consecutive requests.';
-        error.title = 'Rate Limit Reached';
-      }
-
-      if (error.response) {
-        error.title = 'Failed to fetch';
-        error.message = error.response.msg;
-      }
-
       content = (
         <div>
           <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop>
