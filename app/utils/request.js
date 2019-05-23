@@ -21,11 +21,10 @@ function parseJSON(response) {
  *
  * @return {object|undefined} Returns either the response, or throws an error
  */
-function checkStatus(response) {
+async function checkStatus(response) {
   if (response.status < 200 || response.status >= 300 || response.error) {
-    const error = new Error(response.msg || response.statusText);
-    error.response = response;
-    throw error;
+    const error = await response.json();
+    throw new Error(response.error || error.msg || response.statusText);
   }
 
   return response;
@@ -40,7 +39,7 @@ function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  return fetch(url, { ...options, mode: 'cors' })
   .then(checkStatus)
   .then(parseJSON);
 }
