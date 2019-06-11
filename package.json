@@ -40,7 +40,7 @@
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
     "lint:fix": "npm run lint:eslint -- . --fix",
-    "pretest": "npm run test:clean && npm run lint",
+    "pretest": "npm run test:clean",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest -u --coverage --no-cache",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
