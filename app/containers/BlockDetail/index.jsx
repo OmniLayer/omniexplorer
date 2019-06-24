@@ -104,18 +104,11 @@ export class BlockDetail extends React.Component {
   
   handlePageClick = page => {
     const txs = this.getTransactions();
-    // let page = Math.ceil(selected * this.props.perPage);
     
     this.setState({
       currentPage: page,
       currentData: txs.slice(page, page + 10),
     });
-    
-    // txs = this.getTransactions();
-    // this.setState({
-    //   data: txs,
-    //   pageCount: Math.ceil(txs.length / 10),
-    // });
   };
   
   render() {
