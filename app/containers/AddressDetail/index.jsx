@@ -29,7 +29,7 @@ const Layout = styled(Container)`
       padding: 0;
     `;
 
-export class AddressDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class AddressDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     
