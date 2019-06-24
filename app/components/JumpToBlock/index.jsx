@@ -71,7 +71,6 @@ class JumpToBlock extends React.PureComponent {
           id="jump-to-block"
           style={{ maxWidth: '9rem' }}
           className="form-control jump-to-block-input"
-          value={this.state.blockToJump}
           onInput={e => this.setState({ blockToJump: e.target.value })}
           onKeyUp={e => this.handleKeyUp(e)}
         />
