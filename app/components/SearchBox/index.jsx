@@ -63,7 +63,6 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
         <div className="input-group">
           <Input
             className="form-control searchbox-input"
-            value={this.state.query}
             onInput={(e) => this.setState({ query: e.target.value})}
             onKeyUp={(e) => this.handleKeyUp(e)}
           >

@@ -50,7 +50,7 @@ class ErrorBoundary extends React.Component {
 
     if (this.props.st.error) {
       const { error } = this.props.st;
-
+      error.message = error.message || error.text;
       content = (
         <div>
           <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop>

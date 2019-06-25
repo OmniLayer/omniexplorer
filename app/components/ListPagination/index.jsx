@@ -65,6 +65,7 @@ const ListPagination = props => {
   );
 
   const setPage = (e, page) => {
+    props.changeRoute(props.hashLink(page));
     props.onSetPage(page);
   };
 
@@ -81,10 +82,18 @@ const ListPagination = props => {
   return (
     <Pagination className="pagination justify-content-end mt-2 mb-2">
       <StyledPaginationButton
+        onClick={e => setPage(e, 1)}
+        disabled={listPagination.count === 1 || listPagination.current === 1}
+        key="first"
+      >
+        <PaginationLink first/>
+      </StyledPaginationButton>
+      <StyledPaginationButton
+        onClick={e => setPage(e, getPrevious())}
         disabled={listPagination.count === 1 || listPagination.current === 1}
         key="previous"
       >
-        <StyledPaginationLink previous href={props.hashLink(getPrevious())}/>
+        <StyledPaginationLink previous/>
       </StyledPaginationButton>
       {listPagination.range.map(v => (
         <StyledPaginationItem
@@ -92,19 +101,30 @@ const ListPagination = props => {
           className={v.isCurrent ? 'page-item active' : 'page-item'}
           key={v.value}
         >
-          <StyledPaginationLink href={props.hashLink(v.value)}>
+          <StyledPaginationLink>
             {v.value}
           </StyledPaginationLink>
         </StyledPaginationItem>
       ))}
       <StyledPaginationButton
+        onClick={e => setPage(e, getNext())}
         disabled={
           listPagination.count === 1 ||
           listPagination.current === listPagination.count
         }
         key="next"
       >
-        <StyledPaginationLink next href={props.hashLink(getNext())}/>
+        <StyledPaginationLink next/>
+      </StyledPaginationButton>
+      <StyledPaginationButton
+        onClick={e => setPage(e, listPagination.count)}
+        disabled={
+          listPagination.count === 1 ||
+          listPagination.current === listPagination.count
+        }
+        key="last"
+      >
+        <PaginationLink last/>
       </StyledPaginationButton>
     </Pagination>
   );

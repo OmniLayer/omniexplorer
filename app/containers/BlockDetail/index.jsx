@@ -12,7 +12,13 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import { Container, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import {
+  Container,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from 'reactstrap';
 
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -39,8 +45,8 @@ import sagaBlock from './saga';
 import messages from './messages';
 import {
   ALL_BLOCK_TRANSACTIONS,
-  VALID_BLOCK_TRANSACTIONS,
   INVALID_BLOCK_TRANSACTIONS,
+  VALID_BLOCK_TRANSACTIONS,
 } from './constants';
 
 import './blockdetail.scss';
@@ -56,7 +62,7 @@ const StyledContainer = styled(ContainerBase).attrs({
   }
 `;
 
-export class BlockDetail extends React.PureComponent {
+export class BlockDetail extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -64,11 +70,17 @@ export class BlockDetail extends React.PureComponent {
     this.block = props.match.params.block;
     this.state = {
       showTxType: ALL_BLOCK_TRANSACTIONS,
+      data: [],
+      currentData: [],
+      pageCount: 0,
+      currentPage: 1,
     };
+
     this.transactions = null;
 
-    this.onShowInvalidTxs = this.onShowInvalidTxs.bind(this);
+    this.onFilterByInvalidTxs = this.onFilterByInvalidTxs.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   getTransactions() {
@@ -76,6 +88,11 @@ export class BlockDetail extends React.PureComponent {
     const { block } = this.props.blockdetail;
 
     if (!this.transactions) {
+      this.setState({
+        currentPage: parseInt(this.props.location.get('hash').replace('#','')) || 1,
+        currentData: block.transactions.slice(0, 10),
+        pageCount: Math.ceil(block.transactions.length / 10),
+      });
       this.transactions = {
         [ALL_BLOCK_TRANSACTIONS]: block.transactions,
         [VALID_BLOCK_TRANSACTIONS]: block.transactions.filter(x => x.valid),
@@ -87,27 +104,41 @@ export class BlockDetail extends React.PureComponent {
     return txs;
   }
 
-  onShowInvalidTxs(showTxType) {
-    this.setState({ showTxType });
+  onFilterByInvalidTxs(showTxType) {
+    this.setState({
+      showTxType,
+      currentPage: 1,
+      currentData: this.transactions[showTxType].slice(0, 10),
+    });
   }
 
   componentDidMount() {
     console.log('block detail did mount');
     this.props.loadBlock(this.block);
   }
+  
+  handlePageClick = page => {
+    const txs = this.getTransactions();
+    
+    this.setState({
+      currentPage: page,
+      currentData: txs.slice(page - 1, page + 10),
+    });
+  };
 
   render() {
     console.log('block detail render');
-
-    const statusLoading = (!this.props || !this.props.status || !this.props.status.last_block);
+    const statusLoading =
+      !this.props || !this.props.status || !this.props.status.last_block;
     if (this.props.blockdetail.loading || statusLoading) {
       return (
         <Container>
-          <LoadingIndicator/>
+          <LoadingIndicator />
         </Container>
       );
     }
-
+    // this.handlePageClick(this.state.currentPage);
+    const txs = this.getTransactions();
     const { last_block: lastBlock } = this.props.status;
     const { block } = this.props.blockdetail;
     const { confirmations } = (block.transactions || []).find(
@@ -115,11 +146,10 @@ export class BlockDetail extends React.PureComponent {
     ) || { confirmations: 'invalid' };
 
     let content;
-    let txs = [];
     let hasInvalid = false;
 
-    const getItemKey = (blockItem, idx) => blockItem.blockhash.slice(0, 22).concat(idx);
-    const hashLink = txid => `/tx/${txid}`;
+    const getItemKey = (blockItem, idx) =>
+      blockItem.blockhash.slice(0, 22).concat(idx);
 
     if (this.block < FIRST_BLOCK || !block.transactions) {
       const errMsg = `Block ${this.block} not found`;
@@ -142,21 +172,26 @@ export class BlockDetail extends React.PureComponent {
         </h3>
       );
     } else {
-      txs = this.getTransactions();
       hasInvalid = !isEmpty(this.transactions[INVALID_BLOCK_TRANSACTIONS]);
-
+      const hashLink = page => `#${page}`;
       content = (
-        <List
-          {...block}
-          items={txs}
-          inner={Transaction}
-          getItemKey={getItemKey}
-          hashLink={hashLink}
-        />
+        <div>
+          <List
+            {...block}
+            usePagination
+            pageCount={this.state.pageCount}
+            currentPage={this.state.currentPage}
+            onSetPage={this.handlePageClick}
+            items={this.state.currentData}
+            inner={Transaction}
+            getItemKey={getItemKey}
+            hashLink={hashLink}
+          />
+        </div>
       );
     }
-    const footer = <FooterLinks unconfirmed blocklist/>;
-    const dropdownToggle = ()=>{
+    const footer = <FooterLinks unconfirmed blocklist />;
+    const dropdownToggle = () => {
       switch (this.state.showTxType) {
         case ALL_BLOCK_TRANSACTIONS:
           return 'All Transactions';
@@ -167,18 +202,32 @@ export class BlockDetail extends React.PureComponent {
         default:
           return 'Transactions';
       }
-    }
+    };
     // const pluralize = hasInvalid > 1 ? 's' : '';
-    const dropdown = <UncontrolledDropdown className="float-md-right">
-      <DropdownToggle caret>
-        {dropdownToggle()}
-      </DropdownToggle>
-      <DropdownMenu right>
-        <DropdownItem onClick={() => this.onShowInvalidTxs(ALL_BLOCK_TRANSACTIONS)}>Show All</DropdownItem>
-        <DropdownItem onClick={() => this.onShowInvalidTxs(VALID_BLOCK_TRANSACTIONS)}>Show Valid</DropdownItem>
-        <DropdownItem onClick={() => this.onShowInvalidTxs(INVALID_BLOCK_TRANSACTIONS)}>Show Invalid</DropdownItem>
-      </DropdownMenu>
-    </UncontrolledDropdown>;
+    const dropdown = (
+      <UncontrolledDropdown className="float-md-right">
+        <DropdownToggle caret>{dropdownToggle()}</DropdownToggle>
+        <DropdownMenu right>
+          <DropdownItem
+            onClick={() => this.onFilterByInvalidTxs(ALL_BLOCK_TRANSACTIONS)}
+          >
+            Show All
+          </DropdownItem>
+          <DropdownItem
+            onClick={() => this.onFilterByInvalidTxs(VALID_BLOCK_TRANSACTIONS)}
+          >
+            Show Valid
+          </DropdownItem>
+          <DropdownItem
+            onClick={() =>
+              this.onFilterByInvalidTxs(INVALID_BLOCK_TRANSACTIONS)
+            }
+          >
+            Show Invalid
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
+    );
 
     const validInvalidTxs = hasInvalid ? dropdown : null;
 
@@ -191,8 +240,8 @@ export class BlockDetail extends React.PureComponent {
               : messages.doesNotHaveTransactions.header
           }
           values={{
-            br: <br/>,
-            hash: <ColoredHash hash={block.blockhash}/>,
+            br: <br />,
+            hash: <ColoredHash hash={block.blockhash} />,
             blockNumber: this.block,
             txCount: block.transactions ? block.transactions.length : 0,
             confirmations,
@@ -207,18 +256,13 @@ export class BlockDetail extends React.PureComponent {
           }}
         >
           <JumpToBlock
-            onValidate={value =>
-              FIRST_BLOCK < value && value <= lastBlock
-            }
+            onValidate={value => FIRST_BLOCK < value && value <= lastBlock}
           />
-          <br/>
+          <br />
           {validInvalidTxs}
         </ListHeader>
-        <BlockPagination
-          block={this.block}
-          latest={lastBlock}
-        />
         {content}
+        <BlockPagination block={this.block} latest={lastBlock} />
         {footer}
       </StyledContainer>
     );
@@ -235,6 +279,7 @@ BlockDetail.propTypes = {
 const mapStateToProps = createStructuredSelector({
   blockdetail: makeSelectBlockDetail(),
   status: makeSelectStatus(),
+  location: state => state.get('route').get('location'),
 });
 
 function mapDispatchToProps(dispatch) {
