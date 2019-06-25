@@ -90,9 +90,12 @@ export class Transactions extends React.Component {
       content = <List {...props} />;
     }
     const footer = <FooterLinks blocklist/>;
+
     return (
       <StyledContainer fluid>
         <TransactionListHeader
+          customHeader={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
+          totalPreText={(this.props.unconfirmed ? 'Displaying the ' : null)}
           selectType={this.props.onSetTransactionType}
           total={this.props.transactions.pageCount}
           totalLabel="page"
