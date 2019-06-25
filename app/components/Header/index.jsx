@@ -63,8 +63,8 @@ class Header extends React.PureComponent {
         <Navbar color="faded" light expand="sm" className="d-block">
           <div className="d-flex">
             <NavbarBrand href="/">
-              <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
-              OMNIEXPLORER.INFO
+              <IMG src="/favicon.png" alt="USDTEXPLORER.COM" />
+              USDTEXPLORER.COM
             </NavbarBrand>
             <div className="ml-auto w-50 d-flex">
               <div className="w-100 ml-auto d-none-only-sm-down">
@@ -79,58 +79,19 @@ class Header extends React.PureComponent {
                 <StyledNavItem>
                   <NavLink href="/">Home</NavLink>
                 </StyledNavItem>
+                <StyledNavItem>
+                  <NavLink href="https://guarda.co">Wallet</NavLink>
+                </StyledNavItem>
+                <StyledNavItem>
+                  <NavLink href="https://changenow.io">Exchange</NavLink>
+                </StyledNavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     API
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href="https://api.omniexplorer.info">Documentation</NavLink>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
-                    Property List
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <NavLink href={`/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Production</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <NavLink href={`/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Test</NavLink>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
-                    Crowdsales
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <NavLink href={`/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Production</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <NavLink href={`/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Test</NavLink>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
-                    Misc
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <NavLink href="/activations">Feature Activations</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ" target="_blank">Help/FAQ</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <NavLink href="https://github.com/OmniLayer/omniexplorer/issues" target="_blank">Report Bug</NavLink>
+                      <NavLink href="https://omni.guarda.co">Documentation</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>

@@ -11,7 +11,7 @@ export default defineMessages({
     id: 'app.components.HeaderMessage.header',
     defaultMessage: '{note}',
     values: {
-      note: <strong>Welcome to the new Omniexplorer.info</strong>,
+      note: <strong>Welcome to the new Usdtexplorer.com</strong>,
     },
   },
 });

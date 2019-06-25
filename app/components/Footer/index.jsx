@@ -31,7 +31,8 @@ function Footer() {
           {...messages.authorMessage}
           values={{
             love: <HeartIcon color="red" size={24} />,
-            author: <A href="http://www.omnilayer.org/">The Omni Foundation</A>,
+            author: The Omni Foundation,
+            guarda_url: <A href="https://guarda.co/">guarda</A>,
           }}
         />
       </section>
