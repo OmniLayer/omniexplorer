@@ -35,7 +35,10 @@ class TransactionHistory extends React.PureComponent {
     super(props);
     this.data = [];
     this.state = {
-      crosshairValues: [],
+      crosshairValues: {
+        count: [],
+        usd: [],
+      },
     };
   }
 
@@ -53,7 +56,15 @@ class TransactionHistory extends React.PureComponent {
     const { txdaily } = this.props.status;
     this.data = sortBy(
       txdaily.map(day => ({
-        y: parseFloat(day.count),
+        y: parseFloat(day.count)*10000,
+        x: moment.utc(day.date).valueOf(),
+      })),
+      'date',
+    );
+    // const parseVal = (val) => val.toFixed ? propsValue.toFixed(8) : parseFloat(propsValue, 10).toString();
+    this.usdData = sortBy(
+      txdaily.map(day => ({
+        y: parseFloat(day.value_24hr),
         x: moment.utc(day.date).valueOf(),
       })),
       'date',
@@ -71,7 +82,7 @@ class TransactionHistory extends React.PureComponent {
         animation
         height={this.props.height || 230}
         margin={{ left: 48 }}
-        onMouseLeave={() => this.setState({ crosshairValues: null })}
+        onMouseLeave={() => this.setState({ crosshairValues:{count: null, usd: null }})}
         hideLine
       >
         <VerticalGridLines />
@@ -80,10 +91,22 @@ class TransactionHistory extends React.PureComponent {
           data={this.data}
           style={{
             stroke: 'violet',
+            strokeLinejoin: 'round',
             strokeWidth: 3,
           }}
           onNearestX={(value, { index }) =>
-            this.setState({ crosshairValues: [value] })
+            this.setState({ crosshairValues:{count: [value] }})
+          }
+        />
+        <LineSeries
+          data={this.usdData}
+          style={{
+            stroke: 'green',
+            strokeWidth: 3,
+            strokeLinejoin: 'round',
+          }}
+          onNearestX={(value, { index }) =>
+            this.setState({ crosshairValues:{usd: [value] }})
           }
         />
         <XAxis
@@ -98,11 +121,11 @@ class TransactionHistory extends React.PureComponent {
           attr="y"
           attrAxis="x"
           orientation="left"
-          title="Transactions"
+          title="USD & Transactions"
         />
-        {crosshairValues && (
+        {crosshairValues.count && (
           <Crosshair
-            values={crosshairValues}
+            values={crosshairValues.count}
             titleFormat={d => ({
               title: 'Date',
               value: moment.utc(d[0].x).format('M/D/Y'),
@@ -111,6 +134,21 @@ class TransactionHistory extends React.PureComponent {
               {
                 title: 'Transactions',
                 value: d[0].y,
+              },
+            ]}
+          />
+        )}
+        {crosshairValues.usd && (
+          <Crosshair
+            values={crosshairValues.usd}
+            titleFormat={d => ({
+              title: 'Date',
+              value: moment.utc(d[0].x).format('M/D/Y'),
+            })}
+            itemsFormat={d => [
+              {
+                title: 'Value',
+                value: `$ ${d[0].y}`,
               },
             ]}
           />
