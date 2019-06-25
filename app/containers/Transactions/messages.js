@@ -13,4 +13,11 @@ export default defineMessages({
     other: 'Unconfirmed Transactions',
     zero: 'Unconfirmed Transactions',
   },
+  unconfirmedSuffix: {
+    id: 'app.components.Transactions.unconfirmedHeader',
+    defaultMessage: 'more recents',
+    one: 'more recent',
+    other: 'more recents',
+    zero: 'more recents',
+  },
 });

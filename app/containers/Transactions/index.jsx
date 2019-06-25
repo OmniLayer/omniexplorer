@@ -39,13 +39,14 @@ export class Transactions extends React.Component {
 
     const { page } = props.match.params;
     this.props.onSetPage(!page || isNaN(page) ? 0 : parseInt(page));
-    this.state = { loadConfirmed: true };
+    this.state = { loadConfirmed: true, txs: [] };
 
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
   }
 
   onRadioBtnClick(loadConfirmed) {
     this.setState({ loadConfirmed });
+    this.setState({ txs: [] });
     if (loadConfirmed) {
       this.props.loadTransactions(this.props.addr);
     } else {
@@ -95,11 +96,11 @@ export class Transactions extends React.Component {
       <StyledContainer fluid>
         <TransactionListHeader
           customHeader={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
-          totalPreText={(this.props.unconfirmed ? 'Displaying the ' : null)}
+          totalPreText={(this.props.unconfirmed && this.props.transactions ? 'Displaying the ' : null)}
           selectType={this.props.onSetTransactionType}
           total={this.props.transactions.pageCount}
           totalLabel="page"
-          count={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
+          count={(this.props.unconfirmed ? messages.unconfirmedSuffix : null)}
           extra={!!this.props.addr &&
           <ButtonGroup>
             <Button
