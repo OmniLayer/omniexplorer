@@ -38,7 +38,7 @@ class ListHeader extends React.PureComponent {
             &nbsp;
             {!!this.props.total && (
               <small className="d-block d-md-inline">
-                ({this.props.total}{' '}
+                ({this.props.totalPreText}{this.props.total}{' '}
                 <FormattedPlural
                   {...countMessage}
                   value={this.props.total}
