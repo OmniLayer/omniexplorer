@@ -31,7 +31,7 @@ function Footer() {
           {...messages.authorMessage}
           values={{
             love: <HeartIcon color="red" size={24} />,
-            author: The Omni Foundation,
+            author: 'The Omni Foundation',
             guarda_url: <A href="https://guarda.co/">guarda</A>,
           }}
         />
