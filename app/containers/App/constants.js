@@ -9,7 +9,7 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const API_URL_BASE = 'http://144.76.73.140:4006/v1';
+export const API_URL_BASE = 'https://api.usdtexplorer.com/v1';
 export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_NOT_NUMBER = '---';
 export const ECOSYSTEM_PROD = 1;
