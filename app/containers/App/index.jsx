@@ -138,7 +138,7 @@ class App extends React.Component {
             />
             <Route
               exact
-              path="/history"
+              path="/analytics"
               component={HistoryChart}
             />
             <Route

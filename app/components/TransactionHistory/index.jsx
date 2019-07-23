@@ -1,9 +1,3 @@
-/**
- *
- * TransactionHistory
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -13,8 +7,12 @@ import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment/src/moment';
+import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import {
   Crosshair,
+  DiscreteColorLegend,
   HorizontalGridLines,
   LineSeries,
   makeWidthFlexible,
@@ -30,38 +28,51 @@ import {
 // https://github.com/uber/react-vis/issues/288
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
-class TransactionHistory extends React.PureComponent {
+class TransactionHistory extends React.Component {
   constructor(props) {
     super(props);
-    this.data = [];
     this.state = {
-      crosshairValues: {
-        count: [],
-        usd: [],
-      },
+      crosshairValues: [],
     };
   }
-
-  // eslint-disable-line react/prefer-stateless-function
+  
+  /**
+   * Event handler for onMouseLeave.
+   * @private
+   */
+  _onMouseLeave = () => {
+    this.setState({ crosshairValues: [] });
+  };
+  
+  /**
+   * Event handler for onNearestX.
+   * @param {Object} value Selected value.
+   * @param {index} index Index of the value in the data array.
+   * @private
+   */
+  onNearestX = (value, { index }) => {
+    const DATA = [this.data, this.usdData];
+    this.setState({ crosshairValues: DATA.map(d => d[index]) });
+  };
+  
   render() {
-    // wait status props loading
     if (
       isEmpty(this.props) ||
       isEmpty(this.props.status) ||
       isEmpty(this.props.status.txdaily)
     ) {
-      return null;
+      return <LoadingIndicator/>;
     }
-
+    
     const { txdaily } = this.props.status;
     this.data = sortBy(
       txdaily.map(day => ({
-        y: parseFloat(day.count)*10000,
+        y: parseFloat(day.count) * 10000,
         x: moment.utc(day.date).valueOf(),
       })),
       'date',
     );
-    // const parseVal = (val) => val.toFixed ? propsValue.toFixed(8) : parseFloat(propsValue, 10).toString();
+    
     this.usdData = sortBy(
       txdaily.map(day => ({
         y: parseFloat(day.value_24hr),
@@ -69,91 +80,81 @@ class TransactionHistory extends React.PureComponent {
       })),
       'date',
     );
-
+    
     const tickFormat = d => {
       const dt = moment.utc(d);
       return dt.format('M/D');
     };
-
+    
+    const DATA = [this.data, this.usdData];
     const { crosshairValues } = this.state;
-
+    
     return (
-      <FlexibleXYPlot
-        animation
-        height={this.props.height || 230}
-        margin={{ left: 48 }}
-        onMouseLeave={() => this.setState({ crosshairValues:{count: null, usd: null }})}
-        hideLine
-      >
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <LineSeries
-          data={this.data}
-          style={{
-            stroke: 'violet',
-            strokeLinejoin: 'round',
-            strokeWidth: 3,
-          }}
-          onNearestX={(value, { index }) =>
-            this.setState({ crosshairValues:{count: [value] }})
-          }
-        />
-        <LineSeries
-          data={this.usdData}
-          style={{
-            stroke: 'green',
-            strokeWidth: 3,
-            strokeLinejoin: 'round',
-          }}
-          onNearestX={(value, { index }) =>
-            this.setState({ crosshairValues:{usd: [value] }})
-          }
-        />
-        <XAxis
-          attr="x"
-          attrAxis="y"
-          title="By Days"
-          tickFormat={tickFormat}
-          tickLabelAngle={0}
-          tickValues={this.data.slice(1, -1).map(record => record.x)}
-        />
-        <YAxis
-          attr="y"
-          attrAxis="x"
-          orientation="left"
-          title="USD & Transactions"
-        />
-        {crosshairValues.count && (
+      <div>
+        <FlexibleXYPlot
+          animation
+          height={this.props.height || 230}
+          margin={{ left: 0 }}
+          onMouseLeave={this._onMouseLeave}
+          hideLine
+        >
+          <VerticalGridLines/>
+          <HorizontalGridLines/>
+          <XAxis
+            attr="x"
+            attrAxis="y"
+            title="By Days"
+            tickFormat={tickFormat}
+            tickLabelAngle={0}
+            tickValues={this.data.slice(1, -1).map(record => record.x)}
+          />
+          <YAxis
+            attr="y"
+            attrAxis="x"
+            orientation="left"
+            title="USD & Transactions"
+            hideTicks
+          />
+          <LineSeries
+            onNearestX={this.onNearestX}
+            data={DATA[0]}
+            style={{
+              stroke: 'violet',
+              strokeLinejoin: 'round',
+              strokeWidth: 3,
+            }}
+          />
+          <LineSeries
+            data={DATA[1]}
+            style={{
+              stroke: 'green',
+              strokeWidth: 3,
+              strokeLinejoin: 'round',
+            }}
+          />
           <Crosshair
-            values={crosshairValues.count}
+            values={crosshairValues}
+            className="test-class-name"
             titleFormat={d => ({
               title: 'Date',
               value: moment.utc(d[0].x).format('M/D/Y'),
             })}
-            itemsFormat={d => [
-              {
-                title: 'Transactions',
-                value: d[0].y,
-              },
-            ]}
+            itemsFormat={item => {
+              const count = { title: 'txs', value: item[0].y / 10000 };
+              
+              const usd = {
+                title: 'usd',
+                value: (
+                  <span>
+                  $&nbsp;<SanitizedFormattedNumber value={item[1].y}/>
+                </span>
+                ),
+              };
+              return [count, usd];
+            }}
           />
-        )}
-        {crosshairValues.usd && (
-          <Crosshair
-            values={crosshairValues.usd}
-            titleFormat={d => ({
-              title: 'Date',
-              value: moment.utc(d[0].x).format('M/D/Y'),
-            })}
-            itemsFormat={d => [
-              {
-                title: 'Value',
-                value: `$ ${d[0].y}`,
-              },
-            ]}
-          />
-        )}
-      </FlexibleXYPlot>
+        </FlexibleXYPlot>
+      </div>
     );
   }
 }
