@@ -132,6 +132,9 @@ class Header extends React.PureComponent {
                     <DropdownItem>
                       <NavLink href="https://github.com/OmniLayer/omniexplorer/issues" target="_blank">Report Bug</NavLink>
                     </DropdownItem>
+                    <DropdownItem>
+                      <NavLink href="/analytics">Analytics</NavLink>
+                    </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
