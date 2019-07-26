@@ -88,6 +88,40 @@ class TransactionHistory extends React.Component {
     
     const DATA = [this.data, this.usdData];
     const { crosshairValues } = this.state;
+    const ITEMS = [
+      { title: 'TXs', color: 'violet' },
+      { title: 'USD', color: 'green' },
+    ];
+    const crosshairContent = () => {
+      if (!crosshairValues || !crosshairValues.length) return null;
+      
+      const content = (
+        <div
+          className="inline-block p-1 rounded bg-dark text-white"
+          style={{ width: '9rem' }}
+        >
+          <strong className="d-block">
+            Date: {moment.utc(crosshairValues[0].x).format('M/D/Y')}
+          </strong>
+          <br/>
+          <span className="d-block">TXs: {crosshairValues[0].y / 10000}</span>
+          <span className="rv-discrete-color-legend-item__color w-50" style={{background: 'violet'}}></span>
+          <br />
+          <br />
+          <span className="d-block">
+            USD:{' '}
+            {
+              <span>
+                $&nbsp;<SanitizedFormattedNumber value={crosshairValues[1].y}/>
+              </span>
+            }
+          </span>
+          <span className="rv-discrete-color-legend-item__color w-50" style={{background: 'green'}}></span>
+        </div>
+      );
+      
+      return content;
+    };
     
     return (
       <div>
@@ -119,7 +153,7 @@ class TransactionHistory extends React.Component {
             onNearestX={this.onNearestX}
             data={DATA[0]}
             style={{
-              stroke: 'violet',
+              stroke: 'green',
               strokeLinejoin: 'round',
               strokeWidth: 3,
             }}
@@ -127,32 +161,14 @@ class TransactionHistory extends React.Component {
           <LineSeries
             data={DATA[1]}
             style={{
-              stroke: 'green',
+              stroke: 'violet',
               strokeWidth: 3,
               strokeLinejoin: 'round',
             }}
           />
-          <Crosshair
-            values={crosshairValues}
-            className="test-class-name"
-            titleFormat={d => ({
-              title: 'Date',
-              value: moment.utc(d[0].x).format('M/D/Y'),
-            })}
-            itemsFormat={item => {
-              const count = { title: 'txs', value: item[0].y / 10000 };
-              
-              const usd = {
-                title: 'usd',
-                value: (
-                  <span>
-                  $&nbsp;<SanitizedFormattedNumber value={item[1].y}/>
-                </span>
-                ),
-              };
-              return [count, usd];
-            }}
-          />
+          <Crosshair values={crosshairValues}>
+            {crosshairContent()}
+          </Crosshair>
         </FlexibleXYPlot>
       </div>
     );
