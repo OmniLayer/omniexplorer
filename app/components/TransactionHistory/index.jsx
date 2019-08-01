@@ -12,7 +12,6 @@ import LoadingIndicator from 'components/LoadingIndicator';
 
 import {
   Crosshair,
-  DiscreteColorLegend,
   HorizontalGridLines,
   LineSeries,
   makeWidthFlexible,
@@ -35,7 +34,7 @@ class TransactionHistory extends React.Component {
       crosshairValues: [],
     };
   }
-  
+
   /**
    * Event handler for onMouseLeave.
    * @private
@@ -43,7 +42,7 @@ class TransactionHistory extends React.Component {
   _onMouseLeave = () => {
     this.setState({ crosshairValues: [] });
   };
-  
+
   /**
    * Event handler for onNearestX.
    * @param {Object} value Selected value.
@@ -54,16 +53,16 @@ class TransactionHistory extends React.Component {
     const DATA = [this.data, this.usdData];
     this.setState({ crosshairValues: DATA.map(d => d[index]) });
   };
-  
+
   render() {
     if (
       isEmpty(this.props) ||
       isEmpty(this.props.status) ||
       isEmpty(this.props.status.txdaily)
     ) {
-      return <LoadingIndicator/>;
+      return <LoadingIndicator />;
     }
-    
+
     const { txdaily } = this.props.status;
     this.data = sortBy(
       txdaily.map(day => ({
@@ -72,7 +71,7 @@ class TransactionHistory extends React.Component {
       })),
       'date',
     );
-    
+
     this.usdData = sortBy(
       txdaily.map(day => ({
         y: parseFloat(day.value_24hr),
@@ -80,21 +79,26 @@ class TransactionHistory extends React.Component {
       })),
       'date',
     );
-    
+
     const tickFormat = d => {
       const dt = moment.utc(d);
       return dt.format('M/D');
     };
-    
+
     const DATA = [this.data, this.usdData];
     const { crosshairValues } = this.state;
-    const ITEMS = [
-      { title: 'TXs', color: 'violet' },
-      { title: 'USD', color: 'green' },
-    ];
+    const LegendUnderline = props => (
+      <span
+        className="rv-discrete-color-legend-item__color w-50"
+        style={{
+          background: `${props.color}`,
+          height: '0.2rem',
+        }}
+      />
+    );
     const crosshairContent = () => {
       if (!crosshairValues || !crosshairValues.length) return null;
-      
+
       const content = (
         <div
           className="inline-block p-1 rounded bg-dark text-white"
@@ -103,26 +107,26 @@ class TransactionHistory extends React.Component {
           <strong className="d-block">
             Date: {moment.utc(crosshairValues[0].x).format('M/D/Y')}
           </strong>
-          <br/>
+          <br />
           <span className="d-block">TXs: {crosshairValues[0].y / 10000}</span>
-          <span className="rv-discrete-color-legend-item__color w-50" style={{background: 'violet'}}></span>
+          <LegendUnderline color="violet" />
           <br />
           <br />
           <span className="d-block">
             USD:{' '}
             {
               <span>
-                $&nbsp;<SanitizedFormattedNumber value={crosshairValues[1].y}/>
+                $&nbsp;<SanitizedFormattedNumber value={crosshairValues[1].y} />
               </span>
             }
           </span>
-          <span className="rv-discrete-color-legend-item__color w-50" style={{background: 'green'}}></span>
+          <LegendUnderline color="green" />
         </div>
       );
-      
+
       return content;
     };
-    
+
     return (
       <div>
         <FlexibleXYPlot
@@ -132,8 +136,8 @@ class TransactionHistory extends React.Component {
           onMouseLeave={this._onMouseLeave}
           hideLine
         >
-          <VerticalGridLines/>
-          <HorizontalGridLines/>
+          <VerticalGridLines />
+          <HorizontalGridLines />
           <XAxis
             attr="x"
             attrAxis="y"
@@ -166,9 +170,7 @@ class TransactionHistory extends React.Component {
               strokeLinejoin: 'round',
             }}
           />
-          <Crosshair values={crosshairValues}>
-            {crosshairContent()}
-          </Crosshair>
+          <Crosshair values={crosshairValues}>{crosshairContent()}</Crosshair>
         </FlexibleXYPlot>
       </div>
     );

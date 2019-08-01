@@ -23,6 +23,7 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
+import WrapperLink from 'components/WrapperLink';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import './transaction.scss';
@@ -42,17 +43,6 @@ const StyledLink = styled(Link).attrs({
 const StyledCopyIcon = styled(CopyIcon).attrs({
   className: 'btn-outline-info rounded',
 })``;
-
-const WrapperLink = styled.div.attrs({
-  className: 'wrapper-link btn btn-add text-truncate rounded',
-})`
-  user-select: text !important;
-  font-size: 1.25rem !important;
-  width: 44%;
-  color: #333;
-  background: #EFF5FB;
-  border-color: #e2e7eb;
-`;
 
 const WrapperTx = styled.div.attrs({
   className: 'location d-block-down-md text-truncate-down-md',
