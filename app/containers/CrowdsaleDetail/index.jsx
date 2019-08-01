@@ -40,7 +40,7 @@ import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import moment from 'moment/src/moment';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 import {
   FacebookIcon,
