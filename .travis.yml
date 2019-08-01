@@ -22,6 +22,5 @@ notifications:
 after_success: 'npm run coveralls'
 
 cache:
-  yarn: true
   directories:
     - node_modules
