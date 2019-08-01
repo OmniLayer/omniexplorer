@@ -9,6 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 import moment from 'moment/src/moment';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
+import styled from 'styled-components';
 
 import {
   Crosshair,
@@ -26,6 +27,13 @@ import {
 // https://github.com/uber/react-vis/issues/834 //Axis Values are Slightly Off #834
 // https://github.com/uber/react-vis/issues/288
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
+const StyledUnderline = styled.span`
+  height: 1rem;
+  margin: 1px;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: visible;
+`;
 
 class TransactionHistory extends React.Component {
   constructor(props) {
@@ -88,11 +96,9 @@ class TransactionHistory extends React.Component {
     const DATA = [this.data, this.usdData];
     const { crosshairValues } = this.state;
     const LegendUnderline = props => (
-      <span
-        className="rv-discrete-color-legend-item__color w-50"
+      <StyledUnderline
         style={{
-          background: `${props.color}`,
-          height: '0.2rem',
+          borderLeft: `0.3rem solid ${props.color}`,
         }}
       />
     );
@@ -101,24 +107,29 @@ class TransactionHistory extends React.Component {
 
       const content = (
         <div
-          className="inline-block p-1 rounded bg-dark text-white"
-          style={{ width: '9rem' }}
+          className="inline-block p-1 rounded bg-transparent text-dark"
+          style={{ width: '11rem' }}
         >
           <strong className="d-block">
-            Date: {moment.utc(crosshairValues[0].x).format('M/D/Y')}
+            {moment.utc(crosshairValues[0].x).format('M/D/Y')}
           </strong>
-          <br />
-          <span className="d-block">
-            USD:{' '}
+          <LegendUnderline color="violet" className="d-inline-block"/>
+          <span className="d-inline-block">
+            TXs:&nbsp;
+            {
+              <SanitizedFormattedNumber value={crosshairValues[0].y / 10000} />
+            }
+          </span>
+          <br/>
+          <LegendUnderline color="green" className="d-inline-block"/>
+          <span className="d-inline-block">
+            USD:&nbsp;
             {
               <span>
                 $&nbsp;<SanitizedFormattedNumber value={crosshairValues[1].y} />
               </span>
             }
           </span>
-          <LegendUnderline color="green" />
-          <span className="d-block">TXs: {crosshairValues[0].y / 10000}</span>
-          <LegendUnderline color="violet" />
         </div>
       );
 
