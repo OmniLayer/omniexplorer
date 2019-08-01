@@ -108,10 +108,6 @@ class TransactionHistory extends React.Component {
             Date: {moment.utc(crosshairValues[0].x).format('M/D/Y')}
           </strong>
           <br />
-          <span className="d-block">TXs: {crosshairValues[0].y / 10000}</span>
-          <LegendUnderline color="violet" />
-          <br />
-          <br />
           <span className="d-block">
             USD:{' '}
             {
@@ -121,6 +117,8 @@ class TransactionHistory extends React.Component {
             }
           </span>
           <LegendUnderline color="green" />
+          <span className="d-block">TXs: {crosshairValues[0].y / 10000}</span>
+          <LegendUnderline color="violet" />
         </div>
       );
 
@@ -157,7 +155,7 @@ class TransactionHistory extends React.Component {
             onNearestX={this.onNearestX}
             data={DATA[0]}
             style={{
-              stroke: 'green',
+              stroke: 'violet',
               strokeLinejoin: 'round',
               strokeWidth: 3,
             }}
@@ -165,7 +163,7 @@ class TransactionHistory extends React.Component {
           <LineSeries
             data={DATA[1]}
             style={{
-              stroke: 'violet',
+              stroke: 'green',
               strokeWidth: 3,
               strokeLinejoin: 'round',
             }}
