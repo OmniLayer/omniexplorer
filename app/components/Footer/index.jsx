@@ -25,6 +25,7 @@ function Footer() {
     <Wrapper>
       <section>
         <FormattedMessage {...messages.licenseMessage} />
+        <p>Donate USDT: 1LrRGSLxQoRVFcZW3xEwy4awiD5qhL8QMf</p>
       </section>
       <section>
         <FormattedMessage

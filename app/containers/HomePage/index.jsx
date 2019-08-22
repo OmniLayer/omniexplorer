@@ -23,6 +23,7 @@ import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Blocks from 'containers/Blocks';
 import FooterLinks from 'components/FooterLinks';
+import GuardaBanner from 'components/GuardaBanner';
 
 const Layout = styled(Container)`
   background-color: #f5f5f5;
@@ -53,6 +54,11 @@ class HomePage extends React.PureComponent {
             <Blocks footer={footer} />
           </Col>
         </Row>
+        <Row>
+          <Col xs="12">
+            <GuardaBanner />
+          </Col>
+        </Row>
       </Layout>
     );
   }
@@ -65,10 +71,13 @@ HomePage.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 export default compose(withConnect)(HomePage);
