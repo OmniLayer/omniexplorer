@@ -24,7 +24,7 @@ const errorBoundaryReducer = (state = initialState, action = {}) => {
     case GLOBAL_ON_SAGA_ERROR:
       return state
         .set('modal', true)
-        .set('error', error.message)
+        .set('error', error) // `${error.message} ${error.response || ''}`)
         .set('errorInfo', (errorInfo || {componentStack: error.message}));
     default: {
       return state;
