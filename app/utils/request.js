@@ -26,14 +26,15 @@ async function checkStatus(response) {
     let error;
     let text;
     try {
-      error = await response.json(); // Fetch the resource
-      text = await response.text(); // Parse it as text
+      error = await response.clone().json(); // Fetch the resource
+      text = await response.clone().text(); // Parse it as text
       const data = JSON.parse(text); // Try to parse it as json again
-    } catch(err) {
+    } catch (err) {
       // This probably means the response is a HTML document
     }
-    const err = new Error(response.error || error.msg || response.statusText);
-    if(text) err.text = text;
+    const errMsg = response.error || (error && error.msg) || response.statusText || await response.clone().text();
+    const err = new Error(errMsg);
+    if (text) err.text = text;
     throw err;
   }
   
@@ -49,7 +50,10 @@ async function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, { ...options, mode: 'cors' })
+  return fetch(url, {
+    ...options,
+    mode: 'cors',
+  })
     .then(checkStatus)
     .then(parseJSON);
 }
