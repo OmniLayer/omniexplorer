@@ -10,6 +10,7 @@
  */
 
 export const API_URL_BASE = 'https://api.omniexplorer.info/v1';
+export const API_URL_BLOCKCHAIN_BTC_BALANCE = 'https://blockchain.info/balance?cors=true&active=';
 export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_NOT_NUMBER = '---';
 export const ECOSYSTEM_PROD = 1;
