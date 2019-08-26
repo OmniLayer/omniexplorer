@@ -21,13 +21,23 @@ function parseJSON(response) {
  *
  * @return {object|undefined} Returns either the response, or throws an error
  */
-function checkStatus(response) {
+async function checkStatus(response) {
   if (response.status < 200 || response.status >= 300 || response.error) {
-    const error = new Error(response.msg || response.statusText);
-    error.response = response;
-    throw error;
+    let error;
+    let text;
+    try {
+      error = await response.clone().json(); // Fetch the resource
+      text = await response.clone().text(); // Parse it as text
+      const data = JSON.parse(text); // Try to parse it as json again
+    } catch (err) {
+      // This probably means the response is a HTML document
+    }
+    const errMsg = response.error || (error && error.msg) || response.statusText || await response.clone().text();
+    const err = new Error(errMsg);
+    if (text) err.text = text;
+    throw err;
   }
-
+  
   return response;
 }
 
@@ -40,7 +50,10 @@ function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  return fetch(url, {
+    ...options,
+    mode: 'cors',
+  })
     .then(checkStatus)
     .then(parseJSON);
 }
