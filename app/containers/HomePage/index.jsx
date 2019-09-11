@@ -13,7 +13,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
 import { Container, Col, Row } from 'reactstrap';
@@ -65,7 +64,6 @@ HomePage.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

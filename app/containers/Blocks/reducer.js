@@ -10,7 +10,6 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS } from 'immutable';
 import orderBy from 'lodash/orderBy';
 
 import {
@@ -20,7 +19,7 @@ import {
 } from './constants';
 
 // The initial state of the App
-export const initialState = fromJS({
+export const initialState = {
   loading: true,
   appendBlocks: false,
   blocks: [],
@@ -28,7 +27,7 @@ export const initialState = fromJS({
   previousBlock: '',
   latest: -1,
   txType: null,
-});
+};
 
 function blocksReducer(state = initialState, action) {
   switch (action.type) {

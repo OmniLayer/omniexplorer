@@ -1,7 +1,6 @@
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
-/* eslint no-unused-expressions: 0 no-tabs: 0 */
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   html,
   body {
     height: 100%;
@@ -51,7 +50,7 @@ injectGlobal`
   a:link,
   a:visited,
   a:hover,
-  a:active { 
+  a:active {
     text-decoration: none;
     &:not(.btn){
       background-color: transparent;
@@ -82,3 +81,5 @@ injectGlobal`
   	padding-left: 0.5rem;
   }
 `;
+
+export default GlobalStyle;

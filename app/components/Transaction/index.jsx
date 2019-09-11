@@ -9,14 +9,11 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
 import { Col, Row, Tooltip, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import CopyIcon from 'react-icons/lib/io/ios-copy';
-import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
-import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
+import { ArrowIconDown, ArrowIconRight, CopyIcon } from 'react-icons/io';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -71,64 +68,64 @@ class Transaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-
+    
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-
+    
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-
+  
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-
+  
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-
+  
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-
+  
   getHighlightIfOwner(address) {
     return this.isOwner(address) ? 'text-success' : '';
   }
-
+  
   isOwner(address) {
     return this.props.addr ? this.props.addr === address : false;
   }
-
+  
   render() {
     let statusCSSClass =
       'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
-
+    
     const invalidClass = confirmations =>
       confirmations === 0
         ? `${statusCSSClass} tx-invalid btn-warning`
         : `${statusCSSClass} tx-invalid btn-danger`;
-
+    
     statusCSSClass = this.props.valid
       ? `${statusCSSClass} btn-blue`
       : invalidClass(this.props.confirmations);
-
+    
     const status = StatusConfirmation({
       ...this.props,
       confirmed: CONFIRMATIONS,
     });
-
+    
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-
+    
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -138,23 +135,30 @@ class Transaction extends React.PureComponent {
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-
+    
     const transactionAmount = this.props.amount || '';
-
+    
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
     const invalidid = `invalid-${txcopyid}`;
-
+    
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
           <Col sm="12" md="1">
             <AssetLink asset={this.props.propertyid} state={this.props.state}>
               <AssetLogo
-                asset={{...this.props, name: this.props.propertyname }}
+                asset={{
+                  ...this.props,
+                  name: this.props.propertyname,
+                }}
                 prop={this.props.propertyid}
-                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+                style={{
+                  width: '4rem',
+                  height: '4rem',
+                  marginRight: '7px',
+                }}
               />
             </AssetLink>
           </Col>
@@ -167,7 +171,7 @@ class Transaction extends React.PureComponent {
               </div>
               <div className="p-md-2 pt-xs-2 pl-xs-2">
                 <span className="title d-block-down-md">
-                  <SanitizedFormattedNumber value={transactionAmount} />
+                  <SanitizedFormattedNumber value={transactionAmount}/>
                 </span>
               </div>
               <div className="p-md-2 pb-sm-2">
@@ -184,7 +188,7 @@ class Transaction extends React.PureComponent {
                     state: { state: this.props.state },
                   }}
                 >
-                  <ColoredHash hash={this.props.txid} />
+                  <ColoredHash hash={this.props.txid}/>
                 </Link>
               </WrapperTx>
               <CopyToClipboard
@@ -209,7 +213,7 @@ class Transaction extends React.PureComponent {
           <Col sm="12" md="5">
             <div className="d-flex flex-column text-center align-items-center">
               <WrapperTxDatetime>
-                <FormattedUnixDateTime datetime={this.props.blocktime} />
+                <FormattedUnixDateTime datetime={this.props.blocktime}/>
               </WrapperTxDatetime>
               <Link
                 className={statusCSSClass}
@@ -223,12 +227,12 @@ class Transaction extends React.PureComponent {
                 {status}
               </Link>
               {this.props.invalidreason &&
-                <WarningTooltip
-                  placement="top"
-                  target={invalidid}
-                >
-                  { this.props.invalidreason }
-                </WarningTooltip>
+              <WarningTooltip
+                placement="top"
+                target={invalidid}
+              >
+                {this.props.invalidreason}
+              </WarningTooltip>
               }
             </div>
           </Col>
@@ -333,7 +337,6 @@ Transaction.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

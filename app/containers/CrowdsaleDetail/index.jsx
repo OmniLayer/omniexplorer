@@ -9,10 +9,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import InformationIcon from 'react-icons/lib/io/informatcircled';
+import { InformationIcon } from 'react-icons/io';
 import {
   Card,
   CardBody,
@@ -368,7 +367,6 @@ function mapDispatchToProps(dispatch) {
     getPropertyDeep: crowdsaleId => dispatch(startDeepFetch(crowdsaleId)),
     getCrowdsaleTransactions: crowdsaleId =>
       dispatch(startCrowdsaleTransactionsFetch(crowdsaleId)),
-    changeRoute: url => dispatch(routeActions.push(url)),
     onSetPage: p => dispatch(setPage(p)),
   };
 }

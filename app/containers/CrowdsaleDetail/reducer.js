@@ -1,5 +1,3 @@
-import { fromJS } from 'immutable';
-
 import {
   LOAD_CROWDSALE_TRANSACTIONS,
   LOAD_CROWDSALE_TRANSACTIONS_SUCCESS,
@@ -7,13 +5,13 @@ import {
 } from './constants';
 
 // The initial state of the App
-const initialState = fromJS({
+const initialState = {
   loading: false,
   transactions: [],
   pageCount: 0,
   currentPage: 1,
   total: 0,
-});
+};
 
 const sortDateFordward = array =>
   array.sort((current, previous) => current.blocktime < previous.blocktime);

@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 import SearchBox from 'components/SearchBox';
 import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
@@ -175,7 +174,6 @@ NavbarToggler.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

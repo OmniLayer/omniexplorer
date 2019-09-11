@@ -9,14 +9,11 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
 import { Col, Row, Tooltip } from 'reactstrap';
 import styled from 'styled-components';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import CopyIcon from 'react-icons/lib/io/ios-copy';
-import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
-import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
+import { ArrowIconDown, ArrowIconRight, CopyIcon } from 'react-icons/io';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -84,56 +81,56 @@ const GrayArrowIconDown = styled(ArrowIconDown).attrs({
 class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-
+    
     this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
     this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
     this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-
+    
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-
+  
   toggleTxTooltip() {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   }
-
+  
   toggleSenderTooltip() {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   }
-
+  
   toggleRefererTooltip() {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   }
-
+  
   getHighlightIfOwner(address) {
     return (this.isOwner(address) ? 'text-success' : '');
   }
-
+  
   isOwner(address) {
     return (this.props.addr ? this.props.addr === address : false);
   }
-
+  
   render() {
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
     statusCSSClass = (this.props.valid ? `${statusCSSClass} btn-blue` : (this.props.confirmations === 0 ? `${statusCSSClass} btn-warning` : `${statusCSSClass} btn-danger`));
-
+    
     const status = StatusConfirmation({
       valid: this.props.valid,
       confirmations: this.props.confirmations,
       confirmed: CONFIRMATIONS,
     });
-
+    
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-
+    
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -143,11 +140,11 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-
+    
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-
+    
     const TransactionLabel = (props) => (props.type_int === 51 ?
         <WrapperTxLabel>{props.crowdsale.propertyname} crowdsale started</WrapperTxLabel> :
         <WrapperTxLabel>
@@ -167,7 +164,7 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
           (+<SanitizedFormattedNumber value={props.issuertokens} fractionDigits={8}/> to Issuer)
         </WrapperTxLabel>
     );
-
+    
     const txAsset = this.props.type_int === 51 ?
       {
         ...this.props.crowdsale,
@@ -176,8 +173,8 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
       {
         ...this.props.dessiredToken,
         name: this.props.dessiredToken.propertyname,
-      }
-
+      };
+    
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
@@ -186,7 +183,11 @@ class CrowdsaleTransaction extends React.PureComponent { // eslint-disable-line 
               <AssetLogo
                 asset={txAsset}
                 prop={txAsset.propertyid}
-                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+                style={{
+                  width: '4rem',
+                  height: '4rem',
+                  marginRight: '7px',
+                }}
               />
             </AssetLink>
           </Col>
@@ -298,7 +299,6 @@ CrowdsaleTransaction.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

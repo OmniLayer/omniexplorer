@@ -1,15 +1,14 @@
-import { fromJS } from 'immutable';
 import {
   LOAD_PROPERTY,
   LOAD_PROPERTY_SUCCESS,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   tokens: {},
   error: null,
   isFetching: false,
   lastFetched: 0,
-});
+};
 
 const propertyReducer = (state = initialState, action = {}) => {
   const { error, payload, type } = action;

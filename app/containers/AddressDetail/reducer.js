@@ -4,8 +4,6 @@
  *
  */
 
-import { fromJS } from 'immutable';
-
 import {
   LOAD_ADDRESS,
   LOAD_ADDRESS_SUCCESS,
@@ -15,10 +13,10 @@ const initialAddress = {
   balance: [],
 };
 
-const initialState = fromJS({
+const initialState = {
   loading: false,
   address: initialAddress,
-});
+};
 
 function addressDetailReducer(state = initialState, action) {
   switch (action.type) {

@@ -6,11 +6,11 @@ import {
   ERROR_CLEAN,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   error: null,
   errorInfo: null,
   modal: false,
-});
+};
 
 const errorBoundaryReducer = (state = initialState, action = {}) => {
   const { error, errorInfo, type } = action;

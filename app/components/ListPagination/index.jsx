@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import styled from 'styled-components';
@@ -143,7 +142,6 @@ ListPagination.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

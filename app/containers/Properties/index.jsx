@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Row, Table } from 'reactstrap';
@@ -123,7 +122,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadSearch: query => dispatch(loadSearch(query)),
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 

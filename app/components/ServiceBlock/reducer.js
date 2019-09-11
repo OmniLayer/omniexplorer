@@ -1,15 +1,14 @@
-import { fromJS } from 'immutable';
 import {
   LOAD_STATUS,
   LOAD_STATUS_SUCCESS,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   status: {},
   error: null,
   isFetching: false,
   lastFetched: 0,
-});
+};
 
 const statusReducer = (state = initialState, action = {}) => {
   const { payload, type } = action;

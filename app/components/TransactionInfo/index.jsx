@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -358,7 +357,6 @@ TransactionInfo.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 

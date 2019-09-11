@@ -1,7 +1,6 @@
-import { fromJS } from 'immutable';
 import blocksReducer from '../reducer';
 
-export const initialState = fromJS({
+export const initialState = {
   loading: true,
   appendBlocks: false,
   blocks: [],
@@ -9,10 +8,10 @@ export const initialState = fromJS({
   previousBlock: '',
   latest: -1,
   txType: null,
-});
+};
 
 describe('blocksReducer', () => {
   it('returns the initial state', () => {
-    expect(blocksReducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(blocksReducer(undefined, {})).toEqual(initialState);
   });
 });

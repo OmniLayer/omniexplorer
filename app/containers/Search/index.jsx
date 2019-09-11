@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
@@ -219,7 +218,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadSearch: query => dispatch(loadSearch(query)),
-    changeRoute: url => dispatch(routeActions.push(url)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
   };
 }

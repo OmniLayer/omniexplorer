@@ -4,18 +4,17 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import {
   LOAD_TRANSACTION,
   LOAD_TRANSACTION_SUCCESS,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   transaction: {
     notFound: false,
   },
   loading: true,
-});
+};
 
 function transactionDetailReducer(state = initialState, action) {
   switch (action.type) {

@@ -6,10 +6,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import styled from 'styled-components';
@@ -107,7 +105,6 @@ class Token extends React.PureComponent {
 
 Token.propTypes = {
   getProperty: PropTypes.func,
-  changeRoute: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -119,7 +116,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getProperty: propertyId => dispatch(startFetch(propertyId)),
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

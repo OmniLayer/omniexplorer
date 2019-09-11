@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import HeartIcon from 'react-icons/lib/io/heart';
+import { HeartIcon } from 'react-icons/io';
 import messages from './messages';
 
 const Wrapper = styled.footer`
@@ -30,7 +30,7 @@ function Footer() {
         <FormattedMessage
           {...messages.authorMessage}
           values={{
-            love: <HeartIcon color="red" size={24} />,
+            love: <HeartIcon color="red" size={24}/>,
             author: <A href="http://www.omnilayer.org/">The Omni Foundation</A>,
           }}
         />

@@ -4,7 +4,6 @@
  *
  */
 import sortBy from 'lodash/sortBy';
-import { fromJS } from 'immutable';
 import {
   ECOSYSTEM_PROD,
   ECOSYSTEM_PROD_NAME,
@@ -15,12 +14,12 @@ import {
   LOAD_CROWDSALES_SUCCESS,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   loading: true,
   status: '',
   crowdsales: [],
   ecosystem: ECOSYSTEM_PROD,
-});
+};
 
 function crowdsalesReducer(state = initialState, action) {
   const { error, ecosystem, payload, type } = action;

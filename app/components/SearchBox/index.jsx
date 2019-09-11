@@ -8,9 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
-import SearchIcon from 'react-icons/lib/io/search';
+import { SearchIcon } from 'react-icons/io';
 
 import messages from './messages';
 
@@ -63,7 +62,7 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
         <div className="input-group">
           <Input
             className="form-control searchbox-input"
-            onInput={(e) => this.setState({ query: e.target.value})}
+            onInput={(e) => this.setState({ query: e.target.value })}
             onKeyUp={(e) => this.handleKeyUp(e)}
           >
           </Input>
@@ -80,7 +79,6 @@ SearchBox.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

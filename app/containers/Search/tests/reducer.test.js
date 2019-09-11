@@ -1,7 +1,6 @@
-import { fromJS } from 'immutable';
 import searchReducer from '../reducer';
 
-const initialState = fromJS({
+const initialState = {
   loading: true,
   query: '',
   address: {
@@ -9,7 +8,7 @@ const initialState = fromJS({
   },
   asset: [],
   tx: {},
-});
+};
 
 describe('searchReducer', () => {
   it('returns the initial state', () => {

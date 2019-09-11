@@ -4,13 +4,12 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import {
   LOAD_SEARCH,
   LOAD_SEARCH_SUCCESS,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   loading: true,
   query: '',
   address: {
@@ -18,7 +17,7 @@ const initialState = fromJS({
   },
   asset: [],
   tx: {},
-});
+};
 
 function searchReducer(state = initialState, action) {
   const { payload, type } = action;

@@ -3,19 +3,16 @@
  * BlockDetail reducer
  *
  */
-
-import { fromJS } from 'immutable';
-
 import { LOAD_BLOCK, LOAD_BLOCK_SUCCESS } from './constants';
 
 const initialBlock = {
   transactions: [],
 };
 
-export const initialState = fromJS({
+export const initialState = {
   loading: true,
   block: initialBlock,
-});
+};
 
 function blockDetailReducer(state = initialState, action) {
   switch (action.type) {

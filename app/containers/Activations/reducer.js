@@ -4,7 +4,6 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import orderBy from 'lodash/orderBy';
 
 import { LOAD_ACTIVATIONS, LOAD_ACTIVATIONS_SUCCESS } from './constants';
@@ -15,12 +14,12 @@ const activation = {
   activationblock: 395000,
   minimumversion: 1000000,
 };
-const initialState = fromJS({
+const initialState = {
   loading: true,
   list: [],
   pendingactivations: [],
   completedactivations: [],
-});
+};
 
 function ActivationsReducer(state = initialState, action) {
   const { activations } = action;

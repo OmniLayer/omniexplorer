@@ -13,7 +13,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, Jumbotron } from 'reactstrap';
-import { routeActions } from 'redux-simple-router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 

@@ -9,11 +9,10 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Row, Table, UncontrolledTooltip } from 'reactstrap';
-import InformationIcon from 'react-icons/lib/io/informatcircled';
+import { InformationIcon } from 'react-icons/io';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -151,7 +150,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadCrowdsales: ecosystem => dispatch(loadCrowdsales(ecosystem)),
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 

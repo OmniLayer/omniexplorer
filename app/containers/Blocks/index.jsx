@@ -7,7 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -169,7 +168,6 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadBlocks: block => dispatch(loadBlocks(block)),
     disableLoading: () => dispatch(disableLoading()),
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 

@@ -8,9 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
-import SearchIcon from 'react-icons/lib/io/search';
+import { SearchIcon } from 'react-icons/io';
 
 import messages from './messages';
 import { Tooltip } from 'reactstrap';
@@ -38,19 +37,20 @@ class JumpToBlock extends React.PureComponent {
       tooltipOpen: false,
     };
   }
-  componentWillUnmount(){
+  
+  componentWillUnmount() {
     clearTimeout(this.idTimeout);
   }
-
-  isValid(value){
+  
+  isValid(value) {
     return this.props.onValidate && value && this.props.onValidate(value);
   }
-
+  
   handleJumpToBlock(e) {
     this.props.changeRoute(`/block/${this.state.blockToJump.trim()}`);
     this.setState({ blockToJump: '' });
   }
-
+  
   handleKeyUp(e) {
     const { value } = e.target;
     if (e.keyCode === 13 && value) {
@@ -62,7 +62,7 @@ class JumpToBlock extends React.PureComponent {
       }
     }
   }
-
+  
   render() {
     return (
       <Wrapper className="jump-to-block-form">
@@ -97,7 +97,6 @@ JumpToBlock.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

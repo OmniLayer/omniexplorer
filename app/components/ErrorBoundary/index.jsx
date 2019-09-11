@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 
 import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter, Jumbotron } from 'reactstrap';
-import { routeActions } from 'redux-simple-router';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import { Link } from 'react-router-dom';
 import moment from 'moment/src/moment';

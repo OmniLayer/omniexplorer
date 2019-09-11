@@ -1,14 +1,13 @@
-import { fromJS } from 'immutable';
 import { selectAddressDetailDomain } from '../selectors';
 
 describe('selectAddressDetailDomain', () => {
   it('Expect to have unit tests specified', () => {
-    const addressState = fromJS({
+    const addressState = {
       foo: 'bar',
-    });
-    const mockedState = fromJS({
+    };
+    const mockedState = {
       addressDetail: addressState,
-    });
+    };
     expect(selectAddressDetailDomain(mockedState)).toEqual(addressState);
   });
 });

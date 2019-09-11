@@ -2,9 +2,8 @@
  * Combine all reducers in this file and export the combined reducers.
  */
 
-import { combineReducers } from 'redux-immutable';
-import { fromJS } from 'immutable';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { combineReducers } from 'redux';
+import { LOCATION_CHANGE } from 'connected-react-router';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import transactionsReducer from 'containers/Transactions/reducer';
@@ -20,9 +19,9 @@ import blocksReducer from 'containers/Blocks/reducer';
  */
 
 // Initial routing state
-const routeInitialState = fromJS({
+const routeInitialState = {
   location: null,
-});
+};
 
 /**
  * Merge route into the global application state
@@ -50,11 +49,10 @@ export default function createReducer(injectedReducers) {
     status: statusReducer,
     transactions: transactionsReducer,
     blocks: blocksReducer,
-    global: () =>
-      fromJS({
-        loading: false,
-        error: false,
-      }),
+    global: () => ({
+      loading: false,
+      error: false,
+    }),
     ...injectedReducers,
   });
 }

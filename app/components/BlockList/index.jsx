@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { Table, UncontrolledTooltip } from 'reactstrap';
 
 import { FormattedMessage } from 'react-intl';
-import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -22,7 +21,7 @@ import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import InformationIcon from 'react-icons/lib/io/informatcircled';
+import { InformationIcon } from 'react-icons/io';
 
 import messages from './messages';
 
@@ -253,7 +252,6 @@ BlockList.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
     dispatch,
   };

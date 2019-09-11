@@ -10,8 +10,6 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS } from 'immutable';
-
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
@@ -21,14 +19,14 @@ import {
 } from './constants';
 
 // The initial state of the App
-export const initialState = fromJS({
+export const initialState = {
   loading: false,
   transactions: [],
   pageCount: 0,
   currentPage: 1,
   txType: null,
   unconfirmed: false,
-});
+};
 
 function transactionsReducer(state = initialState, action) {
   switch (action.type) {
