@@ -34,7 +34,6 @@ export function* getAddress({ addr }) {
   if (walletBTCBalance) walletBTCBalance.value = btcBalanceValue;
 
   yield put(addressLoaded(wallet));
-
   yield wallet.balance.map(property => put(updateFetch(property.propertyinfo)));
 }
 
