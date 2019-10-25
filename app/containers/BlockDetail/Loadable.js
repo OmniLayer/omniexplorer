@@ -1,5 +1,5 @@
 /**
- * Asynchronously loads the component for HomePage
+* Asynchronously loads the component
  */
 
 import React from 'react';
