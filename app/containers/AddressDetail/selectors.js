@@ -14,7 +14,7 @@ const selectAddressDetailDomain = state => state.get('addressDetail');
  */
 
 const makeSelectAddressDetail = () =>
-  createSelector(selectAddressDetailDomain, substate => substate.toJS());
+  createSelector(selectAddressDetailDomain, substate => substate);
 
 export default makeSelectAddressDetail;
 export { selectAddressDetailDomain };

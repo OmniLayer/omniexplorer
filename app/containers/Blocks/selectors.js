@@ -11,7 +11,7 @@ const selectBlocksDomain = state => state.get('blocks', initialState);
  */
 
 const makeSelectBlocks = () =>
-  createSelector(selectBlocksDomain, substate => substate.toJS());
+  createSelector(selectBlocksDomain, substate => substate);
 
 const makeSelectLoading = () =>
   createSelector(selectBlocksDomain, substate => substate.get('loading'));

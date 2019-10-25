@@ -113,7 +113,7 @@ ErrorBoundary.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   status: makeSelectStatus(),
-  st: state => state.get('errorBoundary').toJS(),
+  st: state => state.errorBoundary,
 });
 
 const withReducer = injectReducer({

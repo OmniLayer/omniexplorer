@@ -12,7 +12,7 @@ const selectTransactionsDomain = state =>
  */
 
 const makeSelectTransactions = () =>
-  createSelector(selectTransactionsDomain, substate => substate.toJS());
+  createSelector(selectTransactionsDomain, substate => substate);
 
 const makeSelectLoading = () =>
   createSelector(selectTransactionsDomain, substate => substate.get('loading'));

@@ -16,7 +16,7 @@ const selectActivationsDomain = (state) => state.get('activations');
 
 const makeSelectActivations = () => createSelector(
   selectActivationsDomain,
-  (substate) => substate.toJS()
+  (substate) => substate
 );
 
 export default makeSelectActivations;

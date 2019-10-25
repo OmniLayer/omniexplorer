@@ -8,7 +8,7 @@ function selectGlobal(state) {
 const selectRoute = state => state.get('route');
 
 const makeSelectLocation = () =>
-  createSelector(selectRoute, routeState => routeState.get('location').toJS());
+  createSelector(selectRoute, routeState => routeState.location);
 
 function makeSelectLoading() {
   return createSelector(selectGlobal, globalState =>

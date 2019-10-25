@@ -14,7 +14,7 @@ const selectTransactionDetailDomain = state => state.get('transactionDetail');
  */
 
 const makeSelectTransactionDetail = () =>
-  createSelector(selectTransactionDetailDomain, substate => substate.toJS());
+  createSelector(selectTransactionDetailDomain, substate => substate);
 
 export default makeSelectTransactionDetail;
 export { selectTransactionDetailDomain };

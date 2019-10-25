@@ -14,7 +14,7 @@ const selectCrowdsaleDetailDomain = state => state.get('crowdsaleDetail');
  */
 
 const makeSelectCrowdsaleDetail = () =>
-  createSelector(selectCrowdsaleDetailDomain, substate => substate.toJS());
+  createSelector(selectCrowdsaleDetailDomain, substate => substate);
 
 export default makeSelectCrowdsaleDetail;
 export { selectCrowdsaleDetailDomain };

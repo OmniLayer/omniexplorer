@@ -14,7 +14,7 @@ const selectBlockDetailDomain = state => state.get('blockDetail');
  */
 
 const makeSelectBlockDetail = () =>
-  createSelector(selectBlockDetailDomain, substate => substate.toJS());
+  createSelector(selectBlockDetailDomain, substate => substate);
 
 export default makeSelectBlockDetail;
 export { selectBlockDetailDomain };

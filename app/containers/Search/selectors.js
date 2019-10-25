@@ -14,7 +14,7 @@ const selectSearchDomain = state => state.get('search');
  */
 
 const makeSelectSearch = () =>
-  createSelector(selectSearchDomain, substate => substate.toJS());
+  createSelector(selectSearchDomain, substate => substate);
 
 export default makeSelectSearch;
 export { selectSearchDomain };
