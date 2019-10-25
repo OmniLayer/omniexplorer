@@ -11,7 +11,7 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const statusReducer = (state = initialState, action = {}) => {
   const { payload, type } = action;
-  produce(state, draft => {
+  return produce(state, draft => {
     switch (type) {
       case LOAD_STATUS:
         draft.isFetching = true;

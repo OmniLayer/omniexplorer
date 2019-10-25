@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { SearchIcon } from 'react-icons/io';
+import { IoIosSearch } from 'react-icons/io';
 
 import messages from './messages';
 
@@ -66,7 +66,7 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
             onKeyUp={(e) => this.handleKeyUp(e)}
           >
           </Input>
-          <SearchIcon className="searchbox-icon" size={24} onClick={(e) => this.handleDoSearch(e)}/>
+          <IoIosSearch className="searchbox-icon" size={24} onClick={(e) => this.handleDoSearch(e)}/>
         </div>
       </Wrapper>
     );

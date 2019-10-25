@@ -38,7 +38,7 @@ const StyledLink = styled(Link).attrs({
 })`
   color: #333;
 `;
-debugger;
+
 const StyledCopy = styled(IoIosCopy).attrs({
   className: 'btn-outline-info rounded',
 })``;

@@ -11,7 +11,7 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const propertyReducer = (state = initialState, action = {}) => {
   const { error, payload, type } = action;
-  produce(state, draft => {
+  return produce(state, draft => {
     switch (type) {
       case LOAD_PROPERTY:
         draft.lastFetched = 0;

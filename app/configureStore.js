@@ -32,7 +32,6 @@ export default function configureStore(initialState = {}, history) {
   // Import DevTools, only for dev environment
   const isDev = process.env.NODE_ENV !== 'production';
   
-  debugger;
   if (isDev) {
     enhancers.push(DevTools.instrument());
   }

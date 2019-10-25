@@ -11,7 +11,7 @@ export const initialState = {
 /* eslint-disable default-case, no-param-reassign */
 const errorBoundaryReducer = (state = initialState, action = {}) => {
   const { error, errorInfo, type } = action;
-  produce(state, draft => {
+  return produce(state, draft => {
     switch (type) {
       case ERROR_CLEAN:
         break;
