@@ -1,9 +1,5 @@
-import {
-  LOAD_PROPERTY,
-  LOAD_PROPERTY_SUCCESS,
-} from './constants';
-
 import produce from 'immer';
+import { LOAD_PROPERTY, LOAD_PROPERTY_SUCCESS } from './constants';
 
 export const initialState = {
   tokens: {},
@@ -12,27 +8,26 @@ export const initialState = {
   lastFetched: 0,
 };
 
+/* eslint-disable default-case, no-param-reassign */
 const propertyReducer = (state = initialState, action = {}) => {
   const { error, payload, type } = action;
-
-  switch (type) {
-    case LOAD_PROPERTY: {
-      return state
-        .set('lastFetched', 0)
-        .set('isFetching', true)
-        .set('error', null);
+  produce(state, draft => {
+    switch (type) {
+      case LOAD_PROPERTY:
+        draft.lastFetched = 0;
+        draft.isFetching = true;
+        draft.error = null;
+        break;
+      case LOAD_PROPERTY_SUCCESS:
+        draft.isFetching = false;
+        draft.lastFetched = Date.now();
+        draft.error = null;
+        // .setIn(['tokens', payload.propertyid.toString()], payload);
+        debugger;
+        draft.tokens[payload.propertyid.toString()] = payload;
+        break;
     }
-    case LOAD_PROPERTY_SUCCESS: {
-      return state
-      .set('isFetching', false)
-      .set('lastFetched', Date.now())
-      .set('error', null)
-      .setIn(['tokens', payload.propertyid.toString()], payload);
-    }
-    default: {
-      return state;
-    }
-  }
+  });
 };
 
 export default propertyReducer;

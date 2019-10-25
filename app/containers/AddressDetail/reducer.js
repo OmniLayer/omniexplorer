@@ -3,36 +3,31 @@
  * AddressDetail reducer
  *
  */
-
-import {
-  LOAD_ADDRESS,
-  LOAD_ADDRESS_SUCCESS,
-} from './constants';
+import produce from 'immer';
+import { LOAD_ADDRESS, LOAD_ADDRESS_SUCCESS } from './constants';
 
 const initialAddress = {
   balance: [],
 };
-
-import produce from 'immer';
 
 export const initialState = {
   loading: false,
   address: initialAddress,
 };
 
-function addressDetailReducer(state = initialState, action) {
-  switch (action.type) {
-    case LOAD_ADDRESS:
-      return state
-        .set('loading', true)
-        .set('address', initialAddress);
-    case LOAD_ADDRESS_SUCCESS:
-      return state
-        .set('address', action.address)
-        .set('loading', false);
-    default:
-      return state;
-  }
-}
+/* eslint-disable default-case, no-param-reassign */
+const addressDetailReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case LOAD_ADDRESS:
+        draft.loading = true;
+        draft.address = initialAddress;
+        break;
+      case LOAD_ADDRESS_SUCCESS:
+        draft.loading = false;
+        draft.address = action.address;
+        break;
+    }
+  });
 
 export default addressDetailReducer;

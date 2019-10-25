@@ -3,13 +3,8 @@
  * Search reducer
  *
  */
-
-import {
-  LOAD_SEARCH,
-  LOAD_SEARCH_SUCCESS,
-} from './constants';
-
 import produce from 'immer';
+import { LOAD_SEARCH, LOAD_SEARCH_SUCCESS } from './constants';
 
 export const initialState = {
   loading: true,
@@ -21,22 +16,23 @@ export const initialState = {
   tx: {},
 };
 
-function searchReducer(state = initialState, action) {
+/* eslint-disable default-case, no-param-reassign */
+const searchReducer = (state = initialState, action) => {
   const { payload, type } = action;
-
-  switch (type) {
-    case LOAD_SEARCH:
-      return state.set('loading', true);
-    case LOAD_SEARCH_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('query', payload.query)
-        .set('address', payload.data.address)
-        .set('asset', payload.data.asset)
-        .set('tx', payload.data.tx);
-    default:
-      return state;
-  }
-}
+  produce(state, draft => {
+    switch (type) {
+      case LOAD_SEARCH:
+        draft.loading = true;
+        break;
+      case LOAD_SEARCH_SUCCESS:
+        draft.loading = false;
+        draft.query = payload.query;
+        draft.address = payload.data.address;
+        draft.asset = payload.data.asset;
+        draft.tx = payload.data.tx;
+        break;
+    }
+  });
+};
 
 export default searchReducer;

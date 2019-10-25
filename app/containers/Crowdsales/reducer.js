@@ -3,18 +3,10 @@
  * Crowdsales reducer
  *
  */
-import sortBy from 'lodash/sortBy';
-import {
-  ECOSYSTEM_PROD,
-  ECOSYSTEM_PROD_NAME,
-  ECOSYSTEM_TEST_NAME,
-} from 'containers/App/constants';
-import {
-  LOAD_CROWDSALES,
-  LOAD_CROWDSALES_SUCCESS,
-} from './constants';
-
 import produce from 'immer';
+import sortBy from 'lodash/sortBy';
+import { ECOSYSTEM_PROD, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
+import { LOAD_CROWDSALES, LOAD_CROWDSALES_SUCCESS } from './constants';
 
 export const initialState = {
   loading: true,
@@ -23,30 +15,28 @@ export const initialState = {
   ecosystem: ECOSYSTEM_PROD,
 };
 
-function crowdsalesReducer(state = initialState, action) {
+/* eslint-disable default-case, no-param-reassign */
+const crowdsalesReducer = (state = initialState, action) => {
   const { error, ecosystem, payload, type } = action;
-
-  switch (type) {
-    case LOAD_CROWDSALES:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .set('ecosystem', ecosystem)
-        .set(
-          'ecosystemName',
+  produce(state, draft => {
+    switch (type) {
+      case LOAD_CROWDSALES:
+        draft.loading = true;
+        draft.error = false;
+        draft.ecosystem = ecosystem;
+        draft.ecosystemName =
           ecosystem === ECOSYSTEM_PROD
             ? ECOSYSTEM_PROD_NAME
-            : ECOSYSTEM_TEST_NAME,
-        );
-    case LOAD_CROWDSALES_SUCCESS:
-      return state
-        .set('error', false)
-        .set('loading', false)
-        .set('status', payload.status)
-        .set('crowdsales', sortBy(payload.crowdsales, 'deadline'));
-    default:
-      return state;
-  }
-}
+            : ECOSYSTEM_TEST_NAME;
+        break;
+      case LOAD_CROWDSALES_SUCCESS:
+        draft.error = false;
+        draft.loading = false;
+        draft.status = payload.status;
+        draft.crowdsales = sortBy(payload.crowdsales, 'deadline');
+        break;
+    }
+  });
+};
 
 export default crowdsalesReducer;
