@@ -9,7 +9,9 @@ import {
   LOAD_TRANSACTION_SUCCESS,
 } from './constants';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   transaction: {
     notFound: false,
   },

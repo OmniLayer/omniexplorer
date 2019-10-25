@@ -3,7 +3,9 @@ import {
   LOAD_PROPERTY_SUCCESS,
 } from './constants';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   tokens: {},
   error: null,
   isFetching: false,

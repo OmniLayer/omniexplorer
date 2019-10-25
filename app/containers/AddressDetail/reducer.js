@@ -13,7 +13,9 @@ const initialAddress = {
   balance: [],
 };
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   loading: false,
   address: initialAddress,
 };

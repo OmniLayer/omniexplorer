@@ -7,7 +7,9 @@
 import { CHANGE_LOCALE } from './constants';
 import { DEFAULT_LOCALE } from '../App/constants'; // eslint-disable-line
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   locale: DEFAULT_LOCALE,
 };
 

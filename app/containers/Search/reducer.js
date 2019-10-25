@@ -9,7 +9,9 @@ import {
   LOAD_SEARCH_SUCCESS,
 } from './constants';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   loading: true,
   query: '',
   address: {

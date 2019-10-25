@@ -1,5 +1,7 @@
 import blocksReducer from '../reducer';
 
+import produce from 'immer';
+
 export const initialState = {
   loading: true,
   appendBlocks: false,

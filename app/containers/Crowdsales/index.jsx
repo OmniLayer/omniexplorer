@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Row, Table, UncontrolledTooltip } from 'reactstrap';
-import { InformationIcon } from 'react-icons/io';
+import { IoIosInformation } from 'react-icons/io';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -76,7 +76,7 @@ export class Crowdsales extends React.Component {
             <StyledTH>Rate</StyledTH>
             <StyledTH>
               Closing Datetime
-              <InformationIcon
+              <IoIosInformation
                 color="gray"
                 className="ml-1"
                 id="crowdsalesClosingDate"

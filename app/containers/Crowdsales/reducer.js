@@ -14,7 +14,9 @@ import {
   LOAD_CROWDSALES_SUCCESS,
 } from './constants';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   loading: true,
   status: '',
   crowdsales: [],

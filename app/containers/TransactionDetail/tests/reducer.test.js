@@ -1,5 +1,7 @@
 import transactionDetailReducer from '../reducer';
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   transaction: {
     notFound: false,
   },

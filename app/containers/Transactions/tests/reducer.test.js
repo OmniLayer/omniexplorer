@@ -1,5 +1,7 @@
 import transactionsReducer from '../reducer';
 
+import produce from 'immer';
+
 export const initialState = {
   loading: false,
   transactions: [],

@@ -13,7 +13,8 @@ import { Col, Row, Tooltip, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { ArrowIconDown, ArrowIconRight, CopyIcon } from 'react-icons/io';
+import { ArrowIconDown, ArrowIconRight, IoIosCopy } from 'react-icons/io';
+
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -37,8 +38,8 @@ const StyledLink = styled(Link).attrs({
 })`
   color: #333;
 `;
-
-const StyledCopyIcon = styled(CopyIcon).attrs({
+debugger;
+const StyledCopy = styled(IoIosCopy).attrs({
   className: 'btn-outline-info rounded',
 })``;
 
@@ -195,7 +196,7 @@ class Transaction extends React.PureComponent {
                 text={this.props.txid}
                 onCopy={this.toggleTxTooltip}
               >
-                <StyledCopyIcon
+                <StyledCopy
                   className="d-inline-flex d-md-none"
                   size={24}
                   id={txcopyid}
@@ -258,7 +259,7 @@ class Transaction extends React.PureComponent {
                   text={this.props.sendingaddress}
                   onCopy={this.toggleSenderTooltip}
                 >
-                  <StyledCopyIcon
+                  <StyledCopy
                     className="d-inline-flex"
                     size={24}
                     id={sendercopyid}
@@ -298,7 +299,7 @@ class Transaction extends React.PureComponent {
                   text={this.props.referenceaddress}
                   onCopy={this.toggleRefererTooltip}
                 >
-                  <StyledCopyIcon
+                  <StyledCopy
                     className="d-inline-flex"
                     size={24}
                     id={referercopyid}

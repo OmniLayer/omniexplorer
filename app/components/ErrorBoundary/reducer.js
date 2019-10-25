@@ -6,7 +6,9 @@ import {
   ERROR_CLEAN,
 } from './constants';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   error: null,
   errorInfo: null,
   modal: false,

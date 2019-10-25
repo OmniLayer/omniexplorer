@@ -21,7 +21,7 @@ import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import { InformationIcon } from 'react-icons/io';
+import { IoIosInformation } from 'react-icons/io';
 
 import messages from './messages';
 
@@ -147,7 +147,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
-              <InformationIcon
+              <IoIosInformation
                 color="gray"
                 className="ml-1"
                 id="blockListTransactionCount"
@@ -161,7 +161,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.usdvalue} />
-              <InformationIcon
+              <IoIosInformation
                 color="gray"
                 className="ml-1"
                 id="blockListUSDValue"

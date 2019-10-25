@@ -1,6 +1,8 @@
 import searchReducer from '../reducer';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   loading: true,
   query: '',
   address: {

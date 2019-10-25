@@ -18,7 +18,8 @@ import {
   SET_TRANSACTION_TYPE,
 } from './constants';
 
-// The initial state of the App
+import produce from 'immer';
+
 export const initialState = {
   loading: false,
   transactions: [],

@@ -15,16 +15,16 @@ import sortBy from 'lodash/sortBy';
 import Token from 'components/Token';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
-import { InformationIcon } from 'react-icons/io';
-import { QRCodeIcon } from 'react-icons/fa';
+import { IoIosInformation } from 'react-icons/io';
+import { FaQrcode } from 'react-icons/fa';
 import walletMessages from './messages';
 
-const StyledInformationIcon = styled(InformationIcon)`
+const StyledIoIosInformation = styled(IoIosInformation)`
   color: cadetblue !important;
   font-size: 1.5rem;
 `;
 
-const StyledQRCodeIcon = styled(QRCodeIcon)`
+const StyledFaQrcode = styled(FaQrcode)`
   color: cadetblue !important;
   font-size: 1.5rem;
   width: 36px;
@@ -115,7 +115,7 @@ class Wallet extends React.PureComponent {
                   }}
                   onClick={this.toggleModal}
                 >
-                  <StyledQRCodeIcon className="ml-1"/>
+                  <StyledFaQrcode className="ml-1"/>
                 </Button>
                 {this.props.addr}
                 <Modal
@@ -175,7 +175,7 @@ class Wallet extends React.PureComponent {
                     onClick={this.toggle}
                   >
                     {this.state.flaggedMessage}
-                    <StyledInformationIcon
+                    <StyledIoIosInformation
                       color="gray"
                       className="ml-1"
                       id="flaggedToolip"

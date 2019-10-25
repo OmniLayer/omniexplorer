@@ -14,7 +14,9 @@ const activation = {
   activationblock: 395000,
   minimumversion: 1000000,
 };
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   loading: true,
   list: [],
   pendingactivations: [],

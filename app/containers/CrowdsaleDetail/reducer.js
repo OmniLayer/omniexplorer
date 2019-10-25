@@ -4,8 +4,9 @@ import {
   SET_CROWDSALES_TRANSACTIONS_PAGE,
 } from './constants';
 
-// The initial state of the App
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   loading: false,
   transactions: [],
   pageCount: 0,

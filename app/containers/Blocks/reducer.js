@@ -18,7 +18,8 @@ import {
   DISABLE_BLOCKS_LOADING,
 } from './constants';
 
-// The initial state of the App
+import produce from 'immer';
+
 export const initialState = {
   loading: true,
   appendBlocks: false,

@@ -37,7 +37,7 @@ import Header from 'components/Header';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import DevTools from 'utils/devTools';
-import Moment from 'react-moment';
+// import Moment from 'react-moment';
 
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -48,7 +48,7 @@ import Sagas from './sagas';
 const isDev = process.env.NODE_ENV !== 'production';
 
 // Set Moment Global locale
-Moment.globalLocale = 'en-gb';
+// Moment.globalLocale = 'en-gb';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);

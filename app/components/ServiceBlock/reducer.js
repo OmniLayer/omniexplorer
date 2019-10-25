@@ -3,7 +3,9 @@ import {
   LOAD_STATUS_SUCCESS,
 } from './constants';
 
-const initialState = {
+import produce from 'immer';
+
+export const initialState = {
   status: {},
   error: null,
   isFetching: false,

@@ -21,9 +21,18 @@ const sagaMiddleware = createSagaMiddleware({
 });
 
 export default function configureStore(initialState = {}, history) {
+  
+  // Create the store with two middlewares
+  // 1. sagaMiddleware: Makes redux-sagas work
+  // 2. routerMiddleware: Syncs the location/URL path to the state
+  const middlewares = [sagaMiddleware, routerMiddleware(history)];
+  
+  const enhancers = [applyMiddleware(...middlewares)];
+  
   // Import DevTools, only for dev environment
   const isDev = process.env.NODE_ENV !== 'production';
-
+  
+  debugger;
   if (isDev) {
     enhancers.push(DevTools.instrument());
   }
@@ -38,13 +47,6 @@ export default function configureStore(initialState = {}, history) {
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ shouldHotReload: false })
       : compose;
   /* eslint-enable */
-
-  // Create the store with two middlewares
-  // 1. sagaMiddleware: Makes redux-sagas work
-  // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [sagaMiddleware, routerMiddleware(history)];
-
-  const enhancers = [applyMiddleware(...middlewares)];
 
   const store = createStore(
     createReducer(),
