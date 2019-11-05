@@ -1,6 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+  * {
+    outline: none;
+  }
+  
   html,
   body {
     height: 100%;
@@ -11,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
   body.fontLoaded {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-   
+    font-size: 12px;
   }
 
   #app {

@@ -12,13 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import {
-  Container,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
-} from 'reactstrap';
+import { Container, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -38,17 +32,14 @@ import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
 import ColoredHash from 'components/ColoredHash';
 import BlockPagination from 'components/BlockPagination';
+import { makeSelectLocation } from 'containers/App/selectors';
 import makeSelectBlockDetail from './selectors';
 import reducer from './reducer';
 import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
-import {
-  ALL_BLOCK_TRANSACTIONS,
-  INVALID_BLOCK_TRANSACTIONS,
-  VALID_BLOCK_TRANSACTIONS,
-} from './constants';
 
+import { ALL_BLOCK_TRANSACTIONS, INVALID_BLOCK_TRANSACTIONS, VALID_BLOCK_TRANSACTIONS } from './constants';
 import './blockdetail.scss';
 
 const StyledContainer = styled(ContainerBase).attrs({
@@ -66,7 +57,7 @@ export class BlockDetail extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-
+    
     this.block = props.match.params.block;
     this.state = {
       showTxType: ALL_BLOCK_TRANSACTIONS,
@@ -75,21 +66,21 @@ export class BlockDetail extends React.Component {
       pageCount: 0,
       currentPage: 1,
     };
-
+    
     this.transactions = null;
-
+    
     this.onFilterByInvalidTxs = this.onFilterByInvalidTxs.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
   }
-
+  
   getTransactions() {
     console.log('call getTransactions');
     const { block } = this.props.blockdetail;
-
+    
     if (!this.transactions) {
       this.setState({
-        currentPage: parseInt(this.props.location.get('hash').replace('#','')) || 1,
+        currentPage: parseInt(this.props.location.hash.replace('#', '')) || 1,
         currentData: block.transactions.slice(0, 10),
         pageCount: Math.ceil(block.transactions.length / 10),
       });
@@ -99,11 +90,11 @@ export class BlockDetail extends React.Component {
         [INVALID_BLOCK_TRANSACTIONS]: block.transactions.filter(x => !x.valid),
       };
     }
-
+    
     const txs = this.transactions[this.state.showTxType];
     return txs;
   }
-
+  
   onFilterByInvalidTxs(showTxType) {
     this.setState({
       showTxType,
@@ -111,7 +102,7 @@ export class BlockDetail extends React.Component {
       currentData: this.transactions[showTxType].slice(0, 10),
     });
   }
-
+  
   componentDidMount() {
     console.log('block detail did mount');
     this.props.loadBlock(this.block);
@@ -125,7 +116,7 @@ export class BlockDetail extends React.Component {
       currentData: txs.slice(page - 1, page + 10),
     });
   };
-
+  
   render() {
     console.log('block detail render');
     const statusLoading =
@@ -144,13 +135,13 @@ export class BlockDetail extends React.Component {
     const { confirmations } = (block.transactions || []).find(
       tx => tx.valid,
     ) || { confirmations: 'invalid' };
-
+    
     let content;
     let hasInvalid = false;
-
+    
     const getItemKey = (blockItem, idx) =>
       blockItem.blockhash.slice(0, 22).concat(idx);
-
+    
     if (this.block < FIRST_BLOCK || !block.transactions) {
       const errMsg = `Block ${this.block} not found`;
       content = (
@@ -228,9 +219,9 @@ export class BlockDetail extends React.Component {
         </DropdownMenu>
       </UncontrolledDropdown>
     );
-
+    
     const validInvalidTxs = hasInvalid ? dropdown : null;
-
+    
     return (
       <StyledContainer fluid>
         <ListHeader
@@ -279,7 +270,7 @@ BlockDetail.propTypes = {
 const mapStateToProps = createStructuredSelector({
   blockdetail: makeSelectBlockDetail(),
   status: makeSelectStatus(),
-  location: state => state.get('route').get('location'),
+  location: makeSelectLocation(),
 });
 
 function mapDispatchToProps(dispatch) {

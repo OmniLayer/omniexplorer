@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the search state domain
  */
-const selectSearchDomain = state => state.get('search');
+const selectSearchDomain = state => state.search || initialState;
 
 /**
  * Other specific selectors

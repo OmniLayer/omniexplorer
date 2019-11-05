@@ -5,14 +5,13 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { SearchIcon } from 'react-icons/io';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
-import messages from './messages';
+import { IoIosSearch } from 'react-icons/io';
 import { Tooltip } from 'reactstrap';
+import messages from './messages';
 
 const Input = styled.input.attrs({
   type: 'number',
@@ -22,7 +21,8 @@ const Input = styled.input.attrs({
   appearance: none !important;
 `;
 const Wrapper = styled.div.attrs({
-  className: 'input-group d-flex justify-content-center justify-content-md-end align-items-center',
+  className:
+    'input-group d-flex justify-content-center justify-content-md-end align-items-center',
 })`
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -37,20 +37,20 @@ class JumpToBlock extends React.PureComponent {
       tooltipOpen: false,
     };
   }
-  
+
   componentWillUnmount() {
     clearTimeout(this.idTimeout);
   }
-  
+
   isValid(value) {
     return this.props.onValidate && value && this.props.onValidate(value);
   }
-  
+
   handleJumpToBlock(e) {
-    this.props.changeRoute(`/block/${this.state.blockToJump.trim()}`);
+    this.props.push(`/block/${this.state.blockToJump.trim()}`);
     this.setState({ blockToJump: '' });
   }
-  
+
   handleKeyUp(e) {
     const { value } = e.target;
     if (e.keyCode === 13 && value) {
@@ -58,12 +58,16 @@ class JumpToBlock extends React.PureComponent {
         this.handleJumpToBlock(e);
       } else {
         this.setState({ tooltipOpen: true });
-        this.idTimeout = setTimeout(() => this.setState({ tooltipOpen: false }), 1500);
+        this.idTimeout = setTimeout(
+          () => this.setState({ tooltipOpen: false }),
+          1500,
+        );
       }
     }
   }
-  
+
   render() {
+
     return (
       <Wrapper className="jump-to-block-form">
         <span className="d-none d-sm-inline">Jump to Block:&nbsp;</span>
@@ -74,7 +78,7 @@ class JumpToBlock extends React.PureComponent {
           onInput={e => this.setState({ blockToJump: e.target.value })}
           onKeyUp={e => this.handleKeyUp(e)}
         />
-        <SearchIcon
+        <IoIosSearch
           className="jump-to-block-icon"
           size={24}
           onClick={e => this.handleJumpToBlock(e)}
@@ -91,19 +95,7 @@ class JumpToBlock extends React.PureComponent {
   }
 }
 
-JumpToBlock.propTypes = {
-  changeRoute: PropTypes.func,
-};
+JumpToBlock.propTypes = {};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
+export default connect(null, { push })(JumpToBlock);
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
-
-export default compose(withConnect)(JumpToBlock);

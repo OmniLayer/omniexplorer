@@ -28,9 +28,9 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const transactionsReducer = (state = initialState, action) =>
+const transactionsReducer = (state = initialState, { type, addr, transactions, pages, page, txType } = action) =>
   produce(state, draft => {
-    switch (action.type) {
+    switch (type) {
       case LOAD_TRANSACTIONS:
         draft.loading = true;
         draft.transactions = [];
@@ -43,18 +43,16 @@ const transactionsReducer = (state = initialState, action) =>
         draft.unconfirmed = true;
         break;
       case LOAD_TRANSACTIONS_SUCCESS: {
-        const unconfirmed = state.get('unconfirmed');
-        const transactions = action.addr ? action.transactions.filter(tx => !!tx.confirmations) : action.transactions;
-        draft.transactions = transactions;
-        draft.pageCount = unconfirmed ? transactions.length : action.pages;
+        draft.transactions = addr ? transactions.filter(tx => !!tx.confirmations) : transactions;
+        draft.pageCount = state.unconfirmed ? transactions.length : pages;
         draft.loading = false;
         break;
       }
       case SET_PAGE:
-        draft.currentPage = action.page;
+        draft.currentPage = page;
         break;
       case SET_TRANSACTION_TYPE:
-        draft.txType = action.txType;
+        draft.txType = txType;
         break;
     }
   });

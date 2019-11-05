@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import styled from 'styled-components';
 import { IoIosSearch } from 'react-icons/io';
 
@@ -45,7 +46,7 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
   }
   
   handleDoSearch(e) {
-    this.props.changeRoute(`/search/${this.state.query.trim()}`);
+    this.props.push(`/search/${this.state.query.trim()}`);
     this.setState({ query: '' });
   }
   
@@ -74,12 +75,12 @@ class SearchBox extends React.PureComponent { // eslint-disable-line react/prefe
 }
 
 SearchBox.propTypes = {
-  changeRoute: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    push,
   };
 }
 

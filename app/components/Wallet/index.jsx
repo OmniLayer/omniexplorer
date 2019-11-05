@@ -15,11 +15,11 @@ import sortBy from 'lodash/sortBy';
 import Token from 'components/Token';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
-import { IoIosInformation } from 'react-icons/io';
+import { IoIosInformationCircle } from 'react-icons/io';
 import { FaQrcode } from 'react-icons/fa';
 import walletMessages from './messages';
 
-const StyledIoIosInformation = styled(IoIosInformation)`
+const StyledIoIosInformationCircle = styled(IoIosInformationCircle)`
   color: cadetblue !important;
   font-size: 1.5rem;
 `;
@@ -175,7 +175,7 @@ class Wallet extends React.PureComponent {
                     onClick={this.toggle}
                   >
                     {this.state.flaggedMessage}
-                    <StyledIoIosInformation
+                    <StyledIoIosInformationCircle
                       color="gray"
                       className="ml-1"
                       id="flaggedToolip"

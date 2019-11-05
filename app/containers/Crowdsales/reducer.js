@@ -16,8 +16,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const crowdsalesReducer = (state = initialState, action) => {
-  const { error, ecosystem, payload, type } = action;
+const crowdsalesReducer = (state = initialState, { error, ecosystem, payload, type } = action) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_CROWDSALES:
@@ -37,6 +36,5 @@ const crowdsalesReducer = (state = initialState, action) => {
         break;
     }
   });
-};
 
 export default crowdsalesReducer;

@@ -111,7 +111,6 @@ export class AssetDetail extends React.PureComponent {
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   getProperty: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
   match: PropTypes.any,
 };

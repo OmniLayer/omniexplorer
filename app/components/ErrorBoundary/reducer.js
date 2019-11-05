@@ -14,6 +14,7 @@ const errorBoundaryReducer = (state = initialState, action = {}) => {
   return produce(state, draft => {
     switch (type) {
       case ERROR_CLEAN:
+        draft.modal = false;
         break;
       case ERROR_BACKEND_LAGGED:
         draft.error = 'backend lagged';

@@ -20,13 +20,13 @@ export const initialState = {
   list: [],
   pendingactivations: [],
   completedactivations: [],
+  error: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const ActivationsReducer = (state = initialState, action) => {
-  const { activations } = action;
+const activationsReducer = (state = initialState, {type, activations} = action) =>
   produce(state, draft => {
-    switch (action.type) {
+    switch (type) {
       case LOAD_ACTIVATIONS:
         draft.loading = true;
         break;
@@ -39,6 +39,5 @@ const ActivationsReducer = (state = initialState, action) => {
         break;
     }
   });
-};
 
-export default ActivationsReducer;
+export default activationsReducer;

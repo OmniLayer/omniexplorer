@@ -25,6 +25,10 @@ import { FIRST_BLOCK } from 'containers/App/constants';
 import { Row, Col } from 'reactstrap';
 
 import {
+  makeSelectLocation,
+} from 'containers/App/selectors';
+
+import {
   makeSelectBlocks,
   makeSelectLoading,
   makeSelectPreviousBlock,
@@ -146,7 +150,6 @@ Blocks.propTypes = {
   blocks: PropTypes.object.isRequired,
   loadBlocks: PropTypes.func,
   disableLoading: PropTypes.func,
-  changeRoute: PropTypes.func,
   loading: PropTypes.bool,
   previousBlock: PropTypes.any,
   latest: PropTypes.any,
@@ -160,7 +163,8 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   previousBlock: makeSelectPreviousBlock(),
   latest: makeSelectLatestBlock(),
-  location: state => state.get('route').get('location'),
+  location: state => state.route.location,
+  locationDos: makeSelectLocation(),
 });
 
 function mapDispatchToProps(dispatch) {

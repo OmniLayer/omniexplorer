@@ -134,7 +134,6 @@ export class Search extends React.Component {
           {this.props.search.asset.map((x, idx) => (
             <Asset
               {...x}
-              changeRoute={this.props.changeRoute}
               key={x[2] + idx}
             />
           ))}
@@ -200,7 +199,6 @@ export class Search extends React.Component {
 
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
   search: PropTypes.object,
   getProperty: PropTypes.func.isRequired,

@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the blockDetail state domain
  */
-const selectBlockDetailDomain = state => state.get('blockDetail');
+const selectBlockDetailDomain = state => state.blockDetail || initialState;
 
 /**
  * Other specific selectors

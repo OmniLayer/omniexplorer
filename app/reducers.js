@@ -9,9 +9,13 @@ import merge from 'lodash/merge';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import transactionsReducer from 'containers/Transactions/reducer';
+import crowdsaleTransactionsReducer from 'containers/CrowdsaleDetail/reducer';
+import activationsReducer from 'containers/Activations/reducer';
 import tokenReducer from 'components/Token/reducer';
 import statusReducer from 'components/ServiceBlock/reducer';
 import blocksReducer from 'containers/Blocks/reducer';
+import errorBoundary from 'components/ErrorBoundary/reducer';
+
 /*
  * routeReducer
  *
@@ -52,7 +56,10 @@ export default function createReducer(injectedReducers) {
     token: tokenReducer,
     status: statusReducer,
     transactions: transactionsReducer,
+    crowdsaleTransactions: crowdsaleTransactionsReducer,
+    activations: activationsReducer,
     blocks: blocksReducer,
+    errorBoundary,
     global: () => ({
       loading: false,
       error: false,

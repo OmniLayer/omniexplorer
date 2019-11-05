@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Row, Table, UncontrolledTooltip } from 'reactstrap';
-import { IoIosInformation } from 'react-icons/io';
+import { IoIosInformationCircle } from 'react-icons/io';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -76,7 +76,7 @@ export class Crowdsales extends React.Component {
             <StyledTH>Rate</StyledTH>
             <StyledTH>
               Closing Datetime
-              <IoIosInformation
+              <IoIosInformationCircle
                 color="gray"
                 className="ml-1"
                 id="crowdsalesClosingDate"
@@ -98,7 +98,6 @@ export class Crowdsales extends React.Component {
             .map((x, idx) => (
               <CrowdsaleInfo
                 {...x}
-                changeRoute={this.props.changeRoute}
                 key={x.creationtxid}
               />
             ))}
@@ -133,7 +132,6 @@ export class Crowdsales extends React.Component {
 Crowdsales.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadCrowdsales: PropTypes.func,
-  changeRoute: PropTypes.func,
   crowdsales: PropTypes.shape({
     crowdsales: PropTypes.array,
     ecosystemName: PropTypes.string,

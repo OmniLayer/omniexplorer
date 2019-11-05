@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { IoIosInformation } from 'react-icons/io';
+import { IoIosInformationCircle } from 'react-icons/io';
 import {
   Card,
   CardBody,
@@ -78,7 +78,7 @@ const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-3 mx-auto text-md-left',
 })``;
 
-const StyledIoIosInformation = styled(IoIosInformation)`
+const StyledIoIosInformationCircle = styled(IoIosInformationCircle)`
   color: cadetblue !important;
   font-size: 1.5rem;
 `;
@@ -190,7 +190,7 @@ export class CrowdsaleDetail extends React.PureComponent {
                     <h2 className="d-md-inline-block align-bottom mb-0">
                       {crowdsale.name}{' '}
                       <span>{`(#${crowdsale.propertyid})`}</span>
-                      <StyledIoIosInformation
+                      <StyledIoIosInformationCircle
                         color="gray"
                         className="ml-1"
                         id="crowdsaleDivisible"
@@ -347,7 +347,6 @@ export class CrowdsaleDetail extends React.PureComponent {
 
 CrowdsaleDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
   getPropertyDeep: PropTypes.func.isRequired,
   getCrowdsaleTransactions: PropTypes.func.isRequired,

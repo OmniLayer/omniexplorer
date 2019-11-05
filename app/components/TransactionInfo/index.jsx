@@ -345,7 +345,6 @@ TransactionInfo.propTypes = {
   type: PropTypes.string,
   txid: PropTypes.string,
   amount: PropTypes.string,
-  changeRoute: PropTypes.func,
   propertyname: PropTypes.string,
   propertyid: PropTypes.number,
   invalidreason: PropTypes.any,

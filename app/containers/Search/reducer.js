@@ -17,8 +17,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const searchReducer = (state = initialState, action) => {
-  const { payload, type } = action;
+const searchReducer = (state = initialState, { payload, type } = action) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_SEARCH:
@@ -33,6 +32,5 @@ const searchReducer = (state = initialState, action) => {
         break;
     }
   });
-};
 
 export default searchReducer;

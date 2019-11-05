@@ -22,8 +22,6 @@ const propertyReducer = (state = initialState, action = {}) => {
         draft.isFetching = false;
         draft.lastFetched = Date.now();
         draft.error = null;
-        // .setIn(['tokens', payload.propertyid.toString()], payload);
-        debugger;
         draft.tokens[payload.propertyid.toString()] = payload;
         break;
     }

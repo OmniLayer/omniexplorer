@@ -76,7 +76,6 @@ export class Properties extends React.PureComponent {
           {this.props.search.asset.map((x, idx) => (
             <Asset
               {...x}
-              changeRoute={this.props.changeRoute}
               key={x[2] + idx}
             />
           ))}
@@ -108,7 +107,6 @@ export class Properties extends React.PureComponent {
 
 Properties.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
   search: PropTypes.any,
   match: PropTypes.any,

@@ -9,11 +9,14 @@ import PropTypes from 'prop-types';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import styled from 'styled-components';
 import range from 'lodash/range';
+import { makeSelectLocation } from 'containers/App/selectors';
 
 const StyledPaginationLink = styled(PaginationLink)`
   border-radius: 3.2px;
@@ -64,7 +67,7 @@ const ListPagination = props => {
   );
 
   const setPage = (e, page) => {
-    props.changeRoute(props.hashLink(page));
+    props.push(props.hashLink(page));
     props.onSetPage(page);
   };
 
@@ -142,15 +145,14 @@ ListPagination.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
+    push,
     dispatch,
   };
 }
 
-function mapStateToProps(state) {
-  return {
-    location: state.get('route').get('location'),
-  };
-}
+const mapStateToProps = createStructuredSelector({
+  location: makeSelectLocation(),
+});
 
 const withConnect = connect(
   mapStateToProps,

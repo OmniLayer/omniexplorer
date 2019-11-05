@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
-
+import { initialState } from './reducer';
 /**
  * Direct selector to the crowdsales state domain
  */
-const selectCrowdsalesDomain = state => state.get('crowdsales');
+const selectCrowdsalesDomain = state => state.crowdsales || initialState;
 
 /**
  * Other specific selectors

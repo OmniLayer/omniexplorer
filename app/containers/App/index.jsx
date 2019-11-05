@@ -37,18 +37,17 @@ import Header from 'components/Header';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import DevTools from 'utils/devTools';
-// import Moment from 'react-moment';
-
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { LOAD_STATUS } from 'components/ServiceBlock/constants';
+import { startFetch } from 'components/ServiceBlock/actions';
 import Sagas from './sagas';
-
-// Import DevTools, only for dev environment
-const isDev = process.env.NODE_ENV !== 'production';
-
 // Set Moment Global locale
 // Moment.globalLocale = 'en-gb';
+import GlobalStyle from '../../global-styles';
+// import Moment from 'react-moment';
+
+// Import DevTools, only for dev environment
+const isDev = process.env.NODE_ENV !== 'production' && false;
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
@@ -63,7 +62,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.loadStatus();
   }
-
+  
   render() {
     return (
       <AppWrapper>
@@ -75,10 +74,10 @@ class App extends React.Component {
             name="description"
             content="The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
           />
-          <link rel="canonical" href="https://omniexplorer.info"/>
-          <meta name="referrer" content="always"/>
+          <link rel="canonical" href="https://omniexplorer.info" />
+          <meta name="referrer" content="always" />
         </Helmet>
-        <Header/>
+        <Header />
         <ErrorBoundary>
           <Switch>
             <Route
@@ -114,7 +113,7 @@ class App extends React.Component {
               component={AssetDetail}
               key={location.pathname}
             />
-            <Route exact path="/crowdsales/:ecosystem" component={Crowdsales}/>
+            <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
             <Route
               path="/crowdsale/:crowdsaleid(\d+)"
               component={CrowdsaleDetail}
@@ -151,12 +150,13 @@ class App extends React.Component {
               path="/activations"
               component={Activations}
             />
-            <Route path="" component={NotFoundPage}/>
-            <Route component={NotFoundPage}/>
+            <Route path="" component={NotFoundPage} />
+            <Route component={NotFoundPage} />
           </Switch>
         </ErrorBoundary>
-        <Footer/>
-        {isDev ? <DevTools/> : <div/>}
+        <Footer />
+        {isDev ? <DevTools /> : <div />}
+        <GlobalStyle />
       </AppWrapper>
     );
   }
@@ -164,7 +164,7 @@ class App extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadStatus: () => dispatch({ type: LOAD_STATUS }),
+    loadStatus: () => dispatch(startFetch()),
     dispatch,
   };
 }

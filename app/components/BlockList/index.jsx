@@ -21,7 +21,7 @@ import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import { IoIosInformation } from 'react-icons/io';
+import { IoIosInformationCircle } from 'react-icons/io';
 
 import messages from './messages';
 
@@ -147,7 +147,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
-              <IoIosInformation
+              <IoIosInformationCircle
                 color="gray"
                 className="ml-1"
                 id="blockListTransactionCount"
@@ -161,7 +161,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.usdvalue} />
-              <IoIosInformation
+              <IoIosInformationCircle
                 color="gray"
                 className="ml-1"
                 id="blockListUSDValue"
@@ -246,7 +246,6 @@ class BlockList extends React.PureComponent {
 
 BlockList.propTypes = {
   blocks: PropTypes.array.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   getProperty: PropTypes.func.isRequired,
 };
 

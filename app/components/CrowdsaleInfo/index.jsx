@@ -114,7 +114,6 @@ CrowdsaleInfo.propTypes = {
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
   propertyiddesired: PropTypes.any.isRequired,
-  changeRoute: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

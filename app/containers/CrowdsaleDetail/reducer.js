@@ -17,7 +17,7 @@ const sortDateFordward = array =>
   array.sort((current, previous) => current.blocktime < previous.blocktime);
 
 /* eslint-disable default-case, no-param-reassign */
-const transactionsReducer = (state = initialState, action) =>
+const crowdsaleTransactionsReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case LOAD_CROWDSALE_TRANSACTIONS:
@@ -39,4 +39,4 @@ const transactionsReducer = (state = initialState, action) =>
     }
   });
 
-export default transactionsReducer;
+export default crowdsaleTransactionsReducer;

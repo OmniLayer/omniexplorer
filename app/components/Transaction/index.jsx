@@ -328,7 +328,6 @@ Transaction.propTypes = {
   type: PropTypes.string,
   txid: PropTypes.string,
   amount: PropTypes.string,
-  changeRoute: PropTypes.func,
   valid: PropTypes.bool,
   blocktime: PropTypes.number,
   propertyname: PropTypes.string,
