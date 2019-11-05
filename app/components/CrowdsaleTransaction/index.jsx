@@ -23,36 +23,13 @@ import StatusConfirmation from 'components/StatusConfirmation';
 import WrapperLink from 'components/WrapperLink';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
+import WrapperTx from 'components/WrapperTx';
+import WrapperTxDatetime from 'components/WrapperTxDatetime';
 import './transaction.scss';
 
-const AddressWrapper = styled.div.attrs({
-  className: 'w-100-down-md address-wrapper',
-})`
-  display: inline;
-`;
-
-const StyledLink = styled(Link).attrs({
-  className: 'mr-1 text-truncate',
-})`
-  color: #333;
-`;
-
-const StyledIoIosCopy = styled(IoIosCopy).attrs({
-  className: 'btn-outline-info rounded',
-})``;
-
-const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md text-truncate-down-md',
-})`
-  font-size: 1.25rem !important;
-`;
-
-const WrapperTxDatetime = styled.div.attrs({
-  className: 'w-75 mb-3',
-})`
-  font-size: 1.25rem !important;
-  color: #333;
-`;
+import AddressWrapper from 'components/AddressWrapper';
+import StyledLink from 'components/StyledLink';
+import StyledIconCopy from 'components/StyledIconCopy';
 
 const WrapperTxLabel = styled.span`
   font-size: 1.25rem !important;
@@ -223,7 +200,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                 text={this.props.txid}
                 onCopy={this.toggleTxTooltip}
               >
-                <StyledIoIosCopy
+                <StyledIconCopy
                   className="d-inline-flex d-md-none"
                   size={24}
                   id={txcopyid}
@@ -276,7 +253,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                   text={this.props.sendingaddress}
                   onCopy={this.toggleSenderTooltip}
                 >
-                  <StyledIoIosCopy
+                  <StyledIconCopy
                     className="d-inline-flex"
                     size={24}
                     id={sendercopyid}
@@ -310,7 +287,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                   text={this.props.referenceaddress}
                   onCopy={this.toggleRefererTooltip}
                 >
-                  <StyledIoIosCopy
+                  <StyledIconCopy
                     className="d-inline-flex"
                     size={24}
                     id={referercopyid}

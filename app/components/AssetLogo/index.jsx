@@ -11,26 +11,11 @@ import styled from 'styled-components';
 import getLogo from 'utils/getLogo';
 import some from 'lodash/some';
 
+import WarningTooltip from 'components/WarningTooltip';
+
 const IMGLogo = styled.img`
   display: inline;
   margin-right: 1rem;
-`;
-
-const WarningTooltip = styled(UncontrolledTooltip).attrs({
-  innerClassName: 'bg-danger',
-})`
-  &.bs-tooltip-top .arrow::before {
-        border-top-color: #dc3545 !important;
-    }
-  &.bs-tooltip-bottom .arrow::before {
-    	border-bottom-color: #dc3545 !important;
-  }
-  &.bs-tooltip-right .arrow::before {
-    	border-right-color: #dc3545 !important;
-  }
-  &.bs-tooltip-left .arrow::before {
-    	border-left-color: #dc3545 !important;
-  }
 `;
 
 function AssetLogo({ asset, prop, className, style}) {

@@ -9,12 +9,10 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Col, Row, Tooltip, UncontrolledTooltip } from 'reactstrap';
-import styled from 'styled-components';
+import { Col, Row, Tooltip } from 'reactstrap';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { ArrowIconDown, ArrowIconRight, IoIosCopy } from 'react-icons/io';
-
+import { ArrowIconDown, ArrowIconRight } from 'react-icons/io';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -27,43 +25,12 @@ import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import './transaction.scss';
 
-const AddressWrapper = styled.div.attrs({
-  className: 'w-100-down-md address-wrapper',
-})`
-  display: inline;
-`;
-
-const StyledLink = styled(Link).attrs({
-  className: 'mr-1 text-truncate',
-})`
-  color: #333;
-`;
-
-const StyledCopy = styled(IoIosCopy).attrs({
-  className: 'btn-outline-info rounded',
-})``;
-
-const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md text-truncate-down-md',
-})`
-  font-size: 1.25rem !important;
-  padding: 0 1rem;
-`;
-
-const WrapperTxDatetime = styled.div.attrs({
-  className: 'wrapper-tx-timestamp w-75 mb-3',
-})`
-  font-size: 1.25rem !important;
-  color: #333;
-`;
-
-const WarningTooltip = styled(UncontrolledTooltip).attrs({
-  innerClassName: 'bg-danger',
-})`
-  &.bs-tooltip-top .arrow::before {
-        border-top-color: #dc3545 !important;
-    }
-    `;
+import AddressWrapper from 'components/AddressWrapper';
+import StyledLink from 'components/StyledLink';
+import StyledIconCopy from 'components/StyledIconCopy';
+import WrapperTx from 'components/WrapperTx';
+import WrapperTxDatetime from 'components/WrapperTxDatetime';
+import WarningTooltip from 'components/WarningTooltip';
 
 class Transaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -196,7 +163,7 @@ class Transaction extends React.PureComponent {
                 text={this.props.txid}
                 onCopy={this.toggleTxTooltip}
               >
-                <StyledCopy
+                <StyledIconCopy
                   className="d-inline-flex d-md-none"
                   size={24}
                   id={txcopyid}
@@ -259,7 +226,7 @@ class Transaction extends React.PureComponent {
                   text={this.props.sendingaddress}
                   onCopy={this.toggleSenderTooltip}
                 >
-                  <StyledCopy
+                  <StyledIconCopy
                     className="d-inline-flex"
                     size={24}
                     id={sendercopyid}
@@ -299,7 +266,7 @@ class Transaction extends React.PureComponent {
                   text={this.props.referenceaddress}
                   onCopy={this.toggleRefererTooltip}
                 >
-                  <StyledCopy
+                  <StyledIconCopy
                     className="d-inline-flex"
                     size={24}
                     id={referercopyid}
