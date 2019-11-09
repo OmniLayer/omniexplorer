@@ -68,13 +68,9 @@ export class BlockDetail extends React.Component {
     };
     
     this.transactions = null;
-    
-    this.onFilterByInvalidTxs = this.onFilterByInvalidTxs.bind(this);
-    this.getTransactions = this.getTransactions.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
   }
   
-  getTransactions() {
+  getTransactions = () => {
     console.log('call getTransactions');
     const { block } = this.props.blockdetail;
     
@@ -93,22 +89,22 @@ export class BlockDetail extends React.Component {
     
     const txs = this.transactions[this.state.showTxType];
     return txs;
-  }
+  };
   
-  onFilterByInvalidTxs(showTxType) {
+  onFilterByInvalidTxs = (showTxType) => {
     this.setState({
       showTxType,
       currentPage: 1,
       currentData: this.transactions[showTxType].slice(0, 10),
     });
-  }
+  };
   
   componentDidMount() {
     console.log('block detail did mount');
     this.props.loadBlock(this.block);
   }
   
-  handlePageClick = page => {
+  handlePageClick = (page) => {
     const txs = this.getTransactions();
     
     this.setState({

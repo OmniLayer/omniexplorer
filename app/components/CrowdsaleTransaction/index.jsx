@@ -13,7 +13,6 @@ import { Col, Row, Tooltip } from 'reactstrap';
 import styled from 'styled-components';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { IoIosArrowDown, IoIosArrowRoundForward, IoIosCopy } from 'react-icons/io';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -30,30 +29,14 @@ import './transaction.scss';
 import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
 import StyledIconCopy from 'components/StyledIconCopy';
+import GreenArrowForward from 'components/GreenArrowForward';
+import GreenArrowDown from 'components/GreenArrowDown';
+import GrayArrowForward from 'components/GrayArrowForward';
+import GrayArrowDown from 'components/GrayArrowDown';
 
 const WrapperTxLabel = styled.span`
   font-size: 1.25rem !important;
 `;
-
-const GreenIoIosArrowRoundForward = styled(IoIosArrowRoundForward).attrs({
-  size: 20,
-  color: 'lightgreen',
-})``;
-
-const GreenIoIosArrowDown = styled(IoIosArrowDown).attrs({
-  size: 20,
-  color: 'lightgreen',
-})``;
-
-const GrayIoIosArrowRoundForward = styled(IoIosArrowRoundForward).attrs({
-  size: 20,
-  color: 'gray',
-})``;
-
-const GrayIoIosArrowDown = styled(IoIosArrowDown).attrs({
-  size: 20,
-  color: 'gray',
-})``;
 
 class CrowdsaleTransaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -136,8 +119,8 @@ class CrowdsaleTransaction extends React.PureComponent {
           />{' '}
           {props.dessiredToken.propertyname}
           &nbsp;
-          <GreenIoIosArrowRoundForward className="d-none d-md-inline-flex" />
-          <GreenIoIosArrowDown className="d-md-none mx-auto d-block" />
+          <GreenArrowForward className="d-none d-md-inline-flex" />
+          <GreenArrowDown className="d-md-none mx-auto d-block" />
           &nbsp;
           <SanitizedFormattedNumber
             value={props.purchasedtokens}
@@ -267,10 +250,10 @@ class CrowdsaleTransaction extends React.PureComponent {
                   Sender Address Copied
                 </Tooltip>
               </AddressWrapper>
-              <GrayIoIosArrowRoundForward
+              <GrayArrowForward
                 className={`d-none ${arrowcnameright} ${arrowcname}`}
               />
-              <GrayIoIosArrowDown className={`d-md-none ${arrowcname}`} />
+              <GrayArrowDown className={`d-md-none ${arrowcname}`} />
               <AddressWrapper className={showreferencecname}>
                 <WrapperLink>
                   <StyledLink

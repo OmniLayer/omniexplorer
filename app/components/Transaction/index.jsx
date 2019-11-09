@@ -6,13 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Col, Row, Tooltip } from 'reactstrap';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { ArrowIconDown, ArrowIconRight } from 'react-icons/io';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -32,45 +29,44 @@ import WrapperTx from 'components/WrapperTx';
 import WrapperTxDatetime from 'components/WrapperTxDatetime';
 import WarningTooltip from 'components/WarningTooltip';
 
+import GrayArrowForward from 'components/GrayArrowForward';
+import GrayArrowDown from 'components/GrayArrowDown';
+
 class Transaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
-    this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
-    this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
-    this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
-    
+
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-  
-  toggleTxTooltip() {
+
+  toggleTxTooltip = () => {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
-  }
-  
-  toggleSenderTooltip() {
+  };
+
+  toggleSenderTooltip = () => {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
-  }
-  
-  toggleRefererTooltip() {
+  };
+
+  toggleRefererTooltip = () => {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
-  }
-  
+  };
+
   getHighlightIfOwner(address) {
     return this.isOwner(address) ? 'text-success' : '';
   }
-  
+
   isOwner(address) {
     return this.props.addr ? this.props.addr === address : false;
   }
-  
+
   render() {
     let statusCSSClass =
       'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
@@ -139,7 +135,7 @@ class Transaction extends React.PureComponent {
               </div>
               <div className="p-md-2 pt-xs-2 pl-xs-2">
                 <span className="title d-block-down-md">
-                  <SanitizedFormattedNumber value={transactionAmount}/>
+                  <SanitizedFormattedNumber value={transactionAmount} />
                 </span>
               </div>
               <div className="p-md-2 pb-sm-2">
@@ -156,7 +152,7 @@ class Transaction extends React.PureComponent {
                     state: { state: this.props.state },
                   }}
                 >
-                  <ColoredHash hash={this.props.txid}/>
+                  <ColoredHash hash={this.props.txid} />
                 </Link>
               </WrapperTx>
               <CopyToClipboard
@@ -181,7 +177,7 @@ class Transaction extends React.PureComponent {
           <Col sm="12" md="5">
             <div className="d-flex flex-column text-center align-items-center">
               <WrapperTxDatetime>
-                <FormattedUnixDateTime datetime={this.props.blocktime}/>
+                <FormattedUnixDateTime datetime={this.props.blocktime} />
               </WrapperTxDatetime>
               <Link
                 className={statusCSSClass}
@@ -240,12 +236,12 @@ class Transaction extends React.PureComponent {
                   Sender Address Copied
                 </Tooltip>
               </AddressWrapper>
-              <ArrowIconRight
+              <GrayArrowForward
                 size={20}
                 color="gray"
                 className={`d-none ${arrowcnameright} ${arrowcname}`}
               />
-              <ArrowIconDown
+              <GrayArrowDown
                 size={20}
                 color="gray"
                 className={`d-md-none ${arrowcname}`}
@@ -254,10 +250,7 @@ class Transaction extends React.PureComponent {
                 <WrapperLink>
                   <StyledLink
                     className={addresscname}
-                    to={{
-                      pathname: `/address/${this.props.referenceaddress}`,
-                      state: { state: this.props.state },
-                    }}
+                    to={`/address/${this.props.referenceaddress}`}
                   >
                     {this.props.referenceaddress}
                   </StyledLink>
@@ -301,16 +294,16 @@ Transaction.propTypes = {
   propertyid: PropTypes.number,
   addr: PropTypes.string,
 };
+//
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     dispatch,
+//   };
+// }
+//
+// const withConnect = connect(
+//   null,
+//   mapDispatchToProps,
+// );
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
-
-export default compose(withConnect)(Transaction);
+export default Transaction;

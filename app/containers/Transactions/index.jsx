@@ -5,7 +5,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,112 +19,124 @@ import NoOmniTransactions from 'components/NoOmniTransactions';
 import ContainerBase from 'components/ContainerBase';
 import FooterLinks from 'components/FooterLinks';
 
-import injectSaga from 'utils/injectSaga';
+import { useInjectSaga } from 'utils/injectSaga';
 import sagaTransactions from 'containers/Transactions/saga';
 
-import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
-import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
-import messages from './messages';
 import { Button, ButtonGroup } from 'reactstrap';
+import {
+  makeSelectLoading,
+  makeSelectTransactions,
+  makeSelectUnconfirmed,
+} from './selectors';
+import {
+  loadTransactions,
+  loadUnconfirmed,
+  setPage,
+  setTransactionType,
+} from './actions';
+import messages from './messages';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
   padding-bottom: 0;
 `;
 
-export class Transactions extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+export function Transactions(props) {
+  const [loadConfirmed, setLoadConfirmed] = useState(true);
+  // const [txs, setTxs] = useState([]);
+  const { page } = props.match.params;
+  const unconfirmed = props.location.pathname.includes('unconfirmed');
 
-    const { page } = props.match.params;
-    this.props.onSetPage(!page || isNaN(page) ? 0 : parseInt(page));
-    this.state = { loadConfirmed: true, txs: [] };
+  useInjectSaga({
+    key: 'transactions',
+    saga: sagaTransactions,
+  });
 
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-  }
-
-  onRadioBtnClick(loadConfirmed) {
-    this.setState({ loadConfirmed });
-    this.setState({ txs: [] });
-    if (loadConfirmed) {
-      this.props.loadTransactions(this.props.addr);
-    } else {
-      this.props.loadUnconfirmed(this.props.addr);
-    }
-  }
-
-  componentDidMount() {
-    const unconfirmed = this.props.location.pathname.includes('unconfirmed');
+  useEffect(() => {
     if (unconfirmed) {
-      this.props.loadUnconfirmed(this.props.addr);
+      props.loadUnconfirmed(props.addr);
     } else {
-      this.props.loadTransactions(this.props.addr);
+      props.loadTransactions(props.addr);
     }
+  }, [page, unconfirmed, props.addr]);
 
-    console.log('Transactions did mount');
+  const onRadioBtnClick = confirmed => {
+    setLoadConfirmed(confirmed);
+    // setTxs([]);
+    if (loadConfirmed) {
+      props.loadTransactions(props.addr);
+    } else {
+      props.loadUnconfirmed(props.addr);
+    }
+  };
+
+  let content;
+
+  if (props.loading) {
+    content = <LoadingIndicator />;
+  } else if ((props.transactions.transactions || []).length === 0) {
+    content = <NoOmniTransactions />;
+  } else {
+    const pathname = props.addr ? `/address/${props.addr}` : '';
+    const hashLink = v => `${pathname}/${v}`;
+    const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
+    const { addr } = props;
+    const usePagination = !props.unconfirmed;
+    const _props = {
+      ...props.transactions,
+      addr,
+      inner: Transaction,
+      onSetPage: props.onSetPage,
+      hashLink,
+      getItemKey,
+      usePagination,
+    };
+
+    _props.items = props.transactions.transactions;
+    content = <List {..._props} />;
   }
+  const footer = <FooterLinks blocklist />;
 
-  render() {
-    let content;
-
-    if (this.props.loading) {
-      content = <LoadingIndicator/>;
-    } else if ((this.props.transactions.transactions || []).length === 0) {
-      content = <NoOmniTransactions/>;
-    } else {
-      const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
-      const hashLink = v => `${pathname}/${v}`;
-      const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
-      const { addr } = this.props;
-      const usePagination = !this.props.unconfirmed;
-      const props = {
-        ...this.props.transactions,
-        addr,
-        inner: Transaction,
-        onSetPage: this.props.onSetPage,
-        hashLink,
-        getItemKey,
-        usePagination,
-      };
-      props.items = props.transactions;
-      content = <List {...props} />;
-    }
-    const footer = <FooterLinks blocklist/>;
-
-    return (
-      <StyledContainer fluid>
-        <TransactionListHeader
-          customHeader={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
-          totalPreText={(this.props.unconfirmed && this.props.transactions ? 'Displaying the ' : null)}
-          selectType={this.props.onSetTransactionType}
-          total={this.props.transactions.pageCount}
-          totalLabel="page"
-          count={(this.props.unconfirmed ? messages.unconfirmedSuffix : null)}
-          extra={!!this.props.addr &&
+  const header = (
+    <TransactionListHeader
+      customHeader={props.unconfirmed ? messages.unconfirmedHeader : null}
+      totalPreText={
+        props.unconfirmed && props.transactions ? 'Displaying the ' : null
+      }
+      selectType={props.onSetTransactionType}
+      total={props.transactions.pageCount}
+      totalLabel="page"
+      count={props.unconfirmed ? messages.unconfirmedSuffix : null}
+      extra={
+        !!props.addr && (
           <ButtonGroup>
             <Button
-              onClick={() => this.onRadioBtnClick(true)}
-              active={!!this.state.loadConfirmed}
-              disabled={!!this.state.loadConfirmed}
+              onClick={() => onRadioBtnClick(true)}
+              active={!!loadConfirmed}
+              disabled={!!loadConfirmed}
             >
               Confirmed
             </Button>
             <Button
-              onClick={() => this.onRadioBtnClick(false)}
-              active={!this.state.loadConfirmed}
-              disabled={!this.state.loadConfirmed}
+              onClick={() => onRadioBtnClick(false)}
+              active={!loadConfirmed}
+              disabled={!loadConfirmed}
             >
               Unconfirmed
             </Button>
           </ButtonGroup>
-          }
-        />
-        {content}
-        {footer}
-      </StyledContainer>
-    );
-  }
+        )
+      }
+    />
+  );
+
+  return (
+    <StyledContainer fluid>
+      {header}
+      {content}
+      {footer}
+    </StyledContainer>
+  );
 }
 
 Transactions.propTypes = {
@@ -160,12 +172,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withSagaTransaction = injectSaga({
-  key: 'transactions',
-  saga: sagaTransactions,
-});
-
-export default compose(
-  withConnect,
-  withSagaTransaction,
-)(Transactions);
+export default compose(withConnect)(Transactions);

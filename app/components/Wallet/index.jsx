@@ -52,27 +52,25 @@ class Wallet extends React.PureComponent {
   constructor(props) {
     super(props);
     
-    this.toggle = this.toggle.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
     this.state = {
       collapse: false,
       flaggedMessage: `Show flagged tokens`,
       modal: false,
     };
   }
-  
-  toggle() {
+
+  toggle = () => {
     this.setState({ collapse: !this.state.collapse });
     this.setState({
       flaggedMessage: `${this.state.collapse ? 'Show' : 'Hide'} flagged tokens`,
     });
-  }
+  };
   
-  toggleModal() {
+  toggleModal = () => {
     this.setState({
       modal: !this.state.modal,
     });
-  }
+  };
   
   render() {
     const loading = (!this.props.address || !this.props.address.balance.length);
@@ -115,7 +113,7 @@ class Wallet extends React.PureComponent {
                   }}
                   onClick={this.toggleModal}
                 >
-                  <StyledFaQrcode className="ml-1"/>
+                  <StyledFaQrcode className="ml-1" />
                 </Button>
                 {this.props.addr}
                 <Modal
@@ -123,11 +121,11 @@ class Wallet extends React.PureComponent {
                   isOpen={this.state.modal}
                   toggle={this.toggleModal}
                 >
-                  <ModalHeader toggle={this.toggleModal}/>
+                  <ModalHeader toggle={this.toggleModal} />
                   <ModalBody className="text-center">
                     <h3 className="text-truncate">{this.props.addr}</h3>
-                    <br/>
-                    <QRCode value={this.props.addr} size={256}/>
+                    <br />
+                    <QRCode value={this.props.addr} size={256} />
                   </ModalBody>
                   <ModalFooter>
                     <Button color="secondary" onClick={this.toggleModal}>
@@ -141,7 +139,7 @@ class Wallet extends React.PureComponent {
           </StyledTHTitle>
         </tr>
         <StyledTR>
-          <StyledTH/>
+          <StyledTH />
           <StyledTH>ID</StyledTH>
           <StyledTH>Name</StyledTH>
           <StyledTH className="text-right">Available Balance</StyledTH>
@@ -152,12 +150,12 @@ class Wallet extends React.PureComponent {
         {loading &&
         <tr>
           <td colSpan="5" className="text-center">
-            <LoadingIndicator/>
+            <LoadingIndicator />
           </td>
         </tr>
         }
         {!loading && nonFlaggedProps.map(balance => (
-          <Token {...balance} key={balance.id}/>
+          <Token {...balance} key={balance.id} />
         ))}
         <tr>
           <td colSpan="5" className="p-0 m-0 bg-white">
@@ -201,7 +199,7 @@ class Wallet extends React.PureComponent {
               <StyledTable responsive>
                 <thead>
                 <StyledTR>
-                  <StyledTH/>
+                  <StyledTH />
                   <StyledTH>ID</StyledTH>
                   <StyledTH>Name</StyledTH>
                   <StyledTH className="text-right">
@@ -214,7 +212,7 @@ class Wallet extends React.PureComponent {
                 </thead>
                 <tbody>
                 {flaggedProps.map(balance => (
-                  <Token {...balance} key={balance.id}/>
+                  <Token {...balance} key={balance.id} />
                 ))}
                 </tbody>
               </StyledTable>

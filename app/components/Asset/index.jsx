@@ -14,8 +14,8 @@ const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
 
-const StyledTDTextLeft = styled(StyledTD).attrs({
-  className: 'text-left pt-3 text-truncate',
+const StyledTDTextLeft = styled.td.attrs({
+  className: 'text-left pt-3 text-truncate align-middle',
 })``;
 
 function Asset(props) {

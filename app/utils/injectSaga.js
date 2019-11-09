@@ -30,7 +30,7 @@ export default ({ key, saga, mode }) => WrappedComponent => {
       super(props, context);
 
       this.injectors = getInjectors(context.store);
-
+      
       this.injectors.injectSaga(key, { saga, mode }, this.props);
     }
 
@@ -50,6 +50,7 @@ const useInjectSaga = ({ key, saga, mode }) => {
   const context = React.useContext(ReactReduxContext);
   React.useEffect(() => {
     const injectors = getInjectors(context.store);
+
     injectors.injectSaga(key, { saga, mode });
 
     return () => {

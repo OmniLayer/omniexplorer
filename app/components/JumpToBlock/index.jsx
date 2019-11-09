@@ -42,16 +42,15 @@ class JumpToBlock extends React.PureComponent {
     clearTimeout(this.idTimeout);
   }
 
-  isValid(value) {
-    return this.props.onValidate && value && this.props.onValidate(value);
-  }
+  isValid = value =>
+    this.props.onValidate && value && this.props.onValidate(value);
 
-  handleJumpToBlock(e) {
+  handleJumpToBlock = e => {
     this.props.push(`/block/${this.state.blockToJump.trim()}`);
     this.setState({ blockToJump: '' });
-  }
+  };
 
-  handleKeyUp(e) {
+  handleKeyUp = e => {
     const { value } = e.target;
     if (e.keyCode === 13 && value) {
       if (this.isValid(value)) {
@@ -64,10 +63,9 @@ class JumpToBlock extends React.PureComponent {
         );
       }
     }
-  }
+  };
 
   render() {
-
     return (
       <Wrapper className="jump-to-block-form">
         <span className="d-none d-sm-inline">Jump to Block:&nbsp;</span>
@@ -97,5 +95,7 @@ class JumpToBlock extends React.PureComponent {
 
 JumpToBlock.propTypes = {};
 
-export default connect(null, { push })(JumpToBlock);
-
+export default connect(
+  null,
+  { push },
+)(JumpToBlock);

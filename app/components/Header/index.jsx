@@ -44,13 +44,12 @@ class Header extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
-
-  toggle(e) {
+  
+  toggle = (e)  => {
     this.setState({
       isOpen: !this.state.isOpen,
     });
