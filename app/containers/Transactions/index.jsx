@@ -42,10 +42,11 @@ const StyledContainer = styled(ContainerBase)`
 `;
 
 export function Transactions(props) {
-  const [loadConfirmed, setLoadConfirmed] = useState(true);
   // const [txs, setTxs] = useState([]);
   const { page } = props.match.params;
   const unconfirmed = props.location.pathname.includes('unconfirmed');
+  
+  const [loadConfirmed, setLoadConfirmed] = useState(true);
 
   useInjectSaga({
     key: 'transactions',

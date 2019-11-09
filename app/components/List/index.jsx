@@ -12,7 +12,7 @@ class List extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const ListItem = this.props.inner;
-    debugger;
+
     return (
       <div>
         {this.props.usePagination && (
