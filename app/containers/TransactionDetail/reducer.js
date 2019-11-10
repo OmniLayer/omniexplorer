@@ -3,40 +3,31 @@
  * TransactionDetail reducer
  *
  */
+import produce from 'immer';
+import { LOAD_TRANSACTION, LOAD_TRANSACTION_SUCCESS } from './constants';
 
-import { fromJS } from 'immutable';
-import {
-  LOAD_TRANSACTION,
-  LOAD_TRANSACTION_SUCCESS,
-} from './constants';
-
-const initialState = fromJS({
+export const initialState = {
   transaction: {
     notFound: false,
   },
   loading: true,
-});
+};
 
-function transactionDetailReducer(state = initialState, action) {
-  switch (action.type) {
-    case LOAD_TRANSACTION:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .set('transaction', {});
-    case LOAD_TRANSACTION_SUCCESS:
-      return state
-        .set(
-          'transaction',
-          typeof action.transaction === 'string'
-            ? { notFound: true }
-            : action.transaction,
-        )
-        .set('error', false)
-        .set('loading', false);
-    default:
-      return state;
-  }
-}
+/* eslint-disable default-case, no-param-reassign */
+const transactionDetailReducer = (state = initialState, { type, transaction } = action) =>
+  produce(state, draft => {
+    switch (type) {
+      case LOAD_TRANSACTION:
+        draft.loading = true;
+        draft.error = false;
+        draft.transaction = {};
+        break;
+      case LOAD_TRANSACTION_SUCCESS:
+        draft.transaction = (typeof transaction === 'string') ? { notFound: true } : transaction;
+        draft.error = false;
+        draft.loading = false;
+        break;
+    }
+  });
 
 export default transactionDetailReducer;

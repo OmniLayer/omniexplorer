@@ -9,9 +9,7 @@
  * case YOUR_ACTION_CONSTANT:
  *   return state.set('yourStateVariable', true);
  */
-
-import { fromJS } from 'immutable';
-
+import produce from 'immer';
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
@@ -20,47 +18,43 @@ import {
   SET_TRANSACTION_TYPE,
 } from './constants';
 
-// The initial state of the App
-export const initialState = fromJS({
+export const initialState = {
   loading: false,
   transactions: [],
   pageCount: 0,
   currentPage: 1,
   txType: null,
   unconfirmed: false,
-});
+};
 
-function transactionsReducer(state = initialState, action) {
-  switch (action.type) {
-    case LOAD_TRANSACTIONS:
-      return state
-        .set('loading', true)
-        .set('transactions', [])
-        .set('pageCount', 0)
-        .set('unconfirmed', false);
-    case LOAD_UNCONFIRMED:
-      return state
-        .set('loading', true)
-        .set('transactions', [])
-        .set('unconfirmed', true);
-    case LOAD_TRANSACTIONS_SUCCESS: {
-      const unconfirmed = state.get('unconfirmed');
-      const transactions = action.addr ? action.transactions.filter(tx => !!tx.confirmations) : action.transactions;
-      return state
-        .set('transactions', transactions)
-        .set(
-          'pageCount',
-          unconfirmed ? transactions.length : action.pages,
-        )
-        .set('loading', false);
+/* eslint-disable default-case, no-param-reassign */
+const transactionsReducer = (state = initialState, { type, addr, transactions, pages, page, txType } = action) =>
+  produce(state, draft => {
+    switch (type) {
+      case LOAD_TRANSACTIONS:
+        draft.loading = true;
+        draft.transactions = [];
+        draft.pageCount = 0;
+        draft.unconfirmed = false;
+        break;
+      case LOAD_UNCONFIRMED:
+        draft.loading = true;
+        draft.transactions = [];
+        draft.unconfirmed = true;
+        break;
+      case LOAD_TRANSACTIONS_SUCCESS: {
+        draft.transactions = addr ? transactions.filter(tx => !!tx.confirmations) : transactions;
+        draft.pageCount = state.unconfirmed ? transactions.length : pages;
+        draft.loading = false;
+        break;
+      }
+      case SET_PAGE:
+        draft.currentPage = page;
+        break;
+      case SET_TRANSACTION_TYPE:
+        draft.txType = txType;
+        break;
     }
-    case SET_PAGE:
-      return state.set('currentPage', action.page);
-    case SET_TRANSACTION_TYPE:
-      return state.set('txType', action.txType);
-    default:
-      return state;
-  }
-}
+  });
 
 export default transactionsReducer;

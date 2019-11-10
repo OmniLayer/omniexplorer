@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the Activations state domain
  */
-const selectActivationsDomain = (state) => state.get('activations');
+const selectActivationsDomain = state => state.activations || initialState;
 
 /**
  * Other specific selectors
@@ -16,7 +17,7 @@ const selectActivationsDomain = (state) => state.get('activations');
 
 const makeSelectActivations = () => createSelector(
   selectActivationsDomain,
-  (substate) => substate.toJS()
+  (substate) => substate
 );
 
 export default makeSelectActivations;

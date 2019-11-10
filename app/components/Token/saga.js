@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-import { delay } from 'redux-saga';
-import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, put, select, delay, take, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
@@ -10,12 +9,12 @@ import { getTokens } from './selectors';
 
 function* fetchSingleProperty(action) {
   // load token if is still not requested
-  yield call(delay, 1000);
+  yield delay(1000);
 
   const state = yield select(st => st);
-  const tokens = state.get('token').get('tokens');
+  const tokens = state.token.tokens;
 
-  if (action.id && !tokens.get(action.id.toString())) {
+  if (action.id && !tokens[action.id.toString()]) {
     const property = yield call(fetchProperty, action.id);
 
     if (!property) {
@@ -30,7 +29,7 @@ export function* watchFetchProperty() {
     const prevTokenSelector = yield select(getTokens);
     const { id } = yield take(LOAD_PROPERTY_DEEP);
     const newTokenSelector = yield select(getTokens);
-    if (prevTokenSelector !== newTokenSelector || !newTokenSelector.get(id)) {
+    if (prevTokenSelector !== newTokenSelector || !newTokenSelector[id]) {
       yield fork(fetchPropertyDeep, { id });
     }
   }
@@ -38,8 +37,8 @@ export function* watchFetchProperty() {
 
 function* fetchPropertyDeep(action) {
   const state = yield select(st => st);
-  const tokens = state.get('token').get('tokens');
-  let property = tokens.get(action.id.toString());
+  const tokens = state.token.tokens;
+  let property = tokens[action.id.toString()];
 
   // load token if is still not requested
   // yield call(delay, 1000);
@@ -55,7 +54,7 @@ function* fetchPropertyDeep(action) {
 
   // load desired property if it's still not requested
   const propertyiddesired = (property.propertyiddesired || '').toString();
-  if (propertyiddesired && !tokens.get(propertyiddesired)) {
+  if (propertyiddesired && !tokens[propertyiddesired]) {
     console.log('fetch desired property ', propertyiddesired);
     yield call(fetchProperty, propertyiddesired);
   }

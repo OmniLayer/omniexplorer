@@ -13,9 +13,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, Jumbotron } from 'reactstrap';
-import { routeActions } from 'redux-simple-router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
 import messages from './messages';
 
@@ -27,7 +27,7 @@ class NotFound extends React.PureComponent { // eslint-disable-line react/prefer
           <h3 className="display-3"><FormattedMessage {...messages.header} /></h3>
           <p className="lead">Try go back home and start again</p>
           <hr className="my-2" />
-          <Button color="primary" onClick={() => this.props.changeRoute('/')}>Home sweet home</Button>
+          <Button color="primary" onClick={() => this.props.push('/')}>Home sweet home</Button>
         </Jumbotron>
       </h1>
     );
@@ -35,12 +35,11 @@ class NotFound extends React.PureComponent { // eslint-disable-line react/prefer
 }
 
 NotFound.propTypes = {
-  changeRoute: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
+    push,
     dispatch,
   };
 }

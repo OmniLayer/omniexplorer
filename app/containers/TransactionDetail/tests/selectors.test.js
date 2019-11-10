@@ -1,12 +1,11 @@
-import { fromJS } from 'immutable';
 import { selectTransactionDetailDomain } from '../selectors';
 
 describe('selectTransactionDetailDomain', () => {
   it('Expect to have unit tests specified', () => {
-    const transactionDetail = fromJS({
+    const transactionDetail = {
       foo: 'bar',
-    });
-    const mockedState = fromJS({ transactionDetail });
+    };
+    const mockedState = { transactionDetail };
     expect(selectTransactionDetailDomain(mockedState)).toEqual(
       transactionDetail,
     );

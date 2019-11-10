@@ -9,10 +9,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import InformationIcon from 'react-icons/lib/io/informatcircled';
+import { IoIosInformationCircle } from 'react-icons/io';
 import {
   Card,
   CardBody,
@@ -79,7 +78,7 @@ const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-3 mx-auto text-md-left',
 })``;
 
-const StyledInformationIcon = styled(InformationIcon)`
+const StyledIoIosInformationCircle = styled(IoIosInformationCircle)`
   color: cadetblue !important;
   font-size: 1.5rem;
 `;
@@ -191,7 +190,7 @@ export class CrowdsaleDetail extends React.PureComponent {
                     <h2 className="d-md-inline-block align-bottom mb-0">
                       {crowdsale.name}{' '}
                       <span>{`(#${crowdsale.propertyid})`}</span>
-                      <StyledInformationIcon
+                      <StyledIoIosInformationCircle
                         color="gray"
                         className="ml-1"
                         id="crowdsaleDivisible"
@@ -348,7 +347,6 @@ export class CrowdsaleDetail extends React.PureComponent {
 
 CrowdsaleDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
   getPropertyDeep: PropTypes.func.isRequired,
   getCrowdsaleTransactions: PropTypes.func.isRequired,
@@ -368,7 +366,6 @@ function mapDispatchToProps(dispatch) {
     getPropertyDeep: crowdsaleId => dispatch(startDeepFetch(crowdsaleId)),
     getCrowdsaleTransactions: crowdsaleId =>
       dispatch(startCrowdsaleTransactionsFetch(crowdsaleId)),
-    changeRoute: url => dispatch(routeActions.push(url)),
     onSetPage: p => dispatch(setPage(p)),
   };
 }

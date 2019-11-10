@@ -1,11 +1,12 @@
-import { fromJS } from 'immutable';
 import transactionDetailReducer from '../reducer';
-const initialState = fromJS({
+import produce from 'immer';
+
+export const initialState = {
   transaction: {
     notFound: false,
   },
   loading: true,
-});
+};
 
 describe('transactionDetailReducer', () => {
   it('returns the initial state', () => {

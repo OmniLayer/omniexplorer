@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
 import { Col, Container, Row, Table } from 'reactstrap';
 
 import { startFetch } from 'components/Token/actions';
@@ -112,7 +111,6 @@ export class AssetDetail extends React.PureComponent {
 AssetDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   getProperty: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
   match: PropTypes.any,
 };
@@ -125,7 +123,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     getProperty: propertyId => dispatch(startFetch(propertyId)),
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 

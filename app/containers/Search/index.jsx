@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
@@ -135,7 +134,6 @@ export class Search extends React.Component {
           {this.props.search.asset.map((x, idx) => (
             <Asset
               {...x}
-              changeRoute={this.props.changeRoute}
               key={x[2] + idx}
             />
           ))}
@@ -201,7 +199,6 @@ export class Search extends React.Component {
 
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
   search: PropTypes.object,
   getProperty: PropTypes.func.isRequired,
@@ -219,7 +216,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     loadSearch: query => dispatch(loadSearch(query)),
-    changeRoute: url => dispatch(routeActions.push(url)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
   };
 }

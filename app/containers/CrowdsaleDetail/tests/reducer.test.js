@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import crowdsaleDetailReducer from '../reducer';
 
 describe('crowdsaleDetailReducer', () => {
@@ -10,6 +9,6 @@ describe('crowdsaleDetailReducer', () => {
       currentPage: 1,
       total: 0,
     };
-    expect(crowdsaleDetailReducer(undefined, {})).toEqual(fromJS(state));
+    expect(crowdsaleDetailReducer(undefined, {})).toEqual(state);
   });
 });

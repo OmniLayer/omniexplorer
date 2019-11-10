@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { Table, UncontrolledTooltip } from 'reactstrap';
 
 import { FormattedMessage } from 'react-intl';
-import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -22,7 +21,7 @@ import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import InformationIcon from 'react-icons/lib/io/informatcircled';
+import { IoIosInformationCircle } from 'react-icons/io';
 
 import messages from './messages';
 
@@ -148,7 +147,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
-              <InformationIcon
+              <IoIosInformationCircle
                 color="gray"
                 className="ml-1"
                 id="blockListTransactionCount"
@@ -162,7 +161,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.usdvalue} />
-              <InformationIcon
+              <IoIosInformationCircle
                 color="gray"
                 className="ml-1"
                 id="blockListUSDValue"
@@ -247,13 +246,11 @@ class BlockList extends React.PureComponent {
 
 BlockList.propTypes = {
   blocks: PropTypes.array.isRequired,
-  changeRoute: PropTypes.func.isRequired,
   getProperty: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
     dispatch,
   };

@@ -1,10 +1,10 @@
-import injectSaga from 'utils/injectSaga';
+import {useInjectSaga} from 'utils/injectSaga';
 import tokenSaga from 'components/Token/saga';
 import statusSaga from 'components/ServiceBlock/saga';
 
 const sagas = [
-  injectSaga({ key: 'tokenDetail', saga: tokenSaga }),
-  injectSaga({ key: 'status', saga: statusSaga }),
+  useInjectSaga({ key: 'tokenDetail', saga: tokenSaga }),
+  useInjectSaga({ key: 'status', saga: statusSaga }),
 ];
 
 export default sagas;

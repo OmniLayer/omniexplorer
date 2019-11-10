@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -30,25 +30,26 @@ import ContainerBase from 'components/ContainerBase';
 import JumpToBlock from 'components/JumpToBlock';
 import { FIRST_BLOCK } from 'containers/App/constants';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 import isEmpty from 'lodash/isEmpty';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
 import ColoredHash from 'components/ColoredHash';
 import BlockPagination from 'components/BlockPagination';
+import { makeSelectLocation } from 'containers/App/selectors';
 import makeSelectBlockDetail from './selectors';
 import reducer from './reducer';
 import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
+
 import {
   ALL_BLOCK_TRANSACTIONS,
   INVALID_BLOCK_TRANSACTIONS,
   VALID_BLOCK_TRANSACTIONS,
 } from './constants';
-
 import './blockdetail.scss';
 
 const StyledContainer = styled(ContainerBase).attrs({
@@ -62,211 +63,204 @@ const StyledContainer = styled(ContainerBase).attrs({
   }
 `;
 
-export class BlockDetail extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+export function BlockDetail(props) {
+  const { block } = props.match.params;
+  const [showTxType, setShowTxType] = useState(ALL_BLOCK_TRANSACTIONS);
+  const [transactions, setTransactions] = useState({});
+  const [currentData, setCurrentData] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
-    this.block = props.match.params.block;
-    this.state = {
-      showTxType: ALL_BLOCK_TRANSACTIONS,
-      data: [],
-      currentData: [],
-      pageCount: 0,
-      currentPage: 1,
-    };
+  useInjectReducer({
+    key: 'blockDetail',
+    reducer,
+  });
 
-    this.transactions = null;
+  useInjectSaga({
+    key: 'blockDetail',
+    saga: sagaBlock,
+  });
 
-    this.onFilterByInvalidTxs = this.onFilterByInvalidTxs.bind(this);
-    this.getTransactions = this.getTransactions.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
-  }
-
-  getTransactions() {
+  const getTransactions = () => {
     console.log('call getTransactions');
-    const { block } = this.props.blockdetail;
+    const { blockdetail } = props;
 
-    if (!this.transactions) {
-      this.setState({
-        currentPage: parseInt(this.props.location.get('hash').replace('#','')) || 1,
-        currentData: block.transactions.slice(0, 10),
-        pageCount: Math.ceil(block.transactions.length / 10),
+    if (isEmpty(transactions)) {
+      setCurrentPage(parseInt(props.location.hash.replace('#', ''), 10) || 1);
+      setCurrentData(blockdetail.block.transactions.slice(0, 10));
+      setPageCount(Math.ceil(blockdetail.block.transactions.length / 10));
+
+      setTransactions({
+        [ALL_BLOCK_TRANSACTIONS]: blockdetail.block.transactions,
+        [VALID_BLOCK_TRANSACTIONS]: blockdetail.block.transactions.filter(
+          x => x.valid,
+        ),
+        [INVALID_BLOCK_TRANSACTIONS]: blockdetail.block.transactions.filter(
+          x => !x.valid,
+        ),
       });
-      this.transactions = {
-        [ALL_BLOCK_TRANSACTIONS]: block.transactions,
-        [VALID_BLOCK_TRANSACTIONS]: block.transactions.filter(x => x.valid),
-        [INVALID_BLOCK_TRANSACTIONS]: block.transactions.filter(x => !x.valid),
-      };
     }
 
-    const txs = this.transactions[this.state.showTxType];
+    const txs = transactions[showTxType];
     return txs;
-  }
-
-  onFilterByInvalidTxs(showTxType) {
-    this.setState({
-      showTxType,
-      currentPage: 1,
-      currentData: this.transactions[showTxType].slice(0, 10),
-    });
-  }
-
-  componentDidMount() {
-    console.log('block detail did mount');
-    this.props.loadBlock(this.block);
-  }
-  
-  handlePageClick = page => {
-    const txs = this.getTransactions();
-    
-    this.setState({
-      currentPage: page,
-      currentData: txs.slice(page - 1, page + 10),
-    });
   };
 
-  render() {
-    console.log('block detail render');
-    const statusLoading =
-      !this.props || !this.props.status || !this.props.status.last_block;
-    if (this.props.blockdetail.loading || statusLoading) {
-      return (
-        <Container>
-          <LoadingIndicator />
-        </Container>
-      );
-    }
-    // this.handlePageClick(this.state.currentPage);
-    const txs = this.getTransactions();
-    const { last_block: lastBlock } = this.props.status;
-    const { block } = this.props.blockdetail;
-    const { confirmations } = (block.transactions || []).find(
-      tx => tx.valid,
-    ) || { confirmations: 'invalid' };
+  const onFilterByInvalidTxs = (showtxtype) => {
+    setShowTxType(showtxtype);
+    setCurrentPage(1);
+    setCurrentData(transactions[showtxtype].slice(0, 10));
+  };
 
-    let content;
-    let hasInvalid = false;
+  useEffect(() => {
+    props.loadBlock(block);
+  }, [block]);
 
-    const getItemKey = (blockItem, idx) =>
-      blockItem.blockhash.slice(0, 22).concat(idx);
+  const handlePageClick = page => {
+    const txs = getTransactions();
+    setCurrentPage(page);
+    setCurrentData(txs.slice(page - 1, page + 10));
+  };
 
-    if (this.block < FIRST_BLOCK || !block.transactions) {
-      const errMsg = `Block ${this.block} not found`;
-      content = (
-        <NoOmniBlockTransactions
-          header={errMsg}
-          mainText={block.error}
-          useDefaults={false}
-        />
-      );
-    } else if (!block.transactions.length) {
-      content = (
-        <h3 className="text-center" style={{ margin: '3rem' }}>
-          <FormattedMessage
-            {...messages.doesNotHaveTransactions.body}
-            values={{
-              blockNumber: this.block,
-            }}
-          />
-        </h3>
-      );
-    } else {
-      hasInvalid = !isEmpty(this.transactions[INVALID_BLOCK_TRANSACTIONS]);
-      const hashLink = page => `#${page}`;
-      content = (
-        <div>
-          <List
-            {...block}
-            usePagination
-            pageCount={this.state.pageCount}
-            currentPage={this.state.currentPage}
-            onSetPage={this.handlePageClick}
-            items={this.state.currentData}
-            inner={Transaction}
-            getItemKey={getItemKey}
-            hashLink={hashLink}
-          />
-        </div>
-      );
-    }
-    const footer = <FooterLinks unconfirmed blocklist />;
-    const dropdownToggle = () => {
-      switch (this.state.showTxType) {
-        case ALL_BLOCK_TRANSACTIONS:
-          return 'All Transactions';
-        case VALID_BLOCK_TRANSACTIONS:
-          return 'Valid Transactions';
-        case INVALID_BLOCK_TRANSACTIONS:
-          return 'Invalid Transactions';
-        default:
-          return 'Transactions';
-      }
-    };
-    // const pluralize = hasInvalid > 1 ? 's' : '';
-    const dropdown = (
-      <UncontrolledDropdown className="float-md-right">
-        <DropdownToggle caret>{dropdownToggle()}</DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            onClick={() => this.onFilterByInvalidTxs(ALL_BLOCK_TRANSACTIONS)}
-          >
-            Show All
-          </DropdownItem>
-          <DropdownItem
-            onClick={() => this.onFilterByInvalidTxs(VALID_BLOCK_TRANSACTIONS)}
-          >
-            Show Valid
-          </DropdownItem>
-          <DropdownItem
-            onClick={() =>
-              this.onFilterByInvalidTxs(INVALID_BLOCK_TRANSACTIONS)
-            }
-          >
-            Show Invalid
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    );
+  const statusLoading = !props || !props.status || !props.status.last_block;
 
-    const validInvalidTxs = hasInvalid ? dropdown : null;
-
+  if (props.blockdetail.loading || statusLoading) {
     return (
-      <StyledContainer fluid>
-        <ListHeader
-          message={
-            block.transactions && block.transactions.length
-              ? messages.header
-              : messages.doesNotHaveTransactions.header
-          }
-          values={{
-            br: <br />,
-            hash: <ColoredHash hash={block.blockhash} />,
-            blockNumber: this.block,
-            txCount: block.transactions ? block.transactions.length : 0,
-            confirmations,
-            timestamp:
-              block.transactions && block.transactions[0] ? (
-                <FormattedUnixDateTime
-                  datetime={block.transactions[0].blocktime}
-                />
-              ) : (
-                '---'
-              ),
-          }}
-        >
-          <JumpToBlock
-            onValidate={value => FIRST_BLOCK < value && value <= lastBlock}
-          />
-          <br />
-          {validInvalidTxs}
-        </ListHeader>
-        {content}
-        <BlockPagination block={this.block} latest={lastBlock} />
-        {footer}
-      </StyledContainer>
+      <Container>
+        <LoadingIndicator />
+      </Container>
     );
   }
+
+  const txs = getTransactions();
+  const { last_block: lastBlock } = props.status;
+  const { blockdetail } = props;
+  const { confirmations } = (blockdetail.block.transactions || []).find(
+    tx => tx.valid,
+  ) || { confirmations: 'invalid' };
+
+  let content;
+  let hasInvalid = false;
+
+  const getItemKey = (blockItem, idx) =>
+    blockItem.blockhash.slice(0, 22).concat(idx);
+
+  if (block < FIRST_BLOCK || !blockdetail.block.transactions) {
+    const errMsg = `Block ${block} not found`;
+
+    content = (
+      <NoOmniBlockTransactions
+        header={errMsg}
+        mainText={blockdetail.error}
+        useDefaults={false}
+      />
+    );
+  } else if (!blockdetail.block.transactions.length) {
+    content = (
+      <h3 className="text-center" style={{ margin: '3rem' }}>
+        <FormattedMessage
+          {...messages.doesNotHaveTransactions.body}
+          values={{
+            blockNumber: block,
+          }}
+        />
+      </h3>
+    );
+  } else {
+    hasInvalid = !isEmpty(transactions[INVALID_BLOCK_TRANSACTIONS]);
+    const hashLink = page => `#${page}`;
+    content = (
+      <div>
+        <List
+          {...block}
+          usePagination
+          pageCount={pageCount}
+          currentPage={currentPage}
+          onSetPage={handlePageClick}
+          items={currentData}
+          inner={Transaction}
+          getItemKey={getItemKey}
+          hashLink={hashLink}
+        />
+      </div>
+    );
+  }
+  const footer = <FooterLinks unconfirmed blocklist />;
+  const dropdownToggle = () => {
+    switch (showTxType) {
+      case ALL_BLOCK_TRANSACTIONS:
+        return 'All Transactions';
+      case VALID_BLOCK_TRANSACTIONS:
+        return 'Valid Transactions';
+      case INVALID_BLOCK_TRANSACTIONS:
+        return 'Invalid Transactions';
+      default:
+        return 'Transactions';
+    }
+  };
+  // const pluralize = hasInvalid > 1 ? 's' : '';
+  const dropdown = (
+    <UncontrolledDropdown className="float-md-right">
+      <DropdownToggle caret>{dropdownToggle()}</DropdownToggle>
+      <DropdownMenu right>
+        <DropdownItem
+          onClick={() => onFilterByInvalidTxs(ALL_BLOCK_TRANSACTIONS)}
+        >
+          Show All
+        </DropdownItem>
+        <DropdownItem
+          onClick={() => onFilterByInvalidTxs(VALID_BLOCK_TRANSACTIONS)}
+        >
+          Show Valid
+        </DropdownItem>
+        <DropdownItem
+          onClick={() => onFilterByInvalidTxs(INVALID_BLOCK_TRANSACTIONS)}
+        >
+          Show Invalid
+        </DropdownItem>
+      </DropdownMenu>
+    </UncontrolledDropdown>
+  );
+
+  const validInvalidTxs = hasInvalid ? dropdown : null;
+
+  return (
+    <StyledContainer fluid>
+      <ListHeader
+        message={
+          blockdetail.block.transactions && blockdetail.block.transactions.length
+            ? messages.header
+            : messages.doesNotHaveTransactions.header
+        }
+        values={{
+          br: <br />,
+          hash: <ColoredHash hash={blockdetail.block.blockhash} />,
+          blockNumber: block,
+          txCount: blockdetail.block.transactions
+            ? blockdetail.block.transactions.length
+            : 0,
+          confirmations,
+          timestamp:
+            blockdetail.block.transactions && blockdetail.block.transactions[0] ? (
+              <FormattedUnixDateTime
+                datetime={blockdetail.block.transactions[0].blocktime}
+              />
+            ) : (
+              '---'
+            ),
+        }}
+      >
+        <JumpToBlock
+          onValidate={value => FIRST_BLOCK < value && value <= lastBlock}
+        />
+        <br />
+        {validInvalidTxs}
+      </ListHeader>
+      {content}
+      <BlockPagination block={block} latest={lastBlock} />
+      {footer}
+    </StyledContainer>
+  );
+  // }
 }
 
 BlockDetail.propTypes = {
@@ -279,7 +273,7 @@ BlockDetail.propTypes = {
 const mapStateToProps = createStructuredSelector({
   blockdetail: makeSelectBlockDetail(),
   status: makeSelectStatus(),
-  location: state => state.get('route').get('location'),
+  location: makeSelectLocation(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -294,18 +288,6 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({
-  key: 'blockDetail',
-  reducer,
-});
-
-const withSagaBlock = injectSaga({
-  key: 'blockDetail',
-  saga: sagaBlock,
-});
-
 export default compose(
-  withReducer,
-  withSagaBlock,
   withConnect,
 )(BlockDetail);

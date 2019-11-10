@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -17,8 +17,8 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 
 import ListHeader from 'components/ListHeader';
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 
 import makeSelectActivations from './selectors';
 import messages from './messages';
@@ -40,102 +40,105 @@ const StyledTable = styled(Table)`
   }
 `;
 
-export class Activations extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+export function Activations(props) {
+  
+  useInjectReducer({
+    key: 'activations',
+    reducer,
+  });
 
-    this.state = { completed: true };
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+  useInjectSaga({
+    key: 'activations',
+    saga,
+  });
+
+  useEffect(() => {
+    props.loadActivations();
+  }, []);
+
+  const [completed, setCompleted] = useState({ completed: true });
+
+  const onRadioBtnClick = (value) => {
+    setCompleted({ value });
+  };
+
+  // render() {
+  const loading = (
+    <Container>
+      <LoadingIndicator />
+    </Container>
+  );
+
+  if (props.activations.loading) {
+    return loading;
   }
 
-  componentDidMount() {
-    console.log('activation list did mount');
-    this.props.loadActivations();
-  }
+  const getItemKey = (activation, idx) =>
+    activation.featureid
+      .toString()
+      .slice(0, 22)
+      .concat(idx);
 
-  onRadioBtnClick(completed) {
-    this.setState({ completed });
-  }
+  const content = (
+    <StyledTable responsive striped hover>
+      <thead>
+        <tr>
+          <th className="text-center">
+            <FormattedMessage {...messages.columns.id} />
+          </th>
+          <th className="text-left">
+            <FormattedMessage {...messages.columns.name} />
+          </th>
+          <th className="text-center">
+            <FormattedMessage {...messages.columns.block} />
+          </th>
+          <th className="text-center">
+            <FormattedMessage {...messages.columns.minimumVersion} />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.activations.list.map((activation, idx) => (
+          <StyledTR key={getItemKey(activation, idx)}>
+            <td className="text-center">{activation.featureid}</td>
+            <td className="text-left">{activation.featurename}</td>
+            <td className="text-center">{activation.activationblock}</td>
+            <td className="text-center">{activation.minimumversion}</td>
+          </StyledTR>
+        ))}
+      </tbody>
+    </StyledTable>
+  );
 
-  render() {
-    const loading = (
-      <Container>
-        <LoadingIndicator />
-      </Container>
-    );
-
-    if (this.props.activations.loading) {
-      return loading;
-    }
-
-    const getItemKey = (activation, idx) =>
-      activation.featureid
-        .toString()
-        .slice(0, 22)
-        .concat(idx);
-
-    const content = (
-      <StyledTable responsive striped hover>
-        <thead>
-          <tr>
-            <th className="text-center">
-              <FormattedMessage {...messages.columns.id} />
-            </th>
-            <th className="text-left">
-              <FormattedMessage {...messages.columns.name} />
-            </th>
-            <th className="text-center">
-              <FormattedMessage {...messages.columns.block} />
-            </th>
-            <th className="text-center">
-              <FormattedMessage {...messages.columns.minimumVersion} />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.activations.list.map((activation, idx) => (
-            <StyledTR key={getItemKey(activation, idx)}>
-              <td className="text-center">{activation.featureid}</td>
-              <td className="text-left">{activation.featurename}</td>
-              <td className="text-center">{activation.activationblock}</td>
-              <td className="text-center">{activation.minimumversion}</td>
-            </StyledTR>
-          ))}
-        </tbody>
-      </StyledTable>
-    );
-    console.log('return activaction list render');
-    return (
-      <StyledContainer fluid>
-        <ListHeader
-          message={messages.header}
-          extra={
-            <ButtonGroup>
-              <Button
-                onClick={() => this.onRadioBtnClick(true)}
-                active={!!this.state.completed}
-              >
-                Completed
-              </Button>
-              <Button
-                onClick={() => this.onRadioBtnClick(false)}
-                active={!this.state.completed}
-                disabled
-              >
-                Pending
-              </Button>
-            </ButtonGroup>
-          }
-        />
-        {content}
-      </StyledContainer>
-    );
-  }
+  return (
+    <StyledContainer fluid>
+      <ListHeader
+        message={messages.header}
+        extra={
+          <ButtonGroup>
+            <Button onClick={() => onRadioBtnClick(true)} active={!!completed}>
+              Completed
+            </Button>
+            <Button
+              onClick={() => onRadioBtnClick(false)}
+              active={!completed}
+              disabled
+            >
+              Pending
+            </Button>
+          </ButtonGroup>
+        }
+      />
+      {content}
+    </StyledContainer>
+  );
+  // }
 }
 
 Activations.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  loadActivations: PropTypes.func.isRequired,
+  activations: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -154,17 +157,7 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({
-  key: 'activations',
-  reducer,
-});
-const withSaga = injectSaga({
-  key: 'activations',
-  saga,
-});
-
 export default compose(
-  withReducer,
-  withSaga,
   withConnect,
+  memo,
 )(Activations);

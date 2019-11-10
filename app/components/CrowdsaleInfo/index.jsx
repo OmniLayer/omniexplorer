@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
@@ -115,12 +114,10 @@ CrowdsaleInfo.propTypes = {
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
   propertyiddesired: PropTypes.any.isRequired,
-  changeRoute: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

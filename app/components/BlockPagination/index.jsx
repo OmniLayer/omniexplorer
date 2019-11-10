@@ -54,8 +54,8 @@ function BlockPagination({ block, latest }) {
 }
 
 BlockPagination.propTypes = {
-  block:  PropTypes.any.isRequired,
-  latest:  PropTypes.any.isRequired,
+  block: PropTypes.any.isRequired,
+  latest: PropTypes.any.isRequired,
 };
 
 export default BlockPagination;

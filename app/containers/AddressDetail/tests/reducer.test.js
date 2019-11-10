@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import addressDetailReducer from '../reducer';
 
 describe('addressDetailReducer', () => {
@@ -7,6 +6,6 @@ describe('addressDetailReducer', () => {
       loading: false,
       address: { balance: [] },
     };
-    expect(addressDetailReducer(undefined, {})).toEqual(fromJS(state));
+    expect(addressDetailReducer(undefined, {})).toEqual(state);
   });
 });

@@ -1,5 +1,3 @@
-import { fromJS } from 'immutable';
-
 import {
   makeSelectTransactions,
   makeSelectLoading,
@@ -8,12 +6,12 @@ import {
 
 describe('selectTransactionsDomain', () => {
   it('should select the transactions state', () => {
-    const txState = fromJS({
+    const txState = {
       transactions: [],
-    });
-    const mockedState = fromJS({
+    };
+    const mockedState = {
       transactions: txState,
-    });
+    };
     expect(selectTransactionsDomain(mockedState)).toEqual(txState);
   });
 });
@@ -22,11 +20,11 @@ describe('makeSelectLoading', () => {
   const usernameSelector = makeSelectLoading();
   it('should select the loading', () => {
     const loading = true;
-    const mockedState = fromJS({
+    const mockedState = {
       transactions: {
         loading,
       },
-    });
+    };
     expect(usernameSelector(mockedState)).toEqual(loading);
   });
 });
@@ -35,9 +33,9 @@ describe('makeSelectTransactions', () => {
   const transactionsSelectors = makeSelectTransactions();
   it('should select the transaction', () => {
     const transactions = [];
-    const mockedState = fromJS({
+    const mockedState = {
       transactions,
-    });
+    };
     expect(transactionsSelectors(mockedState)).toEqual(transactions);
   });
 });

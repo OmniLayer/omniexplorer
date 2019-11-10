@@ -7,7 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -24,6 +23,10 @@ import injectSaga from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
 import { FIRST_BLOCK } from 'containers/App/constants';
 import { Row, Col } from 'reactstrap';
+
+import {
+  makeSelectLocation,
+} from 'containers/App/selectors';
 
 import {
   makeSelectBlocks,
@@ -147,7 +150,6 @@ Blocks.propTypes = {
   blocks: PropTypes.object.isRequired,
   loadBlocks: PropTypes.func,
   disableLoading: PropTypes.func,
-  changeRoute: PropTypes.func,
   loading: PropTypes.bool,
   previousBlock: PropTypes.any,
   latest: PropTypes.any,
@@ -161,7 +163,8 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   previousBlock: makeSelectPreviousBlock(),
   latest: makeSelectLatestBlock(),
-  location: state => state.get('route').get('location'),
+  location: state => state.route.location,
+  locationDos: makeSelectLocation(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -169,7 +172,6 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadBlocks: block => dispatch(loadBlocks(block)),
     disableLoading: () => dispatch(disableLoading()),
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 

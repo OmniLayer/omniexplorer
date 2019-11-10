@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the transactionDetail state domain
  */
-const selectTransactionDetailDomain = state => state.get('transactionDetail');
+const selectTransactionDetailDomain = state => state.transactionDetail || initialState;
 
 /**
  * Other specific selectors
@@ -14,7 +15,7 @@ const selectTransactionDetailDomain = state => state.get('transactionDetail');
  */
 
 const makeSelectTransactionDetail = () =>
-  createSelector(selectTransactionDetailDomain, substate => substate.toJS());
+  createSelector(selectTransactionDetailDomain, substate => substate);
 
 export default makeSelectTransactionDetail;
 export { selectTransactionDetailDomain };

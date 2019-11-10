@@ -8,3 +8,4 @@ const reducers = [
 ];
 
 export default reducers;
+export const initialState = {};

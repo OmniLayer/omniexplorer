@@ -15,18 +15,17 @@ class TransactionListHeader extends React.PureComponent { // eslint-disable-line
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
     };
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     });
-  }
-
+  };
+  
   render() {
     return (
       <ListHeader
