@@ -13,7 +13,6 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Link } from 'react-router-dom';
 
 import { startFetch } from 'components/Token/actions';
 import AssetLogo from 'components/AssetLogo';
@@ -21,6 +20,7 @@ import AssetLink from 'components/AssetLink';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import StyledLink from 'components/StyledLink';
 import { IoIosInformationCircle } from 'react-icons/io';
 
 import messages from './messages';
@@ -182,14 +182,14 @@ class BlockList extends React.PureComponent {
           {this.props.blocks.map((block, idx) => (
             <StyledTR key={getItemKey(block, idx)}>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/block/${block.block}`,
                     state: { state: this.props.state },
                   }}
                 >
                   {block.block}
-                </Link>
+                </StyledLink>
               </td>
               <td className="text-center">
                 <FormattedUnixDateTime datetime={block.timestamp} />
@@ -227,14 +227,14 @@ class BlockList extends React.PureComponent {
                 </UncontrolledTooltip>
               </td>
               <td className="text-center">
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/block/${block.block}`,
                     state: { state: this.props.state },
                   }}
                 >
                   <ColoredHash hash={block.block_hash} />
-                </Link>
+                </StyledLink>
               </td>
             </StyledTR>
           ))}

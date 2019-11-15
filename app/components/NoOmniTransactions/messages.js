@@ -5,6 +5,7 @@
  */
 import { defineMessages } from 'react-intl';
 import React from 'react';
+import StyledA from 'components/StyledA';
 
 export default defineMessages({
   header: {
@@ -25,7 +26,7 @@ export default defineMessages({
       'transaction you should use a bitcoin block explorer like\n' +
       '{link}',
     values: {
-      link: <a href="https://www.blockchair.com">blockchair.com</a>,
+      link: <StyledA href="https://www.blockchair.com">blockchair.com</StyledA>,
     },
   },
 });

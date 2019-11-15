@@ -1,15 +1,13 @@
 /**
  *
- * StyledLink
+ * StyledA
  *
  */
 
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-const StyledLink = styled(Link).attrs({
+const StyledA = styled.a.attrs({
   className: 'mr-1 text-truncate',
 })`
   color: #337ab7;
@@ -21,6 +19,6 @@ const StyledLink = styled(Link).attrs({
   }
 `;
 
-StyledLink.propTypes = {};
+StyledA.propTypes = {};
 
-export default memo(StyledLink);
+export default memo(StyledA);

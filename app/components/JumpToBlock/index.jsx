@@ -41,7 +41,7 @@ export function JumpToBlock(props) {
   //   };
   // }
   const [blockToJump, setBlockToJump] = useState('');
-  const [tooltipOpen, setTooltipOpen] = useState('');
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   // const [idTimeout, setIdTimeout] = useState('');
   
   const timerToTooltipOpen = useRef(false);

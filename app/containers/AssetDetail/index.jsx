@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
 import { Col, Container, Row, Table } from 'reactstrap';
 
 import { startFetch } from 'components/Token/actions';
@@ -85,14 +85,14 @@ export class AssetDetail extends React.PureComponent {
                       <strong>{asset.name}</strong>
                       <SubtitleDetail className={subtitleclass}>
                         <span>created by &nbsp;</span>
-                        <Link
+                        <StyledLink
                           to={{
                             pathname: `/tx/${asset.creationtxid}`,
                             state: { state: this.props.state },
                           }}
                         >
                           {asset.creationtxid}
-                        </Link>
+                        </StyledLink>
                       </SubtitleDetail>
                     </h4>
                   </th>

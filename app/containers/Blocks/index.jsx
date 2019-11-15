@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -17,6 +17,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import JumpToBlock from 'components/JumpToBlock';
 import NoOmniBlocks from 'components/NoOmniBlocks';
 import ContainerBase from 'components/ContainerBase';
+import StyledA from 'components/StyledA';
 
 import isEmpty from 'lodash/isEmpty';
 import injectSaga from 'utils/injectSaga';
@@ -40,13 +41,6 @@ import messages from './messages';
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
   padding-bottom: 0;
-`;
-
-const A = styled.a`
-  text-decoration: none;
-  &:hover {
-    text-decoration: none;
-  }
 `;
 
 export class Blocks extends React.Component {
@@ -106,10 +100,10 @@ export class Blocks extends React.Component {
         return result;
       };
 
-      const LinkPrevious = styled(A)``;
+      const LinkPrevious = styled(StyledA)``;
       const LinkNext = (isEmpty(blocks) || this.props.latest > blocks[0].block)
-        ? styled(A)``
-        : styled(A)`
+        ? StyledA
+        : styled(StyledA)`
           pointer-events: none;
           text-decoration: none;
           opacity: 0.5;

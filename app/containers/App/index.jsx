@@ -76,6 +76,7 @@ export function App({
   });
   
   useEffect(() => {
+    console.log('load status..');
     loadStatus();
   }, []);
   

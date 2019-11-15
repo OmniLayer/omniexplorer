@@ -9,24 +9,19 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
 
-const A = styled.a`
-  text-decoration: none;
-  &:hover {
-    text-decoration: none;
-  }
-`;
+import StyledA from 'components/StyledA';
 
 const H3 = styled.h3`
   margin-top: 0.5rem;
 `;
 
 function BlockPagination({ block, latest }) {
-  const LinkPrevious = styled(A)``;
+  const LinkPrevious = StyledA;
 
   const LinkNext =
     latest > block
-      ? styled(A)``
-      : styled(A)`
+      ? StyledA
+      : styled(StyledA)`
           pointer-events: none;
           text-decoration: none;
           opacity: 0.5;

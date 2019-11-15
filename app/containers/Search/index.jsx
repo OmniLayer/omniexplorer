@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Jumbotron, Row, Table } from 'reactstrap';
@@ -23,6 +22,7 @@ import TransactionInfo from 'components/TransactionInfo';
 import Asset from 'components/Asset';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
+import StyledLink from 'components/StyledLink';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectLoading, makeSelectProperties, makeSelectProperty } from 'components/Token/selectors';
@@ -90,14 +90,14 @@ export class Search extends React.Component {
       ) {
         return (
           <div className="container-fluid">
-            <Link
+            <StyledLink
               to={{
                 pathname: `/address/${this.query}`,
                 state: { state: this.props.state },
               }}
             >
               Click Here for full address details.
-            </Link>
+            </StyledLink>
           </div>
         );
       }

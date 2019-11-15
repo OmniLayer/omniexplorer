@@ -31,8 +31,12 @@ const StyledPaginationButton = styled(PaginationItem)`
 `;
 
 const StyledPaginationItem = styled(StyledPaginationButton)`
+  & > .page-link {
+    color: #337ab7;
+  }
   &.active > .page-link {
-    background-color: #3498db;
+    background-color: #3498db !important;
+    color: #337ab7;
   }
 `;
 

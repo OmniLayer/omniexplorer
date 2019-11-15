@@ -159,7 +159,7 @@ class TransactionHistory extends React.Component {
             attr="y"
             attrAxis="x"
             orientation="left"
-            title="USD & Transactions"
+            title="Transactions & Value"
             hideTicks
           />
           <LineSeries

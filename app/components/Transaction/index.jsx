@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Col, Row, Tooltip } from 'reactstrap';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -146,14 +145,14 @@ class Transaction extends React.PureComponent {
             </Row>
             <Row className="d-flex flex-center-down-md mb-1 mt-1">
               <WrapperTx>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/tx/${this.props.txid}`,
                     state: { state: this.props.state },
                   }}
                 >
                   <ColoredHash hash={this.props.txid} />
-                </Link>
+                </StyledLink>
               </WrapperTx>
               <CopyToClipboard
                 text={this.props.txid}
@@ -179,7 +178,7 @@ class Transaction extends React.PureComponent {
               <WrapperTxDatetime>
                 <FormattedUnixDateTime datetime={this.props.blocktime} />
               </WrapperTxDatetime>
-              <Link
+              <StyledLink
                 className={statusCSSClass}
                 style={{ cursor: 'default' }}
                 to={{
@@ -189,7 +188,7 @@ class Transaction extends React.PureComponent {
                 id={invalidid}
               >
                 {status}
-              </Link>
+              </StyledLink>
               {this.props.invalidreason &&
               <WarningTooltip
                 placement="top"

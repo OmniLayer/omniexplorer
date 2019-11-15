@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
+import StyledA from 'components/StyledA';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
@@ -44,13 +45,6 @@ const SubtitleDetail = styled.small`
   font-size: 10px;
   font-weight: 400;
   margin-top: 5px;
-`;
-const A = styled.a`
-  color: #41addd;
-
-  &:hover {
-    color: #6cc0e5;
-  }
 `;
 
 function TransactionInfo(props) {
@@ -197,28 +191,28 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">Sender</td>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/address/${props.sendingaddress}`,
                     state: { state: props.state },
                   }}
                 >
                   {props.sendingaddress}
-                </Link>
+                </StyledLink>
               </td>
             </tr>
             {recipient &&
             <tr>
               <td className="field">Recipient</td>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/address/${recipient}`,
                     state: { state: props.state },
                   }}
                 >
                   {recipient}
-                </Link>
+                </StyledLink>
               </td>
             </tr>
             }
@@ -234,14 +228,14 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">In Block</td>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/block/${props.block}`,
                     state: { state: props.state },
                   }}
                 >
                   <span id="lblocknum">{props.block}</span>
-                </Link>
+                </StyledLink>
               </td>
             </tr>
             }
@@ -298,9 +292,9 @@ function TransactionInfo(props) {
               <td className="field">Raw Data</td>
               <td>
                   <span id="lrawgettx">
-                    <a href={rawTransactionURL} target="_blank">
+                    <StyledA href={rawTransactionURL} target="_blank">
                       Click here for raw transaction...
-                    </a>
+                    </StyledA>
                   </span>
               </td>
             </tr>
@@ -312,19 +306,19 @@ function TransactionInfo(props) {
             </tr>
             <tr className="d-none">
               <td colSpan="2">
-                <A
+                <StyledA
                   href="#collapseRawData"
                   color="primary"
                   onClick={toggleDecoded}
                   style={{ marginBottom: '1rem' }}
                 >
                   Decoded Raw Payload
-                </A>
+                </StyledA>
                 <Collapse isOpen={collapseDecoded}>
                     <span id="lrawgettx">
-                      <a href="/rawpayload">
+                      <StyledA href="/rawpayload">
                         (Coming Soon) Click here for raw payload...
-                      </a>
+                      </StyledA>
                     </span>
                 </Collapse>
               </td>
