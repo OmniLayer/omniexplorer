@@ -28,7 +28,6 @@ export function Token(props) {
   
   const getTokenName = () => (props.properties.tokens[props.id.toString()] || { name: '' }).name;
   
-  // render() {
   let frozen;
   let reserved;
   let available;
@@ -100,7 +99,6 @@ export function Token(props) {
       </StyledTD>
     </tr>
   );
-  // }
 }
 
 Token.propTypes = {
