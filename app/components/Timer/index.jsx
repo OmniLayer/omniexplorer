@@ -52,7 +52,6 @@ export class Timer extends React.PureComponent { // eslint-disable-line react/pr
   }
 
   calculateTimeUnits() {
-    // timeUnits = i18nService.getTimeUnits(this.millis);
     const timeUnits = {
       seconds: 'second',
       minutes: 'minute',

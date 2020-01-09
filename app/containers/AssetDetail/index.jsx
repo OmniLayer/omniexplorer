@@ -21,7 +21,6 @@ import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 
 import getWarningMessage from 'utils/getWarningMessage';
-// import { makeSelectLoading } from '../Blocks/selectors';
 
 const DetailRow = styled(Row)`
   margin-top: 2rem;
@@ -110,7 +109,6 @@ export function AssetDetail(props) {
       <Row />
     </ContainerBase>
   );
-  // }
 }
 
 AssetDetail.propTypes = {

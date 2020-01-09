@@ -26,7 +26,6 @@ export function Token(props) {
     if (props.id && props.id.toString().trim().length > 0) props.getProperty(props.id.toString());
   }, []);
 
-  // const getTokenName = () => (props.properties.tokens[props.id.toString()] || { name: '' }).name;
   const getTokenName = () => (props.propertyinfo || { name: '' }).name;
 
   let frozen;

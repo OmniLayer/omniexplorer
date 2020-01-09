@@ -41,7 +41,6 @@ function AssetLogo({ asset, prop, className, style}) {
 
 AssetLogo.propTypes = {
   asset: PropTypes.object.isRequired,
-  // prop: PropTypes.any.isRequired,
 };
 
 export default AssetLogo;

@@ -44,7 +44,6 @@ function* fetchPropertyDeep(action) {
   let property = tokens[action.id.toString()];
 
   // load token if is still not requested
-  // yield call(delay, 1000);
   if (!property) {
     console.log('fetch property ', action.id);
     property = yield call(fetchProperty, action.id);

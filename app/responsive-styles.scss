@@ -144,12 +144,6 @@
     display: none !important;
   }
 }
-//
-//@include breakpoint-min(md, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)){
-//  .d-block-until-md {
-//
-//  }
-//}
 
 .card-columns {
   @include media-breakpoint-only(lg) {
