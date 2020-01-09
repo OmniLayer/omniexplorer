@@ -25,13 +25,14 @@ export function Token(props) {
   useEffect(() => {
     if (props.id && props.id.toString().trim().length > 0) props.getProperty(props.id.toString());
   }, []);
-  
-  const getTokenName = () => (props.properties.tokens[props.id.toString()] || { name: '' }).name;
-  
+
+  // const getTokenName = () => (props.properties.tokens[props.id.toString()] || { name: '' }).name;
+  const getTokenName = () => (props.propertyinfo || { name: '' }).name;
+
   let frozen;
   let reserved;
   let available;
-  
+
   if (props.divisible) {
     frozen = props.frozen / 1e8;
     reserved = props.reserved ? props.reserved / 1e8 : 0;
@@ -41,17 +42,17 @@ export function Token(props) {
     reserved = props.reserved;
     available = props.value;
   }
-  
+
   let value;
   let vlabel;
-  
+
   if (available == 0 && frozen > 0) {
     value = frozen;
     vlabel = ' Frozen!';
   } else {
     value = available;
   }
-  
+
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>

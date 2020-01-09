@@ -36,35 +36,35 @@ const StyledContainer = styled(ContainerBase)`
 export function Transactions(props) {
   const [page, setPage] = useState(props.match.params.page);
   const unconfirmed = props.location.pathname.includes('unconfirmed');
-  
+
   const [loadConfirmed, setLoadConfirmed] = useState(true);
-  
+
   useInjectSaga({
     key: 'transactions',
     saga: sagaTransactions,
   });
-  
+
   const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = v => `${pathname}/${v}`;
   const loadTxs = () => ((unconfirmed ? props.loadUnconfirmed : props.loadTransactions)(props.addr));
-  
+
   useEffect(() => {
     loadTxs();
   }, [page, unconfirmed, props.addr]);
-  
+
   const handlePageClick = p => {
     props.setCurrentPage(p);
     history.push(hashLink(p));
     setPage(p);
   };
-  
+
   const onRadioBtnClick = confirmed => {
     setLoadConfirmed(confirmed);
     loadTxs();
   };
-  
+
   let content;
-  
+
   if (props.loading) {
     content = <LoadingIndicator />;
   } else if ((props.transactions.transactions || []).length === 0) {
@@ -83,12 +83,12 @@ export function Transactions(props) {
       getItemKey,
       usePagination,
     };
-    
+
     _props.items = props.transactions.transactions;
     content = <List {..._props} />;
   }
   const footer = <FooterLinks blocklist />;
-  
+
   const header = (
     <TransactionListHeader
       customHeader={props.unconfirmed ? messages.unconfirmedHeader : null}
@@ -121,7 +121,7 @@ export function Transactions(props) {
       }
     />
   );
-  
+
   return (
     <StyledContainer fluid>
       {header}

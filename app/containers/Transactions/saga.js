@@ -1,23 +1,10 @@
-import {
-  all,
-  call,
-  put,
-  select,
-  takeEvery,
-  take,
-  takeLatest,
-} from 'redux-saga/effects';
-import {
-  LOAD_TRANSACTIONS,
-  LOAD_UNCONFIRMED,
-  SET_TRANSACTION_TYPE,
-} from 'containers/Transactions/constants';
+import { all, call, put, select, take } from 'redux-saga/effects';
+import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import { transactionsLoaded } from './actions';
 import { makeSelectTransactions } from './selectors';
-import { LOAD_PROPERTY } from '../../components/Token/constants';
 
 export function* getUnconfirmed({ addr }) {
   const requestURL = addr
@@ -67,7 +54,7 @@ export function* getTransactions({ addr }) {
 
 function* watchGetTransactions() {
   while (true) {
-    const payload = yield take(LOAD_PROPERTY);
+    const payload = yield take(LOAD_TRANSACTIONS);
     yield call(getTransactions, payload);
   }
 }
@@ -92,10 +79,7 @@ function* watchGetTransactionsByType() {
 export default function* root() {
   yield all([
     call(watchGetTransactions),
-    // takeLatest(LOAD_TRANSACTIONS, getTransactions),
     call(watchGetTransactionsByType),
-    // takeLatest(SET_TRANSACTION_TYPE, getTransactions),
     call(watchGetUnconfirmed),
-    // takeLatest(LOAD_UNCONFIRMED, getUnconfirmed),
   ]);
 }
