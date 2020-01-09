@@ -9,7 +9,6 @@ import find from 'lodash/find';
  */
 export default (tx, getProperty) => {
   const invalid = [0, 3, 4, -22, 25, 26, 28, 65534].includes(tx.type_int) ? false : true;
-
   const property =
     tx.propertyid
       ? getProperty(tx.propertyid)

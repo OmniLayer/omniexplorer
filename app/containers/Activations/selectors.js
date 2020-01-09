@@ -10,17 +10,15 @@ const selectActivationsDomain = state => state.activations || initialState;
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by Activations
  */
 
-const makeSelectActivations = () => createSelector(
-  selectActivationsDomain,
-  (substate) => substate
-);
+const makeSelectActivations = () =>
+  createSelector(
+    selectActivationsDomain,
+    substate => substate,
+  );
 
 export default makeSelectActivations;
-export {
-  selectActivationsDomain,
-};
+export { selectActivationsDomain };

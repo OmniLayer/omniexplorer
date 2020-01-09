@@ -354,7 +354,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  properties: state => makeSelectProperty(state),
+  properties: makeSelectProperty,
 });
 
 const withConnect = connect(

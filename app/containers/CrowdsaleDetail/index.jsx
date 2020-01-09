@@ -91,7 +91,6 @@ export class CrowdsaleDetail extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-
     this.crowdsaleid = this.props.match.params.crowdsaleid.toString();
     this.props.getPropertyDeep(this.crowdsaleid);
     console.log(`crowdsale id: ${this.crowdsaleid}`);
@@ -357,7 +356,7 @@ CrowdsaleDetail.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   crowdsaledetail: makeSelectCrowdsaleDetail(),
-  properties: state => makeSelectProperty(state),
+  properties: makeSelectProperty,
 });
 
 function mapDispatchToProps(dispatch) {

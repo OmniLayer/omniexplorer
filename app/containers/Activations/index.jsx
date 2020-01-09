@@ -41,7 +41,7 @@ const StyledTable = styled(Table)`
 `;
 
 export function Activations(props) {
-  
+
   useInjectReducer({
     key: 'activations',
     reducer,
@@ -62,7 +62,6 @@ export function Activations(props) {
     setCompleted({ value });
   };
 
-  // render() {
   const loading = (
     <Container>
       <LoadingIndicator />
@@ -132,7 +131,6 @@ export function Activations(props) {
       {content}
     </StyledContainer>
   );
-  // }
 }
 
 Activations.propTypes = {

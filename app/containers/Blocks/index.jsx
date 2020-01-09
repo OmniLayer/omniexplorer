@@ -27,12 +27,7 @@ import { Col, Row } from 'reactstrap';
 
 import { makeSelectLocation } from 'containers/App/selectors';
 
-import {
-  makeSelectBlocks,
-  makeSelectLatestBlock,
-  makeSelectLoading,
-  makeSelectPreviousBlock,
-} from './selectors';
+import { makeSelectBlocks, makeSelectLatestBlock, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
 
@@ -42,20 +37,20 @@ const StyledContainer = styled(ContainerBase)`
 `;
 
 export function Blocks(props) {
-  const { block } = props.match.params || '';
-
+  const block = props.match.params.block || '';
+  
   useInjectSaga({
     key: 'blocks',
     saga: sagaBlocks,
   });
-
+  
   useEffect(() => {
     props.loadBlocks(block);
   }, [block]);
-
+  
   let content;
   let pagination;
-
+  
   if (props.loading && !props.previousBlock) {
     content = <LoadingIndicator />;
   } else {
@@ -66,9 +61,9 @@ export function Blocks(props) {
       ) : (
         <BlockList blocks={blocks} />
       );
-
+    
     content = <div>{list}</div>;
-
+    
     const pathname =
       props.location.pathname.toLowerCase().indexOf('block') > -1
         ? '/blocks/'
@@ -86,7 +81,7 @@ export function Blocks(props) {
       }
       return result;
     };
-
+    
     const nextBlockSet = () => {
       let result;
       if (isEmpty(blocks) || block > blocks[0].block + 9) {
@@ -96,7 +91,7 @@ export function Blocks(props) {
       }
       return result;
     };
-
+    
     const LinkPrevious = styled(StyledA)``;
     const LinkNext =
       isEmpty(blocks) || props.latest > blocks[0].block
@@ -107,7 +102,7 @@ export function Blocks(props) {
             opacity: 0.5;
             cursor: not-allowed;
           `;
-
+    
     pagination = (
       <Row>
         <Col
@@ -136,9 +131,9 @@ export function Blocks(props) {
       </Row>
     );
   }
-
+  
   const footer = props.footer || <div />;
-
+  
   return (
     <StyledContainer fluid>
       <ListHeader message={messages.header}>

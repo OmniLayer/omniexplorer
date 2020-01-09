@@ -1,10 +1,10 @@
 import produce from 'immer';
-import { LOAD_PROPERTY, LOAD_PROPERTY_SUCCESS } from './constants';
+import { LOAD_PROPERTY, LOAD_PROPERTY_SUCCESS, LOAD_PROPERTY_CANCEL } from './constants';
 
 export const initialState = {
   tokens: {},
   error: null,
-  isFetching: false,
+  isFetching: true,
   lastFetched: 0,
 };
 
@@ -13,6 +13,9 @@ const propertyReducer = (state = initialState, action = {}) => {
   const { error, payload, type } = action;
   return produce(state, draft => {
     switch (type) {
+      case LOAD_PROPERTY_CANCEL:
+        draft.isFetching = false;
+        draft.lastFetched = Date.now();
       case LOAD_PROPERTY:
         draft.lastFetched = 0;
         draft.isFetching = true;

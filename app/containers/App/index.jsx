@@ -52,7 +52,7 @@ import GlobalStyle from '../../global-styles';
 // import Moment from 'react-moment';
 
 // Import DevTools, only for dev environment
-const isDev = process.env.NODE_ENV !== 'production' && false;
+const isDev = process.env.NODE_ENV !== 'production';
 
 const AppWrapper = styled.div`
   max-width: calc(1170px + 16px * 2);
