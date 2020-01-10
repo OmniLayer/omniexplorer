@@ -79,7 +79,7 @@ function AssetInfo(asset) {
   } else if (asset.url.includes('.')) {
     asseturl = (
       <td>
-        <StyledA href={asset.url} target="_blank">
+        <StyledA href={`//${asset.url}`} target="_blank" rel="noopener noreferrer">
           {asset.url}
         </StyledA>
       </td>
