@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Col, Row, Tooltip } from 'reactstrap';
 import styled from 'styled-components';
 
@@ -24,7 +23,7 @@ import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import WrapperTx from 'components/WrapperTx';
 import WrapperTxDatetime from 'components/WrapperTxDatetime';
-import './transaction.scss';
+import 'components/Transaction/transaction.scss';
 
 import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
@@ -170,14 +169,14 @@ class CrowdsaleTransaction extends React.PureComponent {
             </Row>
             <Row className="d-flex flex-center-down-md mb-sm-1 mt-sm-1">
               <WrapperTx>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/tx/${this.props.txid}`,
                     state: { state: this.props.state },
                   }}
                 >
                   <ColoredHash hash={this.props.txid} />
-                </Link>
+                </StyledLink>
               </WrapperTx>
               <CopyToClipboard
                 text={this.props.txid}
@@ -203,7 +202,7 @@ class CrowdsaleTransaction extends React.PureComponent {
               <WrapperTxDatetime>
                 <FormattedUnixDateTime datetime={this.props.blocktime} />
               </WrapperTxDatetime>
-              <Link
+              <StyledLink
                 className={statusCSSClass}
                 to={{
                   pathname: `/tx/${this.props.txid}`,
@@ -211,7 +210,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                 }}
               >
                 {status}
-              </Link>
+              </StyledLink>
             </div>
           </Col>
         </Row>

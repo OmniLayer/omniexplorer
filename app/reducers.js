@@ -38,9 +38,6 @@ const routeReducer = (state = routeInitialState, action) =>
     switch (action.type) {
       /* istanbul ignore next */
       case LOCATION_CHANGE:
-        // return state.merge({
-        //   location: action.payload,
-        // });
         merge(draft.location, action.payload);
         break;
     }

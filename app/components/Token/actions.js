@@ -2,6 +2,7 @@ import {
   LOAD_PROPERTY,
   LOAD_PROPERTY_SUCCESS,
   LOAD_PROPERTY_DEEP,
+  LOAD_PROPERTY_CANCEL,
 } from './constants';
 
 // Start the fetch, toggle is `isFetching` value
@@ -23,4 +24,8 @@ export const updateFetch = payload => ({
 export const startDeepFetch = tokenid => ({
   type: LOAD_PROPERTY_DEEP,
   id: tokenid,
+});
+
+export const cancelFetch = () => ({
+  type: LOAD_PROPERTY_CANCEL,
 });

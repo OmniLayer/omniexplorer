@@ -1,9 +1,6 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, take } from 'redux-saga/effects';
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
-import {
-  API_URL_BASE,
-  API_URL_BLOCKCHAIN_BTC_BALANCE,
-} from 'containers/App/constants';
+import { API_URL_BASE, API_URL_BLOCKCHAIN_BTC_BALANCE } from 'containers/App/constants';
 import { updateFetch } from 'components/Token/actions';
 import { addressLoaded } from 'containers/AddressDetail/actions';
 import encoderURIParams from 'utils/encoderURIParams';
@@ -41,5 +38,8 @@ export function* getAddress({ addr }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([takeLatest(LOAD_ADDRESS, getAddress)]);
+  while (true) {
+    const payload = yield take(LOAD_ADDRESS);
+    yield call(getAddress, payload);
+  }
 }

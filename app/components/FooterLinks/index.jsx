@@ -7,7 +7,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
 import FooterRow from 'components/FooterRow';
 import { Row, Col } from 'reactstrap';
 
@@ -23,28 +23,28 @@ function FooterLinks(props) {
       {props.blocklist &&
       <FooterRow>
         <Col sm>
-          <Link
+          <StyledLink
             to={{
               pathname: `/blocks`,
               state: { state: props.state },
             }}
           >
             <FormattedMessage {...messages.navigateFullBlockList} />
-          </Link>
+          </StyledLink>
         </Col>
       </FooterRow>
       }
       {props.unconfirmed &&
       <FooterRow>
         <Col sm>
-          <Link
+          <StyledLink
             to={{
               pathname: `/transactions/unconfirmed`,
               state: { state: props.state },
             }}
           >
             <FormattedMessage {...messages.unconfirmedTransactionsList} />
-          </Link>
+          </StyledLink>
         </Col>
       </FooterRow>
       }

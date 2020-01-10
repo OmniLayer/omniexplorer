@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, take } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
@@ -15,5 +15,8 @@ function* fetchStatus() {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield takeLatest(LOAD_STATUS, fetchStatus);
+  while (true) {
+    const payload = yield take(LOAD_STATUS);
+    yield call(fetchStatus, payload);
+  }
 }

@@ -12,7 +12,7 @@ import injectReducer from 'utils/injectReducer';
 
 import { Alert, Jumbotron, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
 import moment from 'moment/src/moment';
 import PropTypes from 'prop-types';
 import { cleanError } from './actions';
@@ -64,13 +64,13 @@ class ErrorBoundary extends React.Component {
                 <br />
                 <h5>
                   Please{' '}
-                  <Link
+                  <StyledLink
                     onClick={() => window.location.reload()}
                     to=""
                     refresh="true"
                   >
                     <span>retry</span>
-                  </Link>{' '}
+                  </StyledLink>{' '}
                   again in few moments.
                 </h5>
               </Jumbotron>
@@ -90,13 +90,13 @@ class ErrorBoundary extends React.Component {
             <br />
             <h5>
               Please{' '}
-              <Link
+              <StyledLink
                 onClick={() => window.location.reload()}
                 to=""
                 refresh="true"
               >
                 <span>retry</span>
-              </Link>{' '}
+              </StyledLink>{' '}
               again in few seconds.
             </h5>
           </Jumbotron>

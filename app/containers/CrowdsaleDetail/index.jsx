@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
@@ -26,12 +26,12 @@ import {
 } from 'reactstrap';
 import styled from 'styled-components';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 import getWarningMessage from 'utils/getWarningMessage';
 import { startDeepFetch } from 'components/Token/actions';
 import AssetInfo from 'components/AssetInfo';
-import { makeSelectProperty } from 'components/Token/selectors';
+import { makeSelectProperties } from 'components/Token/selectors';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Timer from 'components/Timer';
@@ -87,148 +87,151 @@ const HistoryContainer = ContainerBase;
 
 const StyledRow = styled(Row).attrs({})``;
 
-export class CrowdsaleDetail extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+export function CrowdsaleDetail(props) {
+  const { crowdsaleid } = props.match.params;
 
-    this.crowdsaleid = this.props.match.params.crowdsaleid.toString();
-    this.props.getPropertyDeep(this.crowdsaleid);
-    console.log(`crowdsale id: ${this.crowdsaleid}`);
-    this.props.getCrowdsaleTransactions(this.crowdsaleid);
-  }
+  useInjectReducer({
+    key: 'crowdsaleDetail',
+    reducer,
+  });
+  useInjectSaga({
+    key: 'crowdsaleDetail',
+    saga,
+  });
 
-  render() {
-    const loading = (
-      <Container>
-        <LoadingIndicator/>
-      </Container>
-    );
+  useEffect(() => {
+    props.getPropertyDeep(crowdsaleid);
+    props.getCrowdsaleTransactions(crowdsaleid.toString());
+  }, [crowdsaleid]);
 
-    const crowdsale = this.props.properties(this.crowdsaleid);
-    if (!crowdsale) return loading;
+  const loading = (
+    <Container>
+      <LoadingIndicator />
+    </Container>
+  );
 
-    // if the crowdsale doesn't exist redirect to not found
-    if (!crowdsale.propertyiddesired) return <Redirect to='/not-found'/>;
+  const crowdsale = props.tokens[crowdsaleid];
+  if (!crowdsale) return loading;
 
-    const dessiredToken = this.props.properties(
-      crowdsale.propertyiddesired.toString(),
-    );
-    if (!dessiredToken) return loading;
+  // if the crowdsale doesn't exist redirect to not found
+  if (!crowdsale.propertyiddesired) return <Redirect to='/not-found' />;
 
-    const detail = this.props.crowdsaledetail;
-    const crowdsaleDeadline = moment.unix(crowdsale.deadline).utc();
-    const earlybonus =
-      (crowdsaleDeadline.diff(moment.utc(), 'seconds') / 604800) *
-      crowdsale.earlybonus;
-    const divisibleMsg = crowdsale.divisible
-      ? crowdsalesMessages.divisible
-      : crowdsalesMessages.indivisible;
-    const warningMessage = getWarningMessage(
-      crowdsale.flags,
-      crowdsale.propertyname,
-      this.crowdsaleid,
-    );
-    // const totalLabel = `transaction${detail.total > 1 ? 's' : ''}`;
-    const crowdsaleClosed = crowdsale.deadline * 1000 <= moment.utc().valueOf();
-    const crowdsaleTimer = crowdsaleClosed ? null : (
-      <div>
-        <h5 className="text-light d-block">Time Until Closing:</h5>
-        <Timer
-          countdown
-          datetime={crowdsale.deadline * 1000}
-          maxTimeUnit="year"
-        />
-      </div>
-    );
+  const dessiredToken = props.tokens[crowdsale.propertyiddesired.toString()];
+  if (!dessiredToken) return loading;
 
-    const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
-    const hashLink = (v) => `${pathname}/${v}`;
-    const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
+  const detail = props.crowdsaledetail;
+  const crowdsaleDeadline = moment.unix(crowdsale.deadline).utc();
+  const earlybonus =
+    (crowdsaleDeadline.diff(moment.utc(), 'seconds') / 604800) *
+    crowdsale.earlybonus;
+  const divisibleMsg = crowdsale.divisible
+    ? crowdsalesMessages.divisible
+    : crowdsalesMessages.indivisible;
+  const warningMessage = getWarningMessage(
+    crowdsale.flags,
+    crowdsale.propertyname,
+    crowdsaleid,
+  );
+  // const totalLabel = `transaction${detail.total > 1 ? 's' : ''}`;
+  const crowdsaleClosed = crowdsale.deadline * 1000 <= moment.utc().valueOf();
+  const crowdsaleTimer = crowdsaleClosed ? null : (
+    <div>
+      <h5 className="text-light d-block">Time Until Closing:</h5>
+      <Timer
+        countdown
+        datetime={crowdsale.deadline * 1000}
+        maxTimeUnit="year"
+      />
+    </div>
+  );
 
-    const listProps = {
-      ...detail,
-      items: detail.transactions,
-      inner: CrowdsaleTransaction,
-      onSetPage: this.props.onSetPage,
-      dessiredToken,
-      crowdsale,
-      hashLink,
-      getItemKey,
-    };
+  const pathname = props.addr ? `/address/${props.addr}` : '';
+  const hashLink = (v) => `${pathname}/${v}`;
+  const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
 
-    const shareUrl = `https://www.omniexplorer.info/crowdsale/${crowdsale.propertyid}`;
-    const shareTitle = (crowdsale.data || crowdsale.name || crowdsale.propertyname || crowdsale.type);
-    return (
-      <Container fluid className="mt-3 p-1">
-        <Helmet>
-          <meta name="twitter:card" content="summary"></meta>
-          <meta property="twitter:title" content={`OmniLayer crowdsale`} />
-          <meta name="twitter:description" content={shareTitle} />
-        </Helmet>
-        {warningMessage}
-        <Row>
-          <Col sm="12" md="9">
-            <StyledDivContent>
-              <Table responsive className="table-horizontal">
-                <thead>
-                <tr>
-                  <td className="border-top-0">
-                    <AssetLink asset={crowdsale.propertyid} state={this.props.state}>
-                      <AssetLogo
-                        asset={crowdsale}
-                        prop={crowdsale.propertyid}
-                        className="img-thumbnail d-md-inline-block"
-                        style={{
-                          width: '4rem',
-                          height: '4rem',
-                        }}
-                      />
-                    </AssetLink>
-                  </td>
-                  <td className="border-top-0 align-bottom">
-                    <h2 className="d-md-inline-block align-bottom mb-0">
-                      {crowdsale.name}{' '}
-                      <span>{`(#${crowdsale.propertyid})`}</span>
-                      <StyledIoIosInformationCircle
-                        color="gray"
-                        className="ml-1"
-                        id="crowdsaleDivisible"
-                      />
-                      <UncontrolledTooltip
-                        placement="right-end"
-                        target="crowdsaleDivisible"
-                      >
-                        <FormattedMessage {...divisibleMsg} />
-                      </UncontrolledTooltip>
-                    </h2>
-                  </td>
-                </tr>
-                </thead>
-                <AssetInfo {...crowdsale} />
-              </Table>
-            </StyledDivContent>
-          </Col>
-          <Col sm="12" md="3">
-            <StyledCard color="info">
-              <CardBody>
-                <h3 className="text-light card-title">
-                  {`${crowdsaleClosed ? 'Closed' : 'Active'} Crowdsale`}
-                </h3>
-                {crowdsaleTimer}
-              </CardBody>
-              <ListGroup className="list-group-flush" color="info">
-                <ListGroupItem>
-                  <h5>Total tokens created</h5>
-                  <h3>
+  const listProps = {
+    ...detail,
+    items: detail.transactions,
+    inner: CrowdsaleTransaction,
+    onSetPage: props.onSetPage,
+    dessiredToken,
+    crowdsale,
+    hashLink,
+    getItemKey,
+  };
+
+  const shareUrl = `https://www.omniexplorer.info/crowdsale/${crowdsale.propertyid}`;
+  const shareTitle = (crowdsale.data || crowdsale.name || crowdsale.propertyname || crowdsale.type);
+  return (
+    <Container fluid className="mt-3 p-1">
+      <Helmet>
+        <meta name="twitter:card" content="summary"></meta>
+        <meta property="twitter:title" content={`OmniLayer crowdsale`} />
+        <meta name="twitter:description" content={shareTitle} />
+      </Helmet>
+      {warningMessage}
+      <Row>
+        <Col sm="12" md="9">
+          <StyledDivContent>
+            <Table responsive className="table-horizontal">
+              <thead>
+              <tr>
+                <td className="border-top-0">
+                  <AssetLink asset={crowdsale.propertyid} state={props.state}>
+                    <AssetLogo
+                      asset={crowdsale}
+                      prop={crowdsale.propertyid}
+                      className="img-thumbnail d-md-inline-block"
+                      style={{
+                        width: '4rem',
+                        height: '4rem',
+                      }}
+                    />
+                  </AssetLink>
+                </td>
+                <td className="border-top-0 align-bottom">
+                  <h2 className="d-md-inline-block align-bottom mb-0">
+                    {crowdsale.name}{' '}
+                    <span>{`(#${crowdsale.propertyid})`}</span>
+                    <StyledIoIosInformationCircle
+                      color="gray"
+                      className="ml-1"
+                      id="crowdsaleDivisible"
+                    />
+                    <UncontrolledTooltip
+                      placement="right-end"
+                      target="crowdsaleDivisible"
+                    >
+                      <FormattedMessage {...divisibleMsg} />
+                    </UncontrolledTooltip>
+                  </h2>
+                </td>
+              </tr>
+              </thead>
+              <AssetInfo {...crowdsale} />
+            </Table>
+          </StyledDivContent>
+        </Col>
+        <Col sm="12" md="3">
+          <StyledCard color="info">
+            <CardBody>
+              <h3 className="text-light card-title">
+                {`${crowdsaleClosed ? 'Closed' : 'Active'} Crowdsale`}
+              </h3>
+              {crowdsaleTimer}
+            </CardBody>
+            <ListGroup className="list-group-flush" color="info">
+              <ListGroupItem>
+                <h5>Total tokens created</h5>
+                <h3>
                     <span>
-                      <SanitizedFormattedNumber value={crowdsale.totaltokens}/>
+                      <SanitizedFormattedNumber value={crowdsale.totaltokens} />
                     </span>
-                  </h3>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <h5>Tokens Purchased</h5>
-                  <h3>
+                </h3>
+              </ListGroupItem>
+              <ListGroupItem>
+                <h5>Tokens Purchased</h5>
+                <h3>
                     <span>
                       <SanitizedFormattedNumber
                         value={
@@ -237,25 +240,25 @@ export class CrowdsaleDetail extends React.PureComponent {
                         forceDecimals={crowdsale.divisible}
                       />
                     </span>
-                  </h3>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <h5>
-                    Tokens created for the issuer ({crowdsale.percenttoissuer}%)
-                  </h5>
-                  <h3>
+                </h3>
+              </ListGroupItem>
+              <ListGroupItem>
+                <h5>
+                  Tokens created for the issuer ({crowdsale.percenttoissuer}%)
+                </h5>
+                <h3>
                     <span>
                       <SanitizedFormattedNumber
                         value={crowdsale.issuerbonustokens}
                         forceDecimals={crowdsale.divisible}
                       />
                     </span>
-                  </h3>
-                </ListGroupItem>
-                {!crowdsaleClosed &&
-                <ListGroupItem>
-                  <h5>Current early bird bonus</h5>
-                  <h3>
+                </h3>
+              </ListGroupItem>
+              {!crowdsaleClosed &&
+              <ListGroupItem>
+                <h5>Current early bird bonus</h5>
+                <h3>
                       <span>
                         <SanitizedFormattedNumber
                           value={earlybonus}
@@ -263,91 +266,89 @@ export class CrowdsaleDetail extends React.PureComponent {
                           fractionDigits={3}
                         />%
                       </span>
-                  </h3>
-                </ListGroupItem>
-                }
-              </ListGroup>
-              <CardBody>
-                <CardTitle className="text-light">Share this page</CardTitle>
-                <FacebookShareButton
-                  url={shareUrl}
-                  quote={shareTitle}
-                  className="network-share-button">
-                  <FacebookIcon
-                    size={32}
-                    round/>
-                </FacebookShareButton>
-                <TwitterShareButton
-                  url={shareUrl}
-                  title={shareTitle}
-                  className="network-share-button">
-                  <TwitterIcon size={32} round/>
-                </TwitterShareButton>
-                <LinkedinShareButton
-                  url={shareUrl}
-                  title={shareTitle}
-                  windowWidth={750}
-                  windowHeight={600}
-                  className="network-share-button">
-                  <LinkedinIcon
-                    size={32}
-                    round/>
-                </LinkedinShareButton>
-                <TelegramShareButton
-                  url={shareUrl}
-                  title={shareTitle}
-                  className="network-share-button">
-                  <TelegramIcon size={32} round/>
-                </TelegramShareButton>
-                <WhatsappShareButton
-                  url={shareUrl}
-                  title={shareTitle}
-                  separator=":: "
-                  className="network-share-button">
-                  <WhatsappIcon size={32} round/>
-                </WhatsappShareButton>
-                <RedditShareButton
-                  url={shareUrl}
-                  title={shareTitle}
-                  windowWidth={660}
-                  windowHeight={460}
-                  className="network-share-button">
-                  <RedditIcon
-                    size={32}
-                    round/>
-                </RedditShareButton>
-              </CardBody>
-            </StyledCard>
-          </Col>
-        </Row>
-        <Row>
-          &nbsp;
-        </Row>
-        <Row>
-          <Col>
-            <HistoryContainer fluid>
-              <StyledRow>
-                <Col sm>
-                  <ListHeader
-                    total={detail.total}
-                    message={crowdsalesMessages.header}
-                  />
-                </Col>
-              </StyledRow>
-              <List
-                {...listProps}
-              />
-            </HistoryContainer>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+                </h3>
+              </ListGroupItem>
+              }
+            </ListGroup>
+            <CardBody>
+              <CardTitle className="text-light">Share this page</CardTitle>
+              <FacebookShareButton
+                url={shareUrl}
+                quote={shareTitle}
+                className="network-share-button">
+                <FacebookIcon
+                  size={32}
+                  round />
+              </FacebookShareButton>
+              <TwitterShareButton
+                url={shareUrl}
+                title={shareTitle}
+                className="network-share-button">
+                <TwitterIcon size={32} round />
+              </TwitterShareButton>
+              <LinkedinShareButton
+                url={shareUrl}
+                title={shareTitle}
+                windowWidth={750}
+                windowHeight={600}
+                className="network-share-button">
+                <LinkedinIcon
+                  size={32}
+                  round />
+              </LinkedinShareButton>
+              <TelegramShareButton
+                url={shareUrl}
+                title={shareTitle}
+                className="network-share-button">
+                <TelegramIcon size={32} round />
+              </TelegramShareButton>
+              <WhatsappShareButton
+                url={shareUrl}
+                title={shareTitle}
+                separator=":: "
+                className="network-share-button">
+                <WhatsappIcon size={32} round />
+              </WhatsappShareButton>
+              <RedditShareButton
+                url={shareUrl}
+                title={shareTitle}
+                windowWidth={660}
+                windowHeight={460}
+                className="network-share-button">
+                <RedditIcon
+                  size={32}
+                  round />
+              </RedditShareButton>
+            </CardBody>
+          </StyledCard>
+        </Col>
+      </Row>
+      <Row>
+        &nbsp;
+      </Row>
+      <Row>
+        <Col>
+          <HistoryContainer fluid>
+            <StyledRow>
+              <Col sm>
+                <ListHeader
+                  total={detail.total}
+                  message={crowdsalesMessages.header}
+                />
+              </Col>
+            </StyledRow>
+            <List
+              {...listProps}
+            />
+          </HistoryContainer>
+        </Col>
+      </Row>
+    </Container>
+  );
 }
 
 CrowdsaleDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  properties: PropTypes.func.isRequired,
   getPropertyDeep: PropTypes.func.isRequired,
   getCrowdsaleTransactions: PropTypes.func.isRequired,
   crowdsaledetail: PropTypes.object,
@@ -357,7 +358,7 @@ CrowdsaleDetail.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   crowdsaledetail: makeSelectCrowdsaleDetail(),
-  properties: state => makeSelectProperty(state),
+  tokens: makeSelectProperties(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -375,17 +376,6 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({
-  key: 'crowdsaleDetail',
-  reducer,
-});
-const withSaga = injectSaga({
-  key: 'crowdsaleDetail',
-  saga,
-});
-
 export default compose(
-  withReducer,
-  withSaga,
   withConnect,
 )(CrowdsaleDetail);

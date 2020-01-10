@@ -1,4 +1,4 @@
-import { all, call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
@@ -31,6 +31,7 @@ export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
     requestURL,
     getTransactionsOptions,
   );
+
   yield put(
     updateCrowdsaleTransactionsFetch(
       transactions.transactions,
@@ -45,5 +46,8 @@ export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([takeEvery(LOAD_CROWDSALE_TRANSACTIONS, getCrowdsaleTransactions)]);
+  while (true) {
+    const payload = yield take(LOAD_CROWDSALE_TRANSACTIONS);
+    yield call(getCrowdsaleTransactions, payload);
+  }
 }

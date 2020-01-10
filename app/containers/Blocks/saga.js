@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 import { LOAD_BLOCKS } from 'containers/Blocks/constants';
 import { API_URL_BASE } from 'containers/App/constants';
 import request from 'utils/request';
@@ -9,7 +9,6 @@ export function* getBlocks({ block }) {
   const state = yield select(makeSelectBlocks());
   const currentBlock =
     block || (state.appendBlocks ? state.previousBlock || '' : '');
-
   const requestURL = `${API_URL_BASE}/transaction/blocks/${currentBlock}`;
 
   const blocks = yield call(request, requestURL);
@@ -20,5 +19,8 @@ export function* getBlocks({ block }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([takeLatest(LOAD_BLOCKS, getBlocks)]);
+  while (true) {
+    const payload = yield take(LOAD_BLOCKS);
+    yield call(getBlocks, payload);
+  }
 }

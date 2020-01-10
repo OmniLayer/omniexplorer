@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import styled from 'styled-components';
+import StyledA from 'components/StyledA';
 import messages from './messages';
 
 const Container = styled.div`
@@ -46,7 +47,7 @@ function Promote() {
         <p>Please note:</p><ul><li>Registering a property with OmniExplorer.info costs a flat fee of 0.5 BTC.</li><li>There is no registration expiry.</li></ul><p></p>
         <p>In addition to registering a property, issuers can also sponsor to have their property featured in prominent positions on the OmniExplorer.info website to increase visibility and promote awareness of your project.  OmniExplorer.info allows only one featured token at a time to really highlight participating projects.</p>
         <p></p><ul><li>Featuring a property with OmniExplorer.info costs a flat fee of 0.2 BTC per month.</li><li>Properties must be registered to be eligible for inclusion in featured properties.</li></ul><p></p>
-        <p>Please <a href="/submitfeedback"> submit feedback</a> with a contact email address to process your registration or for further information.
+        <p>Please <StyledA href="/submitfeedback"> submit feedback</StyledA> with a contact email address to process your registration or for further information.
         </p></BodyContainer>
     </Container>
   );

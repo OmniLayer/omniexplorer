@@ -23,12 +23,11 @@ function AssetLogo({ asset, prop, className, style}) {
   const logo = getLogo(prop, asset);
 
   const hasWarning = some(asset.flags, (value, key) => key !== 'registered' && value);
-
   const Tooltip = hasWarning ? WarningTooltip : UncontrolledTooltip;
   const assetName = [4, -22, 25, 26, 28, 65534].includes(asset.type_int) ? asset.type : `#${prop}: ${asset.name}`;
   const tooltipText = hasWarning ? asset.invalidreason || 'Warning!' : assetName;
 
-  const CurrentTooltip =<Tooltip placement="top-end" target={id}>
+  const CurrentTooltip =<Tooltip placement="top-end" target={id} key={`key${id}`}>
     {tooltipText}
   </Tooltip>;
 
@@ -42,7 +41,6 @@ function AssetLogo({ asset, prop, className, style}) {
 
 AssetLogo.propTypes = {
   asset: PropTypes.object.isRequired,
-  // prop: PropTypes.any.isRequired,
 };
 
 export default AssetLogo;

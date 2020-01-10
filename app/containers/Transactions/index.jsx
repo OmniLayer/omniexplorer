@@ -20,20 +20,12 @@ import ContainerBase from 'components/ContainerBase';
 import FooterLinks from 'components/FooterLinks';
 
 import { useInjectSaga } from 'utils/injectSaga';
+import history from 'utils/history';
 import sagaTransactions from 'containers/Transactions/saga';
 
 import { Button, ButtonGroup } from 'reactstrap';
-import {
-  makeSelectLoading,
-  makeSelectTransactions,
-  makeSelectUnconfirmed,
-} from './selectors';
-import {
-  loadTransactions,
-  loadUnconfirmed,
-  setPage,
-  setTransactionType,
-} from './actions';
+import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
+import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
 
 const StyledContainer = styled(ContainerBase)`
@@ -42,10 +34,9 @@ const StyledContainer = styled(ContainerBase)`
 `;
 
 export function Transactions(props) {
-  // const [txs, setTxs] = useState([]);
-  const { page } = props.match.params;
+  const [page, setPage] = useState(props.match.params.page);
   const unconfirmed = props.location.pathname.includes('unconfirmed');
-  
+
   const [loadConfirmed, setLoadConfirmed] = useState(true);
 
   useInjectSaga({
@@ -53,22 +44,23 @@ export function Transactions(props) {
     saga: sagaTransactions,
   });
 
+  const pathname = props.addr ? `/address/${props.addr}` : '';
+  const hashLink = v => `${pathname}/${v}`;
+  const loadTxs = () => ((unconfirmed ? props.loadUnconfirmed : props.loadTransactions)(props.addr));
+
   useEffect(() => {
-    if (unconfirmed) {
-      props.loadUnconfirmed(props.addr);
-    } else {
-      props.loadTransactions(props.addr);
-    }
+    loadTxs();
   }, [page, unconfirmed, props.addr]);
+
+  const handlePageClick = p => {
+    props.setCurrentPage(p);
+    history.push(hashLink(p));
+    setPage(p);
+  };
 
   const onRadioBtnClick = confirmed => {
     setLoadConfirmed(confirmed);
-    // setTxs([]);
-    if (loadConfirmed) {
-      props.loadTransactions(props.addr);
-    } else {
-      props.loadUnconfirmed(props.addr);
-    }
+    loadTxs();
   };
 
   let content;
@@ -78,8 +70,6 @@ export function Transactions(props) {
   } else if ((props.transactions.transactions || []).length === 0) {
     content = <NoOmniTransactions />;
   } else {
-    const pathname = props.addr ? `/address/${props.addr}` : '';
-    const hashLink = v => `${pathname}/${v}`;
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
     const { addr } = props;
     const usePagination = !props.unconfirmed;
@@ -87,7 +77,8 @@ export function Transactions(props) {
       ...props.transactions,
       addr,
       inner: Transaction,
-      onSetPage: props.onSetPage,
+      onSetPage: handlePageClick,
+      currentPage: parseInt(page),
       hashLink,
       getItemKey,
       usePagination,
@@ -144,7 +135,7 @@ Transactions.propTypes = {
   loadTransactions: PropTypes.func,
   loadUnconfirmed: PropTypes.func,
   transactions: PropTypes.object.isRequired,
-  onSetPage: PropTypes.func,
+  setCurrentPage: PropTypes.func,
   loading: PropTypes.bool,
   addr: PropTypes.string,
   unconfirmed: PropTypes.bool,
@@ -163,7 +154,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransactions: addr => dispatch(loadTransactions(addr)),
     loadUnconfirmed: addr => dispatch(loadUnconfirmed(addr)),
-    onSetPage: p => dispatch(setPage(p)),
+    setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };
 }

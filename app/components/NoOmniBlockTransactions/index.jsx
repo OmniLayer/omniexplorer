@@ -7,7 +7,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
 import messages from './messages';
 
 const StyledH3 = styled.h3`
@@ -40,14 +40,14 @@ function NoOmniBlockTransactions(props={useDefaults: true}) {
         }
       </p>
       <p className="text-center">
-        <Link
+        <StyledLink
           to={{
             pathname: `/blocks`,
             state: { state: props.state },
           }}
         >
           Navigate full block list...
-        </Link>
+        </StyledLink>
       </p>
     </StyledH3>
   );

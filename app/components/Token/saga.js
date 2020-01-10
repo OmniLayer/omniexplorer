@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import { all, call, fork, put, select, delay, take, takeEvery } from 'redux-saga/effects';
+import { all, call, delay, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
 import { LOAD_PROPERTY, LOAD_PROPERTY_DEEP } from './constants';
-import { updateFetch } from './actions';
+import { updateFetch, cancelFetch } from './actions';
 import { getTokens } from './selectors';
 
 function* fetchSingleProperty(action) {
@@ -21,6 +21,9 @@ function* fetchSingleProperty(action) {
       const error = new Error(`Failed to fetch property ${action.id}`);
       throw error;
     }
+  } else {
+    // nothing to load..
+    yield call(cancelFetch);
   }
 }
 
@@ -37,11 +40,10 @@ export function* watchFetchProperty() {
 
 function* fetchPropertyDeep(action) {
   const state = yield select(st => st);
-  const tokens = state.token.tokens;
+  const { tokens } = state.token;
   let property = tokens[action.id.toString()];
 
   // load token if is still not requested
-  // yield call(delay, 1000);
   if (!property) {
     console.log('fetch property ', action.id);
     property = yield call(fetchProperty, action.id);
@@ -71,9 +73,22 @@ function* fetchProperty(propertyId) {
 /**
  * Root saga manages watcher lifecycle
  */
+function* watchFetchSingleProperty() {
+  while (true) {
+    const payload = yield take(LOAD_PROPERTY);
+    yield call(fetchSingleProperty, payload);
+  }
+}
+
+/**
+ * Root saga manages watcher lifecycle
+ */
+/**
+ * Root saga manages watcher lifecycle
+ */
 export default function* root() {
   yield all([
-    takeEvery(LOAD_PROPERTY, fetchSingleProperty),
-    fork(watchFetchProperty),
+    call(watchFetchProperty),
+    call(watchFetchSingleProperty),
   ]);
 }

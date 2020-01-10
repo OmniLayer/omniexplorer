@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, take } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
@@ -8,7 +8,7 @@ import { crowdsalesLoaded } from './actions';
 
 export function* getCrowdsales({ ecosystem }) {
   const requestURL = `${API_URL_BASE}/properties/listactivecrowdsales`;
-
+  
   const body = encoderURIParams({ ecosystem });
   const options = {
     method: 'POST',
@@ -17,7 +17,7 @@ export function* getCrowdsales({ ecosystem }) {
     },
     body,
   };
-
+  
   const crowdsales = yield call(request, requestURL, options);
   yield put(crowdsalesLoaded(crowdsales));
 }
@@ -26,5 +26,8 @@ export function* getCrowdsales({ ecosystem }) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield all([takeLatest(LOAD_CROWDSALES, getCrowdsales)]);
+  while (true) {
+    const payload = yield take(LOAD_CROWDSALES);
+    yield call(getCrowdsales, payload);
+  }
 }

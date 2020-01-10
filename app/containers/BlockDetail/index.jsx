@@ -260,7 +260,6 @@ export function BlockDetail(props) {
       {footer}
     </StyledContainer>
   );
-  // }
 }
 
 BlockDetail.propTypes = {

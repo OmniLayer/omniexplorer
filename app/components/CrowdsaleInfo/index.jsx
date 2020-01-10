@@ -14,6 +14,7 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
+import StyledA from 'components/StyledA';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -89,7 +90,7 @@ class CrowdsaleInfo extends React.PureComponent {
           />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <a
+          <StyledA
             className="btn btn-primary"
             target="_blank"
             href={`https://www.omniwallet.org/assets/details/${
@@ -99,7 +100,7 @@ class CrowdsaleInfo extends React.PureComponent {
             Buy with
             <br/>
             Omniwallet
-          </a>
+          </StyledA>
         </StyledTDTextLeft>
       </tr>
     );

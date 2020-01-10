@@ -6,11 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment/src/moment';
+import StyledA from 'components/StyledA';
+import StyledLink from 'components/StyledLink';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -80,9 +79,9 @@ function AssetInfo(asset) {
   } else if (asset.url.includes('.')) {
     asseturl = (
       <td>
-        <a href={asset.url} target="_blank">
+        <StyledA href={`//${asset.url}`} target="_blank" rel="noopener noreferrer">
           {asset.url}
-        </a>
+        </StyledA>
       </td>
     );
   } else {
@@ -98,7 +97,7 @@ function AssetInfo(asset) {
     registeredMessage = (
       <td>
         This property is not registered with OmniExplorer.info. Please see{' '}
-        <a href="/promote">Promote Your Property</a> for further details.
+        <StyledA href="/promote">Promote Your Property</StyledA> for further details.
       </td>
     );
   }
@@ -150,14 +149,14 @@ function AssetInfo(asset) {
       <tr>
         <StyledTD>Issuer</StyledTD>
         <td>
-          <Link
+          <StyledLink
             to={{
               pathname: `/address/${asset.issuer}`,
               state: { state: asset.state },
             }}
           >
             {asset.issuer}
-          </Link>
+          </StyledLink>
         </td>
       </tr>
       <tr>
@@ -200,7 +199,7 @@ function AssetInfo(asset) {
         <StyledTD>Raw Data</StyledTD>
         <td>
           <span id="lrawgettx">
-            <a href={rawAssetURL}>Click here for raw info</a>
+            <StyledA href={rawAssetURL}>Click here for raw info</StyledA>
           </span>
         </td>
       </tr>
