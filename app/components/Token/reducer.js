@@ -4,7 +4,7 @@ import { LOAD_PROPERTY, LOAD_PROPERTY_SUCCESS, LOAD_PROPERTY_CANCEL } from './co
 export const initialState = {
   tokens: {},
   error: null,
-  isFetching: true,
+  isFetching: false,
   lastFetched: 0,
 };
 
@@ -17,15 +17,15 @@ const propertyReducer = (state = initialState, action = {}) => {
         draft.isFetching = false;
         draft.lastFetched = Date.now();
       case LOAD_PROPERTY:
-        draft.lastFetched = 0;
         draft.isFetching = true;
+        draft.lastFetched = 0;
         draft.error = null;
         break;
       case LOAD_PROPERTY_SUCCESS:
         draft.isFetching = false;
         draft.lastFetched = Date.now();
         draft.error = null;
-        draft.tokens[payload.propertyid.toString()] = payload;
+        draft.tokens[payload.propertyid] = payload;
         break;
     }
   });

@@ -36,9 +36,11 @@ const SubtitleDetail = styled.small`
 export function AssetDetail(props) {
   const { propertyid } = props.match.params;
 
+  const getProp = propId => props.tokens[propId];
+
   useEffect(() => {
-    if (!props.tokens[propertyid]) {
-      props.getProperty(propertyid.toString());
+    if (!getProp(propertyid)) {
+      props.getProperty(propertyid);
     }
   }, [propertyid]);
 
@@ -48,11 +50,10 @@ export function AssetDetail(props) {
     </Container>
   );
 
-  if (props.loading) {
+  const asset = getProp(propertyid);
+  if (!asset) {
     return loading;
   }
-
-  const asset = props.tokens[propertyid];
 
   const warningMessage = getWarningMessage(
     asset.flags,
