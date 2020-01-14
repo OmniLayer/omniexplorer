@@ -1,4 +1,6 @@
 import produce from 'immer';
+import orderBy from 'lodash/orderBy';
+
 import {
   LOAD_CROWDSALE_TRANSACTIONS,
   LOAD_CROWDSALE_TRANSACTIONS_SUCCESS,
@@ -13,9 +15,6 @@ export const initialState = {
   total: 0,
 };
 
-const sortDateFordward = array =>
-  array.sort((current, previous) => current.blocktime < previous.blocktime);
-
 /* eslint-disable default-case, no-param-reassign */
 const crowdsaleTransactionsReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -27,7 +26,7 @@ const crowdsaleTransactionsReducer = (state = initialState, action) =>
         draft.total = 0;
         break;
       case LOAD_CROWDSALE_TRANSACTIONS_SUCCESS:
-        draft.transactions = sortDateFordward(action.transactions);
+        draft.transactions = orderBy(action.transactions, ['blocktime'], ['desc']);
         draft.pageCount = action.pages;
         draft.total = action.total;
         draft.loading = false;
