@@ -37,7 +37,7 @@ export function Transactions(props) {
   const [page, setPage] = useState(props.match.params.page);
   const unconfirmed = props.location.pathname.includes('unconfirmed');
 
-  const [loadConfirmed, setLoadConfirmed] = useState(true);
+  const [loadConfirmed, setLoadConfirmed] = useState(!unconfirmed);
 
   useInjectSaga({
     key: 'transactions',
@@ -46,11 +46,11 @@ export function Transactions(props) {
 
   const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = v => `${pathname}/${v}`;
-  const loadTxs = () => ((unconfirmed ? props.loadUnconfirmed : props.loadTransactions)(props.addr));
+  const loadTxs = () => ((loadConfirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr));
 
   useEffect(() => {
     loadTxs();
-  }, [page, unconfirmed, props.addr]);
+  }, [page, loadConfirmed, props.addr]);
 
   const handlePageClick = p => {
     props.setCurrentPage(p);
@@ -60,7 +60,7 @@ export function Transactions(props) {
 
   const onRadioBtnClick = confirmed => {
     setLoadConfirmed(confirmed);
-    loadTxs();
+    // loadTxs();
   };
 
   let content;
