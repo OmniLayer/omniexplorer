@@ -43,8 +43,12 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
         draft.unconfirmed = true;
         break;
       case LOAD_TRANSACTIONS_SUCCESS: {
+        const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
+          ? 5
+          : 10;
+
         draft.transactions = addr ? transactions.filter(tx => !!tx.confirmations) : transactions;
-        draft.pageCount = state.unconfirmed ? transactions.length : pages;
+        draft.pageCount = state.unconfirmed ? Math.ceil(transactions.length / maxPagesByMedia) : pages;
         draft.loading = false;
         break;
       }
