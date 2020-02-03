@@ -238,6 +238,7 @@ export function BlockDetail(props) {
           txCount: blockdetail.block.transactions
             ? blockdetail.block.transactions.length
             : 0,
+          pageCount: pageCount,
           confirmations,
           timestamp:
             blockdetail.block.transactions && blockdetail.block.transactions[0] ? (
@@ -255,6 +256,7 @@ export function BlockDetail(props) {
         <br />
         {validInvalidTxs}
       </ListHeader>
+      <BlockPagination block={block} latest={lastBlock} />
       {content}
       <BlockPagination block={block} latest={lastBlock} />
       {footer}

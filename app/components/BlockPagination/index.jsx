@@ -30,17 +30,17 @@ function BlockPagination({ block, latest }) {
 
   return (
     <Row>
-      <Col sm={{ size: 2, offset: 1 }}>
+      <Col sm={{ size: 2 }}>
         <H3>
           <LinkPrevious href={`/block/${parseInt(block, 10) - 1}`}>
-            &lt;&lt; Prev
+            &lt;&lt; Prev Block
           </LinkPrevious>
         </H3>
       </Col>
-      <Col sm={{ size: 2, offset: 6 }} className="text-right">
+      <Col sm={{ size: 2, offset: 8 }} className="text-right">
         <H3>
           <LinkNext href={`/block/${1 + parseInt(block, 10)}`}>
-            Next &gt;&gt;
+            Next Block &gt;&gt;
           </LinkNext>
         </H3>
       </Col>

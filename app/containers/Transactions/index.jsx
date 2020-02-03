@@ -35,12 +35,13 @@ const StyledContainer = styled(ContainerBase)`
 `;
 
 export function Transactions(props) {
-  const [page, setPage] = useState(props.match.params.page);
+  const [page, setPage] = useState(props.match.params.page || 1);
   const unconfirmed = props.location.pathname.includes('unconfirmed');
   const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
     ? 5
     : 10;
   const [loadConfirmed, setLoadConfirmed] = useState(!unconfirmed);
+  props.setCurrentPage(page);
 
   /**
    * unconfirmed pagination
