@@ -56,8 +56,9 @@ export function SearchBox(props) {
     <Wrapper className="searchbox-form">
       <div className="input-group">
         <Input
+          value={query}
           className="form-control searchbox-input"
-          onInput={(e) => setQuery(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           onKeyUp={(e) => handleKeyUp(e)}
         >
         </Input>

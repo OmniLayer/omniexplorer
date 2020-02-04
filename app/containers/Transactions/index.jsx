@@ -27,6 +27,7 @@ import { Button, ButtonGroup } from 'reactstrap';
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
+import isEmpty from 'lodash/isEmpty';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
@@ -34,11 +35,47 @@ const StyledContainer = styled(ContainerBase)`
 `;
 
 export function Transactions(props) {
-  const [page, setPage] = useState(props.match.params.page);
+  const [page, setPage] = useState(props.match.params.page || 1);
   const unconfirmed = props.location.pathname.includes('unconfirmed');
-
+  const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
+    ? 5
+    : 10;
   const [loadConfirmed, setLoadConfirmed] = useState(!unconfirmed);
+  props.setCurrentPage(page);
 
+  /**
+   * unconfirmed pagination
+   * <BEGIN>
+   */
+  const [transactions, setTransactions] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getTransactions = () => {
+    console.log('call getTransactions');
+
+    const { transactions: txs } = props.transactions;
+
+    if (isEmpty(transactions)) {
+      setCurrentPage(parseInt(props.location.hash.replace('#', ''), maxPagesByMedia) || 1);
+      setCurrentData(txs.slice(0, maxPagesByMedia));
+      setPageCount(Math.ceil(txs.length / maxPagesByMedia));
+
+      setTransactions(txs);
+    }
+
+    return transactions;
+  };
+
+  const unconfirmedHandlePageClick = page => {
+    const txs = getTransactions();
+    setCurrentPage(page);
+    setCurrentData(txs.slice((page - 1) * maxPagesByMedia, (page - 1) * maxPagesByMedia + maxPagesByMedia));
+  };
+  /**
+   * <END>
+   */
   useInjectSaga({
     key: 'transactions',
     saga: sagaTransactions,
@@ -70,21 +107,22 @@ export function Transactions(props) {
   } else if ((props.transactions.transactions || []).length === 0) {
     content = <NoOmniTransactions />;
   } else {
+    const txs = getTransactions();
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
     const { addr } = props;
-    const usePagination = !props.unconfirmed;
+    const usePagination = true; // !props.unconfirmed;
     const _props = {
       ...props.transactions,
       addr,
       inner: Transaction,
-      onSetPage: handlePageClick,
-      currentPage: parseInt(page),
+      onSetPage: props.unconfirmed ? unconfirmedHandlePageClick : handlePageClick,
+      currentPage: props.unconfirmed ? currentPage : parseInt(page),
       hashLink,
       getItemKey,
       usePagination,
     };
 
-    _props.items = props.transactions.transactions;
+    _props.items = props.unconfirmed ? currentData : props.transactions.transactions;
     content = <List {..._props} />;
   }
   const footer = <FooterLinks blocklist />;
@@ -96,7 +134,7 @@ export function Transactions(props) {
         props.unconfirmed && props.transactions ? 'Displaying the ' : null
       }
       selectType={props.onSetTransactionType}
-      total={props.transactions.pageCount}
+      total={props.unconfirmed ? pageCount : props.transactions.pageCount}
       totalLabel="page"
       count={props.unconfirmed ? messages.unconfirmedSuffix : null}
       extra={

@@ -25,7 +25,11 @@ import ContainerBase from 'components/ContainerBase';
 import StyledLink from 'components/StyledLink';
 
 import { startFetch } from 'components/Token/actions';
-import { makeSelectLoading, makeSelectProperties, makeSelectProperty } from 'components/Token/selectors';
+import {
+  makeSelectLoading,
+  makeSelectProperties,
+  makeSelectProperty,
+} from 'components/Token/selectors';
 
 import makeSelectSearch from './selectors';
 import searchReducer from './reducer';
@@ -61,12 +65,11 @@ export function Search(props) {
     props.loadSearch(query);
   }, [query]);
 
-  const isLoading = (!props.search.loading && !props.tokens.isFetching && !props.tokens.lastFetched);
-  if (props.search.tx.propertyid && isLoading) {
-    // At this point, we're in the "commit" phase, so it's safe to load the new data.
-    props.getProperty(props.search.tx.propertyid);
-    return;
-  }
+  useEffect(() => {
+    if (!props.tokens.lastFetched && !isEmpty(props.search.tx)) {
+      props.getProperty(props.search.tx.propertyid);
+    }
+  }, [props.search.loading]);
 
   let wallet = null;
   let assets = null;
@@ -78,13 +81,12 @@ export function Search(props) {
     </Container>
   );
 
-  if (props.search.loading) {
+  if (props.search.loading || props.tokens.isFetching) {
     return loading;
   }
 
   if (!isEmpty(props.search.tx.type)) {
-    const property = getPropByTx(props.search.tx, props.properties);
-
+    const property = getPropByTx(props.search.tx, id => props.tokens[id]);
     if (!property) return loading;
     tx = <TransactionInfo {...props.search.tx} asset={property} />;
   }
@@ -109,40 +111,32 @@ export function Search(props) {
     }
   };
 
-  if (
-    props.search.address.balance &&
-    props.search.address.balance.length > 0
-  ) {
-    wallet = (
-      <Wallet {...props.search} addr={query} extra={walletlink()} />
-    );
+  if (props.search.address.balance && props.search.address.balance.length > 0) {
+    wallet = <Wallet {...props.search} addr={query} extra={walletlink()} />;
   }
 
   if (props.search.asset.length > 0) {
     assets = (
       <Table responsive className="mt-1">
         <thead>
-        <tr>
-          <StyledAssetTH>
-            <h4 className="align-self-end text-sm-left">
-              <strong className="d-block">Properties</strong>
-            </h4>
-          </StyledAssetTH>
-        </tr>
-        <StyledTR>
-          <StyledTH />
-          <StyledTH>ID</StyledTH>
-          <StyledTH>Name</StyledTH>
-          <StyledTH>Issuer</StyledTH>
-        </StyledTR>
+          <tr>
+            <StyledAssetTH>
+              <h4 className="align-self-end text-sm-left">
+                <strong className="d-block">Properties</strong>
+              </h4>
+            </StyledAssetTH>
+          </tr>
+          <StyledTR>
+            <StyledTH />
+            <StyledTH>ID</StyledTH>
+            <StyledTH>Name</StyledTH>
+            <StyledTH>Issuer</StyledTH>
+          </StyledTR>
         </thead>
         <tbody>
-        {props.search.asset.map((x, idx) => (
-          <Asset
-            {...x}
-            key={x[2] + idx}
-          />
-        ))}
+          {props.search.asset.map((x, idx) => (
+            <Asset {...x} key={x[2] + idx} />
+          ))}
         </tbody>
       </Table>
     );
@@ -169,21 +163,24 @@ export function Search(props) {
   }
 
   const StyledRow = styled(Row)`
-      background-color: #7c8fa0;
-      color: white;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    `;
+    background-color: #7c8fa0;
+    color: white;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  `;
   return (
     <ContainerBase fluid>
       <StyledRow>
         <Col sm>
           <h3>
             Showing results for:&nbsp;
-            <div className="d-md-inline d-block-down-md" style={{
-              overflow: 'auto',
-              overflowY: 'hidden',
-            }}>
+            <div
+              className="d-md-inline d-block-down-md"
+              style={{
+                overflow: 'auto',
+                overflowY: 'hidden',
+              }}
+            >
               <mark>{query}</mark>
             </div>
           </h3>
@@ -230,6 +227,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(
-  withConnect,
-)(Search);
+export default compose(withConnect)(Search);

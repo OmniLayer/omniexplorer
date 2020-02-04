@@ -46,7 +46,8 @@ const ListPagination = props => {
       ? 5
       : 10;
     const startPage = (Math.floor((page - 1) / maxPagesByMedia)) * maxPagesByMedia + 1;
-    const minPaginationLength = qtyPages % maxPagesByMedia || 1;
+    // const minPaginationLength = qtyPages % maxPagesByMedia || 1;
+    const minPaginationLength = qtyPages % maxPagesByMedia || maxPagesByMedia;
     const paginationLength = (startPage + maxPagesByMedia) <= qtyPages ? maxPagesByMedia : minPaginationLength;
     const listPagination = {
       // + 1 because it's up to, but not including, `end`
