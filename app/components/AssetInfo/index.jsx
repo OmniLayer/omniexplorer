@@ -14,6 +14,7 @@ import StyledLink from 'components/StyledLink';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { API_URL_BASE } from 'containers/App/constants';
+import normalizeURL from 'utils/normalizeURL';
 
 const StyledTD = styled.td.attrs({
   className: 'field',
@@ -79,7 +80,7 @@ function AssetInfo(asset) {
   } else if (asset.url.includes('.')) {
     asseturl = (
       <td>
-        <StyledA href={`//${asset.url}`} target="_blank" rel="noopener noreferrer">
+        <StyledA href={normalizeURL(asset.url || '')} target="_blank" rel="noopener noreferrer">
           {asset.url}
         </StyledA>
       </td>
