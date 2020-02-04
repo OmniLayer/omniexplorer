@@ -80,7 +80,7 @@ function AssetInfo(asset) {
   } else if (asset.url.includes('.')) {
     asseturl = (
       <td>
-        <StyledA href={normalizeURL(asset.url || '')} target="_blank" rel="noopener noreferrer">
+        <StyledA href={normalizeURL(asset.url)} target="_blank" rel="noopener noreferrer">
           {asset.url}
         </StyledA>
       </td>
