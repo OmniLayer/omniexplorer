@@ -91,15 +91,8 @@ function* watchFetchManyProperties() {
 
 function* fetchManyProperties(action) {
   // load token if is still not requested
-  // yield delay(1000);
 
   const requestURL = `${API_URL_BASE}/property/bulk`;
-  // const options = {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/x-www-form-urlencoded',
-  //   },
-  // };
   const state = yield select(st => st);
   const { tokens } = state.token;
 
@@ -122,15 +115,6 @@ function* fetchManyProperties(action) {
       optionsArray.map(options => call(request, requestURL, options)),
     );
 
-    // // const result=[];
-    // const result = yield all(call(request, requestURL, options));
-    // propChunks.forEach(propChunk => {
-    //   const body = encoderURIParams({ prop_ids: propChunks.map(token => token.id) });
-    //   options.body = body;
-    //   const chunkResult = yield call(request, requestURL, options);
-    //   result.push.apply(result, chunkResult);
-    // });
-    debugger;
     yield put(updateFetchMany(results));
 
     if (!results) {

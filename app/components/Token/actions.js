@@ -49,4 +49,3 @@ export const updateFetchMany = payload => ({
   type: LOAD_MANY_PROPERTIES_SUCCESS,
   payload,
 });
-

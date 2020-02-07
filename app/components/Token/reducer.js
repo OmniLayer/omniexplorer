@@ -7,7 +7,6 @@ import {
   LOAD_PROPERTY_SUCCESS,
 } from './constants';
 
-
 export const initialState = {
   tokens: {},
   error: null,
@@ -40,7 +39,6 @@ const propertyReducer = (state = initialState, action = {}) => {
         draft.error = null;
         break;
       case LOAD_MANY_PROPERTIES_SUCCESS:
-        debugger;
         payload.forEach(p =>
           Object.values(p).forEach(token => {
             draft.tokens[token.propertyid] = token;
@@ -50,7 +48,6 @@ const propertyReducer = (state = initialState, action = {}) => {
         draft.lastFetched = Date.now();
         draft.error = null;
         break;
-  
     }
   });
 };
