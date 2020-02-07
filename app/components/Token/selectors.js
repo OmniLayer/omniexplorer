@@ -31,6 +31,9 @@ const makeSelectProperty = id => {
 const makeSelectLoading = () =>
   createSelector(selectTokenDomain, substate => substate.isFetching);
 
+const makeSelectLastFetched = () =>
+  createSelector(selectTokenDomain, substate => substate.lastFetched);
+
 const makeSelectHasProperty = id =>
   createSelector(
     selectTokenDomain,
@@ -43,4 +46,5 @@ export {
   makeSelectProperty,
   makeSelectLoading,
   makeSelectHasProperty,
+  makeSelectLastFetched,
 };

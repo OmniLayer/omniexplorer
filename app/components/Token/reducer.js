@@ -1,5 +1,12 @@
 import produce from 'immer';
-import { LOAD_PROPERTY, LOAD_PROPERTY_SUCCESS, LOAD_PROPERTY_CANCEL } from './constants';
+import {
+  LOAD_MANY_PROPERTIES,
+  LOAD_MANY_PROPERTIES_SUCCESS,
+  LOAD_PROPERTY,
+  LOAD_PROPERTY_CANCEL,
+  LOAD_PROPERTY_SUCCESS,
+} from './constants';
+
 
 export const initialState = {
   tokens: {},
@@ -27,6 +34,23 @@ const propertyReducer = (state = initialState, action = {}) => {
         draft.error = null;
         draft.tokens[payload.propertyid] = payload;
         break;
+      case LOAD_MANY_PROPERTIES:
+        draft.isFetching = true;
+        draft.lastFetched = 0;
+        draft.error = null;
+        break;
+      case LOAD_MANY_PROPERTIES_SUCCESS:
+        debugger;
+        payload.forEach(p =>
+          Object.values(p).forEach(token => {
+            draft.tokens[token.propertyid] = token;
+          }),
+        );
+        draft.isFetching = false;
+        draft.lastFetched = Date.now();
+        draft.error = null;
+        break;
+  
     }
   });
 };
