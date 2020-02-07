@@ -118,7 +118,7 @@ export function BlockDetail(props) {
   const handlePageClick = page => {
     const txs = getTransactions();
     setCurrentPage(page);
-    setCurrentData(txs.slice(page - 1, page + 10));
+    setCurrentData(txs.slice(page - 1, page + 9));
   };
 
   const statusLoading = !props || !props.status || !props.status.last_block;
