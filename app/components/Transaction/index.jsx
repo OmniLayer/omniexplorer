@@ -69,26 +69,26 @@ class Transaction extends React.PureComponent {
   render() {
     let statusCSSClass =
       'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
-    
+
     const invalidClass = confirmations =>
       confirmations === 0
         ? `${statusCSSClass} tx-invalid btn-warning`
         : `${statusCSSClass} tx-invalid btn-danger`;
-    
+
     statusCSSClass = this.props.valid
       ? `${statusCSSClass} btn-blue`
       : invalidClass(this.props.confirmations);
-    
+
     const status = StatusConfirmation({
       ...this.props,
       confirmed: CONFIRMATIONS,
     });
-    
+
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-    
+
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -98,14 +98,14 @@ class Transaction extends React.PureComponent {
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-    
+
     const transactionAmount = this.props.amount || '';
-    
+
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
     const invalidid = `invalid-${txcopyid}`;
-    
+
     return (
       <div className="transation-result mx-auto text-center-down-md">
         <Row className="align-items-end pb-0">
@@ -206,13 +206,8 @@ class Transaction extends React.PureComponent {
               <AddressWrapper>
                 <WrapperLink>
                   <StyledLink
-                    className={` ${this.getHighlightIfOwner(
-                      this.props.sendingaddress,
-                    )}`}
-                    to={{
-                      pathname: `/address/${this.props.sendingaddress}`,
-                      state: { state: this.props.state },
-                    }}
+                    className={this.getHighlightIfOwner(this.props.sendingaddress)}
+                    to={`/address/${this.props.sendingaddress}`}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
@@ -293,16 +288,5 @@ Transaction.propTypes = {
   propertyid: PropTypes.number,
   addr: PropTypes.string,
 };
-//
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     dispatch,
-//   };
-// }
-//
-// const withConnect = connect(
-//   null,
-//   mapDispatchToProps,
-// );
 
 export default Transaction;

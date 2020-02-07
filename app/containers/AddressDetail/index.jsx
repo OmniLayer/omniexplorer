@@ -58,7 +58,7 @@ export function AddressDetail(props) {
       </Row>
       <Row>
         <Col sm>
-          <Transactions addr={address} {...props} />
+          <Transactions addr={address} {...props} currentPage={1} />
         </Col>
       </Row>
     </Layout>

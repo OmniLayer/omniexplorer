@@ -8,7 +8,6 @@ import history from 'utils/history';
 import merge from 'lodash/merge';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import transactionsReducer from 'containers/Transactions/reducer';
 import crowdsaleTransactionsReducer from 'containers/CrowdsaleDetail/reducer';
 import activationsReducer from 'containers/Activations/reducer';
 import tokenReducer from 'components/Token/reducer';
@@ -52,7 +51,6 @@ export default function createReducer(injectedReducers) {
     language: languageProviderReducer,
     token: tokenReducer,
     status: statusReducer,
-    transactions: transactionsReducer,
     crowdsaleTransactions: crowdsaleTransactionsReducer,
     activations: activationsReducer,
     blocks: blocksReducer,

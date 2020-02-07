@@ -92,7 +92,7 @@ class Wallet extends React.PureComponent {
 
     const sortedBalances = orderBy(
       this.props.address.balance || [],
-      {'id': Number},
+      ({ id }) => Number(id || 1),
       ['asc'],
     );
     const flaggedProps = sortedBalances.filter(balance =>
