@@ -22,9 +22,11 @@ const StyledTD = styled.td.attrs({
 })``;
 
 export function Token(props) {
-  useEffect(() => {
-    if (props.id && props.id.toString().trim().length > 0) props.getProperty(props.id.toString());
-  }, []);
+  if (!props.bulkLoading) {
+    useEffect(() => {
+      if (props.id && props.id.toString().trim().length > 0) props.getProperty(props.id.toString());
+    }, []);
+  }
 
   const getTokenName = () => (props.propertyinfo || { name: '' }).name;
 

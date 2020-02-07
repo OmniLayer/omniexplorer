@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
-import { all, call, delay, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import { all, call, delay, fork, put, select, take } from 'redux-saga/effects';
 import request from 'utils/request';
+import encoderURIParams from 'utils/encoderURIParams';
+import chunk from 'lodash/chunk';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { LOAD_PROPERTY, LOAD_PROPERTY_DEEP } from './constants';
-import { updateFetch, cancelFetch } from './actions';
+import { LOAD_MANY_PROPERTIES, LOAD_PROPERTY, LOAD_PROPERTY_DEEP } from './constants';
+import { cancelFetch, updateFetch, updateFetchMany } from './actions';
 import { getTokens } from './selectors';
 
 function* fetchSingleProperty(action) {
@@ -12,7 +14,7 @@ function* fetchSingleProperty(action) {
   yield delay(1000);
 
   const state = yield select(st => st);
-  const tokens = state.token.tokens;
+  const { tokens } = state.token;
 
   if (action.id && !tokens[action.id.toString()]) {
     const property = yield call(fetchProperty, action.id);
@@ -71,7 +73,7 @@ function* fetchProperty(propertyId) {
 }
 
 /**
- * Root saga manages watcher lifecycle
+ * watch fetch single property
  */
 function* watchFetchSingleProperty() {
   while (true) {
@@ -80,9 +82,48 @@ function* watchFetchSingleProperty() {
   }
 }
 
-/**
- * Root saga manages watcher lifecycle
- */
+function* watchFetchManyProperties() {
+  while (true) {
+    const payload = yield take(LOAD_MANY_PROPERTIES);
+    yield call(fetchManyProperties, payload);
+  }
+}
+
+function* fetchManyProperties(action) {
+  // load token if is still not requested
+
+  const requestURL = `${API_URL_BASE}/property/bulk`;
+  const state = yield select(st => st);
+  const { tokens } = state.token;
+
+  if (!tokens.isFetching) {
+    const getOptions = body => ({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body,
+    });
+    const propChunks = chunk(action.properties.map(token => token.id), 30);
+    const encodedChunks = propChunks.map(propChunk =>
+      encoderURIParams({ prop_ids: propChunk.map(id => id) }),
+    );
+    const optionsArray = encodedChunks.map(encodedChunk =>
+      getOptions(encodedChunk),
+    );
+    const results = yield all(
+      optionsArray.map(options => call(request, requestURL, options)),
+    );
+
+    yield put(updateFetchMany(results));
+
+    if (!results) {
+      const error = new Error(`Failed to fetch properties ${action.id}`);
+      throw error;
+    }
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -90,5 +131,6 @@ export default function* root() {
   yield all([
     call(watchFetchProperty),
     call(watchFetchSingleProperty),
+    call(watchFetchManyProperties),
   ]);
 }

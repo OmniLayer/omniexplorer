@@ -8,10 +8,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import {
   Button,
   Collapse,
+  Container,
   Modal,
   ModalBody,
   ModalFooter,
@@ -20,8 +22,16 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
+import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 import Token from 'components/Token';
+import { startFetchMany } from 'components/Token/actions';
+import {
+  makeSelectHasProperty,
+  makeSelectLastFetched,
+  makeSelectLoading,
+  makeSelectProperties,
+} from 'components/Token/selectors';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
 import { IoIosInformationCircle } from 'react-icons/io';
@@ -84,6 +94,16 @@ class Wallet extends React.PureComponent {
   render() {
     const loading = !this.props.address || !this.props.address.balance.length;
 
+    const loadingIndicator = (
+      <Container>
+        <LoadingIndicator />
+      </Container>
+    );
+
+    if (loading || this.props.loadingTokens) {
+      return loadingIndicator;
+    }
+
     const isFlagged = propertyinfo =>
       propertyinfo.flags &&
       (propertyinfo.flags.duplicate ||
@@ -95,6 +115,18 @@ class Wallet extends React.PureComponent {
       ({ id }) => Number(id || 1),
       ['asc'],
     );
+
+    const needFetchTokens = sortedBalances.some(
+      b => b.propertyid && !this.props.hasPropertyFetched(b.propertyid),
+    );
+    if (
+      !isEmpty(sortedBalances) &&
+      (needFetchTokens ||
+        (!this.props.loadingTokens && !this.props.lastFetched))
+    ) {
+      this.props.getProperties(sortedBalances);
+    }
+
     const flaggedProps = sortedBalances.filter(balance =>
       isFlagged(balance.propertyinfo),
     );
@@ -163,7 +195,7 @@ class Wallet extends React.PureComponent {
           )}
           {!loading &&
             nonFlaggedProps.map(balance => (
-              <Token {...balance} key={balance.id} />
+              <Token {...balance} key={balance.id} bulkLoading />
             ))}
           <tr>
             <td colSpan="5" className="p-0 m-0 bg-white">
@@ -220,7 +252,7 @@ class Wallet extends React.PureComponent {
                   </thead>
                   <tbody>
                     {flaggedProps.map(balance => (
-                      <Token {...balance} key={balance.id} />
+                      <Token {...balance} key={balance.id} bulkLoading />
                     ))}
                   </tbody>
                 </StyledTable>
@@ -234,19 +266,26 @@ class Wallet extends React.PureComponent {
 }
 
 Wallet.propTypes = {
+  getProperties: PropTypes.func.isRequired,
   address: PropTypes.object.isRequired,
   addr: PropTypes.string.isRequired,
   extra: PropTypes.any,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  getProperties: propertyId => dispatch(startFetchMany(propertyId)),
+  dispatch,
+});
+
+const mapStateToProps = createStructuredSelector({
+  tokens: makeSelectProperties(),
+  loadingTokens: makeSelectLoading(),
+  lastFetched: makeSelectLastFetched(),
+  hasPropertyFetched: makeSelectHasProperty,
+});
 
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 
