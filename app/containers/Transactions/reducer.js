@@ -40,6 +40,8 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
       case LOAD_UNCONFIRMED:
         draft.loading = true;
         draft.transactions = [];
+        draft.pageCount = 0;
+        draft.currentPage = 1;
         draft.unconfirmed = true;
         break;
       case LOAD_TRANSACTIONS_SUCCESS: {
@@ -53,7 +55,7 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
         break;
       }
       case SET_PAGE:
-        draft.currentPage = page;
+        draft.currentPage = Number(page);
         break;
       case SET_TRANSACTION_TYPE:
         draft.txType = txType;

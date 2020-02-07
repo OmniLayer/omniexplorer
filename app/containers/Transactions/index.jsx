@@ -19,15 +19,18 @@ import NoOmniTransactions from 'components/NoOmniTransactions';
 import ContainerBase from 'components/ContainerBase';
 import FooterLinks from 'components/FooterLinks';
 
+import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import history from 'utils/history';
-import sagaTransactions from 'containers/Transactions/saga';
 
 import { Button, ButtonGroup } from 'reactstrap';
+import isEmpty from 'lodash/isEmpty';
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
-import isEmpty from 'lodash/isEmpty';
+import saga from './saga';
+
+import reducer from './reducer';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
@@ -35,69 +38,75 @@ const StyledContainer = styled(ContainerBase)`
 `;
 
 export function Transactions(props) {
-  const [page, setPage] = useState(props.match.params.page || 1);
-  const unconfirmed = props.location.pathname.includes('unconfirmed');
+  const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
+  const pageParam = props.match.params.page || props.currentPage || (!props.addr && unconfirmedTxs && props.transactions.currentPage) || 1;
   const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
     ? 5
     : 10;
-  const [loadConfirmed, setLoadConfirmed] = useState(!unconfirmed);
-  props.setCurrentPage(page);
-
-  /**
-   * unconfirmed pagination
-   * <BEGIN>
-   */
   const [transactions, setTransactions] = useState([]);
   const [currentData, setCurrentData] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  props.setCurrentPage(pageParam);
+
+  useInjectSaga({
+    key: 'transactions',
+    saga,
+  });
+  useInjectReducer({
+    key: 'transactions',
+    reducer,
+  });
+
+  useEffect(() => {
+    setTransactions([]);
+  }, [history]);
+
+  useEffect(() => {
+    // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
+    if ((unconfirmedTxs && !props.transactions.unconfirmed) || !unconfirmedTxs) {
+      loadTxs(!unconfirmedTxs);
+    }
+  }, [unconfirmedTxs, props.addr, pageParam, (unconfirmedTxs && !props.addr)]);
 
   const getTransactions = () => {
-    console.log('call getTransactions');
-
     const { transactions: txs } = props.transactions;
 
     if (isEmpty(transactions)) {
-      setCurrentPage(parseInt(props.location.hash.replace('#', ''), maxPagesByMedia) || 1);
       setCurrentData(txs.slice(0, maxPagesByMedia));
-      setPageCount(Math.ceil(txs.length / maxPagesByMedia));
-
       setTransactions(txs);
     }
 
-    return transactions;
+    return txs;
   };
 
   const unconfirmedHandlePageClick = page => {
     const txs = getTransactions();
-    setCurrentPage(page);
-    setCurrentData(txs.slice((page - 1) * maxPagesByMedia, (page - 1) * maxPagesByMedia + maxPagesByMedia));
+
+    props.setCurrentPage(page);
+    setCurrentData(
+      txs.slice(
+        (page - 1) * maxPagesByMedia,
+        (page - 1) * maxPagesByMedia + maxPagesByMedia,
+      ),
+    );
   };
-  /**
-   * <END>
-   */
-  useInjectSaga({
-    key: 'transactions',
-    saga: sagaTransactions,
-  });
 
   const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = v => `${pathname}/${v}`;
-  const loadTxs = () => ((loadConfirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr));
+  const loadTxs = confirmed =>
+    (confirmed
+      ? props.loadTransactions
+      : props.loadUnconfirmed)(props.addr);
 
-  useEffect(() => {
-    loadTxs();
-  }, [page, loadConfirmed, props.addr]);
-
-  const handlePageClick = p => {
-    props.setCurrentPage(p);
-    history.push(hashLink(p));
-    setPage(p);
+  const handlePageClick = page => {
+    setTransactions([]);
+    props.setCurrentPage(page);
+    history.push(hashLink(page));
+    loadTxs(true);
   };
 
   const onRadioBtnClick = confirmed => {
-    setLoadConfirmed(confirmed);
-    // loadTxs();
+    setTransactions([]);
+    loadTxs(confirmed);
   };
 
   let content;
@@ -110,31 +119,42 @@ export function Transactions(props) {
     const txs = getTransactions();
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
     const { addr } = props;
-    const usePagination = true; // !props.unconfirmed;
+    const usePagination = true;
+
     const _props = {
       ...props.transactions,
       addr,
       inner: Transaction,
-      onSetPage: props.unconfirmed ? unconfirmedHandlePageClick : handlePageClick,
-      currentPage: props.unconfirmed ? currentPage : parseInt(page),
+      onSetPage: props.unconfirmed
+        ? unconfirmedHandlePageClick
+        : handlePageClick,
+      currentPage: props.transactions.currentPage,
       hashLink,
       getItemKey,
       usePagination,
     };
 
-    _props.items = props.unconfirmed ? currentData : props.transactions.transactions;
+    _props.items = currentData;
     content = <List {..._props} />;
   }
   const footer = <FooterLinks blocklist />;
 
   const header = (
     <TransactionListHeader
-      customHeader={props.unconfirmed ? messages.unconfirmedHeader : null}
+      customHeader={
+        props.unconfirmed ? messages.unconfirmedHeader : null
+      }
       totalPreText={
-        props.unconfirmed && props.transactions ? 'Displaying the ' : null
+        props.unconfirmed && props.transactions
+          ? 'Displaying the '
+          : null
       }
       selectType={props.onSetTransactionType}
-      total={props.unconfirmed ? pageCount : props.transactions.pageCount}
+      total={
+        props.unconfirmed
+          ? props.transactions.pageCount
+          : props.transactions.pageCount
+      }
       totalLabel="page"
       count={props.unconfirmed ? messages.unconfirmedSuffix : null}
       extra={
@@ -142,15 +162,15 @@ export function Transactions(props) {
           <ButtonGroup>
             <Button
               onClick={() => onRadioBtnClick(true)}
-              active={!!loadConfirmed}
-              disabled={!!loadConfirmed}
+              active={!props.unconfirmed}
+              disabled={!props.unconfirmed}
             >
               Confirmed
             </Button>
             <Button
               onClick={() => onRadioBtnClick(false)}
-              active={!loadConfirmed}
-              disabled={!loadConfirmed}
+              active={!!props.unconfirmed}
+              disabled={!!props.unconfirmed}
             >
               Unconfirmed
             </Button>
