@@ -39,7 +39,7 @@ const StyledContainer = styled(ContainerBase)`
 
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
-  const pageParam = props.match.params.page || props.currentPage || (!props.addr && unconfirmedTxs && props.transactions.currentPage) || 1;
+  const pageParam = props.match.params.page|| (unconfirmedTxs && props.transactions.currentPage) || props.currentPage || 1;
   const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
     ? 5
     : 10;
@@ -106,7 +106,7 @@ export function Transactions(props) {
 
   const onRadioBtnClick = confirmed => {
     setTransactions([]);
-    loadTxs(confirmed);
+    history.push(hashLink(confirmed ? '' : 'unconfirmed'));
   };
 
   let content;
@@ -152,7 +152,7 @@ export function Transactions(props) {
       selectType={props.onSetTransactionType}
       total={
         props.unconfirmed
-          ? props.transactions.pageCount
+          ? props.transactions.transactions.length // props.transactions.pageCount
           : props.transactions.pageCount
       }
       totalLabel="page"
