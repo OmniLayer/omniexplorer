@@ -25,8 +25,17 @@ import history from 'utils/history';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
-import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
-import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
+import {
+  makeSelectLoading,
+  makeSelectTransactions,
+  makeSelectUnconfirmed,
+} from './selectors';
+import {
+  loadTransactions,
+  loadUnconfirmed,
+  setPage,
+  setTransactionType,
+} from './actions';
 import messages from './messages';
 
 import saga from './saga';
@@ -39,7 +48,11 @@ const StyledContainer = styled(ContainerBase)`
 
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
-  const pageParam = props.match.params.page|| (unconfirmedTxs && props.transactions.currentPage) || props.currentPage || 1;
+  const pageParam =
+    props.match.params.page ||
+    (unconfirmedTxs && props.transactions.currentPage) ||
+    props.currentPage ||
+    1;
   const maxPagesByMedia = getMaxPagesByMedia();
 
   props.setCurrentPage(pageParam);
@@ -54,18 +67,32 @@ export function Transactions(props) {
   });
 
   useEffect(() => {
+    // load transactions on every change address
+    loadTxs(!unconfirmedTxs);
+  }, [props.addr]);
+
+  useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
-    if (!props.loading && (!props.transactions.stamp || unconfirmedTxs !== props.transactions.unconfirmed)) {
-      debugger;
+    if (
+      !props.loading &&
+      (!props.transactions.stamp || unconfirmedTxs !== props.transactions.unconfirmed)
+    ) {
       loadTxs(!unconfirmedTxs);
     }
-  }, [unconfirmedTxs, props.addr, pageParam, (unconfirmedTxs && !props.addr)]);
+  }, [unconfirmedTxs, pageParam, unconfirmedTxs && !props.addr]);
 
-  const getCurrentData = (page) => {
+  const getCurrentData = page => {
     const { transactions } = props.transactions;
 
-    const start = transactions.length > 10 ? ((page || pageParam) - 1) * maxPagesByMedia : 0;
-    const end = transactions.length > 10 ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia * maxPagesByMedia : maxPagesByMedia;
+    const start =
+      transactions.length > 10
+        ? ((page || pageParam) - 1) * maxPagesByMedia
+        : 0;
+    const end =
+      transactions.length > 10
+        ? ((page || pageParam) - 1) * maxPagesByMedia +
+          maxPagesByMedia * maxPagesByMedia
+        : maxPagesByMedia;
     return transactions.slice(start, end);
   };
   const getTransactions = () => props.transactions.transactions;
@@ -76,9 +103,7 @@ export function Transactions(props) {
   const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = v => `${pathname}/${v}`;
   const loadTxs = confirmed =>
-    (confirmed
-      ? props.loadTransactions
-      : props.loadUnconfirmed)(props.addr);
+    (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
 
   const handlePageClick = page => {
     props.setCurrentPage(page);
@@ -121,13 +146,9 @@ export function Transactions(props) {
 
   const header = (
     <TransactionListHeader
-      customHeader={
-        props.unconfirmed ? messages.unconfirmedHeader : null
-      }
+      customHeader={props.unconfirmed ? messages.unconfirmedHeader : null}
       totalPreText={
-        props.unconfirmed && props.transactions
-          ? 'Displaying the '
-          : null
+        props.unconfirmed && props.transactions ? 'Displaying the ' : null
       }
       selectType={props.onSetTransactionType}
       total={
