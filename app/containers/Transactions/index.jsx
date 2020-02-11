@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -24,7 +24,6 @@ import { useInjectSaga } from 'utils/injectSaga';
 import history from 'utils/history';
 
 import { Button, ButtonGroup } from 'reactstrap';
-import isEmpty from 'lodash/isEmpty';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
@@ -42,8 +41,7 @@ export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
   const pageParam = props.match.params.page|| (unconfirmedTxs && props.transactions.currentPage) || props.currentPage || 1;
   const maxPagesByMedia = getMaxPagesByMedia();
-  const [transactions, setTransactions] = useState([]);
-  const [currentData, setCurrentData] = useState([]);
+
   props.setCurrentPage(pageParam);
 
   useInjectSaga({
@@ -56,37 +54,23 @@ export function Transactions(props) {
   });
 
   useEffect(() => {
-    setTransactions([]);
-  }, [history]);
-
-  useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
-    if ((unconfirmedTxs && !props.transactions.unconfirmed) || !unconfirmedTxs) {
+    if (!props.loading && (!props.transactions.stamp || unconfirmedTxs !== props.transactions.unconfirmed)) {
+      debugger;
       loadTxs(!unconfirmedTxs);
     }
   }, [unconfirmedTxs, props.addr, pageParam, (unconfirmedTxs && !props.addr)]);
 
-  const getTransactions = () => {
-    const { transactions: txs } = props.transactions;
+  const getCurrentData = (page) => {
+    const { transactions } = props.transactions;
 
-    if (isEmpty(transactions)) {
-      setCurrentData(txs.slice(0, maxPagesByMedia));
-      setTransactions(txs);
-    }
-
-    return txs;
+    const start = transactions.length > 10 ? ((page || pageParam) - 1) * maxPagesByMedia : 0;
+    const end = transactions.length > 10 ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia * maxPagesByMedia : maxPagesByMedia;
+    return transactions.slice(start, end);
   };
-
+  const getTransactions = () => props.transactions.transactions;
   const unconfirmedHandlePageClick = page => {
-    const txs = getTransactions();
-
     props.setCurrentPage(page);
-    setCurrentData(
-      txs.slice(
-        (page - 1) * maxPagesByMedia,
-        (page - 1) * maxPagesByMedia + maxPagesByMedia,
-      ),
-    );
   };
 
   const pathname = props.addr ? `/address/${props.addr}` : '';
@@ -97,14 +81,12 @@ export function Transactions(props) {
       : props.loadUnconfirmed)(props.addr);
 
   const handlePageClick = page => {
-    setTransactions([]);
     props.setCurrentPage(page);
     history.push(hashLink(page));
     loadTxs(true);
   };
 
   const onRadioBtnClick = confirmed => {
-    setTransactions([]);
     history.push(hashLink(confirmed ? '' : 'unconfirmed'));
   };
 
@@ -112,10 +94,9 @@ export function Transactions(props) {
 
   if (props.loading) {
     content = <LoadingIndicator />;
-  } else if ((props.transactions.transactions || []).length === 0) {
+  } else if ((getTransactions() || []).length === 0) {
     content = <NoOmniTransactions />;
   } else {
-    const txs = getTransactions();
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
     const { addr } = props;
     const usePagination = true;
@@ -133,7 +114,7 @@ export function Transactions(props) {
       usePagination,
     };
 
-    _props.items = currentData;
+    _props.items = getCurrentData(props.transactions.currentPage);
     content = <List {..._props} />;
   }
   const footer = <FooterLinks blocklist />;
@@ -151,7 +132,7 @@ export function Transactions(props) {
       selectType={props.onSetTransactionType}
       total={
         props.unconfirmed
-          ? props.transactions.transactions.length // props.transactions.pageCount
+          ? props.transactions.transactions.length
           : props.transactions.pageCount
       }
       totalLabel="page"
