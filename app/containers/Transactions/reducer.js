@@ -25,6 +25,7 @@ export const initialState = {
   currentPage: 1,
   txType: null,
   unconfirmed: false,
+  stamp: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -52,6 +53,7 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
         draft.transactions = addr ? transactions.filter(tx => !!tx.confirmations) : transactions;
         draft.pageCount = state.unconfirmed ? Math.ceil(transactions.length / maxPagesByMedia) : pages;
         draft.loading = false;
+        draft.stamp = Date.now();
         break;
       }
       case SET_PAGE:
