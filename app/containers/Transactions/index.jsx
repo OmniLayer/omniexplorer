@@ -25,11 +25,12 @@ import history from 'utils/history';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
-import saga from './saga';
 
+import saga from './saga';
 import reducer from './reducer';
 
 const StyledContainer = styled(ContainerBase)`
@@ -40,9 +41,7 @@ const StyledContainer = styled(ContainerBase)`
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
   const pageParam = props.match.params.page|| (unconfirmedTxs && props.transactions.currentPage) || props.currentPage || 1;
-  const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
-    ? 5
-    : 10;
+  const maxPagesByMedia = getMaxPagesByMedia();
   const [transactions, setTransactions] = useState([]);
   const [currentData, setCurrentData] = useState([]);
   props.setCurrentPage(pageParam);

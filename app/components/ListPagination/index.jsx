@@ -17,6 +17,7 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import styled from 'styled-components';
 import range from 'lodash/range';
 import { makeSelectLocation } from 'containers/App/selectors';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 const StyledPaginationLink = styled(PaginationLink)`
   border-radius: 3.2px;
@@ -42,9 +43,7 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 
 const ListPagination = props => {
   const buildListPagination = (page, qtyPages) => {
-    const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
-      ? 5
-      : 10;
+    const maxPagesByMedia = getMaxPagesByMedia();
     const startPage = (Math.floor((page - 1) / maxPagesByMedia)) * maxPagesByMedia + 1;
     // const minPaginationLength = qtyPages % maxPagesByMedia || 1;
     const minPaginationLength = qtyPages % maxPagesByMedia || maxPagesByMedia;
