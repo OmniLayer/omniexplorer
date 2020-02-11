@@ -33,6 +33,7 @@ import { FIRST_BLOCK } from 'containers/App/constants';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import isEmpty from 'lodash/isEmpty';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
@@ -70,6 +71,7 @@ export function BlockDetail(props) {
   const [currentData, setCurrentData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const maxPagesByMedia = getMaxPagesByMedia();
 
   useInjectReducer({
     key: 'blockDetail',
@@ -81,14 +83,14 @@ export function BlockDetail(props) {
     saga: sagaBlock,
   });
 
-  const getTransactions = () => {
+  const getTransactions = (page= 1) => {
     console.log('call getTransactions');
     const { blockdetail } = props;
 
     if (isEmpty(transactions)) {
-      setCurrentPage(parseInt(props.location.hash.replace('#', ''), 10) || 1);
-      setCurrentData(blockdetail.block.transactions.slice(0, 10));
-      setPageCount(Math.ceil(blockdetail.block.transactions.length / 10));
+      setCurrentPage(parseInt(props.location.hash.replace('#', ''), 10) || page);
+      setCurrentData(blockdetail.block.transactions.slice(0, maxPagesByMedia));
+      setPageCount(Math.ceil(blockdetail.block.transactions.length / maxPagesByMedia));
 
       setTransactions({
         [ALL_BLOCK_TRANSACTIONS]: blockdetail.block.transactions,
@@ -108,7 +110,8 @@ export function BlockDetail(props) {
   const onFilterByInvalidTxs = (showtxtype) => {
     setShowTxType(showtxtype);
     setCurrentPage(1);
-    setCurrentData(transactions[showtxtype].slice(0, 10));
+
+    setCurrentData(transactions[showtxtype].slice(0, maxPagesByMedia));
   };
 
   useEffect(() => {
@@ -118,7 +121,9 @@ export function BlockDetail(props) {
   const handlePageClick = page => {
     const txs = getTransactions();
     setCurrentPage(page);
-    setCurrentData(txs.slice(page - 1, page + 9));
+
+    const currentTxs = txs.slice((page -1 )*maxPagesByMedia, (page-1) * maxPagesByMedia + maxPagesByMedia);
+    setCurrentData(currentTxs);
   };
 
   const statusLoading = !props || !props.status || !props.status.last_block;
