@@ -9,7 +9,7 @@ export default defineMessages({
   header: {
     id: 'app.containers.BlockDetail.header',
     defaultMessage: `
-    Block {blockNumber}, {txCount} Transactions, created at {timestamp}, {confirmations} confirmations
+    Block {blockNumber}, {txCount} Transactions ({pageCount} Pages), created at {timestamp}, {confirmations} confirmations
     {br}
     Block hash: {hash}
     `,

@@ -1,8 +1,8 @@
 /**
  * Language Generator
  */
-const { exec } = require('child_process');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 function languageIsSupported(language) {
   try {
@@ -34,12 +34,28 @@ module.exports = {
     },
   ],
 
-  actions: () => {
+  actions: ({ test }) => {
     const actions = [];
+
+    if (test) {
+      // backup files that will be modified so we can restore them
+      actions.push({
+        type: 'backup',
+        path: '../../app',
+        file: 'i18n.js',
+      });
+
+      actions.push({
+        type: 'backup',
+        path: '../../app',
+        file: 'app.js',
+      });
+    }
+
     actions.push({
       type: 'modify',
       path: '../../app/i18n.js',
-      pattern: /('react-intl\/locale-data\/[a-z]+';\n)(?!.*'react-intl\/locale-data\/[a-z]+';)/g,
+      pattern: /(const ..LocaleData = require\('react-intl\/locale-data\/..'\);\n)+/g,
       templateFile: './language/intl-locale-data.hbs',
     });
     actions.push({
@@ -51,7 +67,7 @@ module.exports = {
     actions.push({
       type: 'modify',
       path: '../../app/i18n.js',
-      pattern: /(from\s'.\/translations\/[a-z]+.json';\n)(?!.*from\s'.\/translations\/[a-z]+.json';)/g,
+      pattern: /(const ..TranslationMessages = require\('\.\/translations\/..\.json'\);\n)(?!const ..TranslationMessages = require\('\.\/translations\/..\.json'\);\n)/g,
       templateFile: './language/translation-messages.hbs',
     });
     actions.push({
@@ -78,16 +94,17 @@ module.exports = {
       pattern: /(import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),\n)(?!.*import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),)/g,
       templateFile: './language/polyfill-intl-locale.hbs',
     });
-    actions.push(() => {
-      const cmd = 'npm run extract-intl';
-      exec(cmd, (err, result, stderr) => {
-        if (err || stderr) {
-          throw err || stderr;
-        }
-        process.stdout.write(result);
+
+    if (!test) {
+      actions.push(() => {
+        const cmd = 'npm run extract-intl';
+        exec(cmd, (err, result) => {
+          if (err) throw err;
+          process.stdout.write(result);
+        });
+        return 'modify translation messages';
       });
-      return 'modify translation messages';
-    });
+    }
 
     return actions;
   },

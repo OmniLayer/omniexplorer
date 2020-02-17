@@ -4,23 +4,35 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the blocks state domain
  */
-const selectBlocksDomain = state => state.get('blocks', initialState);
+const selectBlocksDomain = state => state.blocks || initialState;
 
 /**
  * Default selector used by Blocks
  */
 
 const makeSelectBlocks = () =>
-  createSelector(selectBlocksDomain, substate => substate.toJS());
+  createSelector(
+    selectBlocksDomain,
+    substate => substate,
+  );
 
 const makeSelectLoading = () =>
-  createSelector(selectBlocksDomain, substate => substate.get('loading'));
+  createSelector(
+    selectBlocksDomain,
+    substate => substate.loading,
+  );
 
 const makeSelectPreviousBlock = () =>
-  createSelector(selectBlocksDomain, substate => substate.get('previousBlock'));
+  createSelector(
+    selectBlocksDomain,
+    substate => substate.previousBlock,
+  );
 
 const makeSelectLatestBlock = () =>
-  createSelector(selectBlocksDomain, substate => substate.get('latest'));
+  createSelector(
+    selectBlocksDomain,
+    substate => substate.latest,
+  );
 
 export {
   makeSelectBlocks,

@@ -5,7 +5,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,115 +19,181 @@ import NoOmniTransactions from 'components/NoOmniTransactions';
 import ContainerBase from 'components/ContainerBase';
 import FooterLinks from 'components/FooterLinks';
 
-import injectSaga from 'utils/injectSaga';
-import sagaTransactions from 'containers/Transactions/saga';
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import history from 'utils/history';
 
-import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
-import { loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
-import messages from './messages';
 import { Button, ButtonGroup } from 'reactstrap';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+import {
+  makeSelectLoading,
+  makeSelectTransactions,
+  makeSelectUnconfirmed,
+} from './selectors';
+import {
+  loadTransactions,
+  loadUnconfirmed,
+  setPage,
+  setTransactionType,
+} from './actions';
+import messages from './messages';
+
+import saga from './saga';
+import reducer from './reducer';
 
 const StyledContainer = styled(ContainerBase)`
   overflow: auto;
   padding-bottom: 0;
 `;
 
-export class Transactions extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+export function Transactions(props) {
+  const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
+  const pageParam =
+    props.match.params.page ||
+    (unconfirmedTxs && props.transactions.currentPage) ||
+    props.currentPage ||
+    1;
+  const maxPagesByMedia = getMaxPagesByMedia();
 
-    const { page } = props.match.params;
-    this.props.onSetPage(!page || isNaN(page) ? 0 : parseInt(page));
-    this.state = { loadConfirmed: true };
+  props.setCurrentPage(pageParam);
 
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-  }
+  useInjectSaga({
+    key: 'transactions',
+    saga,
+  });
+  useInjectReducer({
+    key: 'transactions',
+    reducer,
+  });
 
-  onRadioBtnClick(loadConfirmed) {
-    this.setState({ loadConfirmed });
-    if (loadConfirmed) {
-      this.props.loadTransactions(this.props.addr);
-    } else {
-      this.props.loadUnconfirmed(this.props.addr);
+  useEffect(() => {
+    // load transactions on every change address
+    loadTxs(!unconfirmedTxs);
+  }, [props.addr]);
+
+  useEffect(() => {
+    // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
+    if (
+      !props.loading &&
+      (!props.transactions.stamp || unconfirmedTxs !== props.transactions.unconfirmed)
+    ) {
+      loadTxs(!unconfirmedTxs);
     }
+  }, [unconfirmedTxs, pageParam, unconfirmedTxs && !props.addr]);
+
+  const getCurrentData = page => {
+    const { transactions } = props.transactions;
+
+    const start =
+      transactions.length > maxPagesByMedia
+        ? ((page || pageParam) - 1) * maxPagesByMedia
+        : 0;
+    const end =
+      transactions.length > maxPagesByMedia
+        ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia
+        : maxPagesByMedia;
+    return transactions.slice(start, end);
+  };
+  const getTransactions = () => props.transactions.transactions;
+  const unconfirmedHandlePageClick = page => {
+    props.setCurrentPage(page);
+  };
+
+  const pathname = props.addr ? `/address/${props.addr}` : '';
+  const hashLink = v => `${pathname}/${v}`;
+  const loadTxs = confirmed =>
+    (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
+
+  const handlePageClick = page => {
+    props.setCurrentPage(page);
+    history.push(hashLink(page));
+    loadTxs(true);
+  };
+
+  const onRadioBtnClick = confirmed => {
+    history.push(hashLink(confirmed ? '' : 'unconfirmed'));
+  };
+
+  let content;
+
+  if (props.loading) {
+    content = <LoadingIndicator />;
+  } else if ((getTransactions() || []).length === 0) {
+    content = <NoOmniTransactions />;
+  } else {
+    const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
+    const { addr } = props;
+    const usePagination = true;
+
+    const _props = {
+      ...props.transactions,
+      addr,
+      inner: Transaction,
+      onSetPage: props.unconfirmed
+        ? unconfirmedHandlePageClick
+        : handlePageClick,
+      currentPage: props.transactions.currentPage,
+      hashLink,
+      getItemKey,
+      usePagination,
+    };
+
+    _props.items = getCurrentData(props.transactions.currentPage);
+    content = <List {..._props} />;
   }
+  const footer = <FooterLinks blocklist />;
 
-  componentDidMount() {
-    const unconfirmed = this.props.location.pathname.includes('unconfirmed');
-    if (unconfirmed) {
-      this.props.loadUnconfirmed(this.props.addr);
-    } else {
-      this.props.loadTransactions(this.props.addr);
-    }
-
-    console.log('Transactions did mount');
-  }
-
-  render() {
-    let content;
-
-    if (this.props.loading) {
-      content = <LoadingIndicator/>;
-    } else if ((this.props.transactions.transactions || []).length === 0) {
-      content = <NoOmniTransactions/>;
-    } else {
-      const pathname = this.props.addr ? `/address/${this.props.addr}` : '';
-      const hashLink = v => `${pathname}/${v}`;
-      const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
-      const { addr } = this.props;
-      const usePagination = !this.props.unconfirmed;
-      const props = {
-        ...this.props.transactions,
-        addr,
-        inner: Transaction,
-        onSetPage: this.props.onSetPage,
-        hashLink,
-        getItemKey,
-        usePagination,
-      };
-      props.items = props.transactions;
-      content = <List {...props} />;
-    }
-    const footer = <FooterLinks blocklist/>;
-    return (
-      <StyledContainer fluid>
-        <TransactionListHeader
-          selectType={this.props.onSetTransactionType}
-          total={this.props.transactions.pageCount}
-          totalLabel="page"
-          count={(this.props.unconfirmed ? messages.unconfirmedHeader : null)}
-          extra={!!this.props.addr &&
+  const header = (
+    <TransactionListHeader
+      customHeader={props.unconfirmed ? messages.unconfirmedHeader : null}
+      totalPreText={
+        props.unconfirmed && props.transactions ? 'Displaying the ' : null
+      }
+      selectType={props.onSetTransactionType}
+      total={
+        props.unconfirmed
+          ? props.transactions.transactions.length
+          : props.transactions.pageCount
+      }
+      totalLabel="page"
+      count={props.unconfirmed ? messages.unconfirmedSuffix : null}
+      extra={
+        !!props.addr && (
           <ButtonGroup>
             <Button
-              onClick={() => this.onRadioBtnClick(true)}
-              active={!!this.state.loadConfirmed}
-              disabled={!!this.state.loadConfirmed}
+              onClick={() => onRadioBtnClick(true)}
+              active={!props.unconfirmed}
+              disabled={!props.unconfirmed}
             >
               Confirmed
             </Button>
             <Button
-              onClick={() => this.onRadioBtnClick(false)}
-              active={!this.state.loadConfirmed}
-              disabled={!this.state.loadConfirmed}
+              onClick={() => onRadioBtnClick(false)}
+              active={!!props.unconfirmed}
+              disabled={!!props.unconfirmed}
             >
               Unconfirmed
             </Button>
           </ButtonGroup>
-          }
-        />
-        {content}
-        {footer}
-      </StyledContainer>
-    );
-  }
+        )
+      }
+    />
+  );
+
+  return (
+    <StyledContainer fluid>
+      {header}
+      {content}
+      {footer}
+    </StyledContainer>
+  );
 }
 
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
   loadUnconfirmed: PropTypes.func,
   transactions: PropTypes.object.isRequired,
-  onSetPage: PropTypes.func,
+  setCurrentPage: PropTypes.func,
   loading: PropTypes.bool,
   addr: PropTypes.string,
   unconfirmed: PropTypes.bool,
@@ -146,7 +212,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransactions: addr => dispatch(loadTransactions(addr)),
     loadUnconfirmed: addr => dispatch(loadUnconfirmed(addr)),
-    onSetPage: p => dispatch(setPage(p)),
+    setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };
 }
@@ -156,12 +222,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withSagaTransaction = injectSaga({
-  key: 'transactions',
-  saga: sagaTransactions,
-});
-
-export default compose(
-  withConnect,
-  withSagaTransaction,
-)(Transactions);
+export default compose(withConnect)(Transactions);

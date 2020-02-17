@@ -37,7 +37,7 @@ If you have containers that should be available throughout the app, like a `Navi
 // In app/reducers.js
 
 ...
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
 ...
 
 import navigationBarReducer from 'containers/NavigationBar/reducer';
@@ -84,11 +84,10 @@ If you're facing any inexplicable problems while installing dependencies, buildi
 Remove node_modules
 - `rm -rf node_modules`
 
-Using yarn (recommended)
-- `yarn install`
-
-Using npm
+Clear cache
 - `npm cache clean`
+
+Re-install dependencies
 - `npm install`
 
 Build project

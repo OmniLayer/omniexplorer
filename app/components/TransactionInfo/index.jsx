@@ -8,11 +8,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
+import StyledA from 'components/StyledA';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
 
 import TransactionAmount from 'components/TransactionAmount';
@@ -22,7 +22,7 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
-import { EXTERNAL_EXPLORER_BLOCKCHAIR, EXTERNAL_EXPLORER_OTOCASH } from 'components/ExplorerLink/constants';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE } from 'containers/App/constants';
@@ -45,13 +45,6 @@ const SubtitleDetail = styled.small`
   font-size: 10px;
   font-weight: 400;
   margin-top: 5px;
-`;
-const A = styled.a`
-  color: #41addd;
-
-  &:hover {
-    color: #6cc0e5;
-  }
 `;
 
 function TransactionInfo(props) {
@@ -198,28 +191,28 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">Sender</td>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/address/${props.sendingaddress}`,
                     state: { state: props.state },
                   }}
                 >
                   {props.sendingaddress}
-                </Link>
+                </StyledLink>
               </td>
             </tr>
             {recipient &&
             <tr>
               <td className="field">Recipient</td>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/address/${recipient}`,
                     state: { state: props.state },
                   }}
                 >
                   {recipient}
-                </Link>
+                </StyledLink>
               </td>
             </tr>
             }
@@ -235,14 +228,14 @@ function TransactionInfo(props) {
             <tr>
               <td className="field">In Block</td>
               <td>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/block/${props.block}`,
                     state: { state: props.state },
                   }}
                 >
                   <span id="lblocknum">{props.block}</span>
-                </Link>
+                </StyledLink>
               </td>
             </tr>
             }
@@ -299,9 +292,9 @@ function TransactionInfo(props) {
               <td className="field">Raw Data</td>
               <td>
                   <span id="lrawgettx">
-                    <a href={rawTransactionURL} target="_blank">
+                    <StyledA href={rawTransactionURL} target="_blank">
                       Click here for raw transaction...
-                    </a>
+                    </StyledA>
                   </span>
               </td>
             </tr>
@@ -309,27 +302,23 @@ function TransactionInfo(props) {
               <td className="field">Other explorers</td>
               <td>
                   <ExplorerLink className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR} tx={props.txid} />
-                {
-                  (props.propertyid === 701) &&
-                  <ExplorerLink className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_OTOCASH} tx={props.txid}/>
-                }
               </td>
             </tr>
             <tr className="d-none">
               <td colSpan="2">
-                <A
+                <StyledA
                   href="#collapseRawData"
                   color="primary"
                   onClick={toggleDecoded}
                   style={{ marginBottom: '1rem' }}
                 >
                   Decoded Raw Payload
-                </A>
+                </StyledA>
                 <Collapse isOpen={collapseDecoded}>
                     <span id="lrawgettx">
-                      <a href="/rawpayload">
+                      <StyledA href="/rawpayload">
                         (Coming Soon) Click here for raw payload...
-                      </a>
+                      </StyledA>
                     </span>
                 </Collapse>
               </td>
@@ -350,7 +339,6 @@ TransactionInfo.propTypes = {
   type: PropTypes.string,
   txid: PropTypes.string,
   amount: PropTypes.string,
-  changeRoute: PropTypes.func,
   propertyname: PropTypes.string,
   propertyid: PropTypes.number,
   invalidreason: PropTypes.any,
@@ -362,12 +350,11 @@ TransactionInfo.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    changeRoute: url => dispatch(routeActions.push(url)),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  properties: state => makeSelectProperty(state),
+  properties: makeSelectProperty,
 });
 
 const withConnect = connect(

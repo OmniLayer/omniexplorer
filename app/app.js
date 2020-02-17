@@ -6,22 +6,19 @@
  */
 
 // Needed for redux-saga es6 generator support
-import 'babel-polyfill';
+import '@babel/polyfill';
 
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyMiddleware } from 'redux';
-import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
-import createHistory from 'history/createBrowserHistory';
-import { syncHistory } from 'redux-simple-router';
+import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
-import App from 'containers/App/index';
+import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider/index';
@@ -29,15 +26,6 @@ import LanguageProvider from 'containers/LanguageProvider/index';
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
-import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
-import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
-import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
-import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
-import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
-import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
-import '!file-loader?name=[name].[ext]!./manifest.json';
 import '!file-loader?name=[name].[ext]!./osd.xml';
 import '!file-loader?name=[name].[ext]!./sitemap.xml';
 import 'file-loader?name=[name].[ext]!./.htaccess';
@@ -80,15 +68,7 @@ openSansObserver.load().then(
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
-// Sync dispatched route actions to the history
-const reduxRouterMiddleware = syncHistory(history);
-const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(
-  configureStore,
-);
-
-// const store = configureStore(initialState, history);
-const store = createStoreWithMiddleware(initialState, history);
+const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
@@ -96,7 +76,7 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <Route component={App} />
+          <App />
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
@@ -126,4 +106,11 @@ if (!window.Intl) {
     });
 } else {
   render(translationMessages);
+}
+
+// Install ServiceWorker and AppCache in the end since
+// it's not most important operation and if main code fails,
+// we do not want it installed
+if (process.env.NODE_ENV === 'production') {
+  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }

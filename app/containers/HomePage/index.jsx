@@ -10,13 +10,11 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
 import styled from 'styled-components';
 
-import { Container, Col, Row } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
@@ -26,49 +24,45 @@ import FooterLinks from 'components/FooterLinks';
 
 const Layout = styled(Container)`
   background-color: #f5f5f5;
-  padding: 0;
+  padding: 0 !important;
 `;
 
-class HomePage extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-  render() {
-    const footer = <FooterLinks unconfirmed blocklist />;
-    return (
-      <Layout fluid>
-        <Row noGutters>
-          <Col sm>
-            <HeaderMessage />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="12" lg="5" className="text-center-down-md">
-            <ServiceBlock />
-          </Col>
-          <Col sm="12" lg="7" className="">
-            <TransactionHistory />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm>
-            <Blocks footer={footer} />
-          </Col>
-        </Row>
-      </Layout>
-    );
-  }
+export function HomePage() {
+  const footer = <FooterLinks unconfirmed blocklist />;
+  return (
+    <Layout fluid>
+      <Row noGutters>
+        <Col sm>
+          <HeaderMessage />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm="12" lg="5" className="text-center-down-md">
+          <ServiceBlock />
+        </Col>
+        <Col sm="12" lg="7" className="">
+          <TransactionHistory />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm>
+          <Blocks footer={footer} />
+        </Col>
+      </Row>
+    </Layout>
+  );
 }
 
-// export default HomePage;
-HomePage.propTypes = {
-  changeRoute: PropTypes.func.isRequired,
-};
+HomePage.propTypes = {};
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 export default compose(withConnect)(HomePage);

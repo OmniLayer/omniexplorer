@@ -4,13 +4,13 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
+import { push } from 'connected-react-router';
 import styled from 'styled-components';
-import SearchIcon from 'react-icons/lib/io/search';
+import { IoIosSearch } from 'react-icons/io';
+import history from 'utils/history';
 
 import messages from './messages';
 
@@ -28,7 +28,7 @@ const Wrapper = styled.div.attrs({
     max-width: 100%;
     padding-right: 38px;
   }
-  
+
   & div.input-group > svg.searchbox-icon {
     height: auto;
     margin-left: -3rem;
@@ -37,52 +37,43 @@ const Wrapper = styled.div.attrs({
   }
 `;
 
-class SearchBox extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: '',
-    };
-  }
-  
-  handleDoSearch(e) {
-    this.props.changeRoute(`/search/${this.state.query.trim()}`);
-    this.setState({ query: '' });
-  }
-  
-  handleKeyUp(e) {
+export function SearchBox(props) {
+  const [query, setQuery] = useState('');
+
+  const handleDoSearch = (e) => {
+    history.push(`/search/${query.trim()}`);
+    setQuery('');
+  };
+
+  const handleKeyUp = (e) => {
     const value = e.target.value;
     if (e.keyCode === 13 && value) {
-      this.handleDoSearch(e);
+      handleDoSearch(e);
     }
-  }
-  
-  render() {
-    return (
-      <Wrapper className="searchbox-form">
-        <div className="input-group">
-          <Input
-            className="form-control searchbox-input"
-            value={this.state.query}
-            onInput={(e) => this.setState({ query: e.target.value})}
-            onKeyUp={(e) => this.handleKeyUp(e)}
-          >
-          </Input>
-          <SearchIcon className="searchbox-icon" size={24} onClick={(e) => this.handleDoSearch(e)}/>
-        </div>
-      </Wrapper>
-    );
-  }
+  };
+
+  return (
+    <Wrapper className="searchbox-form">
+      <div className="input-group">
+        <Input
+          value={query}
+          className="form-control searchbox-input"
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyUp={(e) => handleKeyUp(e)}
+        >
+        </Input>
+        <IoIosSearch className="searchbox-icon" size={24} onClick={(e) => handleDoSearch(e)} />
+      </div>
+    </Wrapper>
+  );
 }
 
-SearchBox.propTypes = {
-  changeRoute: PropTypes.func,
-};
+SearchBox.propTypes = {};
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: (url) => dispatch(routeActions.push(url)),
     dispatch,
+    push,
   };
 }
 

@@ -1,16 +1,20 @@
 /**
  * Combine all reducers in this file and export the combined reducers.
  */
-
-import { combineReducers } from 'redux-immutable';
-import { fromJS } from 'immutable';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import produce from 'immer';
+import { combineReducers } from 'redux';
+import { connectRouter, LOCATION_CHANGE } from 'connected-react-router';
+import history from 'utils/history';
+import merge from 'lodash/merge';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import transactionsReducer from 'containers/Transactions/reducer';
+import crowdsaleTransactionsReducer from 'containers/CrowdsaleDetail/reducer';
+import activationsReducer from 'containers/Activations/reducer';
 import tokenReducer from 'components/Token/reducer';
 import statusReducer from 'components/ServiceBlock/reducer';
 import blocksReducer from 'containers/Blocks/reducer';
+import errorBoundary from 'components/ErrorBoundary/reducer';
+
 /*
  * routeReducer
  *
@@ -20,24 +24,23 @@ import blocksReducer from 'containers/Blocks/reducer';
  */
 
 // Initial routing state
-const routeInitialState = fromJS({
+const routeInitialState = {
   location: null,
-});
+};
 
 /**
  * Merge route into the global application state
  */
-function routeReducer(state = routeInitialState, action) {
-  switch (action.type) {
-    /* istanbul ignore next */
-    case LOCATION_CHANGE:
-      return state.merge({
-        location: action.payload,
-      });
-    default:
-      return state;
-  }
-}
+/* eslint-disable default-case, no-param-reassign */
+const routeReducer = (state = routeInitialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      /* istanbul ignore next */
+      case LOCATION_CHANGE:
+        merge(draft.location, action.payload);
+        break;
+    }
+  });
 
 /**
  * Creates the main reducer with the dynamically injected ones
@@ -48,13 +51,15 @@ export default function createReducer(injectedReducers) {
     language: languageProviderReducer,
     token: tokenReducer,
     status: statusReducer,
-    transactions: transactionsReducer,
+    crowdsaleTransactions: crowdsaleTransactionsReducer,
+    activations: activationsReducer,
     blocks: blocksReducer,
-    global: () =>
-      fromJS({
-        loading: false,
-        error: false,
-      }),
+    errorBoundary,
+    global: () => ({
+      loading: false,
+      error: false,
+    }),
     ...injectedReducers,
+    router: connectRouter(history),
   });
 }

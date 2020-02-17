@@ -6,17 +6,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
-import { Col, Row, Tooltip, UncontrolledTooltip } from 'reactstrap';
-import styled from 'styled-components';
+import { Col, Row, Tooltip } from 'reactstrap';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import CopyIcon from 'react-icons/lib/io/ios-copy';
-import ArrowIconRight from 'react-icons/lib/io/arrow-right-c';
-import ArrowIconDown from 'react-icons/lib/io/arrow-down-c';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -25,66 +17,24 @@ import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
 import AssetLink from 'components/AssetLink';
 import AssetLogo from 'components/AssetLogo';
+import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import './transaction.scss';
 
-const AddressWrapper = styled.div.attrs({
-  className: 'w-100-down-md address-wrapper',
-})`
-  display: inline;
-`;
+import AddressWrapper from 'components/AddressWrapper';
+import StyledLink from 'components/StyledLink';
+import StyledIconCopy from 'components/StyledIconCopy';
+import WrapperTx from 'components/WrapperTx';
+import WrapperTxDatetime from 'components/WrapperTxDatetime';
+import WarningTooltip from 'components/WarningTooltip';
 
-const StyledLink = styled(Link).attrs({
-  className: 'mr-1 text-truncate',
-})`
-  color: #333;
-`;
-
-const StyledCopyIcon = styled(CopyIcon).attrs({
-  className: 'btn-outline-info rounded',
-})``;
-
-const WrapperLink = styled.div.attrs({
-  className: 'wrapper-link btn btn-add text-truncate rounded',
-})`
-  user-select: text !important;
-  font-size: 1.25rem !important;
-  width: 44%;
-  color: #333;
-  background: #eff5fb;
-  border-color: #e2e7eb;
-`;
-
-const WrapperTx = styled.div.attrs({
-  className: 'location d-block-down-md text-truncate-down-md',
-})`
-  font-size: 1.25rem !important;
-  padding: 0 1rem;
-`;
-
-const WrapperTxDatetime = styled.div.attrs({
-  className: 'wrapper-tx-timestamp w-75 mb-3',
-})`
-  font-size: 1.25rem !important;
-  color: #333;
-`;
-
-const WarningTooltip = styled(UncontrolledTooltip).attrs({
-  innerClassName: 'bg-danger',
-})`
-  &.bs-tooltip-top .arrow::before {
-        border-top-color: #dc3545 !important;
-    }
-    `;
+import GrayArrowForward from 'components/GrayArrowForward';
+import GrayArrowDown from 'components/GrayArrowDown';
 
 class Transaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-
-    this.toggleTxTooltip = this.toggleTxTooltip.bind(this);
-    this.toggleSenderTooltip = this.toggleSenderTooltip.bind(this);
-    this.toggleRefererTooltip = this.toggleRefererTooltip.bind(this);
 
     this.state = {
       tooltipTxOpen: false,
@@ -93,20 +43,20 @@ class Transaction extends React.PureComponent {
     };
   }
 
-  toggleTxTooltip() {
+  toggleTxTooltip = () => {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
-  }
+  };
 
-  toggleSenderTooltip() {
+  toggleSenderTooltip = () => {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
-  }
+  };
 
-  toggleRefererTooltip() {
+  toggleRefererTooltip = () => {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
-  }
+  };
 
   getHighlightIfOwner(address) {
     return this.isOwner(address) ? 'text-success' : '';
@@ -162,9 +112,16 @@ class Transaction extends React.PureComponent {
           <Col sm="12" md="1">
             <AssetLink asset={this.props.propertyid} state={this.props.state}>
               <AssetLogo
-                asset={{...this.props, name: this.props.propertyname }}
+                asset={{
+                  ...this.props,
+                  name: this.props.propertyname,
+                }}
                 prop={this.props.propertyid}
-                style={{width: '4rem', height: '4rem', marginRight: '7px'}}
+                style={{
+                  width: '4rem',
+                  height: '4rem',
+                  marginRight: '7px',
+                }}
               />
             </AssetLink>
           </Col>
@@ -188,20 +145,20 @@ class Transaction extends React.PureComponent {
             </Row>
             <Row className="d-flex flex-center-down-md mb-1 mt-1">
               <WrapperTx>
-                <Link
+                <StyledLink
                   to={{
                     pathname: `/tx/${this.props.txid}`,
                     state: { state: this.props.state },
                   }}
                 >
                   <ColoredHash hash={this.props.txid} />
-                </Link>
+                </StyledLink>
               </WrapperTx>
               <CopyToClipboard
                 text={this.props.txid}
                 onCopy={this.toggleTxTooltip}
               >
-                <StyledCopyIcon
+                <StyledIconCopy
                   className="d-inline-flex d-md-none"
                   size={24}
                   id={txcopyid}
@@ -221,7 +178,7 @@ class Transaction extends React.PureComponent {
               <WrapperTxDatetime>
                 <FormattedUnixDateTime datetime={this.props.blocktime} />
               </WrapperTxDatetime>
-              <Link
+              <StyledLink
                 className={statusCSSClass}
                 style={{ cursor: 'default' }}
                 to={{
@@ -231,14 +188,14 @@ class Transaction extends React.PureComponent {
                 id={invalidid}
               >
                 {status}
-              </Link>
+              </StyledLink>
               {this.props.invalidreason &&
-                <WarningTooltip
-                  placement="top"
-                  target={invalidid}
-                >
-                  { this.props.invalidreason }
-                </WarningTooltip>
+              <WarningTooltip
+                placement="top"
+                target={invalidid}
+              >
+                {this.props.invalidreason}
+              </WarningTooltip>
               }
             </div>
           </Col>
@@ -249,13 +206,8 @@ class Transaction extends React.PureComponent {
               <AddressWrapper>
                 <WrapperLink>
                   <StyledLink
-                    className={` ${this.getHighlightIfOwner(
-                      this.props.sendingaddress,
-                    )}`}
-                    to={{
-                      pathname: `/address/${this.props.sendingaddress}`,
-                      state: { state: this.props.state },
-                    }}
+                    className={this.getHighlightIfOwner(this.props.sendingaddress)}
+                    to={`/address/${this.props.sendingaddress}`}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
@@ -264,7 +216,7 @@ class Transaction extends React.PureComponent {
                   text={this.props.sendingaddress}
                   onCopy={this.toggleSenderTooltip}
                 >
-                  <StyledCopyIcon
+                  <StyledIconCopy
                     className="d-inline-flex"
                     size={24}
                     id={sendercopyid}
@@ -278,12 +230,12 @@ class Transaction extends React.PureComponent {
                   Sender Address Copied
                 </Tooltip>
               </AddressWrapper>
-              <ArrowIconRight
+              <GrayArrowForward
                 size={20}
                 color="gray"
                 className={`d-none ${arrowcnameright} ${arrowcname}`}
               />
-              <ArrowIconDown
+              <GrayArrowDown
                 size={20}
                 color="gray"
                 className={`d-md-none ${arrowcname}`}
@@ -292,10 +244,7 @@ class Transaction extends React.PureComponent {
                 <WrapperLink>
                   <StyledLink
                     className={addresscname}
-                    to={{
-                      pathname: `/address/${this.props.referenceaddress}`,
-                      state: { state: this.props.state },
-                    }}
+                    to={`/address/${this.props.referenceaddress}`}
                   >
                     {this.props.referenceaddress}
                   </StyledLink>
@@ -304,7 +253,7 @@ class Transaction extends React.PureComponent {
                   text={this.props.referenceaddress}
                   onCopy={this.toggleRefererTooltip}
                 >
-                  <StyledCopyIcon
+                  <StyledIconCopy
                     className="d-inline-flex"
                     size={24}
                     id={referercopyid}
@@ -333,7 +282,6 @@ Transaction.propTypes = {
   type: PropTypes.string,
   txid: PropTypes.string,
   amount: PropTypes.string,
-  changeRoute: PropTypes.func,
   valid: PropTypes.bool,
   blocktime: PropTypes.number,
   propertyname: PropTypes.string,
@@ -341,16 +289,4 @@ Transaction.propTypes = {
   addr: PropTypes.string,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    changeRoute: url => dispatch(routeActions.push(url)),
-    dispatch,
-  };
-}
-
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
-
-export default compose(withConnect)(Transaction);
+export default Transaction;

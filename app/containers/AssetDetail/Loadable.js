@@ -1,12 +1,11 @@
 /**
- *
- * Asynchronously loads the component for AssetDetail
- *
+* Asynchronously loads the component
  */
 
-import Loadable from 'react-loadable';
+import React from 'react';
+import loadable from 'utils/loadable';
+import LoadingIndicator from 'components/LoadingIndicator';
 
-export default Loadable({
-  loader: () => import('./index'),
-  loading: () => null,
+export default loadable(() => import('./index'), {
+  fallback: <LoadingIndicator />,
 });

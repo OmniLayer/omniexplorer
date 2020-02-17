@@ -1,7 +1,9 @@
+// eslint-disable import/no-unresolved
+
 // needed for regenerator-runtime
 // (ES7 generator support is required by redux-saga)
-// http://airbnb.io/enzyme/docs/installation/react-16.html
-require('babel-polyfill');
+import '@babel/polyfill';
+
 require('./shim');
 require('fetch-reply-with');
 

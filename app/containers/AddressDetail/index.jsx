@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -16,8 +16,8 @@ import { Col, Container, Row } from 'reactstrap';
 import Transactions from 'containers/Transactions';
 import Wallet from 'components/Wallet';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 
 import makeSelectAddressDetail from './selectors';
 import reducer from './reducer';
@@ -25,49 +25,51 @@ import { loadAddress } from './actions';
 import sagaAddress from './saga';
 
 const Layout = styled(Container)`
-      background-color: white;
-      padding: 0;
-    `;
+  background-color: white;
+  padding: 0;
+`;
 
-export class AddressDetail extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    
-    this.address = props.match.params.address;
+export function AddressDetail(props) {
+  const { address } = props.match.params;
+
+  useInjectReducer({
+    key: 'addressDetail',
+    reducer,
+  });
+  useInjectSaga({
+    key: 'addressDetail',
+    saga: sagaAddress,
+  });
+
+  useEffect(() => {
+    props.loadAddress(address);
+  }, [address]);
+
+  if (props.loading) {
+    return;
   }
 
-  componentDidMount() {
-    console.log('address detail did mount');
-    this.props.loadAddress(this.address);
-  }
-
-  render() {
-    console.log('address detail render');
-    if (this.props.loading) {
-      return;
-    }
-
-    return (
-      <Layout fluid>
-        <Row>
-          <Col sm>
-            <Wallet {...this.props.addressdetail} addr={this.address} />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm>
-            <Transactions addr={this.address} {...this.props} />
-          </Col>
-        </Row>
-      </Layout>
-    );
-  }
+  return (
+    <Layout fluid>
+      <Row>
+        <Col sm>
+          <Wallet {...props.addressdetail} addr={address} />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm>
+          <Transactions addr={address} {...props} currentPage={1} />
+        </Col>
+      </Row>
+    </Layout>
+  );
 }
 
 AddressDetail.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadAddress: PropTypes.func,
   addressdetail: PropTypes.object.isRequired,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -76,17 +78,16 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadAddress: (addr) => dispatch(loadAddress(addr)),
+    loadAddress: addr => dispatch(loadAddress(addr)),
     dispatch,
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key: 'addressDetail', reducer });
-const withSagaAddress = injectSaga({ key: 'addressDetail', saga: sagaAddress });
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(
-  withReducer,
-  withSagaAddress,
   withConnect,
 )(AddressDetail);

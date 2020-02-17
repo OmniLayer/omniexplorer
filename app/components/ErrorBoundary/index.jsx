@@ -10,14 +10,13 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 
-import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter, Jumbotron } from 'reactstrap';
-import { routeActions } from 'redux-simple-router';
+import { Alert, Jumbotron, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
 import moment from 'moment/src/moment';
+import PropTypes from 'prop-types';
 import { cleanError } from './actions';
 import reducer from './reducer';
-import PropTypes from 'prop-types';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -50,17 +49,29 @@ class ErrorBoundary extends React.Component {
 
     if (this.props.st.error) {
       const { error } = this.props.st;
-
+      error.message = error.message || error.text;
       content = (
         <div>
-          <Modal isOpen={this.props.st.modal} toggle={this.props.cleanError} backdrop>
-            <ModalHeader toggle={this.props.cleanError}></ModalHeader>
+          <Modal
+            isOpen={this.props.st.modal}
+            toggle={this.props.cleanError}
+            backdrop
+          >
+            <ModalHeader toggle={this.props.cleanError} />
             <ModalBody>
               <Jumbotron className="text-center">
                 <h3>{error.message}</h3>
                 <br />
                 <h5>
-                  Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few moments.
+                  Please{' '}
+                  <StyledLink
+                    onClick={() => window.location.reload()}
+                    to=""
+                    refresh="true"
+                  >
+                    <span>retry</span>
+                  </StyledLink>{' '}
+                  again in few moments.
                 </h5>
               </Jumbotron>
             </ModalBody>
@@ -78,15 +89,23 @@ class ErrorBoundary extends React.Component {
             <h3>{this.state.error && this.state.error.toString()}</h3>
             <br />
             <h5>
-              Please <Link onClick={()=>window.location.reload()} to="" refresh="true"><span>retry</span></Link> again in few seconds.
+              Please{' '}
+              <StyledLink
+                onClick={() => window.location.reload()}
+                to=""
+                refresh="true"
+              >
+                <span>retry</span>
+              </StyledLink>{' '}
+              again in few seconds.
             </h5>
           </Jumbotron>
         </div>
       );
     } else if (lastParsed) {
       const lastParsedDiff = moment
-      .utc()
-      .diff(moment.utc(lastParsed), 'minutes');
+        .utc()
+        .diff(moment.utc(lastParsed), 'minutes');
 
       if (lastParsedDiff > 10) {
         content = (
@@ -114,7 +133,7 @@ ErrorBoundary.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   status: makeSelectStatus(),
-  st: state => state.get('errorBoundary').toJS(),
+  st: state => state.errorBoundary,
 });
 
 const withReducer = injectReducer({
@@ -135,6 +154,6 @@ const withConnect = connect(
 );
 
 export default compose(
-  withReducer,
   withConnect,
+  withReducer,
 )(ErrorBoundary);

@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { routeActions } from 'redux-simple-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
@@ -15,6 +14,7 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
+import StyledA from 'components/StyledA';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -90,7 +90,7 @@ class CrowdsaleInfo extends React.PureComponent {
           />
         </StyledTDTextLeft>
         <StyledTDTextLeft>
-          <a
+          <StyledA
             className="btn btn-primary"
             target="_blank"
             href={`https://www.omniwallet.org/assets/details/${
@@ -100,7 +100,7 @@ class CrowdsaleInfo extends React.PureComponent {
             Buy with
             <br/>
             Omniwallet
-          </a>
+          </StyledA>
         </StyledTDTextLeft>
       </tr>
     );
@@ -115,12 +115,10 @@ CrowdsaleInfo.propTypes = {
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
   propertyiddesired: PropTypes.any.isRequired,
-  changeRoute: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
     dispatch,
   };
 }

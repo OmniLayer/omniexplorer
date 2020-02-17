@@ -9,12 +9,15 @@ import PropTypes from 'prop-types';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import { withRouter } from 'react-router-dom';
-import { routeActions } from 'redux-simple-router';
+import { createStructuredSelector } from 'reselect';
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import styled from 'styled-components';
 import range from 'lodash/range';
+import { makeSelectLocation } from 'containers/App/selectors';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 const StyledPaginationLink = styled(PaginationLink)`
   border-radius: 3.2px;
@@ -29,18 +32,21 @@ const StyledPaginationButton = styled(PaginationItem)`
 `;
 
 const StyledPaginationItem = styled(StyledPaginationButton)`
+  & > .page-link {
+    color: #337ab7;
+  }
   &.active > .page-link {
-    background-color: #3498db;
+    background-color: #3498db !important;
+    color: #337ab7;
   }
 `;
 
 const ListPagination = props => {
   const buildListPagination = (page, qtyPages) => {
-    const maxPagesByMedia = window.matchMedia('(max-width: 500px)').matches
-      ? 5
-      : 10;
+    const maxPagesByMedia = getMaxPagesByMedia();
     const startPage = (Math.floor((page - 1) / maxPagesByMedia)) * maxPagesByMedia + 1;
-    const minPaginationLength = qtyPages % maxPagesByMedia || 1;
+    // const minPaginationLength = qtyPages % maxPagesByMedia || 1;
+    const minPaginationLength = qtyPages % maxPagesByMedia || maxPagesByMedia;
     const paginationLength = (startPage + maxPagesByMedia) <= qtyPages ? maxPagesByMedia : minPaginationLength;
     const listPagination = {
       // + 1 because it's up to, but not including, `end`
@@ -65,6 +71,7 @@ const ListPagination = props => {
   );
 
   const setPage = (e, page) => {
+    props.push(props.hashLink(page));
     props.onSetPage(page);
   };
 
@@ -81,10 +88,18 @@ const ListPagination = props => {
   return (
     <Pagination className="pagination justify-content-end mt-2 mb-2">
       <StyledPaginationButton
+        onClick={e => setPage(e, 1)}
+        disabled={listPagination.count === 1 || listPagination.current === 1}
+        key="first"
+      >
+        <PaginationLink first/>
+      </StyledPaginationButton>
+      <StyledPaginationButton
+        onClick={e => setPage(e, getPrevious())}
         disabled={listPagination.count === 1 || listPagination.current === 1}
         key="previous"
       >
-        <StyledPaginationLink previous href={props.hashLink(getPrevious())}/>
+        <StyledPaginationLink previous/>
       </StyledPaginationButton>
       {listPagination.range.map(v => (
         <StyledPaginationItem
@@ -92,19 +107,30 @@ const ListPagination = props => {
           className={v.isCurrent ? 'page-item active' : 'page-item'}
           key={v.value}
         >
-          <StyledPaginationLink href={props.hashLink(v.value)}>
+          <StyledPaginationLink>
             {v.value}
           </StyledPaginationLink>
         </StyledPaginationItem>
       ))}
       <StyledPaginationButton
+        onClick={e => setPage(e, getNext())}
         disabled={
           listPagination.count === 1 ||
           listPagination.current === listPagination.count
         }
         key="next"
       >
-        <StyledPaginationLink next href={props.hashLink(getNext())}/>
+        <StyledPaginationLink next/>
+      </StyledPaginationButton>
+      <StyledPaginationButton
+        onClick={e => setPage(e, listPagination.count)}
+        disabled={
+          listPagination.count === 1 ||
+          listPagination.current === listPagination.count
+        }
+        key="last"
+      >
+        <PaginationLink last/>
       </StyledPaginationButton>
     </Pagination>
   );
@@ -123,16 +149,14 @@ ListPagination.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeRoute: url => dispatch(routeActions.push(url)),
+    push,
     dispatch,
   };
 }
 
-function mapStateToProps(state) {
-  return {
-    location: state.get('route').get('location'),
-  };
-}
+const mapStateToProps = createStructuredSelector({
+  location: makeSelectLocation(),
+});
 
 const withConnect = connect(
   mapStateToProps,

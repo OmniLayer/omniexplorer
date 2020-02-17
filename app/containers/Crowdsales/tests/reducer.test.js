@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import { ECOSYSTEM_PROD } from 'containers/App/constants';
 import crowdsalesReducer from '../reducer';
 
@@ -10,6 +9,6 @@ describe('crowdsalesReducer', () => {
       crowdsales: [],
       ecosystem: ECOSYSTEM_PROD,
     };
-    expect(crowdsalesReducer(undefined, {})).toEqual(fromJS(state));
+    expect(crowdsalesReducer(undefined, {})).toEqual(state);
   });
 });

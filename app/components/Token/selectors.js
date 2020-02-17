@@ -1,14 +1,50 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
-export const getProperties = state => state.get('token');
-export const getTokens = state => state.get('token').get('tokens');
+/**
+ * Direct selector to the blockDetail state domain
+ */
+const selectTokenDomain = state => state.token || initialState;
 
-export const makeSelectProperties = () =>
-  createSelector(getProperties, tokens => tokens.toJS());
+/**
+ * Other specific selectors
+ */
+export const getProperties = state => state.token;
+export const getTokens = state => state.token.tokens;
 
-export const makeSelectProperty = createSelector(getTokens, substate => id => substate.get(id.toString()));
+/**
+ * Default selector used by BlockDetail
+ */
 
-export const makeSelectLoading = createSelector(getProperties, substate => substate.get('isFetching'));
+const makeSelectProperties = () =>
+  createSelector(selectTokenDomain, substate => substate.tokens);
 
-export const hasProperty = id =>
-  createSelector(getProperties, tokens => !!tokens[id]);
+const makeSelectProperty = id => {
+  return createSelector(
+    [selectTokenDomain],
+    (substate, id) => {
+      return substate.tokens[id];
+      }
+  );
+};
+
+const makeSelectLoading = () =>
+  createSelector(selectTokenDomain, substate => substate.isFetching);
+
+const makeSelectLastFetched = () =>
+  createSelector(selectTokenDomain, substate => substate.lastFetched);
+
+const makeSelectHasProperty = id =>
+  createSelector(
+    selectTokenDomain,
+    substate => !!substate.tokens[id],
+  );
+
+export {
+  selectTokenDomain,
+  makeSelectProperties,
+  makeSelectProperty,
+  makeSelectLoading,
+  makeSelectHasProperty,
+  makeSelectLastFetched,
+};

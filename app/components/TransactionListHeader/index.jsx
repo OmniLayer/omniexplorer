@@ -4,57 +4,71 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import ListHeader from 'components/ListHeader';
 import messages from './messages';
 
-class TransactionListHeader extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+const TransactionListHeader = props => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false,
-    };
-  }
+  const toggle = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
-  }
-
-  render() {
-    return (
-      <ListHeader
-        {...this.props}
-        message={(this.props.customHeader || messages.header)}
-        countMessage={(this.props.count || messages.count)}
+  return (
+    <ListHeader
+      {...props}
+      message={props.customHeader || messages.header}
+      countMessage={props.count || messages.count}
+    >
+      <ButtonDropdown
+        isOpen={dropdownOpen}
+        toggle={toggle}
+        className="float-md-right"
       >
-        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-md-right">
-          <DropdownToggle disabled caret color="info" className="font-weight-light">
-            <FormattedMessage {...messages.transactionTypes} />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem onClick={() => this.props.selectType(null)}>Show All Transaction Types</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem header>(Filters Coming Soon)!</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(0)}>Show Simple Send only</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(25)}>Show OmniDex only</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(20)}>Show DEx only</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(55)}>Show Grant only</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(56)}>Show Revoke only</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(50)}>Show Property Creation only</DropdownItem>
-            <DropdownItem onClick={() => this.props.selectType(3)}>Show Send To Owners only</DropdownItem>
-          </DropdownMenu>
-        </ButtonDropdown>
-      </ListHeader>
-    );
-  }
-}
+        <DropdownToggle
+          disabled
+          caret
+          color="info"
+          className="font-weight-light"
+        >
+          <FormattedMessage {...messages.transactionTypes} />
+        </DropdownToggle>
+        <DropdownMenu right>
+          <DropdownItem onClick={() => props.selectType(null)}>
+            Show All Transaction Types
+          </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem header>(Filters Coming Soon)!</DropdownItem>
+          <DropdownItem onClick={() => props.selectType(0)}>
+            Show Simple Send only
+          </DropdownItem>
+          <DropdownItem onClick={() => props.selectType(25)}>
+            Show OmniDex only
+          </DropdownItem>
+          <DropdownItem onClick={() => props.selectType(20)}>
+            Show DEx only
+          </DropdownItem>
+          <DropdownItem onClick={() => props.selectType(55)}>
+            Show Grant only
+          </DropdownItem>
+          <DropdownItem onClick={() => props.selectType(56)}>
+            Show Revoke only
+          </DropdownItem>
+          <DropdownItem onClick={() => props.selectType(50)}>
+            Show Property Creation only
+          </DropdownItem>
+          <DropdownItem onClick={() => props.selectType(3)}>
+            Show Send To Owners only
+          </DropdownItem>
+        </DropdownMenu>
+      </ButtonDropdown>
+    </ListHeader>
+  );
+};
 
 TransactionListHeader.propTypes = {
   className: PropTypes.string,

@@ -1,12 +1,7 @@
-import {
-  LOAD_STATUS,
-  LOAD_STATUS_SUCCESS,
-} from './constants';
+import { LOAD_STATUS, LOAD_STATUS_SUCCESS } from './constants';
 
 // Start the fetch, toggle is `isFetching` value
-export const startFetch = () => ({
-  type: LOAD_STATUS,
-});
+export const startFetch = () => ({ type: LOAD_STATUS });
 
 /**
  * Resolve the fetch with the returned data

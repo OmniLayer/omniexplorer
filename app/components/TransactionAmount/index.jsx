@@ -12,14 +12,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
-
-const A = styled.a`
-      color: #41addd;
-
-      &:hover {
-        color: #6cc0e5;
-      }
-    ;`;
+import StyledA from 'components/StyledA';
 
 class TransactionAmount extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -43,12 +36,12 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
-              <A
+              <StyledA
                 href="#collapseAmountData"
                 color="primary"
                 onClick={this.toggleAmount}
                 style={{ marginBottom: '1rem' }}
-              >Click to show purchases</A>
+              >Click to show purchases</StyledA>
               <Collapse isOpen={this.state.collapseAmount}>
                 { (this.props.purchases || []).map((purchase, idx) => (
                   <div key={idx}>
@@ -85,12 +78,12 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
           <td className="field">Amount</td>
           <td>
             <strong id="subsendsmount">
-              <A
+              <StyledA
                 href="#collapseAmountData"
                 color="primary"
                 onClick={this.toggleAmount}
                 style={{ marginBottom: '1rem' }}
-              >Click to show subsends of SendAll</A>
+              >Click to show subsends of SendAll</StyledA>
               <Collapse isOpen={this.state.collapseAmount}>
                 { (this.props.subsends || []).map((send, idx) => (
                   <div key={idx} className="mt-2">

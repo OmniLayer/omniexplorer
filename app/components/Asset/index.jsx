@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import StyledLink from 'components/StyledLink';
 import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
@@ -14,8 +14,8 @@ const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
 
-const StyledTDTextLeft = styled(StyledTD).attrs({
-  className: 'text-left pt-3 text-truncate',
+const StyledTDTextLeft = styled.td.attrs({
+  className: 'text-left pt-3 text-truncate align-middle',
 })``;
 
 function Asset(props) {
@@ -52,14 +52,14 @@ function Asset(props) {
         </AssetLink>
       </StyledTDTextLeft>
       <StyledTDTextLeft>
-        <Link
+        <StyledLink
           to={{
             pathname: `/address/${asset.issuer}`,
             state: { state: props.state },
           }}
         >
           {props[2]}
-        </Link>
+        </StyledLink>
       </StyledTDTextLeft>
     </tr>
   );
