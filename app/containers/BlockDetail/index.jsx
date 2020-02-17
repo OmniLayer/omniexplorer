@@ -87,7 +87,7 @@ export function BlockDetail(props) {
     console.log('call getTransactions');
     const { blockdetail } = props;
 
-    if (isEmpty(transactions)) {
+    if (isEmpty(transactions) && blockdetail.block.block === Number(block)) {
       setCurrentPage(parseInt(props.location.hash.replace('#', ''), 10) || page);
       setCurrentData(blockdetail.block.transactions.slice(0, maxPagesByMedia));
       setPageCount(Math.ceil(blockdetail.block.transactions.length / maxPagesByMedia));
