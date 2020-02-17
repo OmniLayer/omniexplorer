@@ -85,13 +85,12 @@ export function Transactions(props) {
     const { transactions } = props.transactions;
 
     const start =
-      transactions.length > 10
+      transactions.length > maxPagesByMedia
         ? ((page || pageParam) - 1) * maxPagesByMedia
         : 0;
     const end =
-      transactions.length > 10
-        ? ((page || pageParam) - 1) * maxPagesByMedia +
-          maxPagesByMedia * maxPagesByMedia
+      transactions.length > maxPagesByMedia
+        ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia
         : maxPagesByMedia;
     return transactions.slice(start, end);
   };
