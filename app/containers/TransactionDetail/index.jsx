@@ -45,7 +45,7 @@ export function TransactionDetail(props) {
   }, [tx]);
 
   useEffect(() => {
-    if (!props.tokens.lastFetched) {
+    if (!props.tokens.lastFetched && !props.txdetail.loading && props.txdetail.transaction.propertyid) {
       props.getProperty(props.txdetail.transaction.propertyid);
     }
   }, [props.txdetail.loading]);
