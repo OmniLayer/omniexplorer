@@ -104,6 +104,7 @@ export function Token(props) {
 }
 
 Token.propTypes = {
+  bulkLoading: PropTypes.bool,
   getProperty: PropTypes.func,
   divisible: PropTypes.bool,
   propertyinfo: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
