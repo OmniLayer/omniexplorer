@@ -6,9 +6,9 @@
 
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { IoIosCopy } from 'react-icons/io';
+import { Copy } from '@styled-icons/fa-solid/Copy';
 
-const StyledIconCopy = styled(IoIosCopy).attrs({
+const StyledIconCopy = styled(Copy).attrs({
   className: 'btn-outline-info rounded',
 })``;
 

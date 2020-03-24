@@ -7,9 +7,9 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { IoIosArrowDown } from 'react-icons/io';
+import {ArrowDown} from '@styled-icons/fa-solid/ArrowDown';
 
-const GrayArrowDown = styled(IoIosArrowDown).attrs({
+const GrayArrowDown = styled(ArrowDown).attrs({
   size: 20,
   color: 'gray',
 })``;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { IoMdHeart } from 'react-icons/io';
+import { Heart } from '@styled-icons/fa-solid/Heart';
 import StyledA from 'components/StyledA';
 import messages from './messages';
 
@@ -23,7 +23,7 @@ function Footer() {
         <FormattedMessage
           {...messages.authorMessage}
           values={{
-            love: <IoMdHeart color="red" size={24}/>,
+            love: <Heart color="red" size={16} />,
             author: <StyledA href="http://www.omnilayer.org/">The Omni Foundation</StyledA>,
           }}
         />

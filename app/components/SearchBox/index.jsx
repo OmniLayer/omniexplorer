@@ -9,7 +9,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import styled from 'styled-components';
-import { IoIosSearch } from 'react-icons/io';
+import {Search} from '@styled-icons/fa-solid/Search';
 import history from 'utils/history';
 
 import messages from './messages';
@@ -62,7 +62,7 @@ export function SearchBox(props) {
           onKeyUp={(e) => handleKeyUp(e)}
         >
         </Input>
-        <IoIosSearch className="searchbox-icon" size={24} onClick={(e) => handleDoSearch(e)} />
+        <Search className="searchbox-icon" size={24} onClick={(e) => handleDoSearch(e)} />
       </div>
     </Wrapper>
   );

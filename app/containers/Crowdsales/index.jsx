@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Container, Row, Table, UncontrolledTooltip } from 'reactstrap';
-import { IoIosInformationCircle } from 'react-icons/io';
+import InfoCircleIcon from 'components/InfoCircleIcon';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -76,11 +76,7 @@ export class Crowdsales extends React.Component {
             <StyledTH>Rate</StyledTH>
             <StyledTH>
               Closing Datetime
-              <IoIosInformationCircle
-                color="gray"
-                className="ml-1"
-                id="crowdsalesClosingDate"
-              />
+              <InfoCircleIcon id="crowdsalesClosingDate" />
               <UncontrolledTooltip
                 placement="right-end"
                 target="crowdsalesClosingDate"
@@ -96,10 +92,7 @@ export class Crowdsales extends React.Component {
           {this.props.crowdsales.crowdsales
             .filter(x => x.active)
             .map((x, idx) => (
-              <CrowdsaleInfo
-                {...x}
-                key={x.creationtxid}
-              />
+              <CrowdsaleInfo {...x} key={x.creationtxid} />
             ))}
         </tbody>
       </Table>
