@@ -69,6 +69,12 @@ export const MOCKED_ACTIVATIONS = {
       "featurename": "Activate the waiting period for enabling freezing",
       "activationblock": 499200,
       "minimumversion": 30000000
+    },
+    {
+      "featureid": 15,
+      "featurename": "Activate trading of any token on the distributed exchange",
+      "activationblock": 627250,
+      "minimumversion": 80000000
     }
   ]
 };
