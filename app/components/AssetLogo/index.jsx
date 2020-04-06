@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import getLogo from 'utils/getLogo';
 import some from 'lodash/some';
 
+import {FEATURE_ACTIVATION_TYPE_INT} from 'containers/App/constants';
 import WarningTooltip from 'components/WarningTooltip';
 
 const IMGLogo = styled.img`
@@ -24,7 +25,7 @@ function AssetLogo({ asset, prop, className, style}) {
 
   const hasWarning = some(asset.flags, (value, key) => key !== 'registered' && value);
   const Tooltip = hasWarning ? WarningTooltip : UncontrolledTooltip;
-  const assetName = [4, -22, 25, 26, 28, 65534].includes(asset.type_int) ? asset.type : `#${prop}: ${asset.name}`;
+  const assetName = [4, -22, 25, 26, 28, FEATURE_ACTIVATION_TYPE_INT].includes(asset.type_int) ? asset.type : `#${prop}: ${asset.name}`;
   const tooltipText = hasWarning ? asset.invalidreason || 'Warning!' : assetName;
 
   const CurrentTooltip =<Tooltip placement="top-end" target={id} key={`key${id}`}>

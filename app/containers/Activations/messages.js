@@ -27,5 +27,9 @@ export default defineMessages({
       id: 'app.containers.Activations.columns.minimumversion',
       defaultMessage: 'Client Min Version',
     },
+    hash: {
+      id: 'app.containers.Activations.columns.hash',
+      defaultMessage: 'Hash',
+    },
   }
 });

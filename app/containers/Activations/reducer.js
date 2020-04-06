@@ -18,8 +18,6 @@ const activation = {
 export const initialState = {
   loading: true,
   list: [],
-  pendingactivations: [],
-  completedactivations: [],
   error: null,
 };
 
@@ -31,9 +29,7 @@ const activationsReducer = (state = initialState, {type, activations} = action) 
         draft.loading = true;
         break;
       case LOAD_ACTIVATIONS_SUCCESS:
-        draft.pendingactivations = orderBy(activations.pendingactivations, 'featureid', 'asc');
-        draft.completedactivations = orderBy(activations.completedactivations, 'featureid', 'asc');
-        draft.list = orderBy(activations.completedactivations, 'featureid', 'asc');
+        draft.list = orderBy(activations.activations, 'featureid', 'asc');
         draft.loading = false;
         draft.error = null;
         break;
