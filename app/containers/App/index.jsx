@@ -77,13 +77,11 @@ export function App({
     key: 'status',
     saga: statusSaga,
   });
-<<<<<<< HEAD
-=======
+
   useInjectSaga({
     key: 'activations',
     saga: activationsSaga,
   })
->>>>>>> feat-load-activations-dynamically
 
   useEffect(() => {
     console.log('load status..');
