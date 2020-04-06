@@ -12,7 +12,11 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 
-import { Button, ButtonGroup, Container, Table } from 'reactstrap';
+import StyledLink from 'components/StyledLink';
+import ColoredHash from 'components/ColoredHash';
+import WrapperTx from 'components/WrapperTx';
+
+import { Container, Table } from 'reactstrap';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 
@@ -20,7 +24,7 @@ import ListHeader from 'components/ListHeader';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 
-import makeSelectActivations from './selectors';
+import { makeSelectActivations } from './selectors';
 import messages from './messages';
 import reducer from './reducer';
 import saga from './saga';
@@ -41,7 +45,6 @@ const StyledTable = styled(Table)`
 `;
 
 export function Activations(props) {
-
   useInjectReducer({
     key: 'activations',
     reducer,
@@ -57,10 +60,6 @@ export function Activations(props) {
   }, []);
 
   const [completed, setCompleted] = useState({ completed: true });
-
-  const onRadioBtnClick = (value) => {
-    setCompleted({ value });
-  };
 
   const loading = (
     <Container>
@@ -94,15 +93,34 @@ export function Activations(props) {
           <th className="text-center">
             <FormattedMessage {...messages.columns.minimumVersion} />
           </th>
+          <th className="text-center">
+            <FormattedMessage {...messages.columns.hash} />
+          </th>
         </tr>
       </thead>
       <tbody>
         {props.activations.list.map((activation, idx) => (
-          <StyledTR key={getItemKey(activation, idx)}>
+          <StyledTR
+            key={getItemKey(activation, idx)}>
             <td className="text-center">{activation.featureid}</td>
-            <td className="text-left">{activation.featurename}</td>
+            <td className="text-left">
+              {activation.featurename}
+              {activation.pending && <span className='text-warning'>&nbsp;(Pending)</span>}
+            </td>
             <td className="text-center">{activation.activationblock}</td>
             <td className="text-center">{activation.minimumversion}</td>
+            <td className="text-center">
+              <WrapperTx>
+                <StyledLink
+                  to={{
+                    pathname: `/tx/${activation.txhash}`,
+                    state: { state: props.state },
+                  }}
+                >
+                  <ColoredHash hash={activation.txhash} />
+                </StyledLink>
+              </WrapperTx>
+            </td>
           </StyledTR>
         ))}
       </tbody>
@@ -111,23 +129,7 @@ export function Activations(props) {
 
   return (
     <StyledContainer fluid>
-      <ListHeader
-        message={messages.header}
-        extra={
-          <ButtonGroup>
-            <Button onClick={() => onRadioBtnClick(true)} active={!!completed}>
-              Completed
-            </Button>
-            <Button
-              onClick={() => onRadioBtnClick(false)}
-              active={!completed}
-              disabled
-            >
-              Pending
-            </Button>
-          </ButtonGroup>
-        }
-      />
+      <ListHeader message={messages.header} />
       {content}
     </StyledContainer>
   );

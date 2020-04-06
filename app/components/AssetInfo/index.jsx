@@ -13,7 +13,7 @@ import StyledLink from 'components/StyledLink';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import { API_URL_BASE } from 'containers/App/constants';
+import { API_URL_BASE, FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import normalizeURL from 'utils/normalizeURL';
 
 const StyledTD = styled.td.attrs({
@@ -57,7 +57,7 @@ function AssetInfo(asset) {
     );
   }
 
-  if(asset.type_int === 65534){
+  if(asset.type_int === FEATURE_ACTIVATION_TYPE_INT){
     propertyID= (
       <tr>
         <StyledTD>Feature Activation</StyledTD>

@@ -46,6 +46,7 @@ import { startFetch } from 'components/ServiceBlock/actions';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import tokenSaga from 'components/Token/saga';
+import activationsSaga from 'containers/Activations/saga';
 import statusSaga from 'components/ServiceBlock/saga';
 import GlobalStyle from '../../global-styles';
 
@@ -76,6 +77,13 @@ export function App({
     key: 'status',
     saga: statusSaga,
   });
+<<<<<<< HEAD
+=======
+  useInjectSaga({
+    key: 'activations',
+    saga: activationsSaga,
+  })
+>>>>>>> feat-load-activations-dynamically
 
   useEffect(() => {
     console.log('load status..');

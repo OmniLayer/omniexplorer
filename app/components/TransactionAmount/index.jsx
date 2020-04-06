@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Collapse } from 'reactstrap';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
+import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
@@ -26,7 +27,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
 
   render() {
     //  transaction types without amount
-    if ([28, 53, 70, 65534].includes(this.props.type_int)) {
+    if ([28, 53, 70, FEATURE_ACTIVATION_TYPE_INT].includes(this.props.type_int)) {
       return <tr></tr>;
     }
     //  DEx Purchase

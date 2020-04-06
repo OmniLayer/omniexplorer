@@ -25,7 +25,7 @@ import ExplorerLink from 'components/ExplorerLink';
 import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import { API_URL_BASE } from 'containers/App/constants';
+import { API_URL_BASE, FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getTransactionHeading from 'utils/getTransactionHeading';
 
 const StyledCard = styled(Card)`
@@ -96,7 +96,7 @@ function TransactionInfo(props) {
 
   const amountDisplay = <TransactionAmount {...props} />;
   let tokenName;
-  if (![4, -22, 25, 26, 65534].includes(props.type_int)) {
+  if (![4, -22, 25, 26].includes(props.type_int)) {
     tokenName = (
       <tr>
         <td className="field">Property</td>
@@ -121,7 +121,7 @@ function TransactionInfo(props) {
     );
   }
 
-  if(props.type_int === 65534){
+  if(props.type_int === FEATURE_ACTIVATION_TYPE_INT){
     tokenName = (
       <tr>
         <td className="field">Feature Activation</td>
