@@ -59,8 +59,6 @@ export function Activations(props) {
     props.loadActivations();
   }, []);
 
-  const [completed, setCompleted] = useState({ completed: true });
-
   const loading = (
     <Container>
       <LoadingIndicator />
@@ -100,12 +98,13 @@ export function Activations(props) {
       </thead>
       <tbody>
         {props.activations.list.map((activation, idx) => (
-          <StyledTR
-            key={getItemKey(activation, idx)}>
+          <StyledTR key={getItemKey(activation, idx)}>
             <td className="text-center">{activation.featureid}</td>
             <td className="text-left">
               {activation.featurename}
-              {activation.pending && <span className='text-warning'>&nbsp;(Pending)</span>}
+              {activation.pending && (
+                <span className="text-warning">&nbsp;(Pending)</span>
+              )}
             </td>
             <td className="text-center">{activation.activationblock}</td>
             <td className="text-center">{activation.minimumversion}</td>

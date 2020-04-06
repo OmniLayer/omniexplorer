@@ -158,7 +158,7 @@ class Wallet extends React.PureComponent {
                   >
                     <ModalHeader toggle={this.toggleModal} />
                     <ModalBody className="text-center">
-                      <h3 className="text-truncate">{this.props.addr}</h3>
+                      <h4 className="text-truncate">{this.props.addr}</h4>
                       <br />
                       <QRCode value={this.props.addr} size={256} />
                     </ModalBody>

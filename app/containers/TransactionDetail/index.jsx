@@ -80,7 +80,7 @@ export function TransactionDetail(props) {
   const property = getPropByTx(
     props.txdetail.transaction,
     isActivation()
-      ? feat => (feat.featureid === props.txdetail.transaction.featureid)
+      ? feat => feat.featureid === props.txdetail.transaction.featureid
       : id => props.tokens[id],
     props.activations.list,
   );

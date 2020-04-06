@@ -172,7 +172,7 @@ export function Search(props) {
           <Col sm>
             <div>
               <Jumbotron className="text-center">
-                <h3 className="display-3">No results found :(</h3>
+                <h4 className="display-3">No results found :(</h4>
                 <p className="lead">
                   Try using a valid transaction id, address, property id or
                   asset name.
@@ -195,7 +195,7 @@ export function Search(props) {
     <ContainerBase fluid>
       <StyledRow>
         <Col sm>
-          <h3>
+          <h4>
             Showing results for:&nbsp;
             <div
               className="d-md-inline d-block-down-md"
@@ -206,7 +206,7 @@ export function Search(props) {
             >
               <mark>{query}</mark>
             </div>
-          </h3>
+          </h4>
         </Col>
       </StyledRow>
       <Row>

@@ -12,7 +12,9 @@ import {ArrowRight} from '@styled-icons/fa-solid/ArrowRight';
 const GrayArrowForward = styled(ArrowRight).attrs({
   size: 20,
   color: 'gray',
-})``;
+})`
+  vertical-align: middle;
+`;
 
 GrayArrowForward.propTypes = {};
 

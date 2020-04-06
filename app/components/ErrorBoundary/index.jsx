@@ -60,7 +60,7 @@ class ErrorBoundary extends React.Component {
             <ModalHeader toggle={this.props.cleanError} />
             <ModalBody>
               <Jumbotron className="text-center">
-                <h3>{error.message}</h3>
+                <h4>{error.message}</h4>
                 <br />
                 <h5>
                   Please{' '}
@@ -86,7 +86,7 @@ class ErrorBoundary extends React.Component {
             <h1>Something was wrong..</h1>
             <hr className="my-2" />
             <br />
-            <h3>{this.state.error && this.state.error.toString()}</h3>
+            <h4>{this.state.error && this.state.error.toString()}</h4>
             <br />
             <h5>
               Please{' '}
