@@ -1,15 +1,14 @@
 import { call, put, take } from 'redux-saga/effects';
-import { API_URL_BASE, MOCKED_ACTIVATIONS } from 'containers/App/constants';
+import { API_URL_BASE } from 'containers/App/constants';
+import request from 'utils/request';
+
 import { LOAD_ACTIVATIONS } from './constants';
 import { activationsLoaded } from './actions';
 
 export function* getActivations() {
-  const requestURL = `${API_URL_BASE}/activations`;
-  
-  //TODO: use api instead of mocked response
-  // const activations = yield call(request, requestURL);
-  
-  yield put(activationsLoaded(MOCKED_ACTIVATIONS));
+  const requestURL = `${API_URL_BASE}/system/featureactivations`;
+  const activations = yield call(request, requestURL);
+  yield put(activationsLoaded(activations));
 }
 
 /**
@@ -21,4 +20,3 @@ export default function* root() {
     yield call(getActivations, payload);
   }
 }
-

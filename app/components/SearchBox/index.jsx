@@ -62,7 +62,7 @@ export function SearchBox(props) {
           onKeyUp={(e) => handleKeyUp(e)}
         >
         </Input>
-        <Search className="searchbox-icon" size={24} onClick={(e) => handleDoSearch(e)} />
+        <Search className="searchbox-icon" size={21} onClick={(e) => handleDoSearch(e)} />
       </div>
     </Wrapper>
   );
