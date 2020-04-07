@@ -118,9 +118,9 @@ class Header extends React.PureComponent {
                     Misc
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>
-                      <NavLink href="/exchange">Exchange</NavLink>
-                    </DropdownItem>
+                    {/*<DropdownItem>*/}
+                    {/*  <NavLink href="/exchange">Exchange</NavLink>*/}
+                    {/*</DropdownItem>*/}
                     <DropdownItem>
                       <NavLink href="/activations">Feature Activations</NavLink>
                     </DropdownItem>
@@ -133,9 +133,9 @@ class Header extends React.PureComponent {
                     <DropdownItem>
                       <NavLink href="https://github.com/OmniLayer/omniexplorer/issues" target="_blank">Report Bug</NavLink>
                     </DropdownItem>
-                    <DropdownItem>
-                      <NavLink href="/analytics">Analytics</NavLink>
-                    </DropdownItem>
+                    {/*<DropdownItem>*/}
+                    {/*  <NavLink href="/analytics">Analytics</NavLink>*/}
+                    {/*</DropdownItem>*/}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
