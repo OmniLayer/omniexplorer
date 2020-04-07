@@ -96,6 +96,7 @@ function TransactionInfo(props) {
 
   const amountDisplay = <TransactionAmount {...props} />;
   let tokenName;
+  let activationBlock;
   if (![4, -22, 25, 26].includes(props.type_int)) {
     tokenName = (
       <tr>
@@ -127,6 +128,15 @@ function TransactionInfo(props) {
         <td className="field">Feature Activation</td>
         <td>
           <strong>{props.asset.name}</strong>
+        </td>
+      </tr>
+    );
+
+    activationBlock = (
+      <tr>
+        <td className="field">Activation Block</td>
+        <td>
+          <strong>{props.asset.activationblock}</strong>
         </td>
       </tr>
     );
@@ -187,6 +197,7 @@ function TransactionInfo(props) {
             <tbody>
             {amountDisplay}
             {tokenName}
+            {activationBlock}
             {btcDesired}
             <tr>
               <td className="field">Sender</td>
