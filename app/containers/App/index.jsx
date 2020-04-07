@@ -12,7 +12,7 @@
  * the linting exception.
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
@@ -33,6 +33,8 @@ import BlockDetail from 'containers/BlockDetail';
 import HistoryChart from 'containers/HistoryChart';
 import FullBlockList from 'containers/FullBlockList';
 import Activations from 'containers/Activations';
+// import Exchange from 'containers/Exchange';
+
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -44,6 +46,7 @@ import { startFetch } from 'components/ServiceBlock/actions';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import tokenSaga from 'components/Token/saga';
+import activationsSaga from 'containers/Activations/saga';
 import statusSaga from 'components/ServiceBlock/saga';
 import GlobalStyle from '../../global-styles';
 
@@ -74,12 +77,17 @@ export function App({
     key: 'status',
     saga: statusSaga,
   });
-  
+
+  useInjectSaga({
+    key: 'activations',
+    saga: activationsSaga,
+  })
+
   useEffect(() => {
     console.log('load status..');
     loadStatus();
   }, []);
-  
+
   return (
     <AppWrapper>
       <Helmet
@@ -133,9 +141,10 @@ export function App({
           />
           <Route exact path="/promote" component={Promote} />
           <Route exact path="/submitfeedback" component={Feedback} />
-          <Route exact path="/analytics" component={HistoryChart} />
+          {/*<Route exact path="/analytics" component={HistoryChart} />*/}
           <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
           <Route exact path="/activations" component={Activations} />
+          {/*<Route exact path="/exchange" component={Exchange} />*/}
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>

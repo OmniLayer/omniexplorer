@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import StyledA from 'components/StyledA';
 
-const H3 = styled.h3`
+const H4 = styled.h4`
   margin-top: 0.5rem;
 `;
 
@@ -31,18 +31,18 @@ function BlockPagination({ block, latest }) {
   return (
     <Row>
       <Col sm={{ size: 2 }}>
-        <H3>
+        <H4>
           <LinkPrevious href={`/block/${parseInt(block, 10) - 1}`}>
             &lt;&lt; Prev Block
           </LinkPrevious>
-        </H3>
+        </H4>
       </Col>
       <Col sm={{ size: 2, offset: 8 }} className="text-right">
-        <H3>
+        <H4>
           <LinkNext href={`/block/${1 + parseInt(block, 10)}`}>
             Next Block &gt;&gt;
           </LinkNext>
-        </H3>
+        </H4>
       </Col>
     </Row>
   );

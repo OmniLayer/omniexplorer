@@ -21,6 +21,9 @@ import TransactionInfo from 'components/TransactionInfo';
 import ContainerBase from 'components/ContainerBase';
 import { startFetch } from 'components/Token/actions';
 import { makeSelectProperties } from 'components/Token/selectors';
+import { loadActivations } from 'containers/Activations/actions';
+import { makeSelectActivations } from 'containers/Activations/selectors';
+import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 
 import makeSelectTransactionDetail from './selectors';
 import sagaTxDetail from './saga';
@@ -45,8 +48,15 @@ export function TransactionDetail(props) {
   }, [tx]);
 
   useEffect(() => {
-    if (!props.tokens.lastFetched && !props.txdetail.loading && props.txdetail.transaction.propertyid) {
-      props.getProperty(props.txdetail.transaction.propertyid);
+    if (
+      (!props.tokens.lastFetched || isActivation()) &&
+      !props.txdetail.loading
+    ) {
+      if (isActivation()) {
+        props.loadActivations();
+      } else {
+        props.getProperty(props.txdetail.transaction.propertyid);
+      }
     }
   }, [props.txdetail.loading]);
 
@@ -56,11 +66,24 @@ export function TransactionDetail(props) {
     </Container>
   );
 
-  if (props.txdetail.loading || props.tokens.isFetching) {
+  const isActivation = () =>
+    props.txdetail.transaction.type_int === FEATURE_ACTIVATION_TYPE_INT;
+
+  if (
+    props.txdetail.loading ||
+    (!isActivation() && props.tokens.isFetching) ||
+    (isActivation() && props.activations.loading)
+  ) {
     return loading;
   }
 
-  const property = getPropByTx(props.txdetail.transaction, id => props.tokens[id]);
+  const property = getPropByTx(
+    props.txdetail.transaction,
+    isActivation()
+      ? feat => feat.featureid === props.txdetail.transaction.featureid
+      : id => props.tokens[id],
+    props.activations.list,
+  );
   if (!property) return loading;
 
   if (props.txdetail.transaction.notFound) {
@@ -96,6 +119,9 @@ TransactionDetail.propTypes = {
   loadTransaction: PropTypes.func,
   txdetail: PropTypes.object,
   getProperty: PropTypes.func.isRequired,
+  loadActivations: PropTypes.func.isRequired,
+  tokens: PropTypes.any,
+  activations: PropTypes.any,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -103,12 +129,14 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransaction: (addr, page) => dispatch(loadTransaction(addr, page)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
+    loadActivations: () => dispatch(loadActivations()),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   txdetail: makeSelectTransactionDetail(),
   tokens: makeSelectProperties(),
+  activations: makeSelectActivations(),
 });
 
 const withConnect = connect(
@@ -116,6 +144,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(
-  withConnect,
-)(TransactionDetail);
+export default compose(withConnect)(TransactionDetail);

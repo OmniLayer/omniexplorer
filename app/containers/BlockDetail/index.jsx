@@ -161,14 +161,14 @@ export function BlockDetail(props) {
     );
   } else if (!blockdetail.block.transactions.length) {
     content = (
-      <h3 className="text-center" style={{ margin: '3rem' }}>
+      <h4 className="text-center" style={{ margin: '3rem' }}>
         <FormattedMessage
           {...messages.doesNotHaveTransactions.body}
           values={{
             blockNumber: block,
           }}
         />
-      </h3>
+      </h4>
     );
   } else {
     hasInvalid = !isEmpty(transactions[INVALID_BLOCK_TRANSACTIONS]);

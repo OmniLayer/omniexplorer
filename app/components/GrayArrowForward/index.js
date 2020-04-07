@@ -7,13 +7,14 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { IoIosArrowRoundForward } from 'react-icons/io';
+import {ArrowRight} from '@styled-icons/fa-solid/ArrowRight';
 
-
-const GrayArrowForward = styled(IoIosArrowRoundForward).attrs({
+const GrayArrowForward = styled(ArrowRight).attrs({
   size: 20,
   color: 'gray',
-})``;
+})`
+  vertical-align: middle;
+`;
 
 GrayArrowForward.propTypes = {};
 

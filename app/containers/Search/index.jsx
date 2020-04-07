@@ -17,6 +17,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import getPropByTx from 'utils/getPropByTx';
 
+import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import Wallet from 'components/Wallet';
 import TransactionInfo from 'components/TransactionInfo';
 import Asset from 'components/Asset';
@@ -24,6 +25,8 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import StyledLink from 'components/StyledLink';
 
+import { loadActivations } from 'containers/Activations/actions';
+import { makeSelectActivations } from 'containers/Activations/selectors';
 import { startFetch } from 'components/Token/actions';
 import {
   makeSelectLoading,
@@ -66,8 +69,15 @@ export function Search(props) {
   }, [query]);
 
   useEffect(() => {
-    if (!props.tokens.lastFetched && !isEmpty(props.search.tx)) {
-      props.getProperty(props.search.tx.propertyid);
+    if (
+      (!props.tokens.lastFetched || isActivation()) &&
+      !isEmpty(props.search.tx)
+    ) {
+      if (isActivation()) {
+        props.loadActivations();
+      } else {
+        props.getProperty(props.search.tx.propertyid);
+      }
     }
   }, [props.search.loading]);
 
@@ -75,18 +85,31 @@ export function Search(props) {
   let assets = null;
   let tx = null;
 
+  const isActivation = () =>
+    props.search.tx.type_int === FEATURE_ACTIVATION_TYPE_INT;
+
   const loading = (
     <Container>
       <LoadingIndicator />
     </Container>
   );
 
-  if (props.search.loading || props.tokens.isFetching) {
+  if (
+    props.search.loading ||
+    (!isActivation() && props.tokens.isFetching) ||
+    (isActivation() && props.activations.loading)
+  ) {
     return loading;
   }
 
   if (!isEmpty(props.search.tx.type)) {
-    const property = getPropByTx(props.search.tx, id => props.tokens[id]);
+    const property = getPropByTx(
+      props.search.tx,
+      isActivation()
+        ? feat => feat.featureid === props.search.tx.featureid
+        : id => props.tokens[id],
+      props.activations.list,
+    );
     if (!property) return loading;
     tx = <TransactionInfo {...props.search.tx} asset={property} />;
   }
@@ -149,7 +172,7 @@ export function Search(props) {
           <Col sm>
             <div>
               <Jumbotron className="text-center">
-                <h3 className="display-3">No results found :(</h3>
+                <h4 className="display-3">No results found :(</h4>
                 <p className="lead">
                   Try using a valid transaction id, address, property id or
                   asset name.
@@ -172,7 +195,7 @@ export function Search(props) {
     <ContainerBase fluid>
       <StyledRow>
         <Col sm>
-          <h3>
+          <h4>
             Showing results for:&nbsp;
             <div
               className="d-md-inline d-block-down-md"
@@ -183,7 +206,7 @@ export function Search(props) {
             >
               <mark>{query}</mark>
             </div>
-          </h3>
+          </h4>
         </Col>
       </StyledRow>
       <Row>
@@ -205,6 +228,10 @@ Search.propTypes = {
   search: PropTypes.object,
   getProperty: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
+  loadActivations: PropTypes.func.isRequired,
+  tokens: PropTypes.any,
+  match: PropTypes.any,
+  activations: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -212,6 +239,7 @@ const mapStateToProps = createStructuredSelector({
   tokens: makeSelectProperties(),
   tokenIsFetching: state => makeSelectLoading(state),
   properties: state => makeSelectProperty(state),
+  activations: makeSelectActivations(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -219,6 +247,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadSearch: query => dispatch(loadSearch(query)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
+    loadActivations: () => dispatch(loadActivations()),
   };
 }
 

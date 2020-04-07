@@ -34,16 +34,12 @@ import {
 } from 'components/Token/selectors';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
-import { IoIosInformationCircle } from 'react-icons/io';
-import { FaQrcode } from 'react-icons/fa';
+import InfoCircleIcon from 'components/InfoCircleIcon';
+import { Qrcode } from '@styled-icons/fa-solid/Qrcode';
+
 import walletMessages from './messages';
 
-const StyledIoIosInformationCircle = styled(IoIosInformationCircle)`
-  color: cadetblue !important;
-  font-size: 1.5rem;
-`;
-
-const StyledFaQrcode = styled(FaQrcode)`
+const StyledQrcode = styled(Qrcode).attrs({})`
   color: cadetblue !important;
   font-size: 1.5rem;
   width: 36px;
@@ -152,7 +148,7 @@ class Wallet extends React.PureComponent {
                     }}
                     onClick={this.toggleModal}
                   >
-                    <StyledFaQrcode className="ml-1" />
+                    <StyledQrcode className="ml-1" />
                   </Button>
                   {this.props.addr}
                   <Modal
@@ -162,7 +158,7 @@ class Wallet extends React.PureComponent {
                   >
                     <ModalHeader toggle={this.toggleModal} />
                     <ModalBody className="text-center">
-                      <h3 className="text-truncate">{this.props.addr}</h3>
+                      <h4 className="text-truncate">{this.props.addr}</h4>
                       <br />
                       <QRCode value={this.props.addr} size={256} />
                     </ModalBody>
@@ -213,11 +209,7 @@ class Wallet extends React.PureComponent {
                       onClick={this.toggle}
                     >
                       {this.state.flaggedMessage}
-                      <StyledIoIosInformationCircle
-                        color="gray"
-                        className="ml-1"
-                        id="flaggedToolip"
-                      />
+                      <InfoCircleIcon id="flaggedToolip" />
                     </Button>
                     <UncontrolledTooltip
                       placement="right-end"

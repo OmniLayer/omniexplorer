@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { IoIosInformationCircle } from 'react-icons/io';
+import InfoCircleIcon from 'components/InfoCircleIcon';
 import {
   Card,
   CardBody,
@@ -78,11 +78,6 @@ const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-3 mx-auto text-md-left',
 })``;
 
-const StyledIoIosInformationCircle = styled(IoIosInformationCircle)`
-  color: cadetblue !important;
-  font-size: 1.5rem;
-`;
-
 const HistoryContainer = ContainerBase;
 
 const StyledRow = styled(Row).attrs({})``;
@@ -114,7 +109,7 @@ export function CrowdsaleDetail(props) {
   if (!crowdsale) return loading;
 
   // if the crowdsale doesn't exist redirect to not found
-  if (!crowdsale.propertyiddesired) return <Redirect to='/not-found' />;
+  if (!crowdsale.propertyiddesired) return <Redirect to="/not-found" />;
 
   const dessiredToken = props.tokens[crowdsale.propertyiddesired.toString()];
   if (!dessiredToken) return loading;
@@ -146,7 +141,7 @@ export function CrowdsaleDetail(props) {
   );
 
   const pathname = props.addr ? `/address/${props.addr}` : '';
-  const hashLink = (v) => `${pathname}/${v}`;
+  const hashLink = v => `${pathname}/${v}`;
   const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
 
   const listProps = {
@@ -160,13 +155,19 @@ export function CrowdsaleDetail(props) {
     getItemKey,
   };
 
-  const shareUrl = `https://www.omniexplorer.info/crowdsale/${crowdsale.propertyid}`;
-  const shareTitle = (crowdsale.data || crowdsale.name || crowdsale.propertyname || crowdsale.type);
+  const shareUrl = `https://www.omniexplorer.info/crowdsale/${
+    crowdsale.propertyid
+  }`;
+  const shareTitle =
+    crowdsale.data ||
+    crowdsale.name ||
+    crowdsale.propertyname ||
+    crowdsale.type;
   return (
     <Container fluid className="mt-3 p-1">
       <Helmet>
-        <meta name="twitter:card" content="summary"></meta>
-        <meta property="twitter:title" content={`OmniLayer crowdsale`} />
+        <meta name="twitter:card" content="summary" />
+        <meta property="twitter:title" content="OmniLayer crowdsale" />
         <meta name="twitter:description" content={shareTitle} />
       </Helmet>
       {warningMessage}
@@ -175,38 +176,34 @@ export function CrowdsaleDetail(props) {
           <StyledDivContent>
             <Table responsive className="table-horizontal">
               <thead>
-              <tr>
-                <td className="border-top-0">
-                  <AssetLink asset={crowdsale.propertyid} state={props.state}>
-                    <AssetLogo
-                      asset={crowdsale}
-                      prop={crowdsale.propertyid}
-                      className="img-thumbnail d-md-inline-block"
-                      style={{
-                        width: '4rem',
-                        height: '4rem',
-                      }}
-                    />
-                  </AssetLink>
-                </td>
-                <td className="border-top-0 align-bottom">
-                  <h2 className="d-md-inline-block align-bottom mb-0">
-                    {crowdsale.name}{' '}
-                    <span>{`(#${crowdsale.propertyid})`}</span>
-                    <StyledIoIosInformationCircle
-                      color="gray"
-                      className="ml-1"
-                      id="crowdsaleDivisible"
-                    />
-                    <UncontrolledTooltip
-                      placement="right-end"
-                      target="crowdsaleDivisible"
-                    >
-                      <FormattedMessage {...divisibleMsg} />
-                    </UncontrolledTooltip>
-                  </h2>
-                </td>
-              </tr>
+                <tr>
+                  <td className="border-top-0">
+                    <AssetLink asset={crowdsale.propertyid} state={props.state}>
+                      <AssetLogo
+                        asset={crowdsale}
+                        prop={crowdsale.propertyid}
+                        className="img-thumbnail d-md-inline-block"
+                        style={{
+                          width: '4rem',
+                          height: '4rem',
+                        }}
+                      />
+                    </AssetLink>
+                  </td>
+                  <td className="border-top-0 align-bottom">
+                    <h2 className="d-md-inline-block align-bottom mb-0">
+                      {crowdsale.name}{' '}
+                      <span>{`(#${crowdsale.propertyid})`}</span>
+                      <InfoCircleIcon id="crowdsaleDivisible" />
+                      <UncontrolledTooltip
+                        placement="right-end"
+                        target="crowdsaleDivisible"
+                      >
+                        <FormattedMessage {...divisibleMsg} />
+                      </UncontrolledTooltip>
+                    </h2>
+                  </td>
+                </tr>
               </thead>
               <AssetInfo {...crowdsale} />
             </Table>
@@ -224,22 +221,22 @@ export function CrowdsaleDetail(props) {
               <ListGroupItem>
                 <h5>Total tokens created</h5>
                 <h3>
-                    <span>
-                      <SanitizedFormattedNumber value={crowdsale.totaltokens} />
-                    </span>
+                  <span>
+                    <SanitizedFormattedNumber value={crowdsale.totaltokens} />
+                  </span>
                 </h3>
               </ListGroupItem>
               <ListGroupItem>
                 <h5>Tokens Purchased</h5>
                 <h3>
-                    <span>
-                      <SanitizedFormattedNumber
-                        value={
-                          crowdsale.totaltokens - crowdsale.issuerbonustokens
-                        }
-                        forceDecimals={crowdsale.divisible}
-                      />
-                    </span>
+                  <span>
+                    <SanitizedFormattedNumber
+                      value={
+                        crowdsale.totaltokens - crowdsale.issuerbonustokens
+                      }
+                      forceDecimals={crowdsale.divisible}
+                    />
+                  </span>
                 </h3>
               </ListGroupItem>
               <ListGroupItem>
@@ -247,43 +244,44 @@ export function CrowdsaleDetail(props) {
                   Tokens created for the issuer ({crowdsale.percenttoissuer}%)
                 </h5>
                 <h3>
+                  <span>
+                    <SanitizedFormattedNumber
+                      value={crowdsale.issuerbonustokens}
+                      forceDecimals={crowdsale.divisible}
+                    />
+                  </span>
+                </h3>
+              </ListGroupItem>
+              {!crowdsaleClosed && (
+                <ListGroupItem>
+                  <h5>Current early bird bonus</h5>
+                  <h3>
                     <span>
                       <SanitizedFormattedNumber
-                        value={crowdsale.issuerbonustokens}
+                        value={earlybonus}
                         forceDecimals={crowdsale.divisible}
+                        fractionDigits={3}
                       />
+                      %
                     </span>
-                </h3>
-              </ListGroupItem>
-              {!crowdsaleClosed &&
-              <ListGroupItem>
-                <h5>Current early bird bonus</h5>
-                <h3>
-                      <span>
-                        <SanitizedFormattedNumber
-                          value={earlybonus}
-                          forceDecimals={crowdsale.divisible}
-                          fractionDigits={3}
-                        />%
-                      </span>
-                </h3>
-              </ListGroupItem>
-              }
+                  </h3>
+                </ListGroupItem>
+              )}
             </ListGroup>
             <CardBody>
               <CardTitle className="text-light">Share this page</CardTitle>
               <FacebookShareButton
                 url={shareUrl}
                 quote={shareTitle}
-                className="network-share-button">
-                <FacebookIcon
-                  size={32}
-                  round />
+                className="network-share-button"
+              >
+                <FacebookIcon size={32} round />
               </FacebookShareButton>
               <TwitterShareButton
                 url={shareUrl}
                 title={shareTitle}
-                className="network-share-button">
+                className="network-share-button"
+              >
                 <TwitterIcon size={32} round />
               </TwitterShareButton>
               <LinkedinShareButton
@@ -291,22 +289,23 @@ export function CrowdsaleDetail(props) {
                 title={shareTitle}
                 windowWidth={750}
                 windowHeight={600}
-                className="network-share-button">
-                <LinkedinIcon
-                  size={32}
-                  round />
+                className="network-share-button"
+              >
+                <LinkedinIcon size={32} round />
               </LinkedinShareButton>
               <TelegramShareButton
                 url={shareUrl}
                 title={shareTitle}
-                className="network-share-button">
+                className="network-share-button"
+              >
                 <TelegramIcon size={32} round />
               </TelegramShareButton>
               <WhatsappShareButton
                 url={shareUrl}
                 title={shareTitle}
                 separator=":: "
-                className="network-share-button">
+                className="network-share-button"
+              >
                 <WhatsappIcon size={32} round />
               </WhatsappShareButton>
               <RedditShareButton
@@ -314,18 +313,15 @@ export function CrowdsaleDetail(props) {
                 title={shareTitle}
                 windowWidth={660}
                 windowHeight={460}
-                className="network-share-button">
-                <RedditIcon
-                  size={32}
-                  round />
+                className="network-share-button"
+              >
+                <RedditIcon size={32} round />
               </RedditShareButton>
             </CardBody>
           </StyledCard>
         </Col>
       </Row>
-      <Row>
-        &nbsp;
-      </Row>
+      <Row>&nbsp;</Row>
       <Row>
         <Col>
           <HistoryContainer fluid>
@@ -337,9 +333,7 @@ export function CrowdsaleDetail(props) {
                 />
               </Col>
             </StyledRow>
-            <List
-              {...listProps}
-            />
+            <List {...listProps} />
           </HistoryContainer>
         </Col>
       </Row>
@@ -376,6 +370,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(
-  withConnect,
-)(CrowdsaleDetail);
+export default compose(withConnect)(CrowdsaleDetail);

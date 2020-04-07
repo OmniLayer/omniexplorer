@@ -7,13 +7,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-// import { push } from 'connected-react-router';
 
-import { IoIosSearch } from 'react-icons/io';
+import { Search } from '@styled-icons/fa-solid/Search';
+
 import { Tooltip } from 'reactstrap';
-import messages from './messages';
 import { compose } from 'redux';
 import history from 'utils/history';
+import messages from './messages';
 
 const Input = styled.input.attrs({
   type: 'number',
@@ -30,20 +30,10 @@ const Wrapper = styled.div.attrs({
   font-size: 14px;
 `;
 
-// class JumpToBlock extends React.PureComponent {
 export function JumpToBlock(props) {
-  // eslint-disable-line react/prefer-stateless-function
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     blockToJump: '',
-  //     tooltipOpen: false,
-  //   };
-  // }
   const [blockToJump, setBlockToJump] = useState('');
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  // const [idTimeout, setIdTimeout] = useState('');
-  
+
   const timerToTooltipOpen = useRef(false);
   useEffect(() => {
     if (tooltipOpen) {
@@ -52,25 +42,19 @@ export function JumpToBlock(props) {
         1500,
       );
     }
-    
+
     return () => {
       clearTimeout(timerToTooltipOpen.current);
     };
   }, [tooltipOpen]);
-  
-  // componentWillUnmount();
-  // {
-  //   clearTimeout(idTimeout);
-  // }
-  
-  const isValid = value =>
-    props.onValidate && value && props.onValidate(value);
-  
+
+  const isValid = value => props.onValidate && value && props.onValidate(value);
+
   const handleJumpToBlock = e => {
     // setBlockToJump(blockToJump.trim());
     history.push(`/block/${blockToJump}`);
   };
-  
+
   const handleKeyUp = e => {
     const { value } = e.target;
     if (e.keyCode === 13 && value) {
@@ -92,16 +76,12 @@ export function JumpToBlock(props) {
         onInput={e => setBlockToJump(e.target.value)}
         onKeyUp={e => handleKeyUp(e)}
       />
-      <IoIosSearch
-        className="jump-to-block-icon"
-        size={24}
+      <Search
+        className="jump-to-block-icon ml-1"
+        size={21}
         onClick={e => handleJumpToBlock(e)}
       />
-      <Tooltip
-        hideArrow
-        isOpen={tooltipOpen}
-        target="jump-to-block"
-      >
+      <Tooltip hideArrow isOpen={tooltipOpen} target="jump-to-block">
         Requested block is invalid
       </Tooltip>
     </Wrapper>
@@ -111,8 +91,8 @@ export function JumpToBlock(props) {
 
 JumpToBlock.propTypes = {};
 
-const mapDispatchToProps = (dispatch) => ({
-  push: (path) => {
+const mapDispatchToProps = dispatch => ({
+  push: path => {
     dispatch(history.push(path));
   },
 });
@@ -122,6 +102,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(
-  withConnect,
-)(JumpToBlock);
+export default compose(withConnect)(JumpToBlock);

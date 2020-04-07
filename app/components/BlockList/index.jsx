@@ -21,7 +21,7 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import StyledLink from 'components/StyledLink';
-import { IoIosInformationCircle } from 'react-icons/io';
+import InfoCircleIcon from 'components/InfoCircleIcon';
 
 import messages from './messages';
 
@@ -109,7 +109,8 @@ class BlockList extends React.PureComponent {
           <div style={{ padding: '0.5rem 1rem' }} className="text-left">
             {Object.keys(block.value.details).map((prop, idx) => (
               <span key={`prop${prop}${idx}`}>
-                #{prop}: $<SanitizedFormattedNumber
+                #{prop}: $
+                <SanitizedFormattedNumber
                   value={block.value.details[prop].value_usd_rounded}
                 />
                 <br />
@@ -128,13 +129,17 @@ class BlockList extends React.PureComponent {
 
         return (
           <AssetLink key={key} asset={prop} state={this.props.state}>
-            <AssetLogo asset={asset} prop={prop} style={{width: '2rem', height: '2rem'}}/>
+            <AssetLogo
+              asset={asset}
+              prop={prop}
+              style={{ width: '2rem', height: '2rem' }}
+            />
           </AssetLink>
         );
       });
       return logos;
     };
-    
+
     return (
       <StyledTable responsive striped hover>
         <thead>
@@ -147,11 +152,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.txcount} />
-              <IoIosInformationCircle
-                color="gray"
-                className="ml-1"
-                id="blockListTransactionCount"
-              />
+              <InfoCircleIcon id="blockListTransactionCount" />
               <UncontrolledTooltip
                 placement="right-end"
                 target="blockListTransactionCount"
@@ -161,11 +162,7 @@ class BlockList extends React.PureComponent {
             </th>
             <th className="text-right">
               <FormattedMessage {...messages.columns.usdvalue} />
-              <IoIosInformationCircle
-                color="gray"
-                className="ml-1"
-                id="blockListUSDValue"
-              />
+              <InfoCircleIcon id="blockListUSDValue" />
               <UncontrolledTooltip
                 placement="right-end"
                 target="blockListUSDValue"
