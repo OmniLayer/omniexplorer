@@ -16,12 +16,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
 import Transactions from 'containers/Transactions';
 import AddressDetail from 'containers/AddressDetail';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search/Loadable';
 import Properties from 'containers/Properties/Loadable';
 import AssetDetail from 'containers/AssetDetail/Loadable';
@@ -145,8 +144,9 @@ export function App({
           <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
           <Route exact path="/activations" component={Activations} />
           {/*<Route exact path="/exchange" component={Exchange} />*/}
-          <Route path="" component={NotFoundPage} />
-          <Route component={NotFoundPage} />
+          <Route>
+            <Redirect to='404.html'/>
+          </Route>
         </Switch>
       </ErrorBoundary>
       <Footer />
