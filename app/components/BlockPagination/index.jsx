@@ -28,19 +28,21 @@ function BlockPagination({ block, latest }) {
           cursor: not-allowed;
         `;
 
+  const prevBlock = parseInt(block, 10) - 1;
+  const nextBlock = parseInt(block, 10) + 1;
   return (
     <Row>
       <Col sm={{ size: 2 }}>
         <H4>
-          <LinkPrevious href={`/block/${parseInt(block, 10) - 1}`}>
-            &lt;&lt; Prev Block
+          <LinkPrevious href={`/block/${prevBlock}`}>
+            &lt;&lt; Block {prevBlock}
           </LinkPrevious>
         </H4>
       </Col>
       <Col sm={{ size: 2, offset: 8 }} className="text-right">
         <H4>
-          <LinkNext href={`/block/${1 + parseInt(block, 10)}`}>
-            Next Block &gt;&gt;
+          <LinkNext href={`/block/${nextBlock}`}>
+            Block {nextBlock} &gt;&gt;
           </LinkNext>
         </H4>
       </Col>
