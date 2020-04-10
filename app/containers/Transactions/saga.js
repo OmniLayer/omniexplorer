@@ -48,7 +48,7 @@ export function* getTransactions({ addr }) {
 
   const transactions = yield call(request, requestURL, getTransactionsOptions);
   yield put(
-    transactionsLoaded(transactions.transactions, transactions.pages, addr),
+    transactionsLoaded(transactions.transactions, transactions.pages, addr, transactions.txcount),
   );
 }
 
