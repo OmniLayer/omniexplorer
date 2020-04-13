@@ -24,25 +24,28 @@ export const initialState = {
   pageCount: 0,
   currentPage: 1,
   txType: null,
+  txCount: 0,
   unconfirmed: false,
   stamp: null,
 };
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 /* eslint-disable default-case, no-param-reassign */
-const transactionsReducer = (state = initialState, { type, addr, transactions, pages, page, txType } = action) =>
+const transactionsReducer = (state = initialState, { type, addr, transactions, pages, page, txType, txcount } = action) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_TRANSACTIONS:
         draft.loading = true;
         draft.transactions = [];
         draft.pageCount = 0;
+        draft.txCount = 0;
         draft.unconfirmed = false;
         break;
       case LOAD_UNCONFIRMED:
         draft.loading = true;
         draft.transactions = [];
         draft.pageCount = 0;
+        draft.txCount = 0;
         draft.currentPage = 1;
         draft.unconfirmed = true;
         break;
@@ -51,6 +54,7 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
 
         draft.transactions = addr ? transactions.filter(tx => !!tx.confirmations) : transactions;
         draft.pageCount = state.unconfirmed ? Math.ceil(transactions.length / maxPagesByMedia) : pages;
+        draft.txCount = txcount;
         draft.loading = false;
         draft.stamp = Date.now();
         break;

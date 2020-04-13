@@ -75,7 +75,8 @@ export function Transactions(props) {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
     if (
       !props.loading &&
-      (!props.transactions.stamp || unconfirmedTxs !== props.transactions.unconfirmed)
+      (!props.transactions.stamp ||
+        unconfirmedTxs !== props.transactions.unconfirmed)
     ) {
       loadTxs(!unconfirmedTxs);
     }
@@ -145,7 +146,14 @@ export function Transactions(props) {
 
   const header = (
     <TransactionListHeader
-      customHeader={props.unconfirmed ? messages.unconfirmedHeader : null}
+      customHeader={
+        props.unconfirmed
+          ? messages.unconfirmedHeader
+          : {
+            id: 'app.components.Transactions.unconfirmedHeader',
+            defaultMessage: `${props.transactions.txCount} Transactions`,
+          }
+      }
       totalPreText={
         props.unconfirmed && props.transactions ? 'Displaying the ' : null
       }
