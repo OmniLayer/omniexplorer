@@ -15,7 +15,6 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import StatusConfirmation from 'components/StatusConfirmation';
 import WrapperLink from 'components/WrapperLink';
@@ -28,8 +27,6 @@ import 'components/Transaction/transaction.scss';
 import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
 import StyledIconCopy from 'components/StyledIconCopy';
-import GreenArrowForward from 'components/GreenArrowForward';
-import GreenArrowDown from 'components/GreenArrowDown';
 import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
 import CrowdsalePurchaseAmounts from 'components/CrowdsalePurchaseAmounts';
@@ -42,37 +39,37 @@ class CrowdsaleTransaction extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    
+
     this.state = {
       tooltipTxOpen: false,
       tooltipSenderOpen: false,
       tooltipRefererOpen: false,
     };
   }
-  
+
   toggleTxTooltip = () => {
     this.setState({ tooltipTxOpen: true });
     setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
   };
-  
+
   toggleSenderTooltip = () => {
     this.setState({ tooltipSenderOpen: true });
     setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
   };
-  
+
   toggleRefererTooltip = () => {
     this.setState({ tooltipRefererOpen: true });
     setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
   };
-  
+
   getHighlightIfOwner(address) {
     return this.isOwner(address) ? 'text-success' : '';
   }
-  
+
   isOwner(address) {
     return this.props.addr ? this.props.addr === address : false;
   }
-  
+
   render() {
     let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
     statusCSSClass = this.props.valid
@@ -80,18 +77,18 @@ class CrowdsaleTransaction extends React.PureComponent {
       : this.props.confirmations === 0
         ? `${statusCSSClass} btn-warning`
         : `${statusCSSClass} btn-danger`;
-    
+
     const status = StatusConfirmation({
       valid: this.props.valid,
       confirmations: this.props.confirmations,
       confirmed: CONFIRMATIONS,
     });
-    
+
     let arrowcname;
     let arrowcnameright;
     let addresscname;
     let showreferencecname;
-    
+
     if (this.props.referenceaddress) {
       arrowcname = 'transaction-arrow-icon';
       arrowcnameright = 'd-md-inline-flex';
@@ -101,42 +98,21 @@ class CrowdsaleTransaction extends React.PureComponent {
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-    
+
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
-    
+
     const TransactionLabel = props =>
       props.type_int === 51 ? (
         <WrapperTxLabel>
           {props.crowdsale.propertyname} crowdsale started
         </WrapperTxLabel>
       ) : (
-        <WrapperTxLabel>
-          <SanitizedFormattedNumber
-            value={props.amount}
-            forceDecimals={props.divisible}
-          />{' '}
-          {props.dessiredToken.propertyname}
-          &nbsp;
-          <GreenArrowForward className="d-none d-md-inline-flex" />
-          <GreenArrowDown className="d-md-none mx-auto d-block" />
-          &nbsp;
-          <SanitizedFormattedNumber
-            value={props.purchasedtokens}
-            fractionDigits={8}
-          />{' '}
-          {props.crowdsale.propertyname}
-          <br />
-          (+
-          <SanitizedFormattedNumber
-            value={props.issuertokens}
-            fractionDigits={8}
-          />{' '}
-          to Issuer)
-        </WrapperTxLabel>
-        // <CrowdsalePurchaseAmounts {...props} />
-  );
+        <div>
+          <CrowdsalePurchaseAmounts {...props} />
+        </div>
+      );
 
     const txAsset =
       this.props.type_int === 51
@@ -146,12 +122,12 @@ class CrowdsaleTransaction extends React.PureComponent {
         }
         : {
           ...this.props.dessiredToken,
-          name: this.props.dessiredToken.propertyname,
+          name: this.props.dessiredToken.name,
         };
-    
+
     return (
       <div className="transation-result mx-auto text-center-down-md">
-        <Row className="align-items-end pb-0">
+        <Row className="pb-0">
           <Col sm="12" md="1">
             <AssetLink asset={txAsset.propertyid} state={this.props.state}>
               <AssetLogo

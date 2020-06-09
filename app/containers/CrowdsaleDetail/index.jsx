@@ -173,7 +173,7 @@ export function CrowdsaleDetail(props) {
       <Row>
         <Col sm="12" md="9">
           <StyledDivContent>
-            <Table responsive className="table-horizontal">
+            <Table responsive hover>
               <thead>
                 <tr>
                   <td className="border-top-0">

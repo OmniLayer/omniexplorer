@@ -5,14 +5,10 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
-import GreenArrowForward from 'components/GreenArrowForward';
-import GreenArrowDown from 'components/GreenArrowDown';
-// import PropTypes from 'prop-types';
-// const ForkIcon = require(`images/fork.svg`);
-// import { ReactComponent as ForkIcon } from 'images/fork.svg';
 import fork from 'images/fork.svg';
 
 const WrapperTxLabel = styled.span`
@@ -22,73 +18,50 @@ const WrapperTxLabel = styled.span`
 const NewCrowdsaleTxDetail = (props) => (
   <WrapperTxLabel>
     <p>
-      <span>Crowdsale Purchase</span>
-      &nbsp;
-      <SanitizedFormattedNumber
-        value={props.amount}
-        forceDecimals={props.divisible}
-      />
-      &nbsp;
+      <span>
+        Crowdsale Purchase
+        &nbsp;
+        <SanitizedFormattedNumber
+          value={props.amount}
+          forceDecimals={props.divisible}
+        />
+      </span>
+      &nbsp;&nbsp;
+      <span className="text-muted">
+        {props.dessiredToken.name} (#{props.dessiredToken.propertyid})
+      </span>
     </p>
-    <SanitizedFormattedNumber
-      value={props.amount}
-      forceDecimals={props.divisible}
-    />
-    {props.dessiredToken.propertyname}
-    &nbsp;
-    {/*<ForkIcon />*/}
-    <img src={fork} alt="" width={24} />
-    <GreenArrowForward className="d-none d-md-inline-flex" />
-    <GreenArrowDown className="d-md-none mx-auto d-block" />
-    &nbsp;
-    <SanitizedFormattedNumber
-      value={props.purchasedtokens}
-      fractionDigits={8}
-    />
-    {props.crowdsale.propertyname}
-    <br />
-    (+
-    <SanitizedFormattedNumber
-      value={props.issuertokens}
-      fractionDigits={8}
-    />
-    to Issuer)
+    <div className="text-muted d-inline-block">
+      {props.crowdsale.propertyname} (#{props.crowdsale.propertyid})
+    </div>
+    <br className="d-lg-none" />
+    <div className="d-inline-block">
+      <img src={fork} alt="" width={44} className="align-top" />
+    </div>
+    <div style={{ display: 'inline-grid' }}>
+      <span className="text-left">
+        Purchaser
+        &nbsp;
+        <SanitizedFormattedNumber
+          value={props.purchasedtokens}
+          fractionDigits={8}
+        />
+      </span>
+      <span className="text-left">
+        Issuer
+        &nbsp;
+        <SanitizedFormattedNumber
+          value={props.issuertokens}
+          fractionDigits={8}
+        />
+      </span>
+    </div>
   </WrapperTxLabel>
 );
-const OldCrowdsaleTxDetail = (props) => <WrapperTxLabel>
-  <SanitizedFormattedNumber
-    value={props.amount}
-    forceDecimals={props.divisible}
-  />
-  {props.dessiredToken.propertyname}
-  &nbsp;
-  {/*<ForkIcon />*/}
-  <img src={fork} alt="" width={24} />
-  <GreenArrowForward className="d-none d-md-inline-flex" />
-  <GreenArrowDown className="d-md-none mx-auto d-block" />
-  &nbsp;
-  <SanitizedFormattedNumber
-    value={props.purchasedtokens}
-    fractionDigits={8}
-  />
-  {props.crowdsale.propertyname}
-  <br />
-  (+
-  <SanitizedFormattedNumber
-    value={props.issuertokens}
-    fractionDigits={8}
-  />
-  to Issuer)
-</WrapperTxLabel>;
 
 function CrowdsalePurchaseAmounts(props) {
   return (
-    <div>
-      <NewCrowdsaleTxDetail {...props} />
-      <br />
-      <br />
-      <OldCrowdsaleTxDetail {...props} />
-    </div>
+    <NewCrowdsaleTxDetail {...props} />
   );
 }
 
