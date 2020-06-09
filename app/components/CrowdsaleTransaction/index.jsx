@@ -32,6 +32,7 @@ import GreenArrowForward from 'components/GreenArrowForward';
 import GreenArrowDown from 'components/GreenArrowDown';
 import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
+import CrowdsalePurchaseAmounts from 'components/CrowdsalePurchaseAmounts';
 
 const WrapperTxLabel = styled.span`
   font-size: 1.25rem !important;
@@ -134,8 +135,9 @@ class CrowdsaleTransaction extends React.PureComponent {
           />{' '}
           to Issuer)
         </WrapperTxLabel>
-      );
-    
+        // <CrowdsalePurchaseAmounts {...props} />
+  );
+
     const txAsset =
       this.props.type_int === 51
         ? {
