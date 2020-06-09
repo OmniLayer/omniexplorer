@@ -51,7 +51,7 @@ export function AssetDetail(props) {
   );
 
   const asset = getProp(propertyid);
-  if (!asset) {
+  if (!asset || asset.isFetching) {
     return loading;
   }
 

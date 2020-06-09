@@ -5,8 +5,8 @@ import encoderURIParams from 'utils/encoderURIParams';
 import chunk from 'lodash/chunk';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import { LOAD_MANY_PROPERTIES, LOAD_PROPERTY, LOAD_PROPERTY_DEEP } from './constants';
-import { cancelFetch, updateFetch, updateFetchMany } from './actions';
+import { LOAD_MANY_PROPERTIES, LOAD_PROPERTY, LOAD_PROPERTY_DEEP, FETCHING_PROPERTY } from './constants';
+import { cancelFetch, updateFetch, updateFetchMany, startFetch } from './actions';
 import { getTokens } from './selectors';
 
 function* fetchSingleProperty(action) {
@@ -15,14 +15,18 @@ function* fetchSingleProperty(action) {
 
   const state = yield select(st => st);
   const { tokens } = state.token;
+  let requestedProp = tokens[action.id.toString()];
 
-  if (action.id && !tokens[action.id.toString()]) {
+  if (action.id && (!requestedProp || !requestedProp.isFetching)) {
+    yield put({ type: FETCHING_PROPERTY, propertyId: action.id });
     const property = yield call(fetchProperty, action.id);
 
     if (!property) {
       const error = new Error(`Failed to fetch property ${action.id}`);
       throw error;
     }
+
+    return property;
   } else {
     // nothing to load..
     yield call(cancelFetch);
@@ -32,8 +36,10 @@ function* fetchSingleProperty(action) {
 export function* watchFetchProperty() {
   while (true) {
     const prevTokenSelector = yield select(getTokens);
+    console.log('LOAD_PROPERTY_DEEP');
     const { id } = yield take(LOAD_PROPERTY_DEEP);
     const newTokenSelector = yield select(getTokens);
+
     if (prevTokenSelector !== newTokenSelector || !newTokenSelector[id]) {
       yield fork(fetchPropertyDeep, { id });
     }
@@ -41,13 +47,16 @@ export function* watchFetchProperty() {
 }
 
 function* fetchPropertyDeep(action) {
+  yield delay(1000);
   const state = yield select(st => st);
   const { tokens } = state.token;
   let property = tokens[action.id.toString()];
 
   // load token if is still not requested
-  if (!property) {
+  if (!property || !property.isFetching) {
     console.log('fetch property ', action.id);
+    yield put({ type: FETCHING_PROPERTY, propertyId: action.id });
+
     property = yield call(fetchProperty, action.id);
 
     if (!property) {
@@ -58,7 +67,7 @@ function* fetchPropertyDeep(action) {
 
   // load desired property if it's still not requested
   const propertyiddesired = (property.propertyiddesired || '').toString();
-  if (propertyiddesired && !tokens[propertyiddesired]) {
+  if (propertyiddesired && (!tokens[propertyiddesired] || !tokens[propertyiddesired].isFetching)) {
     console.log('fetch desired property ', propertyiddesired);
     yield call(fetchProperty, propertyiddesired);
   }
@@ -67,6 +76,7 @@ function* fetchPropertyDeep(action) {
 function* fetchProperty(propertyId) {
   const requestURL = `${API_URL_BASE}/property/${propertyId}`;
   const property = yield call(request, requestURL);
+
   yield put(updateFetch(property));
 
   return property;
@@ -90,13 +100,14 @@ function* watchFetchManyProperties() {
 }
 
 function* fetchManyProperties(action) {
+  yield delay(1000);
   // load token if is still not requested
 
   const requestURL = `${API_URL_BASE}/property/bulk`;
   const state = yield select(st => st);
-  const { tokens } = state.token;
+  const { token } = state;
 
-  if (!tokens.isFetching) {
+  if (!token.isFetching || !token.lastFetched) {
     const getOptions = body => ({
       method: 'POST',
       headers: {

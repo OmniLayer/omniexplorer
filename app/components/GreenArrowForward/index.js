@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 const GreenArrowForward = styled(ArrowRight).attrs({
   size: 20,
-  color: 'lightgreen',
+  color: 'green',
 })`
   vertical-align: middle;
 `;

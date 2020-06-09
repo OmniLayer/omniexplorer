@@ -1,0 +1,95 @@
+// GET dex/ecosystem/production/orders/1/3
+/**
+  recovery all orders and history for pair "OMNI" (1) - "MaidSafeCoin" (3)
+*/
+{
+  "bids": {
+    "cancels": [],
+    "orders": [
+      {
+        "accepted_amount": "0",
+        "available_amount": "97",
+        "desired_amount": "863300000",
+        "propertyid_desired": 1,
+        "propertyid_selling": 3,
+        "seller": "1FPs6KLRkk1PbPXtUxn6wx9LnkvQduCrF6",
+        "status": "active",
+        "time": "2020-02-27 12:03:17",
+        "total_amount": "97",
+        "txhash": "c9a33b8c26b59e5d7017d437161bf5d31f6e0bd999982eaa0e99a845043438c7",
+        "unit_price": "0.089"
+      },
+      {
+        "accepted_amount": "0",
+        "available_amount": "349",
+        "desired_amount": "3106100000",
+        "propertyid_desired": 1,
+        "propertyid_selling": 3,
+        "seller": "16ME1WYGeEsf9Byn7W34KoaZjG2QHUsCfy",
+        "status": "active",
+        "time": "2020-02-12 09:35:15",
+        "total_amount": "349",
+        "txhash": "c627bb52af6366dcb6ace4ec488c431473d59a261d5ced6d02431d5108d1eb92",
+        "unit_price": "0.089"
+      },
+      {
+        "accepted_amount": "0",
+        "available_amount": "233",
+        "desired_amount": "2073700000",
+        "propertyid_desired": 1,
+        "propertyid_selling": 3,
+        "seller": "1P1BgqejXQHRSsWhUsX3kC2tFHjaLHLfDR",
+        "status": "active",
+        "time": "2019-12-31 12:32:52",
+        "total_amount": "233",
+        "txhash": "101d160dd8056c597888cff933521b76006ccf82a755e58aafe2cfdd86622928",
+        "unit_price": "0.089"
+      }
+    ]
+  },
+  "asks": {
+    "cancels": [],
+    "orders": [
+      {
+        "accepted_amount": "0",
+        "available_amount": "97",
+        "desired_amount": "863300000",
+        "propertyid_desired": 1,
+        "propertyid_selling": 3,
+        "seller": "1FPs6KLRkk1PbPXtUxn6wx9LnkvQduCrF6",
+        "status": "active",
+        "time": "2020-02-27 12:03:17",
+        "total_amount": "97",
+        "txhash": "c9a33b8c26b59e5d7017d437161bf5d31f6e0bd999982eaa0e99a845043438c7",
+        "unit_price": "0.089"
+      },
+      {
+        "accepted_amount": "0",
+        "available_amount": "349",
+        "desired_amount": "3106100000",
+        "propertyid_desired": 1,
+        "propertyid_selling": 3,
+        "seller": "16ME1WYGeEsf9Byn7W34KoaZjG2QHUsCfy",
+        "status": "active",
+        "time": "2020-02-12 09:35:15",
+        "total_amount": "349",
+        "txhash": "c627bb52af6366dcb6ace4ec488c431473d59a261d5ced6d02431d5108d1eb92",
+        "unit_price": "0.089"
+      },
+      {
+        "accepted_amount": "0",
+        "available_amount": "233",
+        "desired_amount": "2073700000",
+        "propertyid_desired": 1,
+        "propertyid_selling": 3,
+        "seller": "1P1BgqejXQHRSsWhUsX3kC2tFHjaLHLfDR",
+        "status": "active",
+        "time": "2019-12-31 12:32:52",
+        "total_amount": "233",
+        "txhash": "101d160dd8056c597888cff933521b76006ccf82a755e58aafe2cfdd86622928",
+        "unit_price": "0.089"
+      }
+    ]
+  },
+  "status": 200
+}

@@ -1,0 +1,303 @@
+// GET dex/ecosystem/production/1
+/**
+  recovery all pairs for prop 1 "OMNI"
+*/
+{
+  "details": {
+    "blocktime": 1377994675,
+    "category": "N/A",
+    "creationtxid": "0000000000000000000000000000000000000000000000000000000000000000",
+    "data": "Omni tokens serve as the binding between Bitcoin, smart properties and contracts created on the Omni Layer.",
+    "divisible": true,
+    "fixedissuance": false,
+    "issuer": "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P",
+    "managedissuance": false,
+    "name": "Omni Token",
+    "propertyid": 1,
+    "subcategory": "N/A",
+    "totaltokens": "618859.51405471",
+    "url": "http://www.omnilayer.org"
+  },
+  "markets",
+  : [
+  {
+    "askprice": 0.089,
+    "bidprice": 0.01691272,
+    "lastprice": 0.089,
+    "propertyid": 3,
+    "propertyname": "MaidSafeCoin",
+    "propertytype": 1,
+    "supply": 4453
+  },
+  {
+    "askprice": 1,
+    "bidprice": 0.94584588,
+    "lastprice": 0.94584588,
+    "propertyid": 31,
+    "propertyname": "TetherUS",
+    "propertytype": 2,
+    "supply": 1528981756
+  },
+  {
+    "askprice": 0,
+    "bidprice": 0.02,
+    "lastprice": 0,
+    "propertyid": 35,
+    "propertyname": "Agoras Tokens",
+    "propertytype": 2,
+    "supply": 0
+  },
+  {
+    "askprice": 0.00666666,
+    "bidprice": 0,
+    "lastprice": 0.00666667,
+    "propertyid": 39,
+    "propertyname": "Synereo AMP",
+    "propertytype": 2,
+    "supply": 2846184811456
+  },
+  {
+    "askprice": 0,
+    "bidprice": 0.2,
+    "lastprice": 0,
+    "propertyid": 41,
+    "propertyname": "EURt",
+    "propertytype": 2,
+    "supply": 0
+  },
+  {
+    "askprice": 0,
+    "bidprice": 0.1,
+    "lastprice": 0,
+    "propertyid": 64,
+    "propertyname": "PresidentTrumpCoin",
+    "propertytype": 2,
+    "supply": 0
+  },
+  {
+    "askprice": 0,
+    "bidprice": 0.01,
+    "lastprice": 0.027,
+    "propertyid": 66,
+    "propertyname": "GARY",
+    "propertytype": 2,
+    "supply": 0
+  },
+  {
+    "askprice": 0.00285714,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 72,
+    "propertyname": "Huluhacoin",
+    "propertytype": 2,
+    "supply": 3500000000000
+  },
+  {
+    "askprice": 0,
+    "bidprice": 24.97313515,
+    "lastprice": 0,
+    "propertyid": 97,
+    "propertyname": "BTC",
+    "propertytype": 1,
+    "supply": 0
+  },
+  {
+    "askprice": 0,
+    "bidprice": 5,
+    "lastprice": 0,
+    "propertyid": 102,
+    "propertyname": "Hit",
+    "propertytype": 1,
+    "supply": 0
+  },
+  {
+    "askprice": 0.059,
+    "bidprice": 0,
+    "lastprice": 0.06,
+    "propertyid": 117,
+    "propertyname": "CRYPTOINDEX",
+    "propertytype": 2,
+    "supply": 1474190000000
+  },
+  {
+    "askprice": 0.00454545,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 134,
+    "propertyname": "Leti-Bit",
+    "propertytype": 2,
+    "supply": 22000000000
+  },
+  {
+    "askprice": 0.0005,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 135,
+    "propertyname": "DarexTravel_Bit",
+    "propertytype": 2,
+    "supply": 100000000000000
+  },
+  {
+    "askprice": 0.07739936,
+    "bidprice": 0,
+    "lastprice": 0.07739,
+    "propertyid": 142,
+    "propertyname": "hybrid",
+    "propertytype": 2,
+    "supply": 1041793785714
+  },
+  {
+    "askprice": 20,
+    "bidprice": 0,
+    "lastprice": 0.00005,
+    "propertyid": 146,
+    "propertyname": "Bitcoin",
+    "propertytype": 1,
+    "supply": 200
+  },
+  {
+    "askprice": 0.02,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 155,
+    "propertyname": "ZARACOIN",
+    "propertytype": 2,
+    "supply": 50000000000
+  },
+  {
+    "askprice": 0.012,
+    "bidprice": 0.01,
+    "lastprice": 0.49,
+    "propertyid": 191,
+    "propertyname": "WEED",
+    "propertytype": 2,
+    "supply": 185000000000
+  },
+  {
+    "askprice": 1,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 310,
+    "propertyname": "worldwidecoin",
+    "propertytype": 2,
+    "supply": 100000000
+  },
+  {
+    "askprice": 2,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 321,
+    "propertyname": "Bitcoin Cash",
+    "propertytype": 1,
+    "supply": 1500
+  },
+  {
+    "askprice": 0.22,
+    "bidprice": 0,
+    "lastprice": 0.25,
+    "propertyid": 322,
+    "propertyname": "ROSECOIN",
+    "propertytype": 2,
+    "supply": 3593091520000
+  },
+  {
+    "askprice": 0.001,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 324,
+    "propertyname": "coolcoin",
+    "propertytype": 2,
+    "supply": 100000000000
+  },
+  {
+    "askprice": 0.0001,
+    "bidprice": 0,
+    "lastprice": 0.0001,
+    "propertyid": 327,
+    "propertyname": "force",
+    "propertytype": 2,
+    "supply": 10951560000000016
+  },
+  {
+    "askprice": 0.00002015,
+    "bidprice": 0.00002014,
+    "lastprice": 0,
+    "propertyid": 335,
+    "propertyname": "CoCoin",
+    "propertytype": 2,
+    "supply": 1000000000000
+  },
+  {
+    "askprice": 0.01666667,
+    "bidprice": 0,
+    "lastprice": 0.01666667,
+    "propertyid": 339,
+    "propertyname": "SuntimeCoin",
+    "propertytype": 2,
+    "supply": 6000599999880
+  },
+  {
+    "askprice": 0.002,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 345,
+    "propertyname": "OPRAH",
+    "propertytype": 2,
+    "supply": 100000000000
+  },
+  {
+    "askprice": 0.01504957,
+    "bidprice": 0.015,
+    "lastprice": 0,
+    "propertyid": 368,
+    "propertyname": "IDNI Agoras",
+    "propertytype": 2,
+    "supply": 79736500000000
+  },
+  {
+    "askprice": 0.00118343,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 369,
+    "propertyname": "RUBt",
+    "propertytype": 2,
+    "supply": 9585912850000
+  },
+  {
+    "askprice": 0.001,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 372,
+    "propertyname": "win coin",
+    "propertytype": 2,
+    "supply": 10000000000000
+  },
+  {
+    "askprice": 0.01,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 400,
+    "propertyname": "pruebacn",
+    "propertytype": 2,
+    "supply": 15000000000000
+  },
+  {
+    "askprice": 0,
+    "bidprice": 0.025,
+    "lastprice": 0.22,
+    "propertyid": 701,
+    "propertyname": "OTOCASH (OTO)",
+    "propertytype": 2,
+    "supply": 0
+  },
+  {
+    "askprice": 55200000000,
+    "bidprice": 0,
+    "lastprice": 0,
+    "propertyid": 736,
+    "propertyname": "Eddies",
+    "propertytype": 2,
+    "supply": 1120
+  }
+]
+}

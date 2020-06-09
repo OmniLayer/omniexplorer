@@ -84,7 +84,7 @@ export function TransactionDetail(props) {
       : id => props.tokens[id],
     props.activations.list,
   );
-  if (!property) return loading;
+  if (!property || property.isFetching) return loading;
 
   if (props.txdetail.transaction.notFound) {
     return (
