@@ -54,6 +54,13 @@ export function Token(props) {
     value = available;
   }
 
+  const reservedBalance = props.id == 0 ?
+    <span>--</span> :
+    <SanitizedFormattedNumber
+      value={reserved}
+      forceDecimals={props.divisible}
+    />
+  ;
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
@@ -94,10 +101,7 @@ export function Token(props) {
         textAlign: 'right',
         paddingTop: '13px',
       }}>
-        <SanitizedFormattedNumber
-          value={reserved}
-          forceDecimals={props.divisible}
-        />
+        {reservedBalance}
       </StyledTD>
     </tr>
   );
