@@ -14,6 +14,7 @@ import { Alert, Jumbotron, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import StyledLink from 'components/StyledLink';
 import moment from 'moment/src/moment';
+import isJSON from 'utils/isJSON';
 import PropTypes from 'prop-types';
 import { cleanError } from './actions';
 import reducer from './reducer';
@@ -50,6 +51,8 @@ class ErrorBoundary extends React.Component {
     if (this.props.st.error) {
       const { error } = this.props.st;
       error.message = error.message || error.text;
+      const reason = isJSON(error.message);
+
       content = (
         <div>
           <Modal
@@ -60,7 +63,7 @@ class ErrorBoundary extends React.Component {
             <ModalHeader toggle={this.props.cleanError} />
             <ModalBody>
               <Jumbotron className="text-center">
-                <h4>{error.message}</h4>
+                <h4>{ (reason ? reason.reason : error.message)}</h4>
                 <br />
                 <h5>
                   Please{' '}
