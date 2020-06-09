@@ -106,8 +106,7 @@ export function CrowdsaleDetail(props) {
   );
 
   const crowdsale = props.tokens[crowdsaleid];
-  if (!crowdsale) return loading;
-
+  if (!crowdsale || crowdsale.isFetching) return loading;
   // if the crowdsale doesn't exist redirect to not found
   if (!crowdsale.propertyiddesired) return <Redirect to="/not-found" />;
 
