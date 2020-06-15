@@ -16,7 +16,6 @@ import BlockList from 'components/BlockList';
 import LoadingIndicator from 'components/LoadingIndicator';
 import JumpToBlock from 'components/JumpToBlock';
 import NoOmniBlocks from 'components/NoOmniBlocks';
-import ContainerBase from 'components/ContainerBase';
 import StyledA from 'components/StyledA';
 
 import isEmpty from 'lodash/isEmpty';
@@ -130,7 +129,7 @@ export function Blocks(props) {
   const footer = props.footer || <div />;
 
   return (
-    <ContainerBase>
+    <div>
       <ListHeader message={messages.header}>
         <JumpToBlock
           onValidate={value => FIRST_BLOCK < value && value <= props.latest}
@@ -139,7 +138,7 @@ export function Blocks(props) {
       {content}
       {props.withPagination && pagination}
       {footer}
-    </ContainerBase>
+    </div>
   );
 }
 

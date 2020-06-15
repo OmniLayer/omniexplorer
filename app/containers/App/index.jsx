@@ -58,11 +58,8 @@ import GlobalStyle from '../../global-styles';
 const isDev = process.env.NODE_ENV !== 'production';
 
 const AppWrapper = styled.div`
-  max-width: calc(1170px + 16px * 2);
-  margin: 0 auto;
   display: flex;
   min-height: 100%;
-  padding: 0 16px;
   flex-direction: column;
 `;
 
