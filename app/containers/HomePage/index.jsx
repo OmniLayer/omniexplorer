@@ -31,10 +31,12 @@ export function HomePage() {
         </Col>
       </Row>
       <Row>
-        <Col sm="12" lg="5" className="text-center-down-md">
+        <Col sm>
           <ServiceBlock />
         </Col>
-        <Col sm="12" lg="7" className="">
+      </Row>
+      <Row>
+        <Col sm>
           <TransactionHistory />
         </Col>
       </Row>
