@@ -6,10 +6,11 @@
 import styled from 'styled-components';
 import { Container } from 'reactstrap';
 
-const StyledContainer = styled(Container)`
-  padding: 0;
+const StyledContainer = styled(Container).attrs({
+  fluid: 'true',
+})`
+  padding: 0 1rem;
   padding-top: 7.7rem;
-  overflow: auto;
 `;
 
 export default StyledContainer;

@@ -227,7 +227,7 @@ export function BlockDetail(props) {
   const validInvalidTxs = hasInvalid ? dropdown : null;
 
   return (
-    <StyledContainer fluid>
+    <StyledContainer>
       <ListHeader sx={{backgroundColor:'whitesmoke'}}
         message={
           blockdetail.block.transactions && blockdetail.block.transactions.length
