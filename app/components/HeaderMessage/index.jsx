@@ -14,7 +14,7 @@ import messages from './messages';
 
 function HeaderMessage() {
   return (
-    <Alert color="info">
+    <Alert color="info" className="d-none">
       <FormattedMessage {...messages.header} />
     </Alert>
   );
