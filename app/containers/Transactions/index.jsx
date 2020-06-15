@@ -140,7 +140,7 @@ export function Transactions(props) {
   const footer = <FooterLinks blocklist />;
 
   const header = (
-    <TransactionListHeader
+    <TransactionListHeader sx={{backgroundColor:'whitesmoke'}}
       customHeader={
         props.unconfirmed
           ? messages.unconfirmedHeader
@@ -184,11 +184,11 @@ export function Transactions(props) {
   );
 
   return (
-    <ContainerBase>
+    <div>
       {header}
       {content}
       {footer}
-    </ContainerBase>
+    </div>
   );
 }
 

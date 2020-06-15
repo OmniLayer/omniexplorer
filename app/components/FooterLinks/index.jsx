@@ -16,7 +16,6 @@ import styled from 'styled-components';
 const Div = styled.div.attrs({
   className: 'pb-1 pt-1 d-inline',
 })`
-  background-color: #7c8fa0;
   `;
 
 function FooterLinks(props) {

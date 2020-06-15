@@ -228,7 +228,7 @@ export function BlockDetail(props) {
 
   return (
     <StyledContainer fluid>
-      <ListHeader
+      <ListHeader sx={{backgroundColor:'whitesmoke'}}
         message={
           blockdetail.block.transactions && blockdetail.block.transactions.length
             ? messages.header

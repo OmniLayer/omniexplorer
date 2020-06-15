@@ -186,8 +186,6 @@ export function Search(props) {
   }
 
   const StyledRow = styled(Row)`
-    background-color: #7c8fa0;
-    color: white;
     padding-top: 1rem;
     padding-bottom: 1rem;
   `;
