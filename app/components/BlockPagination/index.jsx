@@ -32,14 +32,14 @@ function BlockPagination({ block, latest }) {
   const nextBlock = parseInt(block, 10) + 1;
   return (
     <Row>
-      <Col sm={{ size: 2 }}>
+      <Col>
         <H4>
           <LinkPrevious href={`/block/${prevBlock}`}>
             &lt;&lt; Block {prevBlock}
           </LinkPrevious>
         </H4>
       </Col>
-      <Col sm={{ size: 2, offset: 8 }} className="text-right">
+      <Col className="text-right">
         <H4>
           <LinkNext href={`/block/${nextBlock}`}>
             Block {nextBlock} &gt;&gt;
