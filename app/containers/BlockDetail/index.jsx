@@ -56,8 +56,6 @@ import './blockdetail.scss';
 const StyledContainer = styled(ContainerBase).attrs({
   className: 'blockdetail-container',
 })`
-  overflow: auto;
-
   .wrapper-tx-timestamp,
   .wrapper-btn-block:not(.tx-invalid) {
     display: none;

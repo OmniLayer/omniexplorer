@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Jumbotron, Row, Table } from 'reactstrap';
+import { Col, Jumbotron, Row, Table } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import { useInjectSaga } from 'utils/injectSaga';
@@ -89,9 +89,9 @@ export function Search(props) {
     props.search.tx.type_int === FEATURE_ACTIVATION_TYPE_INT;
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   if (
@@ -167,7 +167,7 @@ export function Search(props) {
 
   if (!wallet && !assets && !tx) {
     return (
-      <Container fluid>
+      <ContainerBase>
         <Row>
           <Col sm>
             <div>
@@ -181,7 +181,7 @@ export function Search(props) {
             </div>
           </Col>
         </Row>
-      </Container>
+      </ContainerBase>
     );
   }
 
@@ -192,7 +192,7 @@ export function Search(props) {
     padding-bottom: 1rem;
   `;
   return (
-    <ContainerBase fluid>
+    <ContainerBase>
       <StyledRow>
         <Col sm>
           <h4>

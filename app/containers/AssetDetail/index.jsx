@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import StyledLink from 'components/StyledLink';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Col, Row, Table } from 'reactstrap';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectLoading, makeSelectProperties } from 'components/Token/selectors';
@@ -45,9 +45,9 @@ export function AssetDetail(props) {
   }, [propertyid]);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   const asset = getProp(propertyid);
@@ -67,7 +67,7 @@ export function AssetDetail(props) {
   }
 
   return (
-    <ContainerBase fluid>
+    <ContainerBase>
       {warningMessage}
       <DetailRow>
         <Col sm>

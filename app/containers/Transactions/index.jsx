@@ -41,11 +41,6 @@ import messages from './messages';
 import saga from './saga';
 import reducer from './reducer';
 
-const StyledContainer = styled(ContainerBase)`
-  overflow: auto;
-  padding-bottom: 0;
-`;
-
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
   const pageParam =
@@ -189,11 +184,11 @@ export function Transactions(props) {
   );
 
   return (
-    <StyledContainer fluid>
+    <ContainerBase>
       {header}
       {content}
       {footer}
-    </StyledContainer>
+    </ContainerBase>
   );
 }
 
