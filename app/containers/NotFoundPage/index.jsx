@@ -16,20 +16,23 @@ import { Button, Jumbotron } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import ContainerBase from 'components/ContainerBase';
 
 import messages from './messages';
 
 class NotFound extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <h1>
+      <ContainerBase>
         <Jumbotron className="text-center">
           <h3 className="display-3"><FormattedMessage {...messages.header} /></h3>
           <p className="lead">Try go back home and start again</p>
           <hr className="my-2" />
-          <Button color="primary" onClick={() => this.props.push('/')}>Home sweet home</Button>
+          <a href="/" alt="Home">
+            <Button color="primary">Home sweet home</Button>
+          </a>
         </Jumbotron>
-      </h1>
+      </ContainerBase>
     );
   }
 }
