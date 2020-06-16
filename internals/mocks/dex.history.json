@@ -1,0 +1,18 @@
+// GET dex/ecosystem/production/history/1/3
+/**
+  recovery the lasts executed orders for pair "OMNI" (1) - "MaidSafeCoin" (3)
+*/
+{
+  "orders": [
+    {
+      "bid": true,
+      "time": "2020-02-27 12:03:17",
+      "total_amount": "97",
+      "txhash": "c9a33b8c26b59e5d7017d437161bf5d31f6e0bd999982eaa0e99a845043438c7",
+      "unit_price": "0.089"
+    },
+    {
+      // ...
+    }
+  ]
+}

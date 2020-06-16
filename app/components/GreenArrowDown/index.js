@@ -11,7 +11,7 @@ import {ArrowDown} from '@styled-icons/fa-solid/ArrowDown';
 
 const GreenArrowDown = styled(ArrowDown).attrs({
   size: 20,
-  color: 'lightgreen',
+  color: 'green',
 })`
   margin: 0.5rem auto;
 `;
