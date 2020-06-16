@@ -30,11 +30,6 @@ import reducer from './reducer';
 import saga from './saga';
 import { loadActivations } from './actions';
 
-const StyledContainer = styled(ContainerBase)`
-  overflow: auto;
-  padding-bottom: 0;
-`;
-
 const StyledTR = styled.tr`
   // cursor: pointer;
 `;
@@ -127,10 +122,10 @@ export function Activations(props) {
   );
 
   return (
-    <StyledContainer fluid>
+    <ContainerBase>
       <ListHeader message={messages.header} />
       {content}
-    </StyledContainer>
+    </ContainerBase>
   );
 }
 

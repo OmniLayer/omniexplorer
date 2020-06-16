@@ -1,7 +1,6 @@
 {
   "name": "omni explorer",
   "theme_color": "#b1624d",
-  "background_color": "#fafafa",
   "display": "standalone",
   "Scope": "/",
   "start_url": "/",

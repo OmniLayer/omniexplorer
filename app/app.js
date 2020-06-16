@@ -49,6 +49,9 @@ import './global-styles';
 // Import SASS responsive styles
 import './responsive-styles.scss';
 
+// Import theming
+import './theming.scss';
+
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
 const openSansObserver = new FontFaceObserver('Open Sans', {});

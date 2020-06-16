@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Row, Table, UncontrolledTooltip } from 'reactstrap';
+import { Col, Row, Table, UncontrolledTooltip } from 'reactstrap';
 import InfoCircleIcon from 'components/InfoCircleIcon';
 
 import injectSaga from 'utils/injectSaga';
@@ -33,9 +33,6 @@ import crowdsalesReducer from './reducer';
 import crowdsalesSaga from './saga';
 import { loadCrowdsales } from './actions';
 
-const StyledContainer = styled(ContainerBase)`
-  margin-top: 1rem;
-`;
 const StyledTH = styled.th`
   border: none !important;
 `;
@@ -60,9 +57,9 @@ export class Crowdsales extends React.Component {
     const loading = null;
     if (this.props.crowdsales.loading) {
       return (
-        <Container>
+        <ContainerBase>
           <LoadingIndicator />
-        </Container>
+        </ContainerBase>
       );
     }
 
@@ -99,7 +96,7 @@ export class Crowdsales extends React.Component {
     );
 
     return (
-      <StyledContainer fluid>
+      <ContainerBase>
         <Row>
           <Col sm>
             <ListHeader
@@ -117,7 +114,7 @@ export class Crowdsales extends React.Component {
         <Row>
           <Col sm>{loading}</Col>
         </Row>
-      </StyledContainer>
+      </ContainerBase>
     );
   }
 }

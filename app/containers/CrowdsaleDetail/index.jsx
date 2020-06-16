@@ -17,7 +17,6 @@ import {
   CardBody,
   CardTitle,
   Col,
-  Container,
   ListGroup,
   ListGroupItem,
   Row,
@@ -78,7 +77,9 @@ const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-3 mx-auto text-md-left',
 })``;
 
-const HistoryContainer = ContainerBase;
+const HistoryContainer = styled(ContainerBase)`
+  padding: 0;
+`;
 
 const StyledRow = styled(Row).attrs({})``;
 
@@ -100,9 +101,9 @@ export function CrowdsaleDetail(props) {
   }, [crowdsaleid]);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   const crowdsale = props.tokens[crowdsaleid];
@@ -163,7 +164,7 @@ export function CrowdsaleDetail(props) {
     crowdsale.propertyname ||
     crowdsale.type;
   return (
-    <Container fluid className="mt-3 p-1">
+    <ContainerBase>
       <Helmet>
         <meta name="twitter:card" content="summary" />
         <meta property="twitter:title" content="OmniLayer crowdsale" />
@@ -323,10 +324,11 @@ export function CrowdsaleDetail(props) {
       <Row>&nbsp;</Row>
       <Row>
         <Col>
-          <HistoryContainer fluid>
+          <HistoryContainer>
             <StyledRow>
               <Col sm>
                 <ListHeader
+                  sx={{backgroundColor:'whitesmoke'}}
                   total={detail.total}
                   message={crowdsalesMessages.header}
                 />
@@ -336,7 +338,7 @@ export function CrowdsaleDetail(props) {
           </HistoryContainer>
         </Col>
       </Row>
-    </Container>
+    </ContainerBase>
   );
 }
 

@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Container } from 'reactstrap';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -61,9 +60,9 @@ export function TransactionDetail(props) {
   }, [props.txdetail.loading]);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   const isActivation = () =>
@@ -88,7 +87,7 @@ export function TransactionDetail(props) {
 
   if (props.txdetail.transaction.notFound) {
     return (
-      <ContainerBase fluid>
+      <ContainerBase>
         <h1>
           {' '}
           Transaction
@@ -106,7 +105,7 @@ export function TransactionDetail(props) {
   );
 
   return (
-    <ContainerBase fluid>
+    <ContainerBase>
       {warningMessage}
       <TransactionInfo {...props.txdetail.transaction} asset={property} />
     </ContainerBase>

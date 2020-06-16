@@ -19,8 +19,9 @@ import range from 'lodash/range';
 import { makeSelectLocation } from 'containers/App/selectors';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-const StyledPaginationLink = styled(PaginationLink)`
-  border-radius: 3.2px;
+const StyledPaginationLink = styled(PaginationLink).attrs({
+  rounded: true,
+})`
   margin-left: 1px;
 `;
 const StyledPaginationButton = styled(PaginationItem)`

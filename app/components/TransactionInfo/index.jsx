@@ -170,7 +170,7 @@ function TransactionInfo(props) {
       {warningMessage}
       <DetailRow>
         <Col sm>
-          <Table responsive className="table-horizontal">
+          <Table responsive>
             <thead>
             <tr>
               <th>
