@@ -10,17 +10,18 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
 import { Jumbotron } from 'reactstrap';
+import ContainerBase from 'components/ContainerBase';
 
 import messages from './messages';
 
 export class Feedback extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>
+      <ContainerBase>
         <Jumbotron className="text-center">
           <h3 className="display-3"><FormattedMessage {...messages.header} /></h3>
         </Jumbotron>
-      </div>
+      </ContainerBase>
     );
   }
 }

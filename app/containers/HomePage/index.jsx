@@ -12,35 +12,31 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { Col, Row } from 'reactstrap';
 
-import { Col, Container, Row } from 'reactstrap';
-
+import ContainerBase from 'components/ContainerBase';
 import ServiceBlock from 'components/ServiceBlock';
 import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Blocks from 'containers/Blocks';
 import FooterLinks from 'components/FooterLinks';
 
-const Layout = styled(Container)`
-  background-color: #f5f5f5;
-  padding: 0 !important;
-`;
-
 export function HomePage() {
   const footer = <FooterLinks unconfirmed blocklist />;
   return (
-    <Layout fluid>
-      <Row noGutters>
+    <ContainerBase>
+      <Row>
         <Col sm>
           <HeaderMessage />
         </Col>
       </Row>
       <Row>
-        <Col sm="12" lg="5" className="text-center-down-md">
+        <Col sm>
           <ServiceBlock />
         </Col>
-        <Col sm="12" lg="7" className="">
+      </Row>
+      <Row>
+        <Col sm>
           <TransactionHistory />
         </Col>
       </Row>
@@ -49,7 +45,7 @@ export function HomePage() {
           <Blocks footer={footer} />
         </Col>
       </Row>
-    </Layout>
+    </ContainerBase>
   );
 }
 

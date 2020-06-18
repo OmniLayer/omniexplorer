@@ -9,10 +9,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Col, Row } from 'reactstrap';
 
-import styled from 'styled-components';
-import { Col, Container, Row } from 'reactstrap';
-
+import ContainerBase from 'components/ContainerBase';
 import Transactions from 'containers/Transactions';
 import Wallet from 'components/Wallet';
 
@@ -23,11 +22,6 @@ import makeSelectAddressDetail from './selectors';
 import reducer from './reducer';
 import { loadAddress } from './actions';
 import sagaAddress from './saga';
-
-const Layout = styled(Container)`
-  background-color: white;
-  padding: 0;
-`;
 
 export function AddressDetail(props) {
   const { address } = props.match.params;
@@ -50,7 +44,7 @@ export function AddressDetail(props) {
   }
 
   return (
-    <Layout fluid>
+    <ContainerBase>
       <Row>
         <Col sm>
           <Wallet {...props.addressdetail} addr={address} />
@@ -61,7 +55,7 @@ export function AddressDetail(props) {
           <Transactions addr={address} {...props} currentPage={1} />
         </Col>
       </Row>
-    </Layout>
+    </ContainerBase>
   );
 }
 

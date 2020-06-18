@@ -20,11 +20,10 @@ const Input = styled.input.attrs({
 })``;
 
 const Wrapper = styled.div.attrs({
-  className: 'mb-3 mb-sm-0',
+  className: 'mb-3 mb-sm-0 searchbox-form rounded',
 })`
   & div.input-group > input.form-control.searchbox-input {
     outline: none;
-    border-radius: 19px;
     max-width: 100%;
     padding-right: 38px;
   }
@@ -53,11 +52,11 @@ export function SearchBox(props) {
   };
 
   return (
-    <Wrapper className="searchbox-form">
+    <Wrapper>
       <div className="input-group">
         <Input
           value={query}
-          className="form-control searchbox-input"
+          className="form-control searchbox-input rounded"
           onChange={(e) => setQuery(e.target.value)}
           onKeyUp={(e) => handleKeyUp(e)}
         >

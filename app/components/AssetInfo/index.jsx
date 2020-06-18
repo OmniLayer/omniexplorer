@@ -96,7 +96,7 @@ function AssetInfo(asset) {
     );
   } else {
     registeredMessage = (
-      <td>
+      <td style={{ whiteSpace: 'break-spaces' }}>
         This property is not registered with OmniExplorer.info. Please see{' '}
         <StyledA href="/promote">Promote Your Property</StyledA> for further details.
       </td>

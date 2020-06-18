@@ -16,7 +16,6 @@ import BlockList from 'components/BlockList';
 import LoadingIndicator from 'components/LoadingIndicator';
 import JumpToBlock from 'components/JumpToBlock';
 import NoOmniBlocks from 'components/NoOmniBlocks';
-import ContainerBase from 'components/ContainerBase';
 import StyledA from 'components/StyledA';
 
 import isEmpty from 'lodash/isEmpty';
@@ -31,26 +30,21 @@ import { makeSelectBlocks, makeSelectLatestBlock, makeSelectLoading, makeSelectP
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
 
-const StyledContainer = styled(ContainerBase)`
-  overflow: auto;
-  padding-bottom: 0;
-`;
-
 export function Blocks(props) {
   const block = props.match.params.block || '';
-  
+
   useInjectSaga({
     key: 'blocks',
     saga: sagaBlocks,
   });
-  
+
   useEffect(() => {
     props.loadBlocks(block);
   }, [block]);
-  
+
   let content;
   let pagination;
-  
+
   if (props.loading && !props.previousBlock) {
     content = <LoadingIndicator />;
   } else {
@@ -61,9 +55,9 @@ export function Blocks(props) {
       ) : (
         <BlockList blocks={blocks} />
       );
-    
+
     content = <div>{list}</div>;
-    
+
     const pathname =
       props.location.pathname.toLowerCase().indexOf('block') > -1
         ? '/blocks/'
@@ -81,7 +75,7 @@ export function Blocks(props) {
       }
       return result;
     };
-    
+
     const nextBlockSet = () => {
       let result;
       if (isEmpty(blocks) || block > blocks[0].block + 9) {
@@ -91,7 +85,7 @@ export function Blocks(props) {
       }
       return result;
     };
-    
+
     const LinkPrevious = styled(StyledA)``;
     const LinkNext =
       isEmpty(blocks) || props.latest > blocks[0].block
@@ -102,28 +96,17 @@ export function Blocks(props) {
             opacity: 0.5;
             cursor: not-allowed;
           `;
-    
+
     pagination = (
       <Row>
-        <Col
-          sm={{
-            size: 2,
-            offset: 1,
-          }}
-        >
+        <Col>
           <h3>
             <LinkPrevious href={hashLink(previousBlockSet())}>
               &lt;&lt; Older
             </LinkPrevious>
           </h3>
         </Col>
-        <Col
-          sm={{
-            size: 2,
-            offset: 6,
-          }}
-          className="text-right"
-        >
+        <Col className="text-right">
           <h3>
             <LinkNext href={hashLink(nextBlockSet())}>Newer &gt;&gt;</LinkNext>
           </h3>
@@ -131,11 +114,11 @@ export function Blocks(props) {
       </Row>
     );
   }
-  
+
   const footer = props.footer || <div />;
-  
+
   return (
-    <StyledContainer fluid>
+    <div>
       <ListHeader message={messages.header}>
         <JumpToBlock
           onValidate={value => FIRST_BLOCK < value && value <= props.latest}
@@ -144,7 +127,7 @@ export function Blocks(props) {
       {content}
       {props.withPagination && pagination}
       {footer}
-    </StyledContainer>
+    </div>
   );
 }
 

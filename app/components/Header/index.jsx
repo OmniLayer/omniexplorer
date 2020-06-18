@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import SearchBox from 'components/SearchBox';
+import NavigationBar from 'components/NavigationBar';
 import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
 
 import {
@@ -57,8 +58,7 @@ class Header extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        <Navbar color="faded" light expand="sm" className="d-block">
+        <NavigationBar>
           <div className="d-flex">
             <NavbarBrand href="/">
               <IMG src="/favicon.png" alt="OMNIEXPLORER.INFO" />
@@ -141,19 +141,10 @@ class Header extends React.PureComponent {
               </Nav>
             </StyledCollapse>
           </div>
-        </Navbar>
-        <div className="w-100 ml-auto d-block-only-sm-down">
-          <SearchBox />
-        </div>
-        <div className="w-100 ml-auto d-block-only-sm-down d-none">
-          <Alert color="warning">
-            <span>
-              <strong>Planned Maintenance: </strong>
-              Starting at 18:30UTC On Feb 18th OmniExplorer will have a short maintenance window to upgrade back-end components. We expect this Maintenance to last up to an hour and during the maintenance Omni Explorer services will be unavailable. Once complete this message will be removed
-            </span>
-          </Alert>
-        </div>
-      </div>
+          <div className="w-100 ml-auto d-block-only-sm-down">
+            <SearchBox />
+          </div>
+        </NavigationBar>
     );
   }
 }
