@@ -21,6 +21,8 @@ import {
   SET_PAGE,
   SET_TRANSACTION_TYPE,
   LOAD_UNCONFIRMED,
+  LOAD_EXODUS_TXS,
+  LOAD_EXODUS_TXS_SUCCESS,
 } from './constants';
 
 /**
@@ -83,11 +85,40 @@ export function setTransactionType(txType) {
 /**
  * Load the transactions, this action starts the request saga
  *
- * @return {object} An action object with a type of LOAD_TRANSACTIONS
+ * @return {object} An action object with a type of LOAD_UNCONFIRMED
  */
 export function loadUnconfirmed(addr = null) {
   return {
     type: LOAD_UNCONFIRMED,
     addr,
+  };
+}
+
+/**
+ * Load the exodus transactions, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_EXODUS_TXS
+ */
+export function loadExodusTxs(addr = null) {
+  return {
+    type: LOAD_EXODUS_TXS,
+    addr,
+  };
+}
+
+/**
+ * Dispatched when the transactions are loaded by the request saga
+ *
+ * @param  {array} Transactions The transactions data
+ *
+ * @return {object} An action object with a type of LOAD_TRANSACTIONS_SUCCESS passing the transactions
+ */
+export function exodusTxsLoaded(transactions, pages, addr, txcount) {
+  return {
+    type: LOAD_EXODUS_TXS_SUCCESS,
+    transactions,
+    pages,
+    addr,
+    txcount,
   };
 }

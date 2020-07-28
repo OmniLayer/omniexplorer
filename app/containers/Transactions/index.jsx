@@ -10,13 +10,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
+import ContainerBase from 'components/ContainerBase';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
-import ContainerBase from 'components/ContainerBase';
 import FooterLinks from 'components/FooterLinks';
 
 import { useInjectReducer } from 'utils/injectReducer';
@@ -31,6 +30,7 @@ import {
   makeSelectUnconfirmed,
 } from './selectors';
 import {
+  loadExodusTxs,
   loadTransactions,
   loadUnconfirmed,
   setPage,
@@ -40,12 +40,16 @@ import messages from './messages';
 
 import saga from './saga';
 import reducer from './reducer';
+import { TRANSACTION_TYPE } from './constants';
 
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
+  const exodusTxs = props.location.pathname.includes('exodus');
+
   const pageParam =
     props.match.params.page ||
     (unconfirmedTxs && props.transactions.currentPage) ||
+    (exodusTxs && props.currentPage) ||
     props.currentPage ||
     1;
   const maxPagesByMedia = getMaxPagesByMedia();
@@ -63,17 +67,35 @@ export function Transactions(props) {
 
   useEffect(() => {
     // load transactions on every change address
-    loadTxs(!unconfirmedTxs);
+    if (!exodusTxs) {
+      loadTxs(
+        unconfirmedTxs
+          ? TRANSACTION_TYPE.UNCONFIRMED
+          : TRANSACTION_TYPE.CONFIRMED,
+      );
+    }
   }, [props.addr]);
+
+  useEffect(() => {
+    // load exodus transactions when it's selected
+    if (exodusTxs) {
+      loadTxs(TRANSACTION_TYPE.EXODUS);
+    }
+  }, [exodusTxs, props.addr]);
 
   useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
     if (
       !props.loading &&
+      !exodusTxs &&
       (!props.transactions.stamp ||
         unconfirmedTxs !== props.transactions.unconfirmed)
     ) {
-      loadTxs(!unconfirmedTxs);
+      loadTxs(
+        unconfirmedTxs
+          ? TRANSACTION_TYPE.UNCONFIRMED
+          : TRANSACTION_TYPE.CONFIRMED,
+      );
     }
   }, [unconfirmedTxs, pageParam, unconfirmedTxs && !props.addr]);
 
@@ -97,17 +119,31 @@ export function Transactions(props) {
 
   const pathname = props.addr ? `/address/${props.addr}` : '';
   const hashLink = v => `${pathname}/${v}`;
-  const loadTxs = confirmed =>
-    (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
+  // const loadTxs = confirmed =>
+  //   (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
+  const loadTxs = txType => {
+    switch (txType) {
+      case TRANSACTION_TYPE.CONFIRMED:
+        props.loadTransactions(props.addr);
+        break;
+      case TRANSACTION_TYPE.UNCONFIRMED:
+        props.loadUnconfirmed(props.addr);
+        break;
+      case TRANSACTION_TYPE.EXODUS:
+        props.loadExodusTxs(props.addr);
+        break;
+    }
+  };
 
   const handlePageClick = page => {
     props.setCurrentPage(page);
     history.push(hashLink(page));
-    loadTxs(true);
+    loadTxs(TRANSACTION_TYPE.CONFIRMED);
   };
 
-  const onRadioBtnClick = confirmed => {
-    history.push(hashLink(confirmed ? '' : 'unconfirmed'));
+  const onRadioBtnClick = txType => {
+    // history.push(hashLink(confirmed ? '' : 'unconfirmed'));
+    history.push(hashLink(txType !== TRANSACTION_TYPE.CONFIRMED ? txType : ''));
   };
 
   let content;
@@ -140,14 +176,15 @@ export function Transactions(props) {
   const footer = <FooterLinks blocklist />;
 
   const header = (
-    <TransactionListHeader sx={{backgroundColor:'whitesmoke'}}
+    <TransactionListHeader
+      sx={{ backgroundColor: 'whitesmoke' }}
       customHeader={
         props.unconfirmed
           ? messages.unconfirmedHeader
           : {
             id: 'app.components.Transactions.unconfirmedHeader',
-            defaultMessage: `${props.transactions.txCount} Transactions`,
-          }
+              defaultMessage: `${props.transactions.txCount} Transactions`,
+            }
       }
       totalPreText={
         props.unconfirmed && props.transactions ? 'Displaying the ' : null
@@ -164,18 +201,25 @@ export function Transactions(props) {
         !!props.addr && (
           <ButtonGroup>
             <Button
-              onClick={() => onRadioBtnClick(true)}
-              active={!props.unconfirmed}
-              disabled={!props.unconfirmed}
+              onClick={() => onRadioBtnClick(TRANSACTION_TYPE.CONFIRMED)}
+              active={!props.unconfirmed && !exodusTxs}
+              disabled={!props.unconfirmed && !exodusTxs}
             >
               Confirmed
             </Button>
             <Button
-              onClick={() => onRadioBtnClick(false)}
+              onClick={() => onRadioBtnClick(TRANSACTION_TYPE.UNCONFIRMED)}
               active={!!props.unconfirmed}
               disabled={!!props.unconfirmed}
             >
               Unconfirmed
+            </Button>
+            <Button
+              onClick={() => onRadioBtnClick(TRANSACTION_TYPE.EXODUS)}
+              active={!!exodusTxs}
+              disabled={!!exodusTxs}
+            >
+              Exodus
             </Button>
           </ButtonGroup>
         )
@@ -184,17 +228,18 @@ export function Transactions(props) {
   );
 
   return (
-    <div>
+    <ContainerBase>
       {header}
       {content}
       {footer}
-    </div>
+    </ContainerBase>
   );
 }
 
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
   loadUnconfirmed: PropTypes.func,
+  loadExodusTxs: PropTypes.func,
   transactions: PropTypes.object.isRequired,
   setCurrentPage: PropTypes.func,
   loading: PropTypes.bool,
@@ -215,6 +260,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransactions: addr => dispatch(loadTransactions(addr)),
     loadUnconfirmed: addr => dispatch(loadUnconfirmed(addr)),
+    loadExodusTxs: addr => dispatch(loadExodusTxs(addr)),
     setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };

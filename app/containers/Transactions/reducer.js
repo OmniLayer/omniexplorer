@@ -10,7 +10,10 @@
  *   return state.set('yourStateVariable', true);
  */
 import produce from 'immer';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import {
+  LOAD_EXODUS_TXS,
+  LOAD_EXODUS_TXS_SUCCESS,
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_UNCONFIRMED,
@@ -26,12 +29,15 @@ export const initialState = {
   txType: null,
   txCount: 0,
   unconfirmed: false,
+  exodus: false,
   stamp: null,
 };
-import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 /* eslint-disable default-case, no-param-reassign */
-const transactionsReducer = (state = initialState, { type, addr, transactions, pages, page, txType, txcount } = action) =>
+const transactionsReducer = (
+  state = initialState,
+  { type, addr, transactions, pages, page, txType, txcount } = action,
+) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_TRANSACTIONS:
@@ -40,6 +46,15 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
         draft.pageCount = 0;
         draft.txCount = 0;
         draft.unconfirmed = false;
+        draft.exodus = false;
+        break;
+      case LOAD_EXODUS_TXS:
+        draft.loading = true;
+        draft.transactions = [];
+        draft.pageCount = 0;
+        draft.txCount = 0;
+        draft.unconfirmed = false;
+        draft.exodus = true;
         break;
       case LOAD_UNCONFIRMED:
         draft.loading = true;
@@ -48,17 +63,36 @@ const transactionsReducer = (state = initialState, { type, addr, transactions, p
         draft.txCount = 0;
         draft.currentPage = 1;
         draft.unconfirmed = true;
+        draft.exodus = false;
         break;
+
       case LOAD_TRANSACTIONS_SUCCESS: {
         const maxPagesByMedia = getMaxPagesByMedia();
 
-        draft.transactions = addr ? transactions.filter(tx => !!tx.confirmations) : transactions;
-        draft.pageCount = state.unconfirmed ? Math.ceil(transactions.length / maxPagesByMedia) : pages;
+        draft.transactions = addr
+          ? transactions.filter(tx => !!tx.confirmations)
+          : transactions;
+        draft.pageCount = state.unconfirmed
+          ? Math.ceil(transactions.length / maxPagesByMedia)
+          : pages;
         draft.txCount = txcount;
         draft.loading = false;
         draft.stamp = Date.now();
         break;
       }
+
+      case LOAD_EXODUS_TXS_SUCCESS: {
+        draft.transactions = transactions.map(tx => ({
+          ...tx,
+          txid: tx.hash,
+        }));
+        draft.pageCount = pages;
+        draft.txCount = txcount;
+        draft.loading = false;
+        draft.stamp = Date.now();
+        break;
+      }
+
       case SET_PAGE:
         draft.currentPage = Number(page);
         break;

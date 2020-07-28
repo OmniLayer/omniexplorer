@@ -128,9 +128,9 @@ export function BlockDetail(props) {
 
   if (props.blockdetail.loading || statusLoading) {
     return (
-      <Container>
+      <ContainerBase>
         <LoadingIndicator />
-      </Container>
+      </ContainerBase>
     );
   }
 
