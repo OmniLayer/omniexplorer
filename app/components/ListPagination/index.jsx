@@ -20,7 +20,7 @@ import { makeSelectLocation } from 'containers/App/selectors';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 const StyledPaginationLink = styled(PaginationLink).attrs({
-  rounded: true,
+  rounded: 'true',
 })`
   margin-left: 1px;
 `;

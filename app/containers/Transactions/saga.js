@@ -1,9 +1,10 @@
 import { all, call, put, select, take } from 'redux-saga/effects';
-import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
-import { API_URL_BASE } from 'containers/App/constants';
+import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, LOAD_EXODUS_TXS, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
+import { API_URL_BASE, FN_API_URL_BLOCKCHAIN_ADDR } from 'containers/App/constants';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
-import { transactionsLoaded } from './actions';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+import { transactionsLoaded, exodusTxsLoaded } from './actions';
 import { makeSelectTransactions } from './selectors';
 
 export function* getUnconfirmed({ addr }) {
@@ -13,6 +14,21 @@ export function* getUnconfirmed({ addr }) {
 
   const transactions = yield call(request, requestURL);
   yield put(transactionsLoaded(transactions.data, 1));
+}
+
+export function* getExodusTxs({ addr }) {
+  const state = yield select(makeSelectTransactions());
+  const maxPagesByMedia = getMaxPagesByMedia();
+  const page = state.currentPage;
+  const offset = page * maxPagesByMedia;
+  const requestURL = FN_API_URL_BLOCKCHAIN_ADDR({
+    address: addr,
+    limit: maxPagesByMedia,
+    offset,
+  });
+
+  const transactions = yield call(request, requestURL);
+  yield put(exodusTxsLoaded(transactions.txs, transactions.txs / maxPagesByMedia, addr, transactions.n_tx));
 }
 
 export function* getTransactions({ addr }) {
@@ -66,6 +82,13 @@ function* watchGetUnconfirmed() {
   }
 }
 
+function* watchGetExodusTxs() {
+  while (true) {
+    const payload = yield take(LOAD_EXODUS_TXS);
+    yield call(getExodusTxs, payload);
+  }
+}
+
 function* watchGetTransactionsByType() {
   while (true) {
     const payload = yield take(SET_TRANSACTION_TYPE);
@@ -81,5 +104,6 @@ export default function* root() {
     call(watchGetTransactions),
     call(watchGetTransactionsByType),
     call(watchGetUnconfirmed),
+    call(watchGetExodusTxs),
   ]);
 }

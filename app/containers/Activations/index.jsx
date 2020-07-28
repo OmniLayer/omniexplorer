@@ -55,9 +55,9 @@ export function Activations(props) {
   }, []);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   if (props.activations.loading) {
