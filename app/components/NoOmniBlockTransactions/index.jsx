@@ -8,6 +8,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import StyledLink from 'components/StyledLink';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import messages from './messages';
 
 const StyledH3 = styled.h3`
@@ -42,7 +43,7 @@ function NoOmniBlockTransactions(props={useDefaults: true}) {
       <p className="text-center">
         <StyledLink
           to={{
-            pathname: `/blocks`,
+            pathname: `${getSufixURL()}/blocks`,
             state: { state: props.state },
           }}
         >

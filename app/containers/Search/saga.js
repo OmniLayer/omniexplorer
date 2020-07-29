@@ -9,11 +9,12 @@ import {
   API_URL_BLOCKCHAIN_BTC_BALANCE,
   FN_API_URL_BLOCKCHAIR_BTC_BALANCE,
 } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { LOAD_SEARCH } from './constants';
 import { searchLoaded } from './actions';
 
 export function* getSearch({ query }) {
-  const requestURL = `${API_URL_BASE}/search`;
+  const requestURL = `${getLocationPath()}/search`;
 
   const body = encoderURIParams({ query });
   const options = {

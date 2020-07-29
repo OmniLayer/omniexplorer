@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import StyledA from 'components/StyledA';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
@@ -29,7 +30,7 @@ const StyledTDTextLeft = styled(StyledTD).attrs({
 class CrowdsaleInfo extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    
+
     return (
       <tr>
         <StyledTD>

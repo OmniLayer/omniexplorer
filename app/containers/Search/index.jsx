@@ -24,6 +24,7 @@ import Asset from 'components/Asset';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import StyledLink from 'components/StyledLink';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
@@ -123,7 +124,7 @@ export function Search(props) {
         <div className="container-fluid">
           <StyledLink
             to={{
-              pathname: `/address/${query}`,
+              pathname: `${getSufixURL()}/address/${query}`,
               state: { state: props.state },
             }}
           >

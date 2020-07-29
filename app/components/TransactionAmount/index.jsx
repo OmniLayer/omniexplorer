@@ -15,6 +15,8 @@ import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import StyledA from 'components/StyledA';
 
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+
 class TransactionAmount extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);

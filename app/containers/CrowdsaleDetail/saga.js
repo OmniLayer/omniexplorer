@@ -3,12 +3,13 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { LOAD_CROWDSALE_TRANSACTIONS } from './constants';
 import { updateCrowdsaleTransactionsFetch } from './actions';
 import makeSelectCrowdsaleDetail from './selectors';
 
 export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
-  const requestURL = `${API_URL_BASE}/properties/gethistory/${id}`;
+  const requestURL = `${getLocationPath()}/properties/gethistory/${id}`;
   const state = yield select(makeSelectCrowdsaleDetail());
   const startPage = state.currentPage || start;
 

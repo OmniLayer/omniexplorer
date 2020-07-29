@@ -23,6 +23,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
 import { FIRST_BLOCK } from 'containers/App/constants';
 import { Col, Row } from 'reactstrap';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectLocation } from 'containers/App/selectors';
 
@@ -60,8 +61,8 @@ export function Blocks(props) {
 
     const pathname =
       props.location.pathname.toLowerCase().indexOf('block') > -1
-        ? '/blocks/'
-        : '/';
+        ? `${getSufixURL()}/blocks/`
+        : `${getSufixURL()}/`;
     const hashLink = blockNum => `${pathname}${blockNum}`;
     const previousBlockSet = () => {
       let result;

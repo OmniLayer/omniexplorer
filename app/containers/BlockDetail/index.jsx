@@ -34,6 +34,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import isEmpty from 'lodash/isEmpty';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';

@@ -10,6 +10,7 @@ import {
   API_URL_BASE,
   FIRST_BLOCK,
 } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { LOAD_BLOCKS } from '../constants';
 import { blocksLoadingError, blocksLoaded } from '../actions';
@@ -38,7 +39,7 @@ describe('getBlocks Saga', () => {
     };
 
     const saga = testSaga(getBlocks, { block: FIRST_BLOCK });
-    const url = `${API_URL_BASE}/transaction/blocks/${FIRST_BLOCK}`;
+    const url = `${getLocationPath()}/transaction/blocks/${FIRST_BLOCK}`;
 
     saga
       .next()

@@ -12,7 +12,7 @@ import { Col } from 'reactstrap';
 import StyledLink from 'components/StyledLink';
 import FooterRow from 'components/FooterRow';
 import GreenArrowForward from 'components/GreenArrowForward';
-
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import messages from './messages';
 
 const Div = styled.div.attrs({
@@ -29,7 +29,7 @@ function FooterLinks(props) {
             <StyledLink
               onClick={window.location.reload}
               to={{
-                pathname: `/blocks`,
+                pathname: `${getSufixURL()}/blocks`,
                 state: { state: {} },
               }}
               key={Date.now()}
@@ -46,7 +46,7 @@ function FooterLinks(props) {
             <StyledLink
               onClick={window.location.reload}
               to={{
-                pathname: `/transactions/unconfirmed`,
+                pathname: `${getSufixURL()}/transactions/unconfirmed`,
                 state: {},
               }}
               key={Date.now()}

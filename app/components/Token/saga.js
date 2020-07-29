@@ -5,6 +5,7 @@ import encoderURIParams from 'utils/encoderURIParams';
 import chunk from 'lodash/chunk';
 
 import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { LOAD_MANY_PROPERTIES, LOAD_PROPERTY, LOAD_PROPERTY_DEEP, FETCHING_PROPERTY } from './constants';
 import { cancelFetch, updateFetch, updateFetchMany, startFetch } from './actions';
 import { getTokens } from './selectors';
@@ -74,7 +75,7 @@ function* fetchPropertyDeep(action) {
 }
 
 function* fetchProperty(propertyId) {
-  const requestURL = `${API_URL_BASE}/property/${propertyId}`;
+  const requestURL = `${getLocationPath()}/property/${propertyId}`;
   const property = yield call(request, requestURL);
 
   yield put(updateFetch(property));
@@ -103,7 +104,7 @@ function* fetchManyProperties(action) {
   yield delay(1000);
   // load token if is still not requested
 
-  const requestURL = `${API_URL_BASE}/property/bulk`;
+  const requestURL = `${getLocationPath()}/property/bulk`;
   const state = yield select(st => st);
   const { token } = state;
 

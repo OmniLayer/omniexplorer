@@ -23,6 +23,7 @@ import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectActivations } from './selectors';
 import messages from './messages';
@@ -107,7 +108,7 @@ export function Activations(props) {
               <WrapperTx>
                 <StyledLink
                   to={{
-                    pathname: `/tx/${activation.txhash}`,
+                    pathname: `${getSufixURL()}/tx/${activation.txhash}`,
                     state: { state: props.state },
                   }}
                 >

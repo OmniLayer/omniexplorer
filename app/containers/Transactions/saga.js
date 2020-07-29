@@ -1,6 +1,7 @@
 import { all, call, put, select, take } from 'redux-saga/effects';
 import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, LOAD_EXODUS_TXS, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
 import { API_URL_BASE, FN_API_URL_BLOCKCHAIN_ADDR } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
@@ -9,8 +10,8 @@ import { makeSelectTransactions } from './selectors';
 
 export function* getUnconfirmed({ addr }) {
   const requestURL = addr
-    ? `${API_URL_BASE}/transaction/unconfirmed/${addr}`
-    : `${API_URL_BASE}/transaction/unconfirmed`;
+    ? `${getLocationPath()}/transaction/unconfirmed/${addr}`
+    : `${getLocationPath()}/transaction/unconfirmed`;
 
   const transactions = yield call(request, requestURL);
   yield put(transactionsLoaded(transactions.data, 1));
@@ -37,8 +38,8 @@ export function* getTransactions({ addr }) {
   const { txType } = state;
 
   const requestURL = addr
-    ? `${API_URL_BASE}/transaction/address/${page}`
-    : `${API_URL_BASE}/transaction/general/${page}`;
+    ? `${getLocationPath()}/transaction/address/${page}`
+    : `${getLocationPath()}/transaction/general/${page}`;
 
   const getTransactionsOptions = {
     type: 'cors',

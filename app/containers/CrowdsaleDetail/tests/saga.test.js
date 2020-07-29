@@ -8,6 +8,7 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import {
   errorCrowdsaleTransactionsFetch,
   updateCrowdsaleTransactionsFetch,
@@ -51,7 +52,7 @@ describe('getCrowdsaleTransactions Saga', () => {
       start: startPage,
       count: 1000,
     });
-    const url = `${API_URL_BASE}/properties/gethistory/${id}`;
+    const url = `${getLocationPath()}/properties/gethistory/${id}`;
     const body = encoderURIParams(
       {
         startPage,

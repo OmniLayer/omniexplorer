@@ -11,6 +11,7 @@
 import generateTemplate from 'utils/generateTemplate';
 
 export const API_URL_BASE = 'https://api.omniexplorer.info/v1';
+export const API_TESTNET_URL_BASE = 'https://testnetapi.omniexplorer.info/v1';
 export const API_URL_BLOCKCHAIN_BTC_BALANCE = 'https://blockchain.info/balance?cors=true&active=';
 export const FN_API_URL_BLOCKCHAIR_BTC_BALANCE = (data)=> generateTemplate`https://api.blockchair.com/bitcoin/dashboards/address/${'address'}?state=latest&limit=0,0`(data);
 export const FN_API_URL_BLOCKCHAIN_ADDR = (data)=> generateTemplate`https://blockchain.info/rawaddr/${'address'}?cors=true&limit=${'limit'}&offset=${'offset'}`(data);

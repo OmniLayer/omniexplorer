@@ -8,6 +8,7 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { searchLoaded, searchLoadingError } from 'containers/Search/actions';
 import { LOAD_SEARCH } from 'containers/Search/constants';
 import root, { getSearch } from 'containers/Search/saga';
@@ -53,7 +54,7 @@ describe('getSearch Saga', () => {
     };
 
     const saga = testSaga(getSearch, { query: 'OMNI' });
-    const url = `${API_URL_BASE}/search`;
+    const url = `${getLocationPath()}/search`;
     const body = encoderURIParams({ query: 'OMNI' });
 
     const options = {

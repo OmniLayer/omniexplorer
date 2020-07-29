@@ -21,6 +21,7 @@ import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 
 import getWarningMessage from 'utils/getWarningMessage';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 const DetailRow = styled(Row)`
   margin-top: 2rem;
@@ -92,7 +93,7 @@ export function AssetDetail(props) {
                     <span>created by &nbsp;</span>
                     <StyledLink
                       to={{
-                        pathname: `/tx/${asset.creationtxid}`,
+                        pathname: `${getSufixURL()}/tx/${asset.creationtxid}`,
                         state: { state: props.state },
                       }}
                     >
