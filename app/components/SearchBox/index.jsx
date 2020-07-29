@@ -9,8 +9,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import styled from 'styled-components';
-import {Search} from '@styled-icons/fa-solid/Search';
+import { Search } from '@styled-icons/fa-solid/Search';
 import history from 'utils/history';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 
 import messages from './messages';
 
@@ -39,13 +40,14 @@ const Wrapper = styled.div.attrs({
 export function SearchBox(props) {
   const [query, setQuery] = useState('');
 
-  const handleDoSearch = (e) => {
-    history.push(`/search/${query.trim()}`);
+  const handleDoSearch = e => {
+    const searchURL = `${getSufixURL()}/search/${query.trim()}`;
+    history.push(searchURL);
     setQuery('');
   };
 
-  const handleKeyUp = (e) => {
-    const value = e.target.value;
+  const handleKeyUp = e => {
+    const { value } = e.target;
     if (e.keyCode === 13 && value) {
       handleDoSearch(e);
     }
@@ -57,11 +59,14 @@ export function SearchBox(props) {
         <Input
           value={query}
           className="form-control searchbox-input rounded"
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyUp={(e) => handleKeyUp(e)}
-        >
-        </Input>
-        <Search className="searchbox-icon" size={21} onClick={(e) => handleDoSearch(e)} />
+          onChange={e => setQuery(e.target.value)}
+          onKeyUp={e => handleKeyUp(e)}
+        />
+        <Search
+          className="searchbox-icon"
+          size={21}
+          onClick={e => handleDoSearch(e)}
+        />
       </div>
     </Wrapper>
   );
@@ -76,8 +81,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
-export default compose(
-  withConnect,
-)(SearchBox);
+export default compose(withConnect)(SearchBox);
