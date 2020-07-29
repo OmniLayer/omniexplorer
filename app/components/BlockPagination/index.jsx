@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
-
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import StyledA from 'components/StyledA';
 
 const H4 = styled.h4`
@@ -34,14 +34,14 @@ function BlockPagination({ block, latest }) {
     <Row>
       <Col>
         <H4>
-          <LinkPrevious href={`/block/${prevBlock}`}>
+          <LinkPrevious href={`${getSufixURL()}/block/${prevBlock}`}>
             &lt;&lt; Block {prevBlock}
           </LinkPrevious>
         </H4>
       </Col>
       <Col className="text-right">
         <H4>
-          <LinkNext href={`/block/${nextBlock}`}>
+          <LinkNext href={`${getSufixURL()}/block/${nextBlock}`}>
             Block {nextBlock} &gt;&gt;
           </LinkNext>
         </H4>

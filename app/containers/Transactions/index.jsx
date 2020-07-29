@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
+import ExodusTransaction from 'components/ExodusTransaction';
 import ContainerBase from 'components/ContainerBase';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
@@ -21,6 +22,7 @@ import FooterLinks from 'components/FooterLinks';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import history from 'utils/history';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
@@ -117,7 +119,7 @@ export function Transactions(props) {
     props.setCurrentPage(page);
   };
 
-  const pathname = props.addr ? `/address/${props.addr}` : '';
+  const pathname = props.addr ? `${getSufixURL()}/address/${props.addr}` : `${getSufixURL()}`;
   const hashLink = v => `${pathname}/${v}`;
   // const loadTxs = confirmed =>
   //   (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
@@ -160,7 +162,7 @@ export function Transactions(props) {
     const _props = {
       ...props.transactions,
       addr,
-      inner: Transaction,
+      inner: exodusTxs ? ExodusTransaction : Transaction,
       onSetPage: props.unconfirmed
         ? unconfirmedHandlePageClick
         : handlePageClick,

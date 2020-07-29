@@ -28,6 +28,8 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+
 const IMG = styled.img`
   padding-bottom: 3px;
   padding-right: 9px;
@@ -93,10 +95,10 @@ class Header extends React.PureComponent {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href={`/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Production</NavLink>
+                      <NavLink href={`${getSufixURL()}/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Production</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href={`/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Test</NavLink>
+                      <NavLink href={`${getSufixURL()}/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Test</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -106,10 +108,10 @@ class Header extends React.PureComponent {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <NavLink href={`/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Production</NavLink>
+                      <NavLink href={`${getSufixURL()}/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Production</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      <NavLink href={`/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Test</NavLink>
+                      <NavLink href={`${getSufixURL()}/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Test</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -122,7 +124,10 @@ class Header extends React.PureComponent {
                     {/*  <NavLink href="/exchange">Exchange</NavLink>*/}
                     {/*</DropdownItem>*/}
                     <DropdownItem>
-                      <NavLink href="/activations">Feature Activations</NavLink>
+                      <NavLink href="/testnet/">Testnet</NavLink>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <NavLink href={`${getSufixURL()}/activations`}>Feature Activations</NavLink>
                     </DropdownItem>
                     <DropdownItem>
                       <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>

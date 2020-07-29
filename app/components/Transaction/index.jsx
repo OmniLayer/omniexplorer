@@ -19,6 +19,7 @@ import AssetLink from 'components/AssetLink';
 import AssetLogo from 'components/AssetLogo';
 import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import './transaction.scss';
 
 import AddressWrapper from 'components/AddressWrapper';
@@ -147,7 +148,7 @@ class Transaction extends React.PureComponent {
               <WrapperTx>
                 <StyledLink
                   to={{
-                    pathname: `/tx/${this.props.txid}`,
+                    pathname: `${getSufixURL()}/tx/${this.props.txid}`,
                     state: { state: this.props.state },
                   }}
                 >
@@ -182,7 +183,7 @@ class Transaction extends React.PureComponent {
                 className={statusCSSClass}
                 style={{ cursor: 'default' }}
                 to={{
-                  pathname: `/tx/${this.props.txid}`,
+                  pathname: `${getSufixURL()}/tx/${this.props.txid}`,
                   state: { state: this.props.state },
                 }}
                 id={invalidid}
@@ -207,7 +208,7 @@ class Transaction extends React.PureComponent {
                 <WrapperLink>
                   <StyledLink
                     className={this.getHighlightIfOwner(this.props.sendingaddress)}
-                    to={`/address/${this.props.sendingaddress}`}
+                    to={`${getSufixURL()}/address/${this.props.sendingaddress}`}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
@@ -244,7 +245,7 @@ class Transaction extends React.PureComponent {
                 <WrapperLink>
                   <StyledLink
                     className={addresscname}
-                    to={`/address/${this.props.referenceaddress}`}
+                    to={`${getSufixURL()}/address/${this.props.referenceaddress}`}
                   >
                     {this.props.referenceaddress}
                   </StyledLink>

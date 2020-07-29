@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import StyledLink from 'components/StyledLink';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import ContainerBase from 'components/ContainerBase';
 import moment from 'moment/src/moment';
 import isJSON from 'utils/isJSON';

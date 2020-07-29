@@ -28,6 +28,7 @@ import styled from 'styled-components';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import getWarningMessage from 'utils/getWarningMessage';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { startDeepFetch } from 'components/Token/actions';
 import AssetInfo from 'components/AssetInfo';
 import { makeSelectProperties } from 'components/Token/selectors';
@@ -140,7 +141,7 @@ export function CrowdsaleDetail(props) {
     </div>
   );
 
-  const pathname = props.addr ? `/address/${props.addr}` : '';
+  const pathname = props.addr ? `${getSufixURL}/address/${props.addr}` : `${getSufixURL()}`;
   const hashLink = v => `${pathname}/${v}`;
   const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
 

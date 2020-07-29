@@ -3,12 +3,13 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { LOAD_CROWDSALES } from './constants';
 import { crowdsalesLoaded } from './actions';
 
 export function* getCrowdsales({ ecosystem }) {
-  const requestURL = `${API_URL_BASE}/properties/listactivecrowdsales`;
-  
+  const requestURL = `${getLocationPath()}/properties/listactivecrowdsales`;
+
   const body = encoderURIParams({ ecosystem });
   const options = {
     method: 'POST',
@@ -17,7 +18,7 @@ export function* getCrowdsales({ ecosystem }) {
     },
     body,
   };
-  
+
   const crowdsales = yield call(request, requestURL, options);
   yield put(crowdsalesLoaded(crowdsales));
 }

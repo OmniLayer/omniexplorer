@@ -6,6 +6,7 @@
 
 import React from 'react';
 import StyledLink from 'components/StyledLink';
+import { getSufixURL } from 'utils/getLocationPath';
 import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
@@ -54,7 +55,7 @@ function Asset(props) {
       <StyledTDTextLeft>
         <StyledLink
           to={{
-            pathname: `/address/${asset.issuer}`,
+            pathname: `${getSufixURL}/address/${asset.issuer}`,
             state: { state: props.state },
           }}
         >

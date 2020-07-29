@@ -8,6 +8,7 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
 import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import {
   crowdsalesLoaded,
   crowdsalesLoadingError,
@@ -62,7 +63,7 @@ describe('getCrowdsales Saga', () => {
 
     const ecosystem = ECOSYSTEM_PROD;
     const saga = testSaga(getCrowdsales, { ecosystem });
-    const url = `${API_URL_BASE}/properties/listactivecrowdsales`;
+    const url = `${getLocationPath()}/properties/listactivecrowdsales`;
 
     const body = encoderURIParams({ ecosystem });
 

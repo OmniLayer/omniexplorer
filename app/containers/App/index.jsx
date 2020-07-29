@@ -105,45 +105,98 @@ export function App({
       <ErrorBoundary>
         <Switch>
           <Route exact path="/:block(\d+)?" component={HomePage} />
+          <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
+
           <Route path="/tx/:tx" component={TransactionDetail} />
+          <Route path="/testnet/tx/:tx" component={TransactionDetail} />
+
           <Route path="/transactions/unconfirmed" component={Transactions} />
+          <Route path="/testnet/transactions/unconfirmed" component={Transactions} />
+
           <Route
             path="/address/:address/:page(\d+)?"
             component={AddressDetail}
             key={location.pathname}
           />
           <Route
+            path="/testnet/address/:address/:page(\d+)?"
+            component={AddressDetail}
+            key={location.pathname}
+          />
+
+          <Route
             path="/search/:query"
             component={Search}
             key={location.pathname}
           />
+          <Route
+            path="/testnet/search/:query"
+            component={Search}
+            key={location.pathname}
+          />
+
           <Route
             path="/properties/:query"
             component={Properties}
             key={location.pathname}
           />
           <Route
+            path="/testnet/properties/:query"
+            component={Properties}
+            key={location.pathname}
+          />
+
+          <Route
             path="/asset/:propertyid(\d+)"
             component={AssetDetail}
             key={location.pathname}
           />
+          <Route
+            path="/testnet/asset/:propertyid(\d+)"
+            component={AssetDetail}
+            key={location.pathname}
+          />
+
           <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
+          <Route exact path="/testnet/crowdsales/:ecosystem" component={Crowdsales} />
+
           <Route
             path="/crowdsale/:crowdsaleid(\d+)"
             component={CrowdsaleDetail}
             key={location.pathname}
           />
           <Route
+            path="/testnet/crowdsale/:crowdsaleid(\d+)"
+            component={CrowdsaleDetail}
+            key={location.pathname}
+          />
+
+          <Route
             exact
             path="/block/:block(\d+)"
             component={BlockDetail}
             key={location.pathname}
           />
+          <Route
+            exact
+            path="/testnet/block/:block(\d+)"
+            component={BlockDetail}
+            key={location.pathname}
+          />
+
           <Route exact path="/promote" component={Promote} />
+          <Route exact path="/testnet/promote" component={Promote} />
+
           <Route exact path="/submitfeedback" component={Feedback} />
+          <Route exact path="/testnet/submitfeedback" component={Feedback} />
+
           {/*<Route exact path="/analytics" component={HistoryChart} />*/}
           <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
+          <Route exact path="/testnet/blocks/:block(\d+)?" component={FullBlockList} />
+
           <Route exact path="/activations" component={Activations} />
+          <Route exact path="/testnet/activations" component={Activations} />
+
           {/*<Route exact path="/exchange" component={Exchange} />*/}
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />

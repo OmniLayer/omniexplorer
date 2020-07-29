@@ -26,6 +26,7 @@ import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants'
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { API_URL_BASE, FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
 
 const StyledCard = styled(Card)`
@@ -65,7 +66,7 @@ function TransactionInfo(props) {
   });
   const invalidReason =
     props.confirmations === 0 ? '' : `Reason: ${props.invalidreason || 'invalid transaction'}`;
-  const rawTransactionURL = `${API_URL_BASE}/transaction/tx/${props.txid}`;
+  const rawTransactionURL = `${getSufixURL()}/transaction/tx/${props.txid}`;
 
   let warningMessage = null;
   let dtheader;
@@ -204,7 +205,7 @@ function TransactionInfo(props) {
               <td>
                 <StyledLink
                   to={{
-                    pathname: `/address/${props.sendingaddress}`,
+                    pathname: `${getSufixURL()}/address/${props.sendingaddress}`,
                     state: { state: props.state },
                   }}
                 >
@@ -218,7 +219,7 @@ function TransactionInfo(props) {
               <td>
                 <StyledLink
                   to={{
-                    pathname: `/address/${recipient}`,
+                    pathname: `${getSufixURL()}/address/${recipient}`,
                     state: { state: props.state },
                   }}
                 >
@@ -241,7 +242,7 @@ function TransactionInfo(props) {
               <td>
                 <StyledLink
                   to={{
-                    pathname: `/block/${props.block}`,
+                    pathname: `${getSufixURL()}/block/${props.block}`,
                     state: { state: props.state },
                   }}
                 >

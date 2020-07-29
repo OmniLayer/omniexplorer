@@ -7,6 +7,7 @@ import { testSaga } from 'redux-saga-test-plan';
 
 import request from 'utils/request';
 import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { LOAD_TRANSACTION, LOAD_TRANSACTION_SUCCESS } from '../constants';
 import { transactionLoadingError } from '../actions';
 
@@ -49,7 +50,7 @@ describe('getTransaction Saga', () => {
     };
 
     const saga = testSaga(getTransaction, { tx: txid });
-    const url = `${API_URL_BASE}/transaction/tx/${txid}`;
+    const url = `${getLocationPath()}/transaction/tx/${txid}`;
 
     saga
       .next()

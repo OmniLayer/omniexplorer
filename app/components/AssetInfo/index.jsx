@@ -14,6 +14,7 @@ import StyledLink from 'components/StyledLink';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import { API_URL_BASE, FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import normalizeURL from 'utils/normalizeURL';
 
 const StyledTD = styled.td.attrs({
@@ -23,7 +24,7 @@ const StyledTD = styled.td.attrs({
 `;
 
 function AssetInfo(asset) {
-  const rawAssetURL = `${API_URL_BASE}/property/${asset.propertyid}`;
+  const rawAssetURL = `${getSufixURL()}/property/${asset.propertyid}`;
 
   let tokenName;
   let propertyID;
@@ -152,7 +153,7 @@ function AssetInfo(asset) {
         <td>
           <StyledLink
             to={{
-              pathname: `/address/${asset.issuer}`,
+              pathname: `${getSufixURL()}/address/${asset.issuer}`,
               state: { state: asset.state },
             }}
           >

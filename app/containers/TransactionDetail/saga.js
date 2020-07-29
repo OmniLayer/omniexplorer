@@ -1,13 +1,14 @@
 import { all, call, put, take, takeLatest } from 'redux-saga/effects';
 import { LOAD_TRANSACTION } from 'containers/TransactionDetail/constants';
 import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { transactionLoaded } from 'containers/TransactionDetail/actions';
 
 import request from 'utils/request';
 
 export function* getTransaction(action = {}) {
   const txid = action.tx;
-  const requestURL = `${API_URL_BASE}/transaction/tx/${txid}`;
+  const requestURL = `${getLocationPath()}/transaction/tx/${txid}`;
 
   const tx = yield call(request, requestURL);
   yield put(transactionLoaded(tx));
