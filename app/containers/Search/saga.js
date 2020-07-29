@@ -36,19 +36,24 @@ export function* getSearch({ query }) {
     let btcBalance;
 
     const urlBTCBalance = `${API_URL_BLOCKCHAIN_BTC_BALANCE}${address}`;
-    btcBalance = yield call(request, urlBTCBalance);
+    try {
+      btcBalance = yield* call(request, urlBTCBalance);
+    } catch {}
 
     // if there is a valid response use btc balance from blockchain.info response
-    if (btcBalance[address] && !isNil(btcBalance[address].final_balance)) {
+    if (btcBalance && btcBalance[address] && !isNil(btcBalance[address].final_balance)) {
       btcBalanceValue = btcBalance[address].final_balance;
     } else {
       // if blockchain.info retrieves an error try with blockchair
       const urlBTCBalanceAlternative = FN_API_URL_BLOCKCHAIR_BTC_BALANCE({
         address,
       });
-      btcBalance = yield call(request, urlBTCBalanceAlternative);
-      // use btc balance from blockchair.com response
-      btcBalanceValue = btcBalance.data[address].address.balance;
+
+      try {
+        btcBalance = yield* call(request, urlBTCBalanceAlternative);
+        // use btc balance from blockchair.com response
+        btcBalanceValue = btcBalance.data[address].address.balance;
+      } catch {}
     }
 
     const walletBTCBalance = wallet.balance.find(x => x.id == 0);
