@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
+
 import HomePage from 'containers/HomePage/Loadable';
 import TransactionDetail from 'containers/TransactionDetail';
 import Transactions from 'containers/Transactions';
@@ -50,6 +51,8 @@ import activationsSaga from 'containers/Activations/saga';
 import statusSaga from 'components/ServiceBlock/saga';
 import GlobalStyle from '../../global-styles';
 
+import { EXODUS_TXS_CLASS_AB } from './constants';
+
 // Set Moment Global locale
 // Moment.globalLocale = 'en-gb';
 // import Moment from 'react-moment';
@@ -66,9 +69,7 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-export function App({
-  loadStatus,
-}) {
+export function App({ loadStatus }) {
   useInjectSaga({
     key: 'tokenDetail',
     saga: tokenSaga,
@@ -81,7 +82,7 @@ export function App({
   useInjectSaga({
     key: 'activations',
     saga: activationsSaga,
-  })
+  });
 
   useEffect(() => {
     console.log('load status..');
@@ -111,7 +112,12 @@ export function App({
           <Route path="/testnet/tx/:tx" component={TransactionDetail} />
 
           <Route path="/transactions/unconfirmed" component={Transactions} />
-          <Route path="/testnet/transactions/unconfirmed" component={Transactions} />
+          <Route
+            path="/testnet/transactions/unconfirmed"
+            component={Transactions}
+          />
+
+          <Route path={`/${EXODUS_TXS_CLASS_AB}`} component={Transactions} />
 
           <Route
             path="/address/:address/:page(\d+)?"
@@ -158,7 +164,11 @@ export function App({
           />
 
           <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
-          <Route exact path="/testnet/crowdsales/:ecosystem" component={Crowdsales} />
+          <Route
+            exact
+            path="/testnet/crowdsales/:ecosystem"
+            component={Crowdsales}
+          />
 
           <Route
             path="/crowdsale/:crowdsaleid(\d+)"
@@ -185,19 +195,21 @@ export function App({
           />
 
           <Route exact path="/promote" component={Promote} />
-          <Route exact path="/testnet/promote" component={Promote} />
 
           <Route exact path="/submitfeedback" component={Feedback} />
-          <Route exact path="/testnet/submitfeedback" component={Feedback} />
 
-          {/*<Route exact path="/analytics" component={HistoryChart} />*/}
+          {/* <Route exact path="/analytics" component={HistoryChart} /> */}
           <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
-          <Route exact path="/testnet/blocks/:block(\d+)?" component={FullBlockList} />
+          <Route
+            exact
+            path="/testnet/blocks/:block(\d+)?"
+            component={FullBlockList}
+          />
 
           <Route exact path="/activations" component={Activations} />
           <Route exact path="/testnet/activations" component={Activations} />
 
-          {/*<Route exact path="/exchange" component={Exchange} />*/}
+          {/* <Route exact path="/exchange" component={Exchange} /> */}
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>

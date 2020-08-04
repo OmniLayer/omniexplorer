@@ -23,3 +23,5 @@ export const ECOSYSTEM_PROD_NAME = 'Production';
 export const ECOSYSTEM_TEST_NAME = 'Test';
 export const FIRST_BLOCK = 252317;
 export const FEATURE_ACTIVATION_TYPE_INT = 65534;
+export const EXODUS_TXS_CLASS_AB = 'txs-class-a-b';
+export const EXODUS_ADDRESS = '1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P';

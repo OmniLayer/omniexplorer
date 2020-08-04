@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import SearchBox from 'components/SearchBox';
 import NavigationBar from 'components/NavigationBar';
-import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
+import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME, EXODUS_TXS_CLASS_AB } from 'containers/App/constants';
 
 import {
   Alert,
@@ -125,6 +125,9 @@ class Header extends React.PureComponent {
                     {/*</DropdownItem>*/}
                     <DropdownItem>
                       <NavLink href="/testnet/">Testnet</NavLink>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <NavLink href={`/${EXODUS_TXS_CLASS_AB}`}>Recent Class A/B TX's</NavLink>
                     </DropdownItem>
                     <DropdownItem>
                       <NavLink href={`${getSufixURL()}/activations`}>Feature Activations</NavLink>
