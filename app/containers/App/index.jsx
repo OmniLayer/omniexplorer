@@ -12,10 +12,10 @@
  * the linting exception.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -89,8 +89,20 @@ export function App({ loadStatus }) {
     loadStatus();
   }, []);
 
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  };
+  const lightTheme={};
+  const darkTheme={};
+
   return (
-    <AppWrapper>
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <AppWrapper>
       <Helmet
         titleTemplate="%s - Omni Explorer"
         defaultTitle="Omni Explorer - The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
@@ -218,6 +230,7 @@ export function App({ loadStatus }) {
       {isDev ? <DevTools /> : <div />}
       <GlobalStyle />
     </AppWrapper>
+    </ThemeProvider>
   );
 }
 
