@@ -83,6 +83,15 @@ const GlobalStyle = createGlobalStyle`
   	padding-right: 0.5rem;
   	padding-left: 0.5rem;
   }
+
+  .bm-item:hover{
+    &, a.dropdown-toggle:hover {
+      color: whitesmoke;
+    }
+   a.dropdown-item:hover {
+      background-color: transparent;
+    }
+  }
 `;
 
 export default GlobalStyle;

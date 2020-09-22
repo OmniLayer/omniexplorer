@@ -22,22 +22,15 @@ import FooterLinks from 'components/FooterLinks';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import history from 'utils/history';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import { getSufixURL } from 'utils/getLocationPath';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
-import {
-  makeSelectLoading,
-  makeSelectTransactions,
-  makeSelectUnconfirmed,
-} from './selectors';
-import {
-  loadExodusTxs,
-  loadTransactions,
-  loadUnconfirmed,
-  setPage,
-  setTransactionType,
-} from './actions';
+
+import { EXODUS_TXS_CLASS_AB, EXODUS_ADDRESS } from 'containers/App/constants';
+
+import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
+import { loadExodusTxs, loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
 
 import saga from './saga';
@@ -46,7 +39,7 @@ import { TRANSACTION_TYPE } from './constants';
 
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
-  const exodusTxs = props.location.pathname.includes('exodus');
+  const exodusTxs = props.location.pathname.toLowerCase().includes(EXODUS_TXS_CLASS_AB);
 
   const pageParam =
     props.match.params.page ||
@@ -132,7 +125,7 @@ export function Transactions(props) {
         props.loadUnconfirmed(props.addr);
         break;
       case TRANSACTION_TYPE.EXODUS:
-        props.loadExodusTxs(props.addr);
+        props.loadExodusTxs(EXODUS_ADDRESS);
         break;
     }
   };
@@ -185,8 +178,8 @@ export function Transactions(props) {
           ? messages.unconfirmedHeader
           : {
             id: 'app.components.Transactions.unconfirmedHeader',
-              defaultMessage: `${props.transactions.txCount} Transactions`,
-            }
+            defaultMessage: `${props.transactions.txCount} Transactions`,
+          }
       }
       totalPreText={
         props.unconfirmed && props.transactions ? 'Displaying the ' : null
@@ -215,13 +208,6 @@ export function Transactions(props) {
               disabled={!!props.unconfirmed}
             >
               Unconfirmed
-            </Button>
-            <Button
-              onClick={() => onRadioBtnClick(TRANSACTION_TYPE.EXODUS)}
-              active={!!exodusTxs}
-              disabled={!!exodusTxs}
-            >
-              Exodus
             </Button>
           </ButtonGroup>
         )

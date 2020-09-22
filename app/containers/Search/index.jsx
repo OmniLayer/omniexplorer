@@ -169,7 +169,7 @@ export function Search(props) {
   if (!wallet && !assets && !tx) {
     return (
       <ContainerBase>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <div>
               <Jumbotron className="text-center">
@@ -208,13 +208,13 @@ export function Search(props) {
           </h4>
         </Col>
       </StyledRow>
-      <Row>
+      <Row noGutters>
         <Col sm>{wallet}</Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>{assets}</Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>{tx}</Col>
       </Row>
     </ContainerBase>

@@ -23,7 +23,9 @@ import AssetLogo from 'components/AssetLogo';
 import getWarningMessage from 'utils/getWarningMessage';
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
-const DetailRow = styled(Row)`
+const DetailRow = styled(Row).attrs({
+  className: 'no-gutters',
+})`
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
