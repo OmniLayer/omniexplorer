@@ -172,7 +172,7 @@ export function CrowdsaleDetail(props) {
         <meta name="twitter:description" content={shareTitle} />
       </Helmet>
       {warningMessage}
-      <Row>
+      <Row noGutters>
         <Col sm="12" md="9">
           <StyledDivContent>
             <Table responsive hover>
@@ -322,8 +322,8 @@ export function CrowdsaleDetail(props) {
           </StyledCard>
         </Col>
       </Row>
-      <Row>&nbsp;</Row>
-      <Row>
+      <Row noGutters>&nbsp;</Row>
+      <Row noGutters>
         <Col>
           <HistoryContainer>
             <StyledRow>

@@ -97,7 +97,7 @@ export class Crowdsales extends React.Component {
 
     return (
       <ContainerBase>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <ListHeader
               total={this.props.crowdsales.crowdsales.length}
@@ -108,10 +108,10 @@ export class Crowdsales extends React.Component {
             />
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>{assets}</Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>{loading}</Col>
         </Row>
       </ContainerBase>

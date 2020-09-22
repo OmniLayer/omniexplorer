@@ -25,22 +25,22 @@ export function HomePage() {
   const footer = <FooterLinks unconfirmed blocklist />;
   return (
     <ContainerBase>
-      <Row>
+      <Row noGutters>
         <Col sm>
           <HeaderMessage />
         </Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>
           <ServiceBlock />
         </Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>
           <TransactionHistory />
         </Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>
           <Blocks footer={footer} />
         </Col>

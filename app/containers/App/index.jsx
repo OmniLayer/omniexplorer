@@ -61,7 +61,7 @@ import { EXODUS_TXS_CLASS_AB } from './constants';
 const isDev = process.env.NODE_ENV !== 'production';
 
 const AppWrapper = styled.div`
-  max-width: calc(1170px + 16px * 2);
+  //max-width: calc(1170px + 16px * 2);
   margin: 0 auto;
 
   display: flex;

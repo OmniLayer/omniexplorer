@@ -17,6 +17,7 @@ const StyledNavigationBar = styled(Navbar).attrs({
 })`
   background-color: #1c347a;
   background-image: linear-gradient(180deg, #192d69 -2%, #192d69 0%, #1c347a);
+  z-index: 999 !important;
 
   a,
   a.nav-link {

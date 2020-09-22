@@ -82,7 +82,7 @@ export class Properties extends React.PureComponent {
 
     return (
       <ContainerBase>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <ListHeader
               total={this.props.search.asset.length}
@@ -94,7 +94,7 @@ export class Properties extends React.PureComponent {
             />
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>{assets}</Col>
         </Row>
       </ContainerBase>

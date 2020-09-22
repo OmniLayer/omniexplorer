@@ -45,12 +45,12 @@ export function AddressDetail(props) {
 
   return (
     <ContainerBase>
-      <Row>
+      <Row noGutters>
         <Col sm>
           <Wallet {...props.addressdetail} addr={address} />
         </Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>
           <Transactions addr={address} {...props} currentPage={1} />
         </Col>
