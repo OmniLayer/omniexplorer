@@ -24,6 +24,7 @@ const IMG = styled.img`
 const Container = styled.div`
   background-color: #3498db;
   padding: 15px;
+  margin-top: 2.5rem;
 `;
 
 const ContainerLogo = styled.div`
@@ -65,13 +66,10 @@ const StyledContainerSummary = styled.div`
 `;
 
 const StyledContainerSummary1 = styled(StyledContainerSummary)`
-  background-color: #348fe2;
 `;
 const StyledContainerSummary2 = styled(StyledContainerSummary)`
-  background-color: #159e9c;
 `;
 const StyledContainerSummary3 = styled(StyledContainerSummary)`
-  background-color: #727cb6;
 `;
 
 const SummaryItem = props => {

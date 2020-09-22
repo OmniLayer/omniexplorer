@@ -11,12 +11,11 @@ import styled from 'styled-components';
 const StyledNavigationBar = styled(Navbar).attrs({
   expand: 'sm',
   className: 'd-block',
-  fixed: 'top',
   fluid: 'true',
   color: 'light',
 })`
-  background-color: #1c347a;
-  background-image: linear-gradient(180deg, #192d69 -2%, #192d69 0%, #1c347a);
+  background-color: #3498db;
+  background-image: linear-gradient(180deg, #3498db -2%, #3498db 0%, #3498db);
   z-index: 999 !important;
 
   a,
