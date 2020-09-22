@@ -23,11 +23,12 @@ import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import history from 'utils/history';
 import { getSufixURL } from 'utils/getLocationPath';
+import isTestnet from 'utils/isTestnet';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-import { EXODUS_TXS_CLASS_AB, EXODUS_ADDRESS } from 'containers/App/constants';
+import { EXODUS_TXS_CLASS_AB, EXODUS_ADDRESS_MAINNET, EXODUS_ADDRESS_TESTNET } from 'containers/App/constants';
 
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
 import { loadExodusTxs, loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
@@ -125,7 +126,7 @@ export function Transactions(props) {
         props.loadUnconfirmed(props.addr);
         break;
       case TRANSACTION_TYPE.EXODUS:
-        props.loadExodusTxs(EXODUS_ADDRESS);
+        props.loadExodusTxs(isTestnet ? EXODUS_ADDRESS_TESTNET : EXODUS_ADDRESS_MAINNET);
         break;
     }
   };

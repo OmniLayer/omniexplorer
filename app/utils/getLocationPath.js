@@ -1,8 +1,7 @@
 import { API_TESTNET_URL_BASE, API_URL_BASE } from 'containers/App/constants';
+import isTestnet from './isTestnet';
 
 export default () => {
-  const isTestnet = window.location.href.includes('testnet');
-
   return isTestnet ? API_TESTNET_URL_BASE : API_URL_BASE;
 };
 
