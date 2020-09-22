@@ -35,7 +35,7 @@ import {
   Card,
   CardBody,
 } from 'reactstrap';
-
+import ServiceBlock from 'components/ServiceBlock';
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 const IMG = styled.img`
@@ -144,7 +144,7 @@ class Header extends React.PureComponent {
             </UncontrolledCollapse>
           </div>
         </Menu>
-        <StyledNavigationBar>
+        <StyledNavigationBar fixed="top">
           <div className="d-flex">
             <NavbarBrand href="/">
               OMNIEXPLORER.INFO
@@ -157,6 +157,7 @@ class Header extends React.PureComponent {
             </div>
           </div>
         </StyledNavigationBar>
+        <ServiceBlock />
       </div>
     );
   }

@@ -32,11 +32,6 @@ export function HomePage() {
       </Row>
       <Row noGutters>
         <Col sm>
-          <ServiceBlock />
-        </Col>
-      </Row>
-      <Row noGutters>
-        <Col sm>
           <TransactionHistory />
         </Col>
       </Row>

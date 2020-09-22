@@ -28,7 +28,7 @@ class ListHeader extends React.PureComponent {
     const countMessage = this.props.countMessage || this.props.message;
 
     return (
-      <StyledRow className="text-center-down-sm pt-2 pb-2" style={this.props.sx}>
+      <StyledRow noGutters className="text-center-down-sm pt-2 pb-2" style={this.props.sx}>
         <Col sm md={8}>
           <HeaderTitle>
             <FormattedMessage
