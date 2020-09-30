@@ -1,0 +1,48 @@
+.hover, .hover__mobile {
+  position: relative;
+  display: inline-block;
+}
+
+.menu__icon {
+  display: block;
+  background: #696969;
+  width: 28px;
+  height: 2px;
+}
+
+.menu__btn, .menu__icon {
+  position: relative;
+  transition: .3s;
+}
+
+.menu__btn {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.menu__icon:after, .menu__icon:before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: #696969;
+  width: 100%;
+  height: 2px;
+  transition: .3s;
+}
+
+.menu__icon:after {
+  top: 7px;
+}
+
+.menu__icon:after, .menu__icon:before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: #696969;
+  width: 100%;
+  height: 2px;
+  transition: .3s;
+}
