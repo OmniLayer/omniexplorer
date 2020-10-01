@@ -4,20 +4,19 @@
  *
  */
 
-import React from 'react';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
-
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import React, { useState } from 'react';
+import './menu-button.css';
 
 function MenuButton() {
+  const [menuOpened, setMenuOpened] = useState(false);
+
   return (
-    <div className="hover__mobile">
-      <div className="wrap-menu">
-        <div className="menu__btn">
-          <div className="menu__icon"></div>
-        </div>
+    <div
+      className={`wrap-menu ${!!menuOpened && 'menu__opened'}`}
+      onClick={() => setMenuOpened(!menuOpened)}
+    >
+      <div className="menu__btn">
+        <div className="menu__icon" />
       </div>
     </div>
   );

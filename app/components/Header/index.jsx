@@ -13,6 +13,7 @@ import SearchBox from 'components/SearchBox';
 import NavigationBar from 'components/NavigationBar';
 
 import DarkModeToggle from 'components/DarkModeToggle';
+import MenuButton from 'components/MenuButton';
 
 // import { slide as Menu } from 'react-burger-menu';
 import { push as Menu } from 'react-burger-menu';
@@ -81,7 +82,8 @@ class Header extends React.PureComponent {
               OMNIEXPLORER.INFO
             </NavbarBrand>
           <DarkModeToggle />
-          <NavbarToggler onClick={this.toggle} />
+          <MenuButton/>
+          {/*<NavbarToggler onClick={this.toggle} />*/}
           {/*asdñlkfasñlkdfj*/}
         </Navbar>
         <ServiceBlock />
