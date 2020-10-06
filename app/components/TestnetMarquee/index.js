@@ -9,7 +9,7 @@ import './testnetmarquee.scss';
 
 function TestnetMarquee() {
   return (
-    <div className="marquee fixed-bottom bg-success">
+    <div className="marquee fixed-bottom">
       <span>{'TESTNET '.repeat(40)}</span>
     </div>
   );
