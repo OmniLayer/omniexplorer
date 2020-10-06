@@ -93,6 +93,7 @@ class ErrorBoundary extends React.Component {
       content = (
         <ContainerBase>
           <Modal
+            className="error-boundary"
             isOpen={this.props.st.modal}
             toggle={this.props.cleanError}
             backdrop
@@ -102,7 +103,7 @@ class ErrorBoundary extends React.Component {
               <Jumbotron className="text-center">
                 <h4>{reason ? reason.reason : error.message}</h4>
                 <br />
-                {RedirectMsg}
+                <RedirectMsg />
               </Jumbotron>
             </ModalBody>
           </Modal>
