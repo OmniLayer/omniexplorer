@@ -20,12 +20,12 @@ body.dark-mode {
   background-color: #10171d;
   color: #dfdfdf;
 
-  .service-block {
+  .service-block, .navigation-bar, .navbar, .searchbox-input, .modal-content, .jumbotron {
     background-color: #1b2938;
   }
 
-  .navbar {
-    background-color: #1b2938;
+  button.close {
+    color: whitesmoke;
   }
 
   .dark-mode-toggle > button {
