@@ -13,9 +13,9 @@
 .menu__btn {
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 29px;
   cursor: pointer;
-  z-index: 100;
+  z-index: 999;
 }
 .menu__icon:after, .menu__icon:before {
   content: "";

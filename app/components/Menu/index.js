@@ -4,91 +4,93 @@
  *
  */
 
-import React from 'react';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
-
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import { DropdownItem, DropdownToggle, NavLink, UncontrolledCollapse } from 'reactstrap';
+import React, { useState } from 'react';
+import { Col, NavLink, Row } from 'reactstrap';
+import styled from 'styled-components';
+import Switch from 'rc-switch';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME, EXODUS_TXS_CLASS_AB } from 'containers/App/constants';
 
-import './sidebar.css';
+import DarkModeToggle from 'components/DarkModeToggle';
+import MenuButton from 'components/MenuButton';
+
+import isTestnet from 'utils/isTestnet';
+
+import './menu.scss';
+import './switch.scss';
+
+const MenuDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.15);
+  margin-top: 6px;
+  margin-bottom: 12px;
+`;
 
 function Menu() {
-  const appContainer = "app-container";
+  const [menuOpened, setMenuOpened] = useState(false);
+  const [testnet, setTestnet] = useState(isTestnet);
 
   return (
-    <Menu customBurgerIcon={ <img src="/favicon.png" alt="OmniExplorer.info" />} outerContainerId={ appContainer} pageWrapId={ appContainer} >
-      <NavLink href="/">Home</NavLink>
-      <div>
-        <DropdownToggle nav caret id="api-toggler">
-          API
-        </DropdownToggle>
-        <UncontrolledCollapse toggler="#api-toggler">
-          <DropdownItem>
-            <NavLink href="https://api.omniexplorer.info">Documentation</NavLink>
-          </DropdownItem>
-        </UncontrolledCollapse>
-      </div>
-      <div>
-        <DropdownToggle nav caret id="prop-list-toggler">
-          Property List
-        </DropdownToggle>
-        <UncontrolledCollapse toggler="#prop-list-toggler">
-          <DropdownItem>
-            <NavLink href={`${getSufixURL()}/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`} >Production</NavLink>
-          </DropdownItem>
-          <DropdownItem>
-            <NavLink href={`${getSufixURL()}/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`} >Test</NavLink>
-          </DropdownItem>
-        </UncontrolledCollapse>
-      </div>
-      <div>
-        <DropdownToggle nav caret id="crowdsales-toggler">
-          Crowdsales
-        </DropdownToggle>
-        <UncontrolledCollapse toggler="#crowdsales-toggler">
-          <DropdownItem>
+    <div>
+      <MenuButton menuOpened={menuOpened} setMenuOpened={setMenuOpened} />
+      <div
+        className="menu__block"
+        style={{ display: !menuOpened ? 'none' : '' }}
+      >
+        <Row>
+          <Col>
+            <h4 className="d-inline-block">Menu</h4>
+            <div className="d-inline-block float-right align-bottom">
+              <DarkModeToggle />
+            </div>
+          </Col>
+          <Col>
+            <Switch
+              onChange={() => {
+                setTestnet(!testnet);
+                setTimeout(() => {
+                  window.location = `/${testnet ? '' : 'testnet'}`;
+                }, 1000);
+              }}
+              checkedChildren="Mainnet"
+              defaultChecked={!testnet}
+              unCheckedChildren="Testnet"
+              className="hack-switch"
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <MenuDivider />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="6" sm="4">
+            <h5>Property List</h5>
+            <NavLink href={`${getSufixURL()}/properties/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Production</NavLink>
+            <NavLink href={`${getSufixURL()}/properties/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Test</NavLink>
+            <h5>Crowdsales</h5>
             <NavLink href={`${getSufixURL()}/crowdsales/${ECOSYSTEM_PROD_NAME.toLowerCase()}`}>Production</NavLink>
-          </DropdownItem>
-          <DropdownItem>
             <NavLink href={`${getSufixURL()}/crowdsales/${ECOSYSTEM_TEST_NAME.toLowerCase()}`}>Test</NavLink>
-          </DropdownItem>
-        </UncontrolledCollapse>
-      </div>
-      <div>
-        <DropdownToggle nav caret id="misc-toggler">
-          Misc
-        </DropdownToggle>
-        <UncontrolledCollapse toggler="#misc-toggler">
-          {/*<DropdownItem>*/}
-          {/*  <NavLink href="/exchange">Exchange</NavLink>*/}
-          {/*</DropdownItem>*/}
-          <DropdownItem>
-            <NavLink href="/testnet/">Testnet</NavLink>
-          </DropdownItem>
-          <DropdownItem>
+          </Col>
+          <Col xs="6" sm="4">
+            <h5>Misc</h5>
             <NavLink href={`/${EXODUS_TXS_CLASS_AB}`}>Recent Class A/B TX's</NavLink>
-          </DropdownItem>
-          <DropdownItem>
             <NavLink href={`${getSufixURL()}/activations`}>Feature Activations</NavLink>
-          </DropdownItem>
-          <DropdownItem>
-            <NavLink href="http://www.omnilayer.org/#GetStarted" target="_blank">Wallets</NavLink>
-          </DropdownItem>
-          <DropdownItem>
-            <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ" target="_blank">Help/FAQ</NavLink>
-          </DropdownItem>
-          <DropdownItem>
+            {/*  <NavLink href="/exchange">Exchange</NavLink>*/}
+            {/*  <NavLink href="/analytics">Analytics</NavLink>*/}
+            <NavLink href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ"
+                     target="_blank">Help/FAQ</NavLink>
             <NavLink href="https://github.com/OmniLayer/omniexplorer/issues" target="_blank">Report Bug</NavLink>
-          </DropdownItem>
-          {/*<DropdownItem>*/}
-          {/*  <NavLink href="/analytics">Analytics</NavLink>*/}
-          {/*</DropdownItem>*/}
-        </UncontrolledCollapse>
+          </Col>
+          <Col xs="6" sm="4">
+            <h5>API</h5>
+            <NavLink href={getLocationPath()}>Documentation</NavLink>
+          </Col>
+        </Row>
       </div>
-    </Menu>
+    </div>
   );
 }
 

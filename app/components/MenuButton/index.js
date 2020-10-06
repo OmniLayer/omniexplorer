@@ -4,16 +4,14 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import './menu-button.css';
 
-function MenuButton() {
-  const [menuOpened, setMenuOpened] = useState(false);
-
+function MenuButton(props) {
   return (
     <div
-      className={`wrap-menu ${!!menuOpened && 'menu__opened'}`}
-      onClick={() => setMenuOpened(!menuOpened)}
+      className={`wrap-menu ${!!props.menuOpened && 'menu__opened'}`}
+      onClick={() => props.setMenuOpened(!props.menuOpened)}
     >
       <div className="menu__btn">
         <div className="menu__icon" />
