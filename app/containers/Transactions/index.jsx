@@ -173,7 +173,6 @@ export function Transactions(props) {
 
   const header = (
     <TransactionListHeader
-      sx={{ backgroundColor: 'whitesmoke' }}
       customHeader={
         props.unconfirmed
           ? messages.unconfirmedHeader

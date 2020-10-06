@@ -11,8 +11,27 @@ body.light-mode {
   color: #333;
   transition: background-color 0.3s ease;
 
+  .list-header {
+    background-color: whitesmoke;
+  }
+
   .service-block {
     background-color: #3498db;
+  }
+
+  .result-list .transation-result {
+    background-color: white;
+  }
+
+  .wrapper-link {
+    background-color: #eff5fb;
+  }
+  .page-item.disabled .page-link {
+    color: #007bff;
+  }
+
+  a.nav-link {
+    color: #333;
   }
 }
 
@@ -20,12 +39,35 @@ body.dark-mode {
   background-color: #10171d;
   color: #dfdfdf;
 
-  .service-block, .navigation-bar, .navbar, .searchbox-input, .modal-content, .jumbotron {
+  .page-item.disabled .page-link{
+    background-color: #6c757d;
+    color: lightgray;
+  }
+
+  .page-item.disabled .page-link{
+    color: lightgrey;
+  }
+
+  .service-block, .navigation-bar, .navbar, .searchbox-input, .modal-content, .jumbotron, .page-item .page-link {
     background-color: #1b2938;
   }
 
-  button.close {
+  button.close, input, .form-control:focus, .text-white, .table, .text-dark {
+    color: #cbcbcb !important;
+  }
+
+  .table-hover tbody tr:hover {
     color: whitesmoke;
+    background-color: #1b2938;
+  }
+
+  .bg-transparent {
+    background-color: #1b2938 !important;
+  }
+
+  .active > .page-link {
+    background-color: #10171d !important;
+    border-color: #337ab7;
   }
 
   .dark-mode-toggle > button {
