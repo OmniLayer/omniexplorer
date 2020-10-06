@@ -49,6 +49,8 @@ import { useInjectSaga } from 'utils/injectSaga';
 import tokenSaga from 'components/Token/saga';
 import activationsSaga from 'containers/Activations/saga';
 import statusSaga from 'components/ServiceBlock/saga';
+import TestnetMarquee from 'components/TestnetMarquee';
+import isTestnet from 'utils/isTestnet';
 import GlobalStyle from '../../global-styles';
 
 import { EXODUS_TXS_CLASS_AB } from './constants';
@@ -227,6 +229,7 @@ export function App({ loadStatus }) {
         </Switch>
       </ErrorBoundary>
       <Footer />
+      {isTestnet && <TestnetMarquee />}
       {isDev ? <DevTools /> : <div />}
       <GlobalStyle />
     </AppWrapper>
