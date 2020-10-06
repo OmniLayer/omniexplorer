@@ -32,7 +32,7 @@ const Wrapper = styled.div.attrs({
   & div.input-group > svg.searchbox-icon {
     height: auto;
     margin-left: -3rem;
-    z-index: 999;
+    z-index: 333;
     cursor: pointer;
   }
 `;
