@@ -1,0 +1,60 @@
+.menu__icon {
+  display: block;
+  background: #696969;
+  width: 28px;
+  height: 2px;
+}
+
+.menu__btn, .menu__icon {
+  position: relative;
+  transition: .3s;
+}
+
+.menu__btn {
+  display: flex;
+  align-items: center;
+  height: 29px;
+  cursor: pointer;
+  z-index: 999;
+}
+.menu__icon:after, .menu__icon:before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: #696969;
+  width: 100%;
+  height: 2px;
+  transition: .3s;
+}
+
+.menu__icon:before {
+  top: -7px;
+}
+
+.menu__icon:after {
+  top: 7px;
+}
+
+.menu__icon:after, .menu__icon:before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: #696969;
+  width: 100%;
+  height: 2px;
+  transition: .3s;
+}
+
+.menu__opened .menu__icon {
+  background: hsla(0,0%,100%,0);
+}
+
+.menu__opened .menu__icon:before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.menu__opened .menu__icon:after {
+  top: 0;
+  transform: rotate(-45deg);
+}

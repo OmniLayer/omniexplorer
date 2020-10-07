@@ -34,7 +34,7 @@ const StyledPaginationButton = styled(PaginationItem)`
 
 const StyledPaginationItem = styled(StyledPaginationButton)`
   & > .page-link {
-    color: #337ab7;
+    color: lightgrey;
   }
   &.active > .page-link {
     background-color: #3498db !important;

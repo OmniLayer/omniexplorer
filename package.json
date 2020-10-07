@@ -79,8 +79,8 @@
     "moment": "^2.27.0",
     "prop-types": "15.7.2",
     "qrcode.react": "^0.9.3",
+    "rc-switch": "^3.2.1",
     "react": "16.11.0",
-    "react-burger-menu": "^2.7.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "16.11.0",
     "react-helmet": "6.0.0-beta",
@@ -100,6 +100,7 @@
     "sanitize.css": "8.0.0",
     "styled-components": "4.2.0",
     "styled-theming": "^2.2.0",
+    "use-dark-mode": "^2.3.1",
     "warning": "^4.0.3"
   },
   "devDependencies": {

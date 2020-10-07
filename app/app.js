@@ -43,14 +43,17 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
-// Import CSS reset and Global Styles
-import './global-styles';
-
-// Import SASS responsive styles
+// // Import CSS reset and Global Styles
+// import './global-styles';
+//
+// // Import SASS responsive styles
 import './responsive-styles.scss';
-
-// Import theming
-import './theming/theming.scss';
+//
+// // Import theming
+// import './theming/theming.scss';
+//
+// // Import theming modes
+import './theming/theming-modes.scss';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)

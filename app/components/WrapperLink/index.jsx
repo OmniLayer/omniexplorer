@@ -18,7 +18,7 @@ const WrapperLink = styled.div.attrs({
   font-weight: 400;
   width: 44%;
   color: #333;
-  background-color: #eff5fb !important;
+  //background-color: #eff5fb !important;
   border: 1px solid #e2e7eb;
 `;
 

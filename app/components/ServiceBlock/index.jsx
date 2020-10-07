@@ -21,69 +21,17 @@ const IMG = styled.img`
   height: 60px;
 `;
 
-const Container = styled.div`
-  background-color: #3498db;
+const Container = styled.div.attrs({
+  className: 'service-block text-center-down-md text-white lead',
+})`
   padding: 15px;
-  margin-top: 2.5rem;
 `;
 
-const ContainerLogo = styled.div`
-  background-color: #3498db;
-`;
-
-const NameLogo = () => (
-  <ContainerLogo>
-    <div className="d-inline-block">
-      <IMG src={featureLogoPNG} alt="feature logo" />
-    </div>
-    <div className="d-inline-block bg-inverse text-white text-nowrap">
-      <h5>Omni Token</h5>
-      <span>Featured Property</span>
-    </div>
-  </ContainerLogo>
-);
-
-const BlockInfo = props => (
-  <div>
-    <div className="text-white">
-      <span>LAST UPDATE</span>
-    </div>
-    <div className="text-white">
-      <span>{`As of Block ${props.last_block}`}</span>
-    </div>
-    <div className="text-white">
-      <span>
-        <small>{`${props.block_time} UTC`}</small>
-      </span>
-    </div>
-  </div>
-);
-
-const StyledContainerSummary = styled.div`
-  padding: 6px;
-  margin: 0 6px;
+const BlockTitle = styled.span.attrs({
+  className: "d-block",
+})`
   font-size: 0.9rem;
 `;
-
-const StyledContainerSummary1 = styled(StyledContainerSummary)`
-`;
-const StyledContainerSummary2 = styled(StyledContainerSummary)`
-`;
-const StyledContainerSummary3 = styled(StyledContainerSummary)`
-`;
-
-const SummaryItem = props => {
-  const StyledContainer = props.container;
-
-  return (
-    <StyledContainer className="text-white">
-      <span className="d-block lead" style={{ fontSize: '0.9rem' }}>
-        {props.options.title}
-      </span>
-      <span className="lead">{props.options.value}</span>
-    </StyledContainer>
-  );
-};
 
 class ServiceBlock extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -109,39 +57,30 @@ class ServiceBlock extends React.PureComponent {
 
     return (
       <Container>
-        <Row>
-          <Col>
-            <NameLogo />
+        <Row xs="1" sm="1" md="5">
+          <Col className="mt-3 mt-sm-0">
+            <IMG src={featureLogoPNG} alt="OmniExplorer.info" />
+            <div className="d-sm-block d-md-inline-block text-whites align-middle">
+              <h5>Omni Token</h5>
+              <span>Featured Property</span>
+            </div>
           </Col>
-          <Col className="text-nowrap">
-            <BlockInfo {...this.props.status} />
+          <Col className="mt-3 mt-sm-0">
+            <BlockTitle>LAST UPDATE</BlockTitle>
+            <span className="d-block">{`As of Block ${this.props.status.last_block}`}</span>
+            <small className="d-block">{`${this.props.status.block_time} UTC`}</small>
           </Col>
-          <Col className="text-nowrap">
-            <SummaryItem
-              container={StyledContainerSummary1}
-              options={{
-                title: 'LATEST OMNI PRICE',
-                value: omniPriceValue(this.props.status),
-              }}
-            />
+          <Col className="mt-3 mt-sm-0">
+            <BlockTitle>LATEST OMNI PRICE</BlockTitle>
+            <span>{omniPriceValue(this.props.status)}</span>
           </Col>
-          <Col className="text-nowrap">
-            <SummaryItem
-              container={StyledContainerSummary2}
-              options={{
-                title: 'TOTAL TRANSACTIONS (24 hrs)',
-                value: this.props.status.txcount_24hr,
-              }}
-            />
+          <Col className="mt-3 mt-sm-0">
+            <BlockTitle>TOTAL TRANSACTIONS (24 hrs)</BlockTitle>
+            <span>{this.props.status.txcount_24hr}</span>
           </Col>
-          <Col className="text-nowrap">
-            <SummaryItem
-              container={StyledContainerSummary3}
-              options={{
-                title: 'OMNI PROPERTIES',
-                value: propertiesCountValue(this.props.status),
-              }}
-            />
+          <Col className="mt-3 mt-sm-0">
+            <BlockTitle>OMNI PROPERTIES</BlockTitle>
+            <span>{propertiesCountValue(this.props.status)}</span>
           </Col>
         </Row>
       </Container>

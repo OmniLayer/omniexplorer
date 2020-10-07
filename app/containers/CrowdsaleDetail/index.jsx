@@ -329,7 +329,6 @@ export function CrowdsaleDetail(props) {
             <StyledRow>
               <Col sm>
                 <ListHeader
-                  sx={{backgroundColor:'whitesmoke'}}
                   total={detail.total}
                   message={crowdsalesMessages.header}
                 />
