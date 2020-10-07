@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, NavLink, Row } from 'reactstrap';
 import styled from 'styled-components';
 import Switch from 'rc-switch';
@@ -31,9 +31,36 @@ function Menu() {
   const [menuOpened, setMenuOpened] = useState(false);
   const [testnet, setTestnet] = useState(isTestnet);
 
+  const toggleMenu = (syntheticEvent) => {
+    const newState = !menuOpened;
+    syntheticEvent.stopPropagation();
+    setMenuOpened(newState);
+    if (newState) {
+      window.addEventListener('click', globalClickListener);
+    }
+  };
+
+  const globalClickListener = (nativeEvent) => {
+    // if clicked outside of menu close it
+    const clickedOutsideMenu = !nativeEvent.composedPath().some((e) => e.classList && e.classList.contains('menu__block'));
+    if (clickedOutsideMenu) {
+      setMenuOpened(false);
+      window.removeEventListener('click', globalClickListener);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', globalClickListener);
+
+    return () => {
+      setMenuOpened(false);
+      window.removeEventListener('click', globalClickListener);
+    };
+  }, []);
+
   return (
     <div>
-      <MenuButton menuOpened={menuOpened} setMenuOpened={setMenuOpened} />
+      <MenuButton menuOpened={menuOpened} toggleMenu={toggleMenu} />
       <div
         className="menu__block"
         style={{ display: !menuOpened ? 'none' : '' }}
