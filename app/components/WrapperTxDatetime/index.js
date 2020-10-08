@@ -11,7 +11,6 @@ const WrapperTxDatetime = styled.div.attrs({
   className: 'wrapper-tx-timestamp w-75 mb-3',
 })`
   font-size: 1.25rem !important;
-  color: #333;
 `;
 
 WrapperTxDatetime.propTypes = {};

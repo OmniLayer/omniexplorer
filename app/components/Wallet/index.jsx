@@ -51,9 +51,9 @@ const StyledTable = styled(Table).attrs({
 })`
   marginbottom: '5px';
 `;
-const StyledTR = styled.tr.attrs({
-  className: 'text-light bg-secondary',
-})``;
+
+const StyledTR = styled.tr``;
+
 const StyledTH = styled.th`
   border: none !important;
   font-weight: normal !important;

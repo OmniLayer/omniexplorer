@@ -71,7 +71,8 @@ import { setPage } from '../Transactions/actions';
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
 })`
-  width: 100%;
+  width: 90%;
+  margin: 5%;
 `;
 
 const StyledDivContent = styled.div.attrs({

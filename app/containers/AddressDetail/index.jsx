@@ -44,7 +44,7 @@ export function AddressDetail(props) {
   }
 
   return (
-    <ContainerBase>
+    <ContainerBase className="mt-3">
       <Row noGutters>
         <Col sm>
           <Wallet {...props.addressdetail} addr={address} />
