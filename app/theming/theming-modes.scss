@@ -26,12 +26,26 @@ body.light-mode {
   .wrapper-link {
     background-color: #eff5fb;
   }
-  .page-item.disabled .page-link {
+
+  .page-link {
     color: #007bff;
+  }
+
+  .page-item.disabled .page-link {
+    color: #6c757d;
+
   }
 
   a.nav-link {
     color: #333;
+  }
+
+  .timer-card {
+    background-color: #fff;
+  }
+
+  .timer-card-top{
+    background-color: #f7f7f7;
   }
 }
 
@@ -39,13 +53,13 @@ body.dark-mode {
   background-color: #10171d;
   color: #dfdfdf;
 
-  .page-item.disabled .page-link{
-    background-color: #6c757d;
+  .page-link {
     color: lightgray;
   }
 
   .page-item.disabled .page-link{
-    color: lightgrey;
+    background-color: #6c757d;
+    color: lightgray;
   }
 
   .service-block, .navigation-bar, .navbar, .searchbox-input, .modal-content, .jumbotron, .page-item .page-link {
@@ -54,11 +68,12 @@ body.dark-mode {
 
   button.close, input, .form-control:focus, .text-white, .table, .text-dark {
     color: #cbcbcb !important;
+    background-color: #1b2938;
   }
 
-  .table-hover tbody tr:hover {
+  .table tbody tr:hover, .page-item .page-link:hover {
     color: whitesmoke;
-    background-color: #1b2938;
+    background-color: lighten(#1b2938, 10%);
   }
 
   .bg-transparent {
@@ -75,6 +90,23 @@ body.dark-mode {
     &:last-child {
       color: lightblue;
     }
+  }
+
+  .card {
+    color: #cbcbcb;
+    background-color: #1b2938 !important;
+
+    .list-group-item {
+      background-color: lighten(#1b2938, 10%) !important;
+    }
+  }
+
+  .timer-card {
+    background-color: lighten(#1b2938, 20%);
+  }
+
+  .timer-card-top{
+    background-color: lighten(#1b2938, 10%);
   }
 }
 
