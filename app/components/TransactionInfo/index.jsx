@@ -34,8 +34,11 @@ import ExplorerLink from 'components/ExplorerLink';
 import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
-import { getSufixURL } from 'utils/getLocationPath';
+import {
+  API_URL_BASE,
+  FEATURE_ACTIVATION_TYPE_INT,
+} from 'containers/App/constants';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
 
 const StyledCard = styled(Card)`
@@ -66,8 +69,8 @@ function TransactionInfo(props) {
   const statusColor = props.valid
     ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light'
     : props.confirmations === 0
-    ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light'
-    : 'btn btn-group btn-primary btn-block btn-danger font-weight-light';
+      ? 'btn btn-group btn-primary btn-block btn-warning font-weight-light'
+      : 'btn btn-group btn-primary btn-block btn-danger font-weight-light';
 
   const status = StatusConfirmation({
     ...props,
@@ -156,6 +159,7 @@ function TransactionInfo(props) {
     !props.valid &&
     ([50, 51, 54].includes(props.type_int) || !props.type_int)
   ) {
+    debugger;
     tokenName = props.propertyname ? (
       <tr>
         <td className="field">Property</td>
@@ -226,7 +230,9 @@ function TransactionInfo(props) {
                 <td>
                   <StyledLink
                     to={{
-                      pathname: `${getSufixURL()}/address/${props.sendingaddress}`,
+                      pathname: `${getSufixURL()}/address/${
+                        props.sendingaddress
+                      }`,
                       state: { state: props.state },
                     }}
                   >
@@ -234,7 +240,7 @@ function TransactionInfo(props) {
                   </StyledLink>
                 </td>
               </tr>
-              {recipient &&
+              {recipient && (
                 <tr>
                   <td className="field">Recipient</td>
                   <td>
@@ -257,7 +263,7 @@ function TransactionInfo(props) {
                   </span>
                 </td>
               </tr>
-              {props.block &&
+              {props.block && (
                 <tr>
                   <td className="field">In Block</td>
                   <td>
@@ -278,13 +284,14 @@ function TransactionInfo(props) {
                 </td>
                 <td className="field">
                   <div
-className={statusColor} style={{
-                      width: '35%',
-                    cursor: 'default',
-                  }}>
+                    className={statusColor}
+                    style={{ width: '35%', cursor: 'default' }}
+                  >
                     {status}
                   </div>
-                  <div className="text-left">{!props.valid && invalidReason}</div>
+                  <div className="text-left">
+                    {!props.valid && invalidReason}
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -339,8 +346,10 @@ className={statusColor} style={{
                 <td className="field">Other explorers</td>
                 <td>
                   <ExplorerLink
-className="d-inline-block mr-3" explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR}
-                    tx={props.txid} />
+                    className="d-inline-block mr-3"
+                    explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR}
+                    tx={props.txid}
+                  />
                 </td>
               </tr>
               <tr className="d-none">
