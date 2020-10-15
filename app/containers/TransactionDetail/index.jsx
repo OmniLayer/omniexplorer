@@ -18,7 +18,7 @@ import getPropByTx from 'utils/getPropByTx';
 import LoadingIndicator from 'components/LoadingIndicator';
 import TransactionInfo from 'components/TransactionInfo';
 import ContainerBase from 'components/ContainerBase';
-import { startFetch } from 'components/Token/actions';
+import { startFetch, cancelFetch } from 'components/Token/actions';
 import { makeSelectProperties } from 'components/Token/selectors';
 import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
@@ -53,8 +53,10 @@ export function TransactionDetail(props) {
     ) {
       if (isActivation()) {
         props.loadActivations();
-      } else {
+      } else if (props.txdetail.transaction.propertyid){
         props.getProperty(props.txdetail.transaction.propertyid);
+      } else {
+        props.cancelFetch();
       }
     }
   }, [props.txdetail.loading]);
@@ -128,6 +130,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransaction: (addr, page) => dispatch(loadTransaction(addr, page)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
+    cancelFetch: ()=>dispatch(cancelFetch()),
     loadActivations: () => dispatch(loadActivations()),
   };
 }

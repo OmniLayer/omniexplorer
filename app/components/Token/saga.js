@@ -16,7 +16,13 @@ function* fetchSingleProperty(action) {
 
   const state = yield select(st => st);
   const { tokens } = state.token;
-  let requestedProp = tokens[action.id.toString()];
+
+  let requestedProp;
+  if(action.id){
+    requestedProp = tokens[action.id.toString()];
+  } else {
+    throw new Error(`The property hasn't got an Id`);
+  }
 
   if (action.id && (!requestedProp || !requestedProp.isFetching)) {
     yield put({ type: FETCHING_PROPERTY, propertyId: action.id });
