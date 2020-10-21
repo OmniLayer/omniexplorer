@@ -82,9 +82,36 @@ const transactionsReducer = (
       }
 
       case LOAD_EXODUS_TXS_SUCCESS: {
+        debugger;
+
+        // amount: "9000.00000000"
+        // block: 653434
+        // blockhash: "0000000000000000000bc96a38b2679d8ce2ffb180e8ab73a614ef1613b9f18e"
+        // blocktime: 1603122118
+        // confirmations: 1
+        // divisible: true
+        // fee: "0.00008663"
+        // flags: null
+        // ismine: false
+        // positioninblock: 886
+        // propertyid: 31
+        // propertyname: "TetherUS"
+        // referenceaddress: "14tATbE55rrQDSVao3r4DxXr4dbcGLad8W"
+        // sendingaddress: "1BDoFWqaDKsnTZmKqccJQF3e3snsiQqQQX"
+        // txid: "60ca649792c5f5ff19f5f1f08a396efa35d21930289e61988e7cb75faea18d8d"
+        // type: "Simple Send"
+        // type_int: 0
+        // valid: true
+        // version: 0
+
         draft.transactions = transactions.map(tx => ({
-          ...tx,
+          // ...tx,
           txid: tx.hash,
+          sendingaddress: tx.inputs[0].prev_out.addr,
+          referenceaddress: tx.inputs[0].prev_out.addr,
+          amount: parseInt(tx.inputs[0].prev_out.value, 10) / 100000000,
+          blocktime: tx.time,
+
         }));
         draft.pageCount = pages;
         draft.txCount = txcount;
