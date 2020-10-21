@@ -24,7 +24,7 @@ const StyledTD = styled.td.attrs({
 `;
 
 function AssetInfo(asset) {
-  const rawAssetURL = `${getSufixURL()}/property/${asset.propertyid}`;
+  const rawAssetURL = `${getLocationPath()}/property/${asset.propertyid}`;
 
   let tokenName;
   let propertyID;
@@ -201,7 +201,9 @@ function AssetInfo(asset) {
         <StyledTD>Raw Data</StyledTD>
         <td>
           <span id="lrawgettx">
-            <StyledA href={rawAssetURL}>Click here for raw info</StyledA>
+            <StyledA href={rawAssetURL} target="_blank">
+              Click here for raw info
+            </StyledA>
           </span>
         </td>
       </tr>

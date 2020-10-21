@@ -88,7 +88,7 @@ function Menu(props) {
       return;
     }
 
-    const visibilityKey = parseKey('shift-ctrl-t');
+    const visibilityKey = parseKey('shift-ctrl-alt-t');
 
     if (matchesKey(visibilityKey, e)) {
       e.preventDefault();

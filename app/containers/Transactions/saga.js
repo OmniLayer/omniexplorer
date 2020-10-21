@@ -21,7 +21,7 @@ export function* getExodusTxs({ addr }) {
   const state = yield select(makeSelectTransactions());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
-  const offset = page * maxPagesByMedia;
+  const offset = (page - 1) * maxPagesByMedia;
   const requestURL = FN_API_URL_BLOCKCHAIN_ADDR({
     address: addr,
     limit: maxPagesByMedia,

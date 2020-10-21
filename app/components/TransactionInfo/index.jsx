@@ -80,7 +80,7 @@ function TransactionInfo(props) {
     props.confirmations === 0
       ? ''
       : `Reason: ${props.invalidreason || 'invalid transaction'}`;
-  const rawTransactionURL = `${getSufixURL()}/transaction/tx/${props.txid}`;
+  const rawTransactionURL = `${getLocationPath()}/transaction/tx/${props.txid}`;
 
   let warningMessage = null;
   let dtheader;
@@ -337,7 +337,7 @@ function TransactionInfo(props) {
                 <td>
                   <span id="lrawgettx">
                     <StyledA href={rawTransactionURL} target="_blank">
-                      Click here for raw transaction...
+                      Click here for raw transaction
                     </StyledA>
                   </span>
                 </td>
