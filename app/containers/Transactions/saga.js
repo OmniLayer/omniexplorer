@@ -29,7 +29,7 @@ export function* getExodusTxs({ addr }) {
   });
 
   const transactions = yield call(request, requestURL);
-  yield put(exodusTxsLoaded(transactions.txs, transactions.txs / maxPagesByMedia, addr, transactions.n_tx));
+  yield put(exodusTxsLoaded(transactions.txs, transactions.n_tx / maxPagesByMedia, addr, transactions.n_tx));
 }
 
 export function* getTransactions({ addr }) {
