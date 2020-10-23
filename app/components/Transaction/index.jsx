@@ -282,7 +282,7 @@ Transaction.propTypes = {
   confirmations: PropTypes.number,
   type: PropTypes.string,
   txid: PropTypes.string,
-  amount: PropTypes.string,
+  amount: PropTypes.any,
   valid: PropTypes.bool,
   blocktime: PropTypes.number,
   propertyname: PropTypes.string,
