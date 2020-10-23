@@ -24,6 +24,11 @@ const StyledLink = styled(Link).attrs({
   span {
     vertical-align: middle;
   }
+
+  &.disabled, &.disabled a {
+    pointer-events: none;
+    cursor: default;
+  }
 `;
 
 StyledLink.propTypes = {};

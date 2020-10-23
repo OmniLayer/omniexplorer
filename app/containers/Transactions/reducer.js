@@ -83,8 +83,16 @@ const transactionsReducer = (
 
       case LOAD_EXODUS_TXS_SUCCESS: {
         draft.transactions = transactions.map(tx => ({
-          ...tx,
           txid: tx.hash,
+          sendingaddress: tx.inputs[0].prev_out.addr,
+          referenceaddresses: tx.out.map(out => ({
+            addr: out.addr,
+            value: out.value,
+            spent: out.spent,
+          })),
+          amount: parseInt(tx.inputs[0].prev_out.value, 10) / 100000000,
+          blocktime: tx.time,
+          block: tx.block_height,
         }));
         draft.pageCount = pages;
         draft.txCount = txcount;
