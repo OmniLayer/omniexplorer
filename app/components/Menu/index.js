@@ -170,7 +170,7 @@ function Menu(props) {
           </Col>
           <Col xs="6" sm="4">
             <h5>Misc</h5>
-            <NavLink href={`/${TXS_CLASS_AB}`}>
+            <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
               Recent Class A/B TX's
             </NavLink>
             <NavLink href={`${getSufixURL()}/activations`}>
