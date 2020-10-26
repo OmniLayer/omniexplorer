@@ -12,8 +12,9 @@
 import produce from 'immer';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import {
-  LOAD_EXODUS_TXS,
-  LOAD_EXODUS_TXS_SUCCESS,
+  LOAD_CLASSAB_TXS,
+  LOAD_CLASSAB_TXS_BLOCKCHAIN_INFO_SUCCESS,
+  LOAD_CLASSAB_TXS_SUCCESS,
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_UNCONFIRMED,
@@ -29,7 +30,7 @@ export const initialState = {
   txType: null,
   txCount: 0,
   unconfirmed: false,
-  exodus: false,
+  classABTxs: false,
   stamp: null,
 };
 
@@ -46,15 +47,16 @@ const transactionsReducer = (
         draft.pageCount = 0;
         draft.txCount = 0;
         draft.unconfirmed = false;
-        draft.exodus = false;
+        draft.classABTxs = false;
         break;
-      case LOAD_EXODUS_TXS:
+      case LOAD_CLASSAB_TXS:
         draft.loading = true;
         draft.transactions = [];
         draft.pageCount = 0;
         draft.txCount = 0;
+        draft.currentPage = 1;
         draft.unconfirmed = false;
-        draft.exodus = true;
+        draft.classABTxs = true;
         break;
       case LOAD_UNCONFIRMED:
         draft.loading = true;
@@ -63,7 +65,7 @@ const transactionsReducer = (
         draft.txCount = 0;
         draft.currentPage = 1;
         draft.unconfirmed = true;
-        draft.exodus = false;
+        draft.classABTxs = false;
         break;
 
       case LOAD_TRANSACTIONS_SUCCESS: {
@@ -81,7 +83,19 @@ const transactionsReducer = (
         break;
       }
 
-      case LOAD_EXODUS_TXS_SUCCESS: {
+      case LOAD_CLASSAB_TXS_SUCCESS: {
+        const maxPagesByMedia = getMaxPagesByMedia();
+
+        draft.transactions = transactions;
+        draft.pageCount = Math.ceil(transactions.length / maxPagesByMedia);
+        draft.txCount = transactions.length;
+        draft.loading = false;
+        draft.stamp = Date.now();
+
+        break;
+      }
+
+      case LOAD_CLASSAB_TXS_BLOCKCHAIN_INFO_SUCCESS: {
         draft.transactions = transactions.map(tx => ({
           txid: tx.hash,
           sendingaddress: tx.inputs[0].prev_out.addr,

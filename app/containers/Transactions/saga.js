@@ -1,11 +1,19 @@
 import { all, call, put, select, take } from 'redux-saga/effects';
-import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, LOAD_EXODUS_TXS, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
-import { API_URL_BASE, FN_API_URL_BLOCKCHAIN_ADDR } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import {
+  LOAD_TRANSACTIONS,
+  LOAD_UNCONFIRMED,
+  LOAD_CLASSAB_TXS,
+  SET_TRANSACTION_TYPE,
+} from 'containers/Transactions/constants';
+import {
+  API_URL_BASE,
+  FN_API_URL_BLOCKCHAIN_ADDR,
+} from 'containers/App/constants';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
-import { transactionsLoaded, exodusTxsLoaded } from './actions';
+import { transactionsLoaded, ClassABTxsLoaded } from './actions';
 import { makeSelectTransactions } from './selectors';
 
 export function* getUnconfirmed({ addr }) {
@@ -17,7 +25,14 @@ export function* getUnconfirmed({ addr }) {
   yield put(transactionsLoaded(transactions.data, 1));
 }
 
-export function* getExodusTxs({ addr }) {
+export function* getClassABTxs() {
+  const requestURL = `${getLocationPath()}/transaction/recentab/`;
+
+  const result = yield call(request, requestURL);
+  yield put(ClassABTxsLoaded(result.transactions));
+}
+
+export function* getClassABTxsByBlockchainInfo({ addr }) {
   const state = yield select(makeSelectTransactions());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
@@ -29,7 +44,14 @@ export function* getExodusTxs({ addr }) {
   });
 
   const transactions = yield call(request, requestURL);
-  yield put(exodusTxsLoaded(transactions.txs, transactions.n_tx / maxPagesByMedia, addr, transactions.n_tx));
+  yield put(
+    ClassABTxsLoaded(
+      transactions.txs,
+      transactions.n_tx / maxPagesByMedia,
+      addr,
+      transactions.n_tx,
+    ),
+  );
 }
 
 export function* getTransactions({ addr }) {
@@ -65,7 +87,12 @@ export function* getTransactions({ addr }) {
 
   const transactions = yield call(request, requestURL, getTransactionsOptions);
   yield put(
-    transactionsLoaded(transactions.transactions, transactions.pages, addr, transactions.txcount),
+    transactionsLoaded(
+      transactions.transactions,
+      transactions.pages,
+      addr,
+      transactions.txcount,
+    ),
   );
 }
 
@@ -83,10 +110,10 @@ function* watchGetUnconfirmed() {
   }
 }
 
-function* watchGetExodusTxs() {
+function* watchGetClassABTxs() {
   while (true) {
-    const payload = yield take(LOAD_EXODUS_TXS);
-    yield call(getExodusTxs, payload);
+    const payload = yield take(LOAD_CLASSAB_TXS);
+    yield call(getClassABTxs, payload);
   }
 }
 
@@ -105,6 +132,6 @@ export default function* root() {
     call(watchGetTransactions),
     call(watchGetTransactionsByType),
     call(watchGetUnconfirmed),
-    call(watchGetExodusTxs),
+    call(watchGetClassABTxs),
   ]);
 }

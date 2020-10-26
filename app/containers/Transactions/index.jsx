@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
-import ExodusTransaction from 'components/ExodusTransaction';
+import ClassABTransaction from 'components/ClassABTransaction';
 import ContainerBase from 'components/ContainerBase';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
@@ -28,10 +28,10 @@ import isTestnet from 'utils/isTestnet';
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-import { EXODUS_TXS_CLASS_AB, EXODUS_ADDRESS_MAINNET, EXODUS_ADDRESS_TESTNET } from 'containers/App/constants';
+import { TXS_CLASS_AB, TXCLASSAB_ADDRESS_MAINNET, TXCLASSAB_ADDRESS_TESTNET } from 'containers/App/constants';
 
 import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
-import { loadExodusTxs, loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
+import { loadClassABTxs, loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
 
 import saga from './saga';
@@ -40,12 +40,12 @@ import { TRANSACTION_TYPE } from './constants';
 
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
-  const exodusTxs = props.location.pathname.toLowerCase().includes(EXODUS_TXS_CLASS_AB);
+  const classABTxs = props.location.pathname.toLowerCase().includes(TXS_CLASS_AB);
 
   const pageParam =
     props.match.params.page ||
     (unconfirmedTxs && props.transactions.currentPage) ||
-    (exodusTxs && props.currentPage) ||
+    (classABTxs && props.transactions.currentPage) ||
     props.currentPage ||
     1;
   const maxPagesByMedia = getMaxPagesByMedia();
@@ -63,7 +63,7 @@ export function Transactions(props) {
 
   useEffect(() => {
     // load transactions on every change address
-    if (!exodusTxs) {
+    if (!classABTxs) {
       loadTxs(
         unconfirmedTxs
           ? TRANSACTION_TYPE.UNCONFIRMED
@@ -73,17 +73,17 @@ export function Transactions(props) {
   }, [props.addr]);
 
   useEffect(() => {
-    // load exodus transactions when it's selected
-    if (exodusTxs) {
-      loadTxs(TRANSACTION_TYPE.EXODUS);
+    // load class AB transactions when it's selected
+    if (!props.transactions.stamp && classABTxs) {
+      loadTxs(TRANSACTION_TYPE.CLASSABTX);
     }
-  }, [exodusTxs, props.addr]);
+  }, [classABTxs, pageParam]);
 
   useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
     if (
       !props.loading &&
-      !exodusTxs &&
+      !classABTxs &&
       (!props.transactions.stamp ||
         unconfirmedTxs !== props.transactions.unconfirmed)
     ) {
@@ -114,7 +114,7 @@ export function Transactions(props) {
   };
 
   const pathname = props.addr ? `${getSufixURL()}/address/${props.addr}` : `${getSufixURL()}`;
-  const hashLink = v => `${pathname}/${v}`;
+  const hashLink = v => classABTxs ? `${pathname}/${TXS_CLASS_AB}/${v}` : `${pathname}/${v}`;
   // const loadTxs = confirmed =>
   //   (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
   const loadTxs = txType => {
@@ -125,8 +125,8 @@ export function Transactions(props) {
       case TRANSACTION_TYPE.UNCONFIRMED:
         props.loadUnconfirmed(props.addr);
         break;
-      case TRANSACTION_TYPE.EXODUS:
-        props.loadExodusTxs(isTestnet ? EXODUS_ADDRESS_TESTNET : EXODUS_ADDRESS_MAINNET);
+      case TRANSACTION_TYPE.CLASSABTX:
+        props.loadClassABTxs(isTestnet ? TXCLASSAB_ADDRESS_TESTNET : TXCLASSAB_ADDRESS_MAINNET);
         break;
     }
   };
@@ -156,10 +156,10 @@ export function Transactions(props) {
     const _props = {
       ...props.transactions,
       addr,
-      inner: exodusTxs ? ExodusTransaction : Transaction,
+      inner: Transaction, //classABTxs ? ClassABTransaction : Transaction,
       onSetPage: props.unconfirmed
         ? unconfirmedHandlePageClick
-        : handlePageClick,
+        : (classABTxs ? unconfirmedHandlePageClick : handlePageClick),
       currentPage: props.transactions.currentPage,
       hashLink,
       getItemKey,
@@ -197,8 +197,8 @@ export function Transactions(props) {
           <ButtonGroup>
             <Button
               onClick={() => onRadioBtnClick(TRANSACTION_TYPE.CONFIRMED)}
-              active={!props.unconfirmed && !exodusTxs}
-              disabled={!props.unconfirmed && !exodusTxs}
+              active={!props.unconfirmed && !classABTxs}
+              disabled={!props.unconfirmed && !classABTxs}
             >
               Confirmed
             </Button>
@@ -227,7 +227,7 @@ export function Transactions(props) {
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
   loadUnconfirmed: PropTypes.func,
-  loadExodusTxs: PropTypes.func,
+  loadClassABTxs: PropTypes.func,
   transactions: PropTypes.object.isRequired,
   setCurrentPage: PropTypes.func,
   loading: PropTypes.bool,
@@ -248,7 +248,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransactions: addr => dispatch(loadTransactions(addr)),
     loadUnconfirmed: addr => dispatch(loadUnconfirmed(addr)),
-    loadExodusTxs: addr => dispatch(loadExodusTxs(addr)),
+    loadClassABTxs: addr => dispatch(loadClassABTxs(addr)),
     setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };

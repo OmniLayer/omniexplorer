@@ -27,7 +27,7 @@ function FooterLinks(props) {
         <FooterRow>
           <Col sm>
             <StyledLink
-              onClick={window.location.reload}
+              onClick={()=>()=>window.location.reload}
               to={{
                 pathname: `${getSufixURL()}/blocks`,
                 state: { state: {} },
@@ -44,7 +44,7 @@ function FooterLinks(props) {
         <FooterRow>
           <Col sm>
             <StyledLink
-              onClick={window.location.reload}
+              onClick={()=>()=>window.location.reload}
               to={{
                 pathname: `${getSufixURL()}/transactions/unconfirmed`,
                 state: {},

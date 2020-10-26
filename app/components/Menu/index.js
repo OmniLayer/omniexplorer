@@ -11,7 +11,7 @@ import Switch from 'rc-switch';
 import parseKey from 'parse-key';
 
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
-import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME, EXODUS_TXS_CLASS_AB } from 'containers/App/constants';
+import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME, TXS_CLASS_AB } from 'containers/App/constants';
 
 import DarkModeToggle from 'components/DarkModeToggle';
 import MenuButton from 'components/MenuButton';
@@ -170,7 +170,7 @@ function Menu(props) {
           </Col>
           <Col xs="6" sm="4">
             <h5>Misc</h5>
-            <NavLink href={`/${EXODUS_TXS_CLASS_AB}`}>
+            <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
               Recent Class A/B TX's
             </NavLink>
             <NavLink href={`${getSufixURL()}/activations`}>
