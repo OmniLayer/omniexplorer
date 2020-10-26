@@ -1,7 +1,15 @@
 import { all, call, put, select, take } from 'redux-saga/effects';
-import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, LOAD_CLASSAB_TXS, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
-import { API_URL_BASE, FN_API_URL_BLOCKCHAIN_ADDR } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import {
+  LOAD_TRANSACTIONS,
+  LOAD_UNCONFIRMED,
+  LOAD_CLASSAB_TXS,
+  SET_TRANSACTION_TYPE,
+} from 'containers/Transactions/constants';
+import {
+  API_URL_BASE,
+  FN_API_URL_BLOCKCHAIN_ADDR,
+} from 'containers/App/constants';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
@@ -17,7 +25,14 @@ export function* getUnconfirmed({ addr }) {
   yield put(transactionsLoaded(transactions.data, 1));
 }
 
-export function* getClassABTxs({ addr }) {
+export function* getClassABTxs() {
+  const requestURL = `${getLocationPath()}/transaction/recentab/`;
+
+  const result = yield call(request, requestURL);
+  yield put(ClassABTxsLoaded(result.transactions));
+}
+
+export function* getClassABTxsByBlockchainInfo({ addr }) {
   const state = yield select(makeSelectTransactions());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
@@ -29,7 +44,14 @@ export function* getClassABTxs({ addr }) {
   });
 
   const transactions = yield call(request, requestURL);
-  yield put(ClassABTxsLoaded(transactions.txs, transactions.n_tx / maxPagesByMedia, addr, transactions.n_tx));
+  yield put(
+    ClassABTxsLoaded(
+      transactions.txs,
+      transactions.n_tx / maxPagesByMedia,
+      addr,
+      transactions.n_tx,
+    ),
+  );
 }
 
 export function* getTransactions({ addr }) {
@@ -65,7 +87,12 @@ export function* getTransactions({ addr }) {
 
   const transactions = yield call(request, requestURL, getTransactionsOptions);
   yield put(
-    transactionsLoaded(transactions.transactions, transactions.pages, addr, transactions.txcount),
+    transactionsLoaded(
+      transactions.transactions,
+      transactions.pages,
+      addr,
+      transactions.txcount,
+    ),
   );
 }
 

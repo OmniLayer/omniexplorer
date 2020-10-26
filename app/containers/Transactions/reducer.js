@@ -13,6 +13,7 @@ import produce from 'immer';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import {
   LOAD_CLASSAB_TXS,
+  LOAD_CLASSAB_TXS_BLOCKCHAIN_INFO_SUCCESS,
   LOAD_CLASSAB_TXS_SUCCESS,
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
@@ -82,6 +83,18 @@ const transactionsReducer = (
       }
 
       case LOAD_CLASSAB_TXS_SUCCESS: {
+        const maxPagesByMedia = getMaxPagesByMedia();
+
+        draft.transactions = transactions;
+        draft.pageCount = Math.ceil(transactions.length / maxPagesByMedia);
+        draft.txCount = transactions.length;
+        draft.loading = false;
+        draft.stamp = Date.now();
+
+        break;
+      }
+
+      case LOAD_CLASSAB_TXS_BLOCKCHAIN_INFO_SUCCESS: {
         draft.transactions = transactions.map(tx => ({
           txid: tx.hash,
           sendingaddress: tx.inputs[0].prev_out.addr,

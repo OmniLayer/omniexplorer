@@ -113,12 +113,9 @@ export function loadClassABTxs(addr = null) {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS_SUCCESS passing the transactions
  */
-export function ClassABTxsLoaded(transactions, pages, addr, txcount) {
+export function ClassABTxsLoaded(transactions) {
   return {
     type: LOAD_CLASSAB_TXS_SUCCESS,
     transactions,
-    pages,
-    addr,
-    txcount,
   };
 }
