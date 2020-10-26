@@ -21,8 +21,8 @@ import {
   SET_PAGE,
   SET_TRANSACTION_TYPE,
   LOAD_UNCONFIRMED,
-  LOAD_EXODUS_TXS,
-  LOAD_EXODUS_TXS_SUCCESS,
+  LOAD_CLASSAB_TXS,
+  LOAD_CLASSAB_TXS_SUCCESS,
 } from './constants';
 
 /**
@@ -95,13 +95,13 @@ export function loadUnconfirmed(addr = null) {
 }
 
 /**
- * Load the exodus transactions, this action starts the request saga
+ * Load the class AB transactions, this action starts the request saga
  *
- * @return {object} An action object with a type of LOAD_EXODUS_TXS
+ * @return {object} An action object with a type of LOAD_CLASSAB_TXS
  */
-export function loadExodusTxs(addr = null) {
+export function loadClassABTxs(addr = null) {
   return {
-    type: LOAD_EXODUS_TXS,
+    type: LOAD_CLASSAB_TXS,
     addr,
   };
 }
@@ -113,9 +113,9 @@ export function loadExodusTxs(addr = null) {
  *
  * @return {object} An action object with a type of LOAD_TRANSACTIONS_SUCCESS passing the transactions
  */
-export function exodusTxsLoaded(transactions, pages, addr, txcount) {
+export function ClassABTxsLoaded(transactions, pages, addr, txcount) {
   return {
-    type: LOAD_EXODUS_TXS_SUCCESS,
+    type: LOAD_CLASSAB_TXS_SUCCESS,
     transactions,
     pages,
     addr,

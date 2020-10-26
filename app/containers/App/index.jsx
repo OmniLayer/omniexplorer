@@ -53,7 +53,7 @@ import TestnetMarquee from 'components/TestnetMarquee';
 import isTestnet from 'utils/isTestnet';
 import GlobalStyle from '../../global-styles';
 
-import { EXODUS_TXS_CLASS_AB } from './constants';
+import { TXS_CLASS_AB } from './constants';
 
 // Set Moment Global locale
 // Moment.globalLocale = 'en-gb';
@@ -131,7 +131,7 @@ export function App({ loadStatus }) {
             component={Transactions}
           />
 
-          <Route path={`/${EXODUS_TXS_CLASS_AB}`} component={Transactions} />
+          <Route path={`/${TXS_CLASS_AB}`} component={Transactions} />
 
           <Route
             path="/address/:address/:page(\d+)?"

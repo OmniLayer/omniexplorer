@@ -15,7 +15,7 @@ import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
 import StatusConfirmation from 'components/StatusConfirmation';
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import { EXODUS_ADDRESS_MAINNET } from 'containers/App/constants';
+import { TXCLASSAB_ADDRESS_MAINNET } from 'containers/App/constants';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -25,14 +25,14 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 /**
  *
- * ExodusTransaction
+ * ClassABTransaction
  *
  */
 
-const ExodusWrapperLink = styled(WrapperLink)`
+const ClassABTxsWrapperLink = styled(WrapperLink)`
   width: 90% !important;
 `;
-function ExodusTransaction(props) {
+function ClassABTransaction(props) {
   const [tooltipTxOpen, setTooltipTxOpen] = useState(false);
   const [tooltipSenderOpen, setTooltipSenderOpen] = useState(false);
   const [tooltipRefererOpen, setTooltipRefererOpen] = useState(false);
@@ -71,12 +71,12 @@ const toggleRefererTooltip = () => {
 
   const getHighlightIfOwner = address => isOwner(address) ? 'text-success' : '';
 
-  const isOwner = address => EXODUS_ADDRESS_MAINNET === address;
+  const isOwner = address => TXCLASSAB_ADDRESS_MAINNET === address;
 
-  let arrowcname = 'transaction-arrow-icon';
-  let arrowcnameright = 'd-md-inline-flex';
-  let addresscname = getHighlightIfOwner(props.referenceaddress);
-  let showreferencecname = '';
+  const arrowcname = 'transaction-arrow-icon';
+  const arrowcnameright = 'd-md-inline-flex';
+  const addresscname = getHighlightIfOwner(props.referenceaddress);
+  const showreferencecname = '';
 
   const transactionAmount = props.amount || '';
 
@@ -147,14 +147,14 @@ const toggleRefererTooltip = () => {
             {/*<div className="desc">*/}
             {/*<div>*/}
               <AddressWrapper>
-                <ExodusWrapperLink>
+                <ClassABTxsWrapperLink>
                    <StyledLink
                     className={getHighlightIfOwner(props.sendingaddress)}
                     to={`${getSufixURL()}/address/${props.sendingaddress}`}
                    >
                     {props.sendingaddress}
                    </StyledLink>
-                </ExodusWrapperLink>
+                </ClassABTxsWrapperLink>
                  <CopyToClipboard
                   text={props.sendingaddress}
                   onCopy={toggleSenderTooltip}
@@ -191,7 +191,7 @@ const toggleRefererTooltip = () => {
                   const referenceAddr = invalidAddr ? 'Unable to decode' : reference.addr;
                   return (
                     <AddressWrapper className={showreferencecname} key={getItemKey(referenceAddr, idx)}>
-                      <ExodusWrapperLink>
+                      <ClassABTxsWrapperLink>
                         <StyledLink
                         className={addresscname}
                         to={(invalidAddr? '' : `${getSufixURL()}/address/${referenceAddr}`)}
@@ -199,7 +199,7 @@ const toggleRefererTooltip = () => {
                         >
                           {referenceAddr}
                         </StyledLink>
-                      </ExodusWrapperLink>
+                      </ClassABTxsWrapperLink>
                       <CopyToClipboard
                       text={referenceAddr}
                       onCopy={toggleRefererTooltip}
@@ -231,6 +231,6 @@ const toggleRefererTooltip = () => {
   );
 }
 
-ExodusTransaction.propTypes = {};
+ClassABTransaction.propTypes = {};
 
-export default ExodusTransaction;
+export default ClassABTransaction;
