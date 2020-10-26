@@ -131,7 +131,8 @@ export function App({ loadStatus }) {
             component={Transactions}
           />
 
-          <Route path={`/${TXS_CLASS_AB}`} component={Transactions} />
+          <Route path={`/testnet/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname}/>
+          <Route path={`/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname}/>
 
           <Route
             path="/address/:address/:page(\d+)?"

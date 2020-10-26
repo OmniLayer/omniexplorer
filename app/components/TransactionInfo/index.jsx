@@ -159,7 +159,7 @@ function TransactionInfo(props) {
     !props.valid &&
     ([50, 51, 54].includes(props.type_int) || !props.type_int)
   ) {
-    debugger;
+
     tokenName = props.propertyname ? (
       <tr>
         <td className="field">Property</td>

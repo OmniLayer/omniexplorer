@@ -54,6 +54,7 @@ const transactionsReducer = (
         draft.transactions = [];
         draft.pageCount = 0;
         draft.txCount = 0;
+        draft.currentPage = 1;
         draft.unconfirmed = false;
         draft.classABTxs = true;
         break;

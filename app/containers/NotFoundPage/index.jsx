@@ -29,7 +29,7 @@ class NotFound extends React.PureComponent { // eslint-disable-line react/prefer
           <p className="lead">Try go back home and start again</p>
           <hr className="my-2" />
           <a href="/" alt="Home">
-            <Button color="primary">Home sweet home</Button>
+            <Button color="primary">Home</Button>
           </a>
         </Jumbotron>
       </ContainerBase>

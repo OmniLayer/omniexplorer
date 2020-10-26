@@ -45,7 +45,7 @@ export function Transactions(props) {
   const pageParam =
     props.match.params.page ||
     (unconfirmedTxs && props.transactions.currentPage) ||
-    (classABTxs && props.currentPage) ||
+    (classABTxs && props.transactions.currentPage) ||
     props.currentPage ||
     1;
   const maxPagesByMedia = getMaxPagesByMedia();
@@ -74,10 +74,10 @@ export function Transactions(props) {
 
   useEffect(() => {
     // load class AB transactions when it's selected
-    if (classABTxs) {
+    if (!props.transactions.stamp && classABTxs) {
       loadTxs(TRANSACTION_TYPE.CLASSABTX);
     }
-  }, [classABTxs, props.addr]);
+  }, [classABTxs, pageParam]);
 
   useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
@@ -114,7 +114,7 @@ export function Transactions(props) {
   };
 
   const pathname = props.addr ? `${getSufixURL()}/address/${props.addr}` : `${getSufixURL()}`;
-  const hashLink = v => `${pathname}/${v}`;
+  const hashLink = v => classABTxs ? `${pathname}/${TXS_CLASS_AB}/${v}` : `${pathname}/${v}`;
   // const loadTxs = confirmed =>
   //   (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
   const loadTxs = txType => {
@@ -156,10 +156,10 @@ export function Transactions(props) {
     const _props = {
       ...props.transactions,
       addr,
-      inner: classABTxs ? ClassABTransaction : Transaction,
+      inner: Transaction, //classABTxs ? ClassABTransaction : Transaction,
       onSetPage: props.unconfirmed
         ? unconfirmedHandlePageClick
-        : handlePageClick,
+        : (classABTxs ? unconfirmedHandlePageClick : handlePageClick),
       currentPage: props.transactions.currentPage,
       hashLink,
       getItemKey,
