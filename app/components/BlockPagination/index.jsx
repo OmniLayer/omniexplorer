@@ -31,7 +31,7 @@ function BlockPagination({ block, latest }) {
   const prevBlock = parseInt(block, 10) - 1;
   const nextBlock = parseInt(block, 10) + 1;
   return (
-    <Row>
+    <Row noGutters>
       <Col>
         <H4>
           <LinkPrevious href={`${getSufixURL()}/block/${prevBlock}`}>

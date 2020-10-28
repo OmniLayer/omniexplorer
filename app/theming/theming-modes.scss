@@ -47,6 +47,19 @@ body.light-mode {
   .timer-card-top{
     background-color: #f7f7f7;
   }
+
+  .styled-icon-copy {
+    color: #17a2b8;
+
+    &:hover {
+      color: darken(#17a2b8, 8%);
+      transition: all 0.3s ease;
+    }
+
+    &:active {
+      color: darken(#17a2b8, 25%);
+    }
+  }
 }
 
 body.dark-mode {
@@ -107,6 +120,19 @@ body.dark-mode {
 
   .timer-card-top{
     background-color: lighten(#1b2938, 10%);
+  }
+
+  .styled-icon-copy {
+    color: darken(#17a2b8, 30%);
+
+    & {
+      color: lighten(#17a2b8, 20%);
+      transition: all 0.3s ease;
+    }
+
+    &:active {
+      color: lighten(#17a2b8, 50%);
+    }
   }
 }
 

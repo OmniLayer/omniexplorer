@@ -99,8 +99,8 @@ export function App({ loadStatus }) {
       setTheme('light');
     }
   };
-  const lightTheme={};
-  const darkTheme={};
+  const lightTheme={mode:'light'};
+  const darkTheme={mode:'dark'};
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
