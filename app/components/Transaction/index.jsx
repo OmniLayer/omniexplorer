@@ -109,7 +109,7 @@ class Transaction extends React.PureComponent {
 
     return (
       <div className="transation-result mx-auto text-center-down-md">
-        <Row className="align-items-end pb-0">
+        <Row noGutters className="align-items-end pb-0">
           <Col sm="12" md="1">
             <AssetLink asset={this.props.propertyid} state={this.props.state}>
               <AssetLogo
@@ -201,7 +201,7 @@ class Transaction extends React.PureComponent {
             </div>
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <div className="desc">
               <AddressWrapper>
