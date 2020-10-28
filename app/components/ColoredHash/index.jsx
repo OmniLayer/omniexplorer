@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, {memo} from 'react';
 
 import styled from 'styled-components';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -75,4 +75,4 @@ function ColoredHash(props) {
 
 ColoredHash.propTypes = {};
 
-export default ColoredHash;
+export default memo(ColoredHash);
