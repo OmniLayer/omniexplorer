@@ -128,7 +128,7 @@ class CrowdsaleTransaction extends React.PureComponent {
 
     return (
       <div className="transation-result mx-auto text-center-down-md">
-        <Row className="pb-0">
+        <Row noGutters className="pb-0">
           <Col sm="12" md="1">
             <AssetLink asset={txAsset.propertyid} state={this.props.state}>
               <AssetLogo
@@ -193,7 +193,7 @@ class CrowdsaleTransaction extends React.PureComponent {
             </div>
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <div className="desc">
               <AddressWrapper>

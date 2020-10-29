@@ -10,15 +10,17 @@ import moment from 'moment/src/moment';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import styled from 'styled-components';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 import {
   Crosshair,
+  FlexibleWidthXYPlot,
   HorizontalGridLines,
   LineSeries,
-  makeWidthFlexible,
+  // makeVisFlexible,
   VerticalGridLines,
   XAxis,
-  XYPlot,
+  // XYPlot,
   YAxis,
 } from 'react-vis';
 
@@ -26,7 +28,7 @@ import {
 // https://uber.github.io/react-vis/documentation/api-reference/crosshair
 // https://github.com/uber/react-vis/issues/834 //Axis Values are Slightly Off #834
 // https://github.com/uber/react-vis/issues/288
-const FlexibleXYPlot = makeWidthFlexible(XYPlot);
+// const FlexibleXYPlot = makeVisFlexible(XYPlot);
 const StyledUnderline = styled.span`
   height: 1rem;
   margin: 1px;
@@ -113,20 +115,19 @@ class TransactionHistory extends React.Component {
           <strong className="d-block">
             {moment.utc(crosshairValues[0].x).format('M/D/Y')}
           </strong>
-          <LegendUnderline color="violet" className="d-inline-block"/>
+          <LegendUnderline color="violet" className="d-inline-block" />
           <span className="d-inline-block">
             TXs:&nbsp;
-            {
-              <SanitizedFormattedNumber value={crosshairValues[0].y / 10000} />
-            }
+            {<SanitizedFormattedNumber value={crosshairValues[0].y / 10000} />}
           </span>
-          <br/>
-          <LegendUnderline color="green" className="d-inline-block"/>
+          <br />
+          <LegendUnderline color="green" className="d-inline-block" />
           <span className="d-inline-block">
             USD:&nbsp;
             {
               <span>
-                $&nbsp;<SanitizedFormattedNumber value={crosshairValues[1].y} />
+                $&nbsp;
+                <SanitizedFormattedNumber value={crosshairValues[1].y} />
               </span>
             }
           </span>
@@ -137,51 +138,55 @@ class TransactionHistory extends React.Component {
     };
 
     return (
-      <div>
-        <FlexibleXYPlot
-          animation
-          height={this.props.height || 230}
-          margin={{ left: 0 }}
-          onMouseLeave={this._onMouseLeave}
-          hideLine
-        >
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis
-            attr="x"
-            attrAxis="y"
-            title="By Days"
-            tickFormat={tickFormat}
-            tickLabelAngle={0}
-            tickValues={this.data.slice(1, -1).map(record => record.x)}
-          />
-          <YAxis
-            attr="y"
-            attrAxis="x"
-            orientation="left"
-            title="Transactions & Value"
-            hideTicks
-          />
-          <LineSeries
-            onNearestX={this.onNearestX}
-            data={DATA[0]}
-            style={{
-              stroke: 'violet',
-              strokeLinejoin: 'round',
-              strokeWidth: 3,
-            }}
-          />
-          <LineSeries
-            data={DATA[1]}
-            style={{
-              stroke: 'green',
-              strokeWidth: 3,
-              strokeLinejoin: 'round',
-            }}
-          />
-          <Crosshair values={crosshairValues}>{crosshairContent()}</Crosshair>
-        </FlexibleXYPlot>
-      </div>
+      <AutoSizer disableHeight>
+        {({ width }) => (
+          <FlexibleWidthXYPlot
+            animation
+            height={this.props.height || 230}
+            width={width}
+            margin={{ left: 0 }}
+            onMouseLeave={this._onMouseLeave}
+            hideLine
+            className="transaction-history-chart"
+          >
+            <VerticalGridLines />
+            <HorizontalGridLines />
+            <XAxis
+              attr="x"
+              attrAxis="y"
+              title="By Days"
+              tickFormat={tickFormat}
+              tickLabelAngle={0}
+              tickValues={this.data.slice(1, -1).map(record => record.x)}
+            />
+            <YAxis
+              attr="y"
+              attrAxis="x"
+              orientation="left"
+              title="Transactions & Value"
+              hideTicks
+            />
+            <LineSeries
+              onNearestX={this.onNearestX}
+              data={DATA[0]}
+              style={{
+                stroke: 'violet',
+                strokeLinejoin: 'round',
+                strokeWidth: 3,
+              }}
+            />
+            <LineSeries
+              data={DATA[1]}
+              style={{
+                stroke: 'green',
+                strokeWidth: 3,
+                strokeLinejoin: 'round',
+              }}
+            />
+            <Crosshair values={crosshairValues}>{crosshairContent()}</Crosshair>
+          </FlexibleWidthXYPlot>
+        )}
+      </AutoSizer>
     );
   }
 }
