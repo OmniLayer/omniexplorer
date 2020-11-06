@@ -28,7 +28,7 @@ import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
-import { startFetch } from 'components/Token/actions';
+import { startFetch, cancelFetch } from 'components/Token/actions';
 import {
   makeSelectLoading,
   makeSelectProperties,
@@ -76,8 +76,10 @@ export function Search(props) {
     ) {
       if (isActivation()) {
         props.loadActivations();
-      } else {
+      } else if (props.search.tx.propertyid){
         props.getProperty(props.search.tx.propertyid);
+      } else {
+        props.cancelFetch();
       }
     }
   }, [props.search.loading]);
@@ -224,6 +226,7 @@ export function Search(props) {
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
+  cancelFetch: PropTypes.func,
   search: PropTypes.object,
   getProperty: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
@@ -247,6 +250,7 @@ function mapDispatchToProps(dispatch) {
     loadSearch: query => dispatch(loadSearch(query)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
     loadActivations: () => dispatch(loadActivations()),
+    cancelFetch: () => dispatch(cancelFetch()),
   };
 }
 
