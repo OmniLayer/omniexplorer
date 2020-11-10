@@ -71,7 +71,7 @@ class ServiceBlock extends React.PureComponent {
             <small className="d-block">{`${this.props.status.block_time} UTC`}</small>
           </Col>
           <Col className="mt-3 mt-sm-0">
-            <BlockTitle>LATEST OMNI PRICE</BlockTitle>
+            <BlockTitle>LATEST OMNI EXCHANGE RATE</BlockTitle>
             <span>{omniPriceValue(this.props.status)}</span>
           </Col>
           <Col className="mt-3 mt-sm-0">
