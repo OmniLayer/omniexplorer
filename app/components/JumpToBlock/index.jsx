@@ -13,6 +13,7 @@ import { Search } from '@styled-icons/fa-solid/Search';
 import { Tooltip } from 'reactstrap';
 import { compose } from 'redux';
 import history from 'utils/history';
+import { FIRST_BLOCK } from 'containers/App/constants';
 import messages from './messages';
 
 const Input = styled.input.attrs({
@@ -51,8 +52,8 @@ export function JumpToBlock(props) {
   const isValid = value => props.onValidate && value && props.onValidate(value);
 
   const handleJumpToBlock = e => {
-    // setBlockToJump(blockToJump.trim());
-    history.push(`/block/${blockToJump}`);
+    const blockNumber = blockToJump < FIRST_BLOCK ? FIRST_BLOCK : blockToJump;
+    history.push(`/block/${blockNumber}`);
   };
 
   const handleKeyUp = e => {

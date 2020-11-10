@@ -122,7 +122,7 @@ export function Blocks(props) {
     <div>
       <ListHeader message={messages.header}>
         <JumpToBlock
-          onValidate={value => FIRST_BLOCK < value && value <= props.latest}
+          onValidate={value => value <= props.latest}
         />
       </ListHeader>
       {content}

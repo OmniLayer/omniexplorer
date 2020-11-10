@@ -255,7 +255,7 @@ export function BlockDetail(props) {
         }}
       >
         <JumpToBlock
-          onValidate={value => FIRST_BLOCK < value && value <= lastBlock}
+          onValidate={value => value <= lastBlock}
         />
         <br />
         {validInvalidTxs}
