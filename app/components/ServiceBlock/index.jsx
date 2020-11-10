@@ -61,7 +61,7 @@ class ServiceBlock extends React.PureComponent {
           <Col className="mt-3 mt-sm-0">
             <IMG src={featureLogoPNG} alt="OmniExplorer.info" />
             <div className="d-sm-block d-md-inline-block text-whites align-middle">
-              <h5>Omni Token</h5>
+              <h5>Omni Token (#1)</h5>
               <span>Featured Property</span>
             </div>
           </Col>
