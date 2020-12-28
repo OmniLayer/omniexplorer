@@ -92,6 +92,11 @@ const GlobalStyle = createGlobalStyle`
       background-color: transparent;
     }
   }
+
+  .btn, .btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 `;
 
 export default GlobalStyle;

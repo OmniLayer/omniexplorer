@@ -160,7 +160,7 @@ class Transaction extends React.PureComponent {
                 onCopy={this.toggleTxTooltip}
               >
                 <StyledIconCopy
-                  className="d-inline-flex d-md-none"
+                  className="d-inline-flex"
                   size={24}
                   id={txcopyid}
                 />
@@ -212,17 +212,18 @@ class Transaction extends React.PureComponent {
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
+                  <CopyToClipboard
+                    text={this.props.sendingaddress}
+                    onCopy={this.toggleSenderTooltip}
+                  >
+                    <StyledIconCopy
+                      className="copy-icon-address float-right"
+                      size={24}
+                      id={sendercopyid}
+                    />
+                  </CopyToClipboard>
                 </WrapperLink>
-                <CopyToClipboard
-                  text={this.props.sendingaddress}
-                  onCopy={this.toggleSenderTooltip}
-                >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={sendercopyid}
-                  />
-                </CopyToClipboard>
+
                 <Tooltip
                   hideArrow
                   isOpen={this.state.tooltipSenderOpen}
@@ -249,17 +250,17 @@ class Transaction extends React.PureComponent {
                   >
                     {this.props.referenceaddress}
                   </StyledLink>
+                  <CopyToClipboard
+                    text={this.props.referenceaddress}
+                    onCopy={this.toggleRefererTooltip}
+                  >
+                    <StyledIconCopy
+                      className="copy-icon-address float-right"
+                      size={24}
+                      id={referercopyid}
+                    />
+                  </CopyToClipboard>
                 </WrapperLink>
-                <CopyToClipboard
-                  text={this.props.referenceaddress}
-                  onCopy={this.toggleRefererTooltip}
-                >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={referercopyid}
-                  />
-                </CopyToClipboard>
                 <Tooltip
                   hideArrow
                   isOpen={this.state.tooltipRefererOpen}

@@ -26,9 +26,9 @@ export function* getSearch({ query }) {
   };
 
   const search = yield call(request, requestURL, options);
-
+  debugger;
   // if the query is an address get BTC balance from blockchain.info for the given wallet
-  if (!isEmpty(search.data.address)) {
+  if (!isNil(search.data.address) && isNil(search.data.address.error)) {
     const wallet = search.data.address;
     const address = search.query;
 
@@ -56,7 +56,7 @@ export function* getSearch({ query }) {
       } catch {}
     }
 
-    const walletBTCBalance = wallet.balance.find(x => x.id == 0);
+    const walletBTCBalance = (wallet.balance || []).find(x => x.id === 0);
     if (walletBTCBalance) walletBTCBalance.value = btcBalanceValue;
   }
 

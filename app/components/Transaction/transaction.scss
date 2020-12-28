@@ -79,7 +79,7 @@
     .transation-result {
       .desc {
         .wrapper-link {
-          width: 60%;
+          width: 90%;
         }
       }
     }
@@ -104,9 +104,23 @@
       .desc {
         .wrapper-link {
           overflow: hidden;
-          width: 60%;
+          width: 90%;
         }
       }
     }
+  }
+}
+
+@include media-breakpoint-between(xs, sm) {
+  .copy-icon-address {
+    //display: none;
+    //position: absolute;
+    //float: right;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .copy-icon-address {
+    display: inline-flex;
   }
 }
