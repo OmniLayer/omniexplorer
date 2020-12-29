@@ -111,16 +111,23 @@ export function Transactions(props) {
   }, [unconfirmedTxs, pageParam, unconfirmedTxs && !props.addr]);
 
   const getCurrentData = page => {
+    const maxResults = 10;
     const { transactions } = props.transactions;
 
     const start =
-      transactions.length > maxPagesByMedia
-        ? ((page || pageParam) - 1) * maxPagesByMedia
+      transactions.length > maxResults
+        ? ((page || pageParam) - 1) * maxResults
         : 0;
+        // ? ((page || pageParam) - 1) * maxPagesByMedia
+
+    // const end =
+    //   transactions.length > maxPagesByMedia
+    //     ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia
+    //     : maxPagesByMedia;
     const end =
-      transactions.length > maxPagesByMedia
-        ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia
-        : maxPagesByMedia;
+      transactions.length > maxResults
+        ? ((page || pageParam) - 1) * maxResults + maxResults
+        : maxResults;
     return transactions.slice(start, end);
   };
   const getTransactions = () => props.transactions.transactions;
