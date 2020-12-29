@@ -4,14 +4,17 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
+import CopyToClipboard from 'react-copy-to-clipboard';
+
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import StyledLink from 'components/StyledLink';
+import StyledIconCopy from 'components/StyledIconCopy';
 import StyledA from 'components/StyledA';
 import {
   Card,
@@ -22,8 +25,10 @@ import {
   Collapse,
   Row,
   Table,
+  Tooltip,
 } from 'reactstrap';
 
+import ContainerBase from 'components/ContainerBase';
 import TransactionAmount from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import StatusConfirmation from 'components/StatusConfirmation';
@@ -61,6 +66,29 @@ const SubtitleDetail = styled.small`
 `;
 
 function TransactionInfo(props) {
+  const txcopyid = `txid_${props.txid.slice(0, 12)}`;
+  const sendercopyid = `s-${txcopyid}`;
+  const referercopyid = `r-${txcopyid}`;
+
+  const [tooltipTxOpen, setTooltipTxOpen] = useState(false);
+  const [tooltipSenderOpen, setTooltipSenderOpen] = useState(false);
+  const [tooltipRefererOpen, setTooltipRefererOpen] = useState(false);
+
+  const toggleTxTooltip = () => {
+    setTooltipTxOpen( true);
+    setTimeout(() => setTooltipTxOpen( false ), 1000);
+  };
+
+  const toggleSenderTooltip = () => {
+    setTooltipSenderOpen(true);
+    setTimeout(() => setTooltipSenderOpen(false), 1000);
+  };
+
+  const toggleRefererTooltip = () => {
+    setTooltipRefererOpen(true);
+    setTimeout(() => setTooltipRefererOpen(false), 1000);
+  };
+
   // let collapseOmniData = false;
   let collapseDecoded = false;
   // const toggleRawData = () => (collapseOmniData = !collapseOmniData);
@@ -192,7 +220,7 @@ function TransactionInfo(props) {
     props.referenceaddress || (props.purchases || [{}])[0].referenceaddress;
 
   return (
-    <div>
+    <ContainerBase>
       {warningMessage}
       <DetailRow>
         <Col sm>
@@ -238,6 +266,23 @@ function TransactionInfo(props) {
                   >
                     {props.sendingaddress}
                   </StyledLink>
+                  <CopyToClipboard
+                    text={props.sendingaddress}
+                    onCopy={toggleSenderTooltip}
+                  >
+                    <StyledIconCopy
+                      className="d-inline-flex"
+                      size={24}
+                      id={sendercopyid}
+                    />
+                  </CopyToClipboard>
+                  <Tooltip
+                    hideArrow
+                    isOpen={tooltipSenderOpen}
+                    target={sendercopyid}
+                  >
+                    Sender Address Copied
+                  </Tooltip>
                 </td>
               </tr>
               {recipient && (
@@ -252,6 +297,23 @@ function TransactionInfo(props) {
                     >
                       {recipient}
                     </StyledLink>
+                    <CopyToClipboard
+                      text={recipient}
+                      onCopy={toggleRefererTooltip}
+                    >
+                      <StyledIconCopy
+                        className="d-inline-flex"
+                        size={24}
+                        id={referercopyid}
+                      />
+                    </CopyToClipboard>
+                    <Tooltip
+                      hideArrow
+                      isOpen={tooltipRefererOpen}
+                      target={referercopyid}
+                    >
+                      Reference Address Copied
+                    </Tooltip>
                   </td>
                 </tr>
               )}
@@ -376,7 +438,7 @@ function TransactionInfo(props) {
         </Col>
       </DetailRow>
       <Row />
-    </div>
+    </ContainerBase>
   );
 }
 
