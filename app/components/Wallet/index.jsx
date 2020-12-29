@@ -47,9 +47,9 @@ const StyledQrcode = styled(Qrcode).attrs({})`
 `;
 
 const StyledTable = styled(Table).attrs({
-  className: 'table bg-light',
+  className: 'flagged-tokens-table',
 })`
-  marginbottom: '5px';
+  margin-bottom: 0 !important;
 `;
 
 const StyledTR = styled.tr``;
@@ -194,7 +194,7 @@ class Wallet extends React.PureComponent {
               <Token {...balance} key={balance.id} bulkLoading />
             ))}
           <tr>
-            <td colSpan="5" className="p-0 m-0 bg-white">
+            <td colSpan="5" className="p-0 m-0">
               <div className="text-center">
                 {hasFlagged && (
                   <div>
@@ -228,7 +228,7 @@ class Wallet extends React.PureComponent {
           <tr>
             <td colSpan={5} className="p-0 m-0">
               <Collapse toggler="#togglerFlagged" isOpen={this.state.collapse}>
-                <StyledTable responsive>
+                <StyledTable hover responsive>
                   <thead>
                     <StyledTR>
                       <StyledTH />

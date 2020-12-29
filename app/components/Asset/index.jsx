@@ -43,7 +43,7 @@ function Asset(props) {
       </StyledTD>
       <StyledTDTextLeft>
         <AssetLink asset={asset.id} state={props.state} >
-          #{props[0]}
+          #{asset.id}
         </AssetLink></StyledTDTextLeft>
       <StyledTDTextLeft>
         <AssetLink asset={asset.id} state={props.state} >
@@ -55,11 +55,11 @@ function Asset(props) {
       <StyledTDTextLeft>
         <StyledLink
           to={{
-            pathname: `${getSufixURL}/address/${asset.issuer}`,
+            pathname: `${getSufixURL()}/address/${asset.issuer}`,
             state: { state: props.state },
           }}
         >
-          {props[2]}
+          {asset.issuer}
         </StyledLink>
       </StyledTDTextLeft>
     </tr>

@@ -232,7 +232,7 @@ export function BlockDetail(props) {
       <ListHeader
         message={
           blockdetail.block.transactions && blockdetail.block.transactions.length
-            ? messages.header
+            ? (pageCount>1 ? messages.header : messages.headerOnePage)
             : messages.doesNotHaveTransactions.header
         }
         values={{
@@ -255,7 +255,7 @@ export function BlockDetail(props) {
         }}
       >
         <JumpToBlock
-          onValidate={value => FIRST_BLOCK < value && value <= lastBlock}
+          onValidate={value => value <= lastBlock}
         />
         <br />
         {validInvalidTxs}

@@ -188,7 +188,7 @@ function Menu(props) {
               href="https://github.com/OmniLayer/omniexplorer/issues"
               target="_blank"
             >
-              Report Bug
+              View/Report Issues
             </NavLink>
           </Col>
           <Col xs="6" sm="4">

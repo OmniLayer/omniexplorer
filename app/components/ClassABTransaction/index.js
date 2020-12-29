@@ -89,7 +89,7 @@ const toggleRefererTooltip = () => {
 
   return (
     <div>
-      <div className="transation-result mx-auto text-center-down-md">
+      <div className="transaction-result mx-auto text-center-down-md">
         <Row noGutters className="align-items-end pb-0">
           <Col sm="12" md="1">
             <h4>Hash</h4>

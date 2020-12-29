@@ -13,6 +13,7 @@ const StyledIconCopy = styled(Copy).attrs({
 })`
   vertical-align: middle;
   margin-left: 0.5rem;
+  cursor: pointer;
   //color: #17a2b8;
 `;
 
