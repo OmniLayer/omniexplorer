@@ -5,7 +5,7 @@
   margin: 0;
   width: 100%;
 
-  .transation-result {
+  .transaction-result {
     margin-bottom: 0.75rem;
     margin-top: 0.75rem;
     //background-color: white;
@@ -76,7 +76,7 @@
 
 @media (max-width: 768px) {
   .result-list {
-    .transation-result {
+    .transaction-result {
       .desc {
         .wrapper-link {
           width: 90%;
@@ -100,7 +100,7 @@
     .result-price {
       border-top: 1px dashed #ddd;
     }
-    .transation-result {
+    .transaction-result {
       .desc {
         .wrapper-link {
           overflow: hidden;

@@ -19,7 +19,7 @@ body.light-mode {
     background-color: #3498db;
   }
 
-  .result-list .transation-result {
+  .result-list .transaction-result {
     background-color: white;
   }
 
@@ -63,7 +63,7 @@ body.light-mode {
 
   .table tbody tr:hover,
   .page-item .page-link:hover,
-  .result-list .transation-result:hover
+  .result-list .transaction-result:hover
   {
     background-color: darken(white, 3%);
   }
@@ -93,7 +93,7 @@ body.dark-mode {
 
   .table tbody tr:hover,
   .page-item .page-link:hover,
-  .result-list .transation-result:hover
+  .result-list .transaction-result:hover
   {
     color: whitesmoke;
     background-color: lighten(#1b2938, 10%);
