@@ -148,7 +148,10 @@ export function Search(props) {
           <tr>
             <StyledAssetTH>
               <h4 className="align-self-end text-sm-left">
-                <strong className="d-block">Properties</strong>
+                <strong className="d-inline-block">Properties</strong>
+                { props.search.asset.length > 1 &&
+                  <span className="d-inline-block">&nbsp;(only first 10 results are displayed)</span>
+                }
               </h4>
             </StyledAssetTH>
           </tr>
