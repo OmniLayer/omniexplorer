@@ -100,6 +100,7 @@
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
+    "socket.io-client": "^3.1.0",
     "styled-components": "4.2.0",
     "styled-theming": "^2.2.0",
     "use-dark-mode": "^2.3.1",
@@ -184,7 +185,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "3.6.2",
     "webpack-hot-middleware": "2.24.3",
-    "webpack-pwa-manifest": "^4.2.0",
+    "webpack-pwa-manifest": "^4.3.0",
     "whatwg-fetch": "3.0.0"
   },
   "engines": {

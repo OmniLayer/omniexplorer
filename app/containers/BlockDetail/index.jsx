@@ -126,7 +126,6 @@ export function BlockDetail(props) {
   };
 
   const statusLoading = !props || !props.status || !props.status.last_block;
-
   if (props.blockdetail.loading || statusLoading) {
     return (
       <ContainerBase>
