@@ -176,7 +176,9 @@ function Menu(props) {
             <NavLink href={`${getSufixURL()}/activations`}>
               Feature Activations
             </NavLink>
-            {/*  <NavLink href="/exchange">Exchange</NavLink> */}
+            {isTestnet &&
+            <NavLink href="/exchange">Exchange</NavLink>
+            }
             {/*  <NavLink href="/analytics">Analytics</NavLink> */}
             <NavLink
               href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ"
@@ -194,6 +196,30 @@ function Menu(props) {
           <Col xs="6" sm="4">
             <h5>API</h5>
             <NavLink href={getLocationPath()}>Documentation</NavLink>
+            <h5>Omni Lab</h5>
+            <NavLink
+              href="https://omnilab.online/omni-academy/"
+              target="_blank"
+            >
+              Omni Academy
+            </NavLink>
+            <NavLink
+              href="https://omnilab.online/omniwallet/"
+              target="_blank"
+            >
+              Omni Wallet
+            </NavLink>
+            <NavLink
+              href="https://omnilab.online/omni-academy/"
+              target="_blank"
+            >
+              Omni Bolt
+            </NavLink>
+            {isTestnet &&
+              <NavLink href={`${getSufixURL()}/omnibolt-stats`}>
+                Omni Bolt Network
+              </NavLink>
+            }
           </Col>
         </Row>
       </div>
