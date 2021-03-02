@@ -56,7 +56,7 @@ import './responsive-styles.scss';
 import './theming/theming-modes.scss';
 
 // Import components
-import SocketClient from 'components/SocketClient/middleware';
+import SocketClient from 'components/SocketClient';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -77,8 +77,9 @@ openSansObserver.load().then(
 
 // Create redux store with history
 const initialState = {};
-// const socketClient = new SocketClient();
-const store = configureStore(initialState, SocketClient, history);
+const socketClient = new SocketClient();
+
+const store = configureStore(initialState, socketClient, history);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
