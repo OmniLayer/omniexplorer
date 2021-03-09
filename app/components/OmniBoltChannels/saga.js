@@ -11,10 +11,10 @@ import {
 import request from 'utils/request';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { channelsLoaded } from './actions';
-import { makeSelectChannels } from './selectors';
+import { makeSelectOmniBoltChannels } from './selectors';
 
 export function* getChannels() {
-  const state = yield select(makeSelectChannels());
+  const state = yield select(makeSelectOmniBoltChannels());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
 

@@ -10,12 +10,12 @@ import {
 import request from 'utils/request';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { usersLoaded } from './actions';
-import { makeSelectUsers } from './selectors';
+import { makeSelectOmniBoltUsers } from './selectors';
 import { LOAD_NODES } from '../OmniBoltNodes/constants';
 import { getNodes } from '../OmniBoltNodes/saga';
 
 export function* getUsers() {
-  const state = yield select(makeSelectUsers());
+  const state = yield select(makeSelectOmniBoltUsers());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
 

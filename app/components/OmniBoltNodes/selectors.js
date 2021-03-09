@@ -17,7 +17,7 @@ const selectOmniBoltNodesDomain = state => state.omniBoltNodes || initialState;
 
 const makeSelectOmniBoltNodes = () =>
   createSelector(
-    selectOmniBoltDomain,
+    selectOmniBoltNodesDomain,
     substate => substate,
   );
 
