@@ -210,16 +210,16 @@ function Menu(props) {
               Omni Wallet
             </NavLink>
             <NavLink
-              href="https://omnilab.online/omnibolt/"
+              href="https://omnilab.online/OmniBOLT/"
               target="_blank"
             >
-              Omni Bolt
+              OmniBOLT
             </NavLink>
-            {isTestnet &&
-              <NavLink href={`${getSufixURL()}/omnibolt-stats`}>
-                Omni Bolt Network
+            {/*{isTestnet &&*/}
+              <NavLink href={`${getSufixURL()}/OmniBOLT-stats`}>
+                OmniBOLT Network
               </NavLink>
-            }
+            {/*}*/}
           </Col>
         </Row>
       </div>

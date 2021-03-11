@@ -1,6 +1,6 @@
 /*
  *
- * OmniBolt actions
+ * OmniBOLT actions
  *
  */
 import {
@@ -10,7 +10,7 @@ import {
   LOAD_NODES_SUCCESS,
   LOAD_USERS_SUCCESS,
   LOAD_CHANNELS_SUCCESS,
-} from 'containers/OmniBolt/constants';
+} from 'containers/OmniBOLT/constants';
 
 /**
  * Load the nodes, this action starts the request saga

@@ -1,6 +1,6 @@
 /*
  *
- * OmniBolt actions
+ * OmniBOLT Channels actions
  *
  */
 import {

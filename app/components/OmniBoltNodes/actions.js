@@ -1,6 +1,6 @@
 /*
  *
- * OmniBolt actions
+ * OmniBOLT Nodes actions
  *
  */
 import {

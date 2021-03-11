@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import {
   OMNIBOLT_TESTNET_API_URL,
-} from 'containers/OmniBolt/constants';
+} from 'containers/OmniBOLT/constants';
 
 import {
   LOAD_NODES,
@@ -11,10 +11,11 @@ import {
 import request from 'utils/request';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { nodesLoaded } from './actions';
-import { makeSelectOmniBoltNodes } from './selectors';
+import makeSelectOmniBOLTNodes from './selectors';
 
 export function* getNodes() {
-  const state = yield select(makeSelectOmniBoltNodes());
+  debugger;
+  const state = yield select(makeSelectOmniBOLTNodes());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
 

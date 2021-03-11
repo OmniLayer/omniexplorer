@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for OmniBolt
+ * Asynchronously loads the component for OmniBOLT
  *
  */
 

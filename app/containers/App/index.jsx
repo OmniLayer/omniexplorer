@@ -35,7 +35,7 @@ import HistoryChart from 'containers/HistoryChart';
 import FullBlockList from 'containers/FullBlockList';
 import Activations from 'containers/Activations';
 import Exchange from 'containers/Exchange';
-import OmniBolt from 'containers/OmniBolt';
+import OmniBOLT from 'containers/OmniBOLT';
 
 import Footer from 'components/Footer';
 import Header from 'components/Header';
@@ -226,7 +226,8 @@ export function App({ loadStatus }) {
           <Route exact path="/testnet/activations" component={Activations} />
 
           <Route exact path="/testnet/exchange" component={Exchange} />
-          <Route exact path="/testnet/omnibolt-stats" component={OmniBolt} />
+          <Route exact path="/testnet/omnibolt-stats" component={OmniBOLT} />
+          <Route exact path="/omnibolt-stats" component={OmniBOLT} />
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>

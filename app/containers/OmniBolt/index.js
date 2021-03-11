@@ -1,40 +1,107 @@
 /**
  *
- * OmniBolt
+ * OmniBOLT
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import classnames from 'classnames';
 
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectOmniBolt from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Col, Row } from 'reactstrap';
+import ContainerBase from 'components/ContainerBase';
+import OmniBOLTNodes from 'components/OmniBOLTNodes';
+import OmniBOLTChannels from 'components/OmniBOLTChannels';
+import OmniBOLTUsers from 'components/OmniBOLTUsers';
+
+import {
+ OMNIBOLT_NODES_TAB,
+ OMNIBOLT_CHANNELS_TAB,
+ OMNIBOLT_USERS_TAB,
+} from './constants';
+import makeSelectOmniBOLT from './selectors';
 import messages from './messages';
 
-export function OmniBolt() {
-  useInjectReducer({ key: 'omniBolt', reducer });
-  useInjectSaga({ key: 'omniBolt', saga });
+export function OmniBOLT() {
+  // useInjectReducer({ key: 'OmniBOLT', reducer });
+  // useInjectSaga({ key: 'OmniBOLT', saga });
+
+  const [activeTab, setActiveTab] = useState(OMNIBOLT_NODES_TAB);
+
+  const toggle = tab => {
+    if(activeTab !== tab) setActiveTab(tab);
+  }
 
   return (
-    <div>
-      <FormattedMessage {...messages.header} />
-    </div>
+    <ContainerBase>
+      <Row noGutters>
+        <Col sm>
+          <FormattedMessage {...messages.header} />
+        </Col>
+      </Row>
+      <Nav tabs>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === OMNIBOLT_NODES_TAB })}
+            onClick={() => { toggle(OMNIBOLT_NODES_TAB); }}
+          >
+            Nodes
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === OMNIBOLT_CHANNELS_TAB })}
+            onClick={() => { toggle(OMNIBOLT_CHANNELS_TAB); }}
+          >
+            Channels
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === OMNIBOLT_USERS_TAB })}
+            onClick={() => { toggle(OMNIBOLT_USERS_TAB); }}
+          >
+            Users
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={activeTab}>
+        <TabPane tabId={OMNIBOLT_NODES_TAB}>
+          <Row>
+            <Col sm>
+              <OmniBOLTNodes />
+            </Col>
+          </Row>
+        </TabPane>
+        <TabPane tabId={OMNIBOLT_CHANNELS_TAB}>
+          <Row>
+            <Col sm>
+              <OmniBOLTChannels />
+            </Col>
+          </Row>
+        </TabPane>
+        <TabPane tabId={OMNIBOLT_USERS_TAB}>
+          <Row>
+            <Col sm>
+              <OmniBOLTUsers />
+            </Col>
+          </Row>
+        </TabPane>
+      </TabContent>
+    </ContainerBase>
   );
 }
 
-OmniBolt.propTypes = {
+OmniBOLT.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  omniBolt: makeSelectOmniBolt(),
+  OmniBOLT: makeSelectOmniBOLT(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -48,4 +115,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(OmniBolt);
+export default compose(withConnect)(OmniBOLT);

@@ -1,6 +1,6 @@
 /*
  *
- * OmniBolt actions
+ * OmniBOLT Users actions
  *
  */
 import {

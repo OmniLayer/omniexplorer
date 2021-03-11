@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import omniBoltReducer from '../reducer';
+import OmniBOLTReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('omniBoltReducer', () => {
+describe('OmniBOLTReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,7 @@ describe('omniBoltReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(omniBoltReducer(undefined, {})).toEqual(expectedResult);
+    expect(OmniBOLTReducer(undefined, {})).toEqual(expectedResult);
   });
 
   /**

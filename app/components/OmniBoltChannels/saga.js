@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import {
   OMNIBOLT_TESTNET_API_URL,
-} from 'containers/OmniBolt/constants';
+} from 'containers/OmniBOLT/constants';
 
 import {
   LOAD_CHANNELS,
@@ -11,10 +11,10 @@ import {
 import request from 'utils/request';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { channelsLoaded } from './actions';
-import { makeSelectOmniBoltChannels } from './selectors';
+import makeSelectOmniBOLTChannels from './selectors';
 
 export function* getChannels() {
-  const state = yield select(makeSelectOmniBoltChannels());
+  const state = yield select(makeSelectOmniBOLTChannels());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
 

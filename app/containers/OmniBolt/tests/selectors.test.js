@@ -1,6 +1,6 @@
-// import { selectOmniBoltDomain } from '../selectors';
+// import { selectOmniBOLTDomain } from '../selectors';
 
-describe('selectOmniBoltDomain', () => {
+describe('selectOmniBOLTDomain', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

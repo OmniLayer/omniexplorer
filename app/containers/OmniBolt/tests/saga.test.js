@@ -4,11 +4,11 @@
 
 /* eslint-disable redux-saga/yield-effects */
 // import { take, call, put, select } from 'redux-saga/effects';
-// import omniBoltSaga from '../saga';
+// import OmniBOLTSaga from '../saga';
 
-// const generator = omniBoltSaga();
+// const generator = OmniBOLTSaga();
 
-describe('omniBoltSaga Saga', () => {
+describe('OmniBOLTSaga Saga', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

@@ -2,24 +2,24 @@ import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
 /**
- * Direct selector to the omniBolt state domain
+ * Direct selector to the OmniBOLT state domain
  */
 
-const selectOmniBoltUsersDomain = state => state.omniBoltUsers || initialState;
+const selectOmniBOLTUsersDomain = state => state.OmniBOLTUsers || initialState;
 
 /**
  * Other specific selectors
  */
 
 /**
- * Default selector used by OmniBolt
+ * Default selector used by OmniBOLT
  */
 
-const makeSelectOmniBoltUsers = () =>
+const makeSelectOmniBOLTUsers = () =>
   createSelector(
-    selectOmniBoltUsersDomain,
+    selectOmniBOLTUsersDomain,
     substate => substate,
   );
 
-export default makeSelectOmniBoltUsers;
-export { selectOmniBoltUsersDomain };
+export default makeSelectOmniBOLTUsers;
+export { selectOmniBOLTUsersDomain };

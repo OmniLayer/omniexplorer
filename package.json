@@ -64,6 +64,7 @@
     "@styled-icons/fa-solid": "^10.18.0",
     "bootstrap": "^4.5.2",
     "chalk": "2.4.2",
+    "classnames": "^2.2.6",
     "compression": "1.7.4",
     "connected-react-router": "6.6.0",
     "cross-env": "5.2.0",

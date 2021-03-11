@@ -1,6 +1,6 @@
 /**
  *
- * Tests for OmniBoltChannels
+ * Tests for OmniBOLTChannels
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -11,15 +11,15 @@ import { render } from 'react-testing-library';
 import { IntlProvider } from 'react-intl';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import OmniBoltChannels from '../index';
+import OmniBOLTChannels from '../index';
 import { DEFAULT_LOCALE } from '../../../i18n';
 
-describe('<OmniBoltChannels />', () => {
+describe('<OmniBOLTChannels />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
     render(
       <IntlProvider locale={DEFAULT_LOCALE}>
-        <OmniBoltChannels />
+        <OmniBOLTChannels />
       </IntlProvider>,
     );
     expect(spy).not.toHaveBeenCalled();
@@ -39,7 +39,7 @@ describe('<OmniBoltChannels />', () => {
       container: { firstChild },
     } = render(
       <IntlProvider locale={DEFAULT_LOCALE}>
-        <OmniBoltChannels />
+        <OmniBOLTChannels />
       </IntlProvider>,
     );
     expect(firstChild).toMatchSnapshot();

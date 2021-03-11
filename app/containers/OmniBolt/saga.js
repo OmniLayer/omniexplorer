@@ -5,7 +5,7 @@ import {
   FN_API_URL_OMNIBOLT_NODES,
   FN_API_URL_OMNIBOLT_USERS,
   FN_API_URL_OMNIBOLT_CHANNELS,
-} from 'containers/OmniBolt/constants';
+} from 'containers/OmniBOLT/constants';
 
 // import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import request from 'utils/request';

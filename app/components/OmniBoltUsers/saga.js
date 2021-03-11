@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import {
   OMNIBOLT_TESTNET_API_URL,
-} from 'containers/OmniBolt/constants';
+} from 'containers/OmniBOLT/constants';
 import {
   LOAD_USERS,
   FN_API_URL_OMNIBOLT_USERS,
@@ -10,12 +10,12 @@ import {
 import request from 'utils/request';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import { usersLoaded } from './actions';
-import { makeSelectOmniBoltUsers } from './selectors';
-import { LOAD_NODES } from '../OmniBoltNodes/constants';
-import { getNodes } from '../OmniBoltNodes/saga';
+import makeSelectOmniBOLTUsers from './selectors';
+import { LOAD_NODES } from '../OmniBOLTNodes/constants';
+import { getNodes } from '../OmniBOLTNodes/saga';
 
 export function* getUsers() {
-  const state = yield select(makeSelectOmniBoltUsers());
+  const state = yield select(makeSelectOmniBOLTUsers());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;
 
