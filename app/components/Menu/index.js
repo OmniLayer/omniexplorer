@@ -210,7 +210,7 @@ function Menu(props) {
               Omni Wallet
             </NavLink>
             <NavLink
-              href="https://omnilab.online/omni-academy/"
+              href="https://omnilab.online/omnibolt/"
               target="_blank"
             >
               Omni Bolt
