@@ -11,7 +11,7 @@ export const scope = 'app.components.OmniBOLTNodeList';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the OmniBOLTNodeList component!',
+    defaultMessage: 'OmniBOLT Node List',
   },
   columns: {
     number: {
@@ -24,7 +24,7 @@ export default defineMessages({
     },
     id: {
       id: 'app.components.OmniBOLTNodes.columns.id',
-      defaultMessage: 'Node Id',
+      defaultMessage: 'Id',
     },
     p2paddress: {
       id: 'app.components.OmniBOLTNodes.columns.p2paddress',

@@ -45,7 +45,6 @@ export function OmniBOLTUsers(props) {
   });
 
   useEffect(() => {
-    debugger;
     props.loadUsers();
   }, []);
 
@@ -87,33 +86,12 @@ export function OmniBOLTUsers(props) {
       </thead>
       <tbody>
       {props.users.data.map((user, idx) => (
-
         <StyledTR key={getItemKey(idx)}>
           <td className="text-center">{user.is_online}</td>
           <td className="text-center">{user.user_id}</td>
           <td className="text-center">{user.obd_node_id}</td>
           <td className="text-center">{user.obd_p2p_node_id}</td>
           <td className="text-center">{user.offline_at}</td>
-          {/*<td className="text-left">*/}
-          {/*  {node.featurename}*/}
-          {/*  {node.pending && (*/}
-          {/*    <span className="text-warning">&nbsp;(Pending)</span>*/}
-          {/*  )}*/}
-          {/*</td>*/}
-          {/*<td className="text-center">{node.nodeblock}</td>*/}
-          {/*<td className="text-center">{node.minimumversion}</td>*/}
-          <td className="text-center">
-            <WrapperTx>
-              {/*<StyledLink*/}
-              {/*  to={{*/}
-              {/*    pathname: `${getSufixURL()}/tx/${node.txhash}`,*/}
-              {/*    state: { state: props.state },*/}
-              {/*  }}*/}
-              {/*>*/}
-              {/*  <ColoredHash hash={node.txhash} />*/}
-              {/*</StyledLink>*/}
-            </WrapperTx>
-          </td>
         </StyledTR>
       ))}
       </tbody>

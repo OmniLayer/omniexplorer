@@ -45,8 +45,9 @@ export function OmniBOLTChannels(props) {
   });
 
   useEffect(() => {
-    debugger;
-    props.loadChannels();
+    if (!props.channels.isFetching) {
+      props.loadChannels();
+    }
   }, []);
 
   const loading = (
@@ -55,7 +56,7 @@ export function OmniBOLTChannels(props) {
     </ContainerBase>
   );
 
-  if (props.channels.isFetching) {
+  if (props.channels.isFetching || !props.channels.lastFetched) {
     return loading;
   }
 

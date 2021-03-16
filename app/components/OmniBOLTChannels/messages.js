@@ -11,7 +11,7 @@ export const scope = 'app.components.OmniBOLTChannelsList';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the OmniBOLTChannelsList component!',
+    defaultMessage: 'OmniBOLT Channels List',
   },
   columns: {
     number: {

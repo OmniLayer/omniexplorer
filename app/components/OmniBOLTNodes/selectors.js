@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the OmniBOLT state domain
  */
 
-const selectOmniBOLTChannelsDomain = state => state.OmniBOLTChannels || initialState;
+const selectOmniBOLTNodesDomain = state => state.omniboltnodes || initialState;
 
 /**
  * Other specific selectors
@@ -15,11 +15,11 @@ const selectOmniBOLTChannelsDomain = state => state.OmniBOLTChannels || initialS
  * Default selector used by OmniBOLT
  */
 
-const makeSelectOmniBOLTChannels = () =>
+const makeSelectOmniBOLTNodes = () =>
   createSelector(
-    selectOmniBOLTChannelsDomain,
+    selectOmniBOLTNodesDomain,
     substate => substate,
   );
 
-export default makeSelectOmniBOLTChannels;
-export { selectOmniBOLTChannelsDomain };
+export default makeSelectOmniBOLTNodes;
+export { selectOmniBOLTNodesDomain };

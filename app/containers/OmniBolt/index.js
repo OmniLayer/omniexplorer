@@ -38,11 +38,6 @@ export function OmniBOLT() {
 
   return (
     <ContainerBase>
-      <Row noGutters>
-        <Col sm>
-          <FormattedMessage {...messages.header} />
-        </Col>
-      </Row>
       <Nav tabs>
         <NavItem>
           <NavLink

@@ -14,7 +14,6 @@ import { nodesLoaded } from './actions';
 import makeSelectOmniBOLTNodes from './selectors';
 
 export function* getNodes() {
-  debugger;
   const state = yield select(makeSelectOmniBOLTNodes());
   const maxPagesByMedia = getMaxPagesByMedia();
   const page = state.currentPage;

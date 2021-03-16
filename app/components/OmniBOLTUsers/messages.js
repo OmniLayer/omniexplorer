@@ -12,7 +12,7 @@ export const scope = 'app.components.OmniBOLTUsersList';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the OmniBOLTUsersList component!',
+    defaultMessage: 'OmniBOLT Users List',
   },
   columns: {
     obdp2pnodeid: {
