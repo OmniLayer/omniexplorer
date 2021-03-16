@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 import { Table } from 'reactstrap';
 
+import ColoredHash from 'components/ColoredHash';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
@@ -86,7 +87,9 @@ export function OmniBOLTChannels(props) {
       <tbody>
       {props.channels.data.map((channel, idx) => (
         <StyledTR key={getItemKey(idx)}>
-          <td className="text-center">{channel.channel_id}</td>
+          <td className="text-left">
+            <ColoredHash hash={channel.channel_id} />
+          </td>
           <td className="text-center">{channel.property_id}</td>
           <td className="text-center">{channel.amount_a}</td>
           <td className="text-center">{channel.amount_b}</td>

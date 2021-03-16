@@ -12,13 +12,17 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import { Table } from 'reactstrap';
+import classnames from 'classnames';
 
+import { FormattedDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
+import OnlineStatus from 'components/OnlineStatus';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+
 import { loadNodes } from './actions';
 import makeSelectOmniBOLTNodes from './selectors';
 import reducer from './reducer';
@@ -64,17 +68,7 @@ export function OmniBOLTNodes(props) {
       .toString()
       .concat(idx);
 
-  const formatP2PAddress = (addr) => {
-    const lastSlash = addr.lastIndexOf('/');
-    const hash = addr.slice(lastSlash + 1);
-    debugger;
-    return (
-      <span>
-        {addr.slice(0, lastSlash - 1)} &nbspc;
-        <ColoredHash hash={hash} withoutPrefixSufix />
-      </span>
-    );
-  };
+  const formatP2PAddress = (addr) => addr.slice(0, addr.lastIndexOf('/') + 1);
 
   const content = (
     <StyledTable responsive striped hover>
@@ -103,16 +97,32 @@ export function OmniBOLTNodes(props) {
       <tbody>
       {props.nodes.data.map((node, idx) => (
         <StyledTR key={getItemKey(idx)}>
-          <td className="text-center">{node.is_online}</td>
-          <td>
-            <ColoredHash hash={node.node_id} withoutPrefixSufix/>
+          <td className="text-center">
+            <OnlineStatus
+              className={classnames({
+                'text-success': node.is_online,
+                'text-muted': !node.is_online,
+              })}
+              size={24} />
           </td>
           <td>
-            {formatP2PAddress(node.p2p_address)}
+            <ColoredHash hash={node.node_id} />
+          </td>
+          <td className="text-left">
+            <span>
+              {formatP2PAddress(node.p2p_address)}
+            </span>
+            <span className="float-right">
+              <ColoredHash hash={node.p2p_address} withoutPrefixSufix />
+            </span>
           </td>
           <td className="text-center">{node.latest_login_ip}</td>
-          <td className="text-center">{node.latest_login_at}</td>
-          <td className="text-center">{node.latest_offline_at}</td>
+          <td className="text-center">
+            <FormattedDateTime datetime={node.latest_login_at} useSeconds />
+          </td>
+          <td className="text-center">
+            <FormattedDateTime datetime={node.latest_offline_at} useSeconds />
+          </td>
         </StyledTR>
       ))}
       </tbody>

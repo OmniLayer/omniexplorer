@@ -12,7 +12,11 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import { Table } from 'reactstrap';
+import classnames from 'classnames';
 
+import { FormattedDateTime } from 'components/FormattedDateTime';
+import ColoredHash from 'components/ColoredHash';
+import OnlineStatus from 'components/OnlineStatus';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
@@ -87,11 +91,26 @@ export function OmniBOLTUsers(props) {
       <tbody>
       {props.users.data.map((user, idx) => (
         <StyledTR key={getItemKey(idx)}>
-          <td className="text-center">{user.is_online}</td>
-          <td className="text-center">{user.user_id}</td>
-          <td className="text-center">{user.obd_node_id}</td>
-          <td className="text-center">{user.obd_p2p_node_id}</td>
-          <td className="text-center">{user.offline_at}</td>
+          <td className="text-center">
+            <OnlineStatus
+              className={classnames({
+                'text-success': user.is_online,
+                'text-muted': !user.is_online,
+              })}
+              size={24} />
+          </td>
+          <td className="text-center">
+            <ColoredHash hash={user.user_id} />
+          </td>
+          <td className="text-center">
+            <ColoredHash hash={user.obd_node_id} />
+          </td>
+          <td className="text-center">
+            <ColoredHash hash={user.obd_p2p_node_id} />
+          </td>
+          <td className="text-center">
+            <FormattedDateTime datetime={user.offline_at} useSeconds />
+          </td>
         </StyledTR>
       ))}
       </tbody>
