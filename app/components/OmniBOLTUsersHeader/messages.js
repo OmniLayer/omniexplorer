@@ -32,7 +32,7 @@ export default defineMessages({
     },
     offlinetime: {
       id: 'app.components.OmniBOLTUsers.columns.offlinetime',
-      defaultMessage: 'Offline Time',
+      defaultMessage: 'Last time online',
     },
   },
 });
