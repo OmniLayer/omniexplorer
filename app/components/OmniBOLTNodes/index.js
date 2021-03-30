@@ -63,7 +63,7 @@ export function OmniBOLTNodes(props) {
     </ContainerBase>
   );
 
-  if (props.nodes.isFetching) {
+  if (props.nodes.isFetching || !props.nodes.lastFetched) {
     return loading;
   }
 

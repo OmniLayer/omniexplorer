@@ -6,6 +6,7 @@
 import {
   LOAD_USERS,
   LOAD_USERS_SUCCESS,
+  SET_PAGE,
 } from './constants';
 
 /**
@@ -29,6 +30,20 @@ export function loadUsers() {
 export function usersLoaded(payload) {
   return {
     type: LOAD_USERS_SUCCESS,
+    payload,
+  };
+}
+
+/**
+ * Dispatched when the page change
+ *
+ * @param  {number} page The page number
+ *
+ * @return {object} An action object with the page
+ */
+export function setPage(payload) {
+  return {
+    type: SET_PAGE,
     payload,
   };
 }

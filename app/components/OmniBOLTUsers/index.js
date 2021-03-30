@@ -24,12 +24,11 @@ import { useInjectReducer } from 'utils/injectReducer';
 import { getSufixURL } from 'utils/getLocationPath';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-import { loadUsers } from './actions';
+import { loadUsers, setPage } from './actions';
 import makeSelectOmniBOLTUsers from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { setPage } from '../OmniBOLTNodes/actions';
 
 export function OmniBOLTUsers(props) {
   // const entity = props.match.params.entity || 'nodes';
@@ -64,7 +63,7 @@ export function OmniBOLTUsers(props) {
     </ContainerBase>
   );
 
-  if (props.users.isFetching) {
+  if (props.users.isFetching || !props.users.lastFetched) {
     return loading;
   }
 
@@ -75,7 +74,7 @@ export function OmniBOLTUsers(props) {
 
   const pathname = `${getSufixURL}`;
   const hashLink = v => `${pathname}/${v}`;
-  debugger;
+
   const listProps = {
     ...props.users,
     header: OmniBOLTUsersHeader,

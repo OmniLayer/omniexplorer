@@ -1,6 +1,6 @@
 /**
  *
- * OmniBOLTChannelRecord
+ * OmniBOLTChannelsRecord
  *
  */
 
@@ -12,7 +12,7 @@ const StyledTR = styled.tr`
   // cursor: pointer;
 `;
 
-const OmniBOLTChannelRecord = channel => (
+const OmniBOLTChannelsRecord = channel => (
   <StyledTR>
     <td className="text-left">
       <ColoredHash hash={channel.channel_id} />
@@ -23,6 +23,6 @@ const OmniBOLTChannelRecord = channel => (
   </StyledTR>
 );
 
-OmniBOLTChannelRecord.propTypes = {};
+OmniBOLTChannelsRecord.propTypes = {};
 
-export default OmniBOLTChannelRecord;
+export default OmniBOLTChannelsRecord;

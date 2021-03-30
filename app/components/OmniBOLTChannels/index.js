@@ -16,20 +16,19 @@ import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
 import TableList from 'components/TableList';
 
-import OmniBOLTUsersHeader from 'components/OmniBOLTUsersHeader';
-import OmniBOLTUserRecord from 'components/OmniBOLTUserRecord';
+import OmniBOLTChannelsHeader from 'components/OmniBOLTChannelsHeader';
+import OmniBOLTChannelRecord from 'components/OmniBOLTChannelRecord';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 // import history from 'utils/history';
 import { getSufixURL } from 'utils/getLocationPath';
 
-import { loadChannels } from './actions';
+import { loadChannels, setPage } from './actions';
 import makeSelectOmniBOLTChannels from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { setPage } from '../OmniBOLTNodes/actions';
 
 export function OmniBOLTChannels(props) {
   // const entity = props.match.params.entity || 'nodes';
@@ -66,7 +65,7 @@ export function OmniBOLTChannels(props) {
     </ContainerBase>
   );
 
-  if (props.channels.isFetching) {
+  if (props.channels.isFetching || !props.channels.lastFetched) {
     return loading;
   }
 
@@ -80,9 +79,9 @@ export function OmniBOLTChannels(props) {
 
   const listProps = {
     ...props.channels,
-    header: OmniBOLTUsersHeader,
+    header: OmniBOLTChannelsHeader,
     items: props.channels.data,
-    inner: OmniBOLTUserRecord,
+    inner: OmniBOLTChannelRecord,
     onSetPage: handlePageClick,
     hashLink,
     getItemKey,
