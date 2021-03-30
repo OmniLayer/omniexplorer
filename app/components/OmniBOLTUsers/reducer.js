@@ -4,8 +4,7 @@
  *
  */
 import produce from 'immer';
-import { LOAD_USERS, LOAD_USERS_SUCCESS } from './constants';
-import { SET_PAGE } from '../OmniBOLTNodes/constants';
+import { LOAD_USERS, LOAD_USERS_SUCCESS, SET_PAGE } from './constants';
 
 export const initialState = {
   data: [],

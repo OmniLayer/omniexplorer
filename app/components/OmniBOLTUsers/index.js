@@ -7,12 +7,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import styled from 'styled-components';
-import { Table } from 'reactstrap';
-import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
@@ -22,11 +18,11 @@ import TableList from 'components/TableList';
 import OmniBOLTUsersHeader from 'components/OmniBOLTUsersHeader';
 import OmniBOLTUserRecord from 'components/OmniBOLTUserRecord';
 
-
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 // import history from 'utils/history';
 import { getSufixURL } from 'utils/getLocationPath';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
 import { loadUsers } from './actions';
 import makeSelectOmniBOLTUsers from './selectors';
@@ -34,15 +30,6 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { setPage } from '../OmniBOLTNodes/actions';
-
-const StyledTR = styled.tr`
-  // cursor: pointer;
-`;
-const StyledTable = styled(Table)`
-  th {
-    font-weight: normal;
-  }
-`;
 
 export function OmniBOLTUsers(props) {
   // const entity = props.match.params.entity || 'nodes';
@@ -88,7 +75,7 @@ export function OmniBOLTUsers(props) {
 
   const pathname = `${getSufixURL}`;
   const hashLink = v => `${pathname}/${v}`;
-
+  debugger;
   const listProps = {
     ...props.users,
     header: OmniBOLTUsersHeader,

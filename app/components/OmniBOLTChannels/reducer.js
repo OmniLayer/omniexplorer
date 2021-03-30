@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { LOAD_CHANNELS, LOAD_CHANNELS_SUCCESS } from './constants';
+import { LOAD_CHANNELS, LOAD_CHANNELS_SUCCESS, SET_PAGE } from './constants';
 
 export const initialState = {
   data: [],
@@ -18,8 +18,12 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const OmniBOLTChannelsReducer = (state = initialState, action = {}) =>
-  produce(state, draft => {
+const OmniBOLTChannelsReducer = (state = initialState, action = {}) => {
+  const {
+    payload,
+    type,
+  } = action;
+  return produce(state, draft => {
     switch (action.type) {
       case LOAD_CHANNELS:
         draft.isFetching = true;
@@ -31,13 +35,19 @@ const OmniBOLTChannelsReducer = (state = initialState, action = {}) =>
         draft.lastFetched = Date.now();
         draft.error = null;
 
-        draft.data = action.payload.data.concat && action.payload.data.concat();
-        draft.pageNum = action.payload.pageNum;
-        draft.pageSize = action.payload.pageSize;
-        draft.totalCount = action.payload.totalCount;
-        draft.totalPage = action.payload.totalPage;
+        draft.data = payload.data;
+        draft.currentPage = Number(payload.pageNum);
+        draft.pageSize = payload.pageSize;
+        draft.totalCount = payload.totalCount;
+        draft.pageCount = payload.totalPage;
+        break;
+      case SET_PAGE:
+        draft.isFetching = true;
+        draft.error = null;
+        draft.currentPage = Number(payload.pageNum);
         break;
     }
   });
+};
 
 export default OmniBOLTChannelsReducer;

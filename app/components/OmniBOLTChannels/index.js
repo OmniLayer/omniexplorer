@@ -7,34 +7,43 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import styled from 'styled-components';
-import { Table } from 'reactstrap';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-import ColoredHash from 'components/ColoredHash';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
+import TableList from 'components/TableList';
+
+import OmniBOLTUsersHeader from 'components/OmniBOLTUsersHeader';
+import OmniBOLTUserRecord from 'components/OmniBOLTUserRecord';
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+// import history from 'utils/history';
+import { getSufixURL } from 'utils/getLocationPath';
+
 import { loadChannels } from './actions';
 import makeSelectOmniBOLTChannels from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-
-const StyledTR = styled.tr`
-  // cursor: pointer;
-`;
-const StyledTable = styled(Table)`
-  th {
-    font-weight: normal;
-  }
-`;
+import { setPage } from '../OmniBOLTNodes/actions';
 
 export function OmniBOLTChannels(props) {
+  // const entity = props.match.params.entity || 'nodes';
+  // const pageParam = props.match.params.page || props.pageNum || 1;
+  const maxPagesByMedia = getMaxPagesByMedia();
+
+  // props.onSetPage(pageParam);
+
+  const handlePageClick = page => {
+    props.onSetPage(page);
+    // history.push(hashLink(page));
+    props.loadChannels();
+  };
+
   useInjectReducer({
     key: 'omniboltchannels',
     reducer,
@@ -57,52 +66,32 @@ export function OmniBOLTChannels(props) {
     </ContainerBase>
   );
 
-  if (props.channels.isFetching || !props.channels.lastFetched) {
+  if (props.channels.isFetching) {
     return loading;
   }
 
-  const getItemKey = (idx) =>
+  const getItemKey = (item, idx) =>
     new Date().getTime()
       .toString()
       .concat(idx);
 
-  const content = (
-    <StyledTable responsive striped hover>
-      <thead>
-      <tr>
-        <th className="text-left">
-          <FormattedMessage {...messages.columns.channelid} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.propertyid} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.balancea} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.balanceb} />
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      {props.channels.data.map((channel, idx) => (
-        <StyledTR key={getItemKey(idx)}>
-          <td className="text-left">
-            <ColoredHash hash={channel.channel_id} />
-          </td>
-          <td className="text-center">{channel.property_id}</td>
-          <td className="text-center">{channel.amount_a}</td>
-          <td className="text-center">{channel.amount_b}</td>
-        </StyledTR>
-      ))}
-      </tbody>
-    </StyledTable>
-  );
+  const pathname = `${getSufixURL}`;
+  const hashLink = v => `${pathname}/${v}`;
+
+  const listProps = {
+    ...props.channels,
+    header: OmniBOLTUsersHeader,
+    items: props.channels.data,
+    inner: OmniBOLTUserRecord,
+    onSetPage: handlePageClick,
+    hashLink,
+    getItemKey,
+  };
 
   return (
     <ContainerBase>
       <ListHeader message={messages.header} />
-      {content}
+      <TableList {...listProps} usePagination />
     </ContainerBase>
   );
 }
@@ -110,6 +99,8 @@ export function OmniBOLTChannels(props) {
 OmniBOLTChannels.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadChannels: PropTypes.func.isRequired,
+  channels: PropTypes.any.isRequired,
+  onSetPage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -119,6 +110,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loadChannels: () => dispatch(loadChannels()),
+    onSetPage: p => dispatch(setPage({ pageNum: p })),
     dispatch,
   };
 }
