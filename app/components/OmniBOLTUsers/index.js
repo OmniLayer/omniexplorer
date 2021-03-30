@@ -12,21 +12,28 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import { Table } from 'reactstrap';
-import classnames from 'classnames';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-import { FormattedDateTime } from 'components/FormattedDateTime';
-import ColoredHash from 'components/ColoredHash';
-import OnlineStatus from 'components/OnlineStatus';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
+import TableList from 'components/TableList';
+
+import OmniBOLTUsersHeader from 'components/OmniBOLTUsersHeader';
+import OmniBOLTUserRecord from 'components/OmniBOLTUserRecord';
+
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+// import history from 'utils/history';
+import { getSufixURL } from 'utils/getLocationPath';
+
 import { loadUsers } from './actions';
 import makeSelectOmniBOLTUsers from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { setPage } from '../OmniBOLTNodes/actions';
 
 const StyledTR = styled.tr`
   // cursor: pointer;
@@ -38,6 +45,18 @@ const StyledTable = styled(Table)`
 `;
 
 export function OmniBOLTUsers(props) {
+  // const entity = props.match.params.entity || 'nodes';
+  // const pageParam = props.match.params.page || props.pageNum || 1;
+  const maxPagesByMedia = getMaxPagesByMedia();
+
+  // props.onSetPage(pageParam);
+
+  const handlePageClick = page => {
+    props.onSetPage(page);
+    // history.push(hashLink(page));
+    props.loadUsers();
+  };
+
   useInjectReducer({
     key: 'omniboltusers',
     reducer,
@@ -62,65 +81,28 @@ export function OmniBOLTUsers(props) {
     return loading;
   }
 
-  const getItemKey = (idx) =>
+  const getItemKey = (item, idx) =>
     new Date().getTime()
       .toString()
       .concat(idx);
 
-  const content = (
-    <StyledTable responsive striped hover>
-      <thead>
-      <tr>
-        <th className="text-left">
-          <FormattedMessage {...messages.columns.online} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.userid} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.obdnodeid} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.obdp2pnodeid} />
-        </th>
-        <th className="text-center">
-          <FormattedMessage {...messages.columns.offlinetime} />
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      {props.users.data.map((user, idx) => (
-        <StyledTR key={getItemKey(idx)}>
-          <td className="text-center">
-            <OnlineStatus
-              className={classnames({
-                'text-success': user.is_online,
-                'text-muted': !user.is_online,
-              })}
-              size={24} />
-          </td>
-          <td className="text-center">
-            <ColoredHash hash={user.user_id} />
-          </td>
-          <td className="text-center">
-            <ColoredHash hash={user.obd_node_id} />
-          </td>
-          <td className="text-center">
-            <ColoredHash hash={user.obd_p2p_node_id} />
-          </td>
-          <td className="text-center">
-            <FormattedDateTime datetime={user.offline_at} useSeconds />
-          </td>
-        </StyledTR>
-      ))}
-      </tbody>
-    </StyledTable>
-  );
+  const pathname = `${getSufixURL}`;
+  const hashLink = v => `${pathname}/${v}`;
+
+  const listProps = {
+    ...props.users,
+    header: OmniBOLTUsersHeader,
+    items: props.users.data,
+    inner: OmniBOLTUserRecord,
+    onSetPage: handlePageClick,
+    hashLink,
+    getItemKey,
+  };
 
   return (
     <ContainerBase>
       <ListHeader message={messages.header} />
-      {content}
+      <TableList {...listProps} usePagination />
     </ContainerBase>
   );
 }
@@ -129,6 +111,7 @@ OmniBOLTUsers.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadUsers: PropTypes.func.isRequired,
   users: PropTypes.any.isRequired,
+  onSetPage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -138,6 +121,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loadUsers: () => dispatch(loadUsers()),
+    onSetPage: p => dispatch(setPage({ pageNum: p })),
     dispatch,
   };
 }
