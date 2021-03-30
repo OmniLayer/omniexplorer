@@ -4,17 +4,17 @@
  *
  */
 import produce from 'immer';
-import { LOAD_NODES, LOAD_NODES_SUCCESS } from './constants';
+import { LOAD_NODES, LOAD_NODES_SUCCESS, SET_PAGE } from './constants';
 
 export const initialState = {
   data: [],
   error: null,
   isFetching: false,
   lastFetched: 0,
-  pageNum: 0,
+  currentPage: 0,
   pageSize: 0,
   totalCount: 0,
-  totalPage: 0,
+  pageCount: 0,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -33,10 +33,15 @@ const OmniBOLTNodesReducer = (state = initialState, action = {}) => {
         draft.error = null;
 
         draft.data = payload.data;
-        draft.pageNum = payload.pageNum;
+        draft.currentPage = Number(payload.pageNum);
         draft.pageSize = payload.pageSize;
         draft.totalCount = payload.totalCount;
-        draft.totalPage = payload.totalPage;
+        draft.pageCount = payload.totalPage;
+        break;
+      case SET_PAGE:
+        draft.isFetching = true;
+        draft.error = null;
+        draft.currentPage = Number(payload.pageNum);
         break;
     }
   });
