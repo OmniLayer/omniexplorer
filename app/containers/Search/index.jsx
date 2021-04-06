@@ -199,7 +199,7 @@ export function Search(props) {
   `;
   return (
     <ContainerBase>
-      <StyledRow>
+      <StyledRow noGutters>
         <Col sm>
           <h4>
             Showing results for:&nbsp;
