@@ -215,11 +215,6 @@ function Menu(props) {
             >
               OmniBOLT
             </NavLink>
-            {isTestnet &&
-              <NavLink href={`${getSufixURL()}/OmniBOLT-stats`}>
-                OmniBOLT Network
-              </NavLink>
-            }
           </Col>
         </Row>
       </div>
