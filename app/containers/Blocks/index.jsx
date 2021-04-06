@@ -45,7 +45,6 @@ export function Blocks(props) {
 
   let content;
   let pagination;
-
   if (props.loading && !props.previousBlock) {
     content = <LoadingIndicator />;
   } else {

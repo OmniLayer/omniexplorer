@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import DevTools from 'utils/devTools';
+import socketMiddleware from 'components/SocketClient/SocketMiddleware';
 import { GLOBAL_ON_SAGA_ERROR } from 'constants.js';
 import createReducer from './reducers';
 
@@ -20,12 +21,14 @@ const sagaMiddleware = createSagaMiddleware({
   },
 });
 
-export default function configureStore(initialState = {}, history) {
-
+export default function configureStore(initialState = {}, socketClient, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [sagaMiddleware, routerMiddleware(history)];
+  // https://dev.to/aduranil/how-to-use-websockets-with-redux-a-step-by-step-guide-to-writing-understanding-connecting-socket-middleware-to-your-project-km3
+  const middlewares = [sagaMiddleware, /*socketMiddleware(socketClient),*/ routerMiddleware(history)];
+  // https://github.com/itaylor/redux-socket.io
+  // const middlewares = [sagaMiddleware, createSocketIoMiddleware(socketClient, 'ws://127.0.0.1:60020'), routerMiddleware(history)];
 
   const enhancers = [applyMiddleware(...middlewares)];
 

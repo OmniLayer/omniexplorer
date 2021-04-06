@@ -143,6 +143,7 @@ module.exports = options => ({
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
       root: path.resolve(__dirname),
+      // 'socket.io-client': path.join(__dirname, 'node_modules', 'socket.io-client', 'socket.io.js' ),
     },
   },
   devtool: options.devtool,

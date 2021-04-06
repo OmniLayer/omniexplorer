@@ -34,7 +34,7 @@ import BlockDetail from 'containers/BlockDetail';
 import HistoryChart from 'containers/HistoryChart';
 import FullBlockList from 'containers/FullBlockList';
 import Activations from 'containers/Activations';
-// import Exchange from 'containers/Exchange';
+import Exchange from 'containers/Exchange';
 
 import Footer from 'components/Footer';
 import Header from 'components/Header';
@@ -224,7 +224,8 @@ export function App({ loadStatus }) {
           <Route exact path="/activations" component={Activations} />
           <Route exact path="/testnet/activations" component={Activations} />
 
-          {/* <Route exact path="/exchange" component={Exchange} /> */}
+          <Route exact path="/testnet/exchange" component={Exchange} />
+
           <Route path="" component={NotFoundPage} />
           <Route component={NotFoundPage} />
         </Switch>

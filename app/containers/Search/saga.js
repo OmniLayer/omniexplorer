@@ -26,7 +26,6 @@ export function* getSearch({ query }) {
   };
 
   const search = yield call(request, requestURL, options);
-  debugger;
   // if the query is an address get BTC balance from blockchain.info for the given wallet
   if (!isNil(search.data.address) && isNil(search.data.address.error)) {
     const wallet = search.data.address;

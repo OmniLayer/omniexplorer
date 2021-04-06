@@ -4,7 +4,7 @@
  *
  */
 
-import React, {memo} from 'react';
+import React, { memo } from 'react';
 
 import styled from 'styled-components';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -33,13 +33,13 @@ function ColoredHash(props) {
     backgroundColor: `rgb(${color.join(',')})`,
   });
 
-  const hashId = `h-${props.hash.slice(48).toString()}`;
+  const hashId = `h-${props.hash.slice(44).toString()}${Math.random().toString().slice(-4)}`;
   const hash = props.hash.split('');
-  const start = hash.splice(0, 2);
-  const end = hash.splice(-2, 2);
-  const hashHex = hash
-    .join('')
+  const start = props.withoutPrefixSufix ? [] : hash.splice(0, 2);
+  const end = props.withoutPrefixSufix ? [] : hash.splice(-2, 2);
+  const hashHex = props.hash
     .split(/(.{6})/)
+    .filter(h => h.length === 6) // length 6 is needed to create colors RGB
     .filter(Boolean);
 
   const normalizeHex = hex =>
