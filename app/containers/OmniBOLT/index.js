@@ -66,21 +66,21 @@ export function OmniBOLT() {
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId={OMNIBOLT_NODES_TAB}>
-          <Row>
+          <Row noGutters>
             <Col sm>
               <OmniBOLTNodes />
             </Col>
           </Row>
         </TabPane>
         <TabPane tabId={OMNIBOLT_CHANNELS_TAB}>
-          <Row>
+          <Row noGutters>
             <Col sm>
               <OmniBOLTChannels />
             </Col>
           </Row>
         </TabPane>
         <TabPane tabId={OMNIBOLT_USERS_TAB}>
-          <Row>
+          <Row noGutters>
             <Col sm>
               <OmniBOLTUsers />
             </Col>

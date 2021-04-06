@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Col, Jumbotron, Row, Table } from 'reactstrap';
@@ -30,7 +31,6 @@ import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
 import { startFetch, cancelFetch } from 'components/Token/actions';
 import {
-  makeSelectLoading,
   makeSelectProperties,
   makeSelectProperty,
 } from 'components/Token/selectors';
@@ -54,12 +54,13 @@ const StyledTR = styled.tr.attrs({
 })``;
 
 export function Search(props) {
-  const { query } = props.match.params;
+  const { query } = useParams();
 
   useInjectReducer({
     key: 'search',
     reducer: searchReducer,
   });
+
   useInjectSaga({
     key: 'search',
     saga: searchSaga,
@@ -99,6 +100,7 @@ export function Search(props) {
 
   if (
     props.search.loading ||
+    (!props.search.loading && props.search.query !== query) ||
     (!isActivation() && props.tokens.isFetching) ||
     (isActivation() && props.activations.loading)
   ) {
@@ -242,7 +244,6 @@ Search.propTypes = {
 const mapStateToProps = createStructuredSelector({
   search: makeSelectSearch(),
   tokens: makeSelectProperties(),
-  tokenIsFetching: state => makeSelectLoading(state),
   properties: state => makeSelectProperty(state),
   activations: makeSelectActivations(),
 });
