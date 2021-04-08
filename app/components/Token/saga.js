@@ -33,6 +33,7 @@ function* fetchSingleProperty(action) {
       throw error;
     }
 
+    yield put(updateFetch(property));
     return property;
   } else {
     // nothing to load..
