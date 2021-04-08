@@ -100,7 +100,7 @@ class CrowdsaleTransaction extends React.PureComponent {
       addresscname = 'd-none';
     }
 
-    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
+    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, "");
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
 
