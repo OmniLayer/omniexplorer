@@ -80,7 +80,7 @@ const toggleRefererTooltip = () => {
 
   const transactionAmount = props.amount || '';
 
-  const txcopyid = `txid_${props.txid.slice(0, 12)}`;
+  const txcopyid = `txid_${props.txid.slice(0, 12)}`.replace(/ /g, "");
   const sendercopyid = `s-${txcopyid}`;
   const referercopyid = `r-${txcopyid}`;
   const invalidid = `invalid-${txcopyid}`;

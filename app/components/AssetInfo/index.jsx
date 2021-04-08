@@ -13,13 +13,15 @@ import StyledLink from 'components/StyledLink';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import { API_URL_BASE, FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import {
+  API_URL_BASE,
+  FEATURE_ACTIVATION_TYPE_INT,
+} from 'containers/App/constants';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import normalizeURL from 'utils/normalizeURL';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import StyledIconCopy from 'components/StyledIconCopy';
-import {Tooltip} from 'reactstrap';
-
+import { Tooltip } from 'reactstrap';
 
 const StyledTD = styled.td.attrs({
   className: 'field',
@@ -28,7 +30,7 @@ const StyledTD = styled.td.attrs({
 `;
 
 function AssetInfo(asset) {
-  const issuercopyid = `s-${asset.issuer}`;
+  const issuercopyid = `s-${asset.issuer}`.replace(/ /g, '');
 
   const [tooltipIssuerOpen, settooltipIssuerOpen] = useState(false);
 
@@ -71,8 +73,8 @@ function AssetInfo(asset) {
     );
   }
 
-  if(asset.type_int === FEATURE_ACTIVATION_TYPE_INT){
-    propertyID= (
+  if (asset.type_int === FEATURE_ACTIVATION_TYPE_INT) {
+    propertyID = (
       <tr>
         <StyledTD>Feature Activation</StyledTD>
         <td>
@@ -94,7 +96,11 @@ function AssetInfo(asset) {
   } else if (asset.url.includes('.')) {
     asseturl = (
       <td>
-        <StyledA href={normalizeURL(asset.url)} target="_blank" rel="noopener noreferrer">
+        <StyledA
+          href={normalizeURL(asset.url)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {asset.url}
         </StyledA>
       </td>
@@ -112,7 +118,8 @@ function AssetInfo(asset) {
     registeredMessage = (
       <td style={{ whiteSpace: 'break-spaces' }}>
         This property is not registered with OmniExplorer.info. Please see{' '}
-        <StyledA href="/promote">Promote Your Property</StyledA> for further details.
+        <StyledA href="/promote">Promote Your Property</StyledA> for further
+        details.
       </td>
     );
   }
@@ -128,8 +135,25 @@ function AssetInfo(asset) {
       </tr>
     );
   }
-  const crowdsaleClosed = (asset.deadline * 1000) <= moment.utc().valueOf();
+  const crowdsaleClosed = asset.deadline * 1000 <= moment.utc().valueOf();
   const closingLabel = crowdsaleClosed ? 'Closed' : 'Closing';
+
+  let txIssuer;
+  if (asset.creationtxid) {
+    txIssuer = (
+      <StyledLink
+        to={{
+          pathname: `${getSufixURL()}/address/${asset.issuer}`,
+          state: { state: asset.state },
+        }}
+      >
+        {asset.issuer}
+      </StyledLink>
+    );
+  } else {
+    txIssuer = <span>{asset.issuer}</span>;
+  }
+
   return (
     <tbody>
       <tr>
@@ -146,58 +170,51 @@ function AssetInfo(asset) {
         <StyledTD>Created</StyledTD>
         <td>
           <span id="ldatetime">
-            <FormattedUnixDateTime datetime={asset.blocktime} useSeconds={false} />
+            <FormattedUnixDateTime
+              datetime={asset.blocktime}
+              useSeconds={false}
+            />
           </span>
         </td>
       </tr>
-      {asset.type_int===51 &&
+      {asset.type_int === 51 && (
         <tr>
           <StyledTD>{closingLabel}</StyledTD>
           <td>
             <span id="ldatetime">
-              <FormattedUnixDateTime datetime={asset.deadline} useSeconds={false} />
+              <FormattedUnixDateTime
+                datetime={asset.deadline}
+                useSeconds={false}
+              />
             </span>
           </td>
         </tr>
-      }
+      )}
       {assetData}
       <tr>
         <StyledTD>Issuer</StyledTD>
         <td>
-          <StyledLink
-            to={{
-              pathname: `${getSufixURL()}/address/${asset.issuer}`,
-              state: { state: asset.state },
-            }}
-          >
-            {asset.issuer}
-          </StyledLink>
-          <CopyToClipboard
-            text={asset.issuer}
-            onCopy={toggleSenderTooltip}
-          >
+          {txIssuer}
+          <CopyToClipboard text={asset.issuer} onCopy={toggleSenderTooltip}>
             <StyledIconCopy
               className="d-inline-flex"
               size={24}
               id={issuercopyid}
             />
           </CopyToClipboard>
-          <Tooltip
-            hideArrow
-            isOpen={tooltipIssuerOpen}
-            target={issuercopyid}
-          >
+          <Tooltip hideArrow isOpen={tooltipIssuerOpen} target={issuercopyid}>
             Sender Address Copied
           </Tooltip>
-
         </td>
       </tr>
-      <tr>
-        <StyledTD>Category</StyledTD>
-        <td>
-          <span id="lblocknum">{asset.category}</span>
-        </td>
-      </tr>
+      {asset.category && (
+        <tr>
+          <StyledTD>Category</StyledTD>
+          <td>
+            <span id="lblocknum">{asset.category}</span>
+          </td>
+        </tr>
+      )}
       <tr>
         <StyledTD>Divisible</StyledTD>
         <td>
