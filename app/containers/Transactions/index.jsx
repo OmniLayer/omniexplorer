@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import isNil from 'lodash/isNil';
 import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
@@ -85,7 +86,7 @@ export function Transactions(props) {
           : TRANSACTION_TYPE.CONFIRMED,
       );
     }
-  }, [props.addr]);
+  }, [props.addr, isNil(props.match.params.page)]);
 
   useEffect(() => {
     // load class AB transactions when it's selected
