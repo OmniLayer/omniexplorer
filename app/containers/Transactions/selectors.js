@@ -11,13 +11,22 @@ const selectTransactionsDomain = state => state.transactions || initialState;
  */
 
 const makeSelectTransactions = () =>
-  createSelector(selectTransactionsDomain, substate => substate);
+  createSelector(
+    selectTransactionsDomain,
+    substate => substate,
+  );
 
 const makeSelectLoading = () =>
-  createSelector(selectTransactionsDomain, substate => substate.loading);
+  createSelector(
+    selectTransactionsDomain,
+    substate => substate.loading,
+  );
 
 const makeSelectUnconfirmed = () =>
-  createSelector(selectTransactionsDomain, substate => substate.unconfirmed);
+  createSelector(
+    selectTransactionsDomain,
+    substate => substate.unconfirmed,
+  );
 
 export {
   makeSelectTransactions,

@@ -33,7 +33,7 @@ const propertyReducer = (state = initialState, action = {}) => {
       case FETCHING_PROPERTY:
         draft.isFetching = true;
         draft.tokens[propertyId] = { isFetching: true };
-      break;
+        break;
       case LOAD_PROPERTY_DEEP:
         draft.isFetching = true;
         draft.error = null;

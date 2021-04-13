@@ -7,8 +7,7 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import { searchLoaded, searchLoadingError } from 'containers/Search/actions';
 import { LOAD_SEARCH } from 'containers/Search/constants';
 import root, { getSearch } from 'containers/Search/saga';

@@ -16,7 +16,7 @@ export const initialState = {
   tx: {},
 };
 
-/* eslint-disable default-case, no-param-reassign */
+/* eslint-disable default-case, no-param-reassign, no-undef */
 const searchReducer = (state = initialState, { payload, type } = action) =>
   produce(state, draft => {
     switch (type) {

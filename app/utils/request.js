@@ -28,16 +28,21 @@ async function checkStatus(response) {
     try {
       error = await response.clone().json(); // Fetch the resource
       text = await response.clone().text(); // Parse it as text
+      // eslint-disable-next-line no-unused-vars
       const data = JSON.parse(text); // Try to parse it as json again
     } catch (err) {
       // This probably means the response is a HTML document
     }
-    const errMsg = response.error || (error && error.msg) || response.statusText || await response.clone().text();
+    const errMsg =
+      response.error ||
+      (error && error.msg) ||
+      response.statusText ||
+      (await response.clone().text());
     const err = new Error(errMsg);
     if (text) err.text = text;
     throw err;
   }
-  
+
   return response;
 }
 

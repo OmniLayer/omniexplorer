@@ -2,12 +2,11 @@
  * Tests for TransactionDetail sagas
  */
 
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 
 import request from 'utils/request';
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import { LOAD_TRANSACTION, LOAD_TRANSACTION_SUCCESS } from '../constants';
 import { transactionLoadingError } from '../actions';
 
@@ -60,12 +59,6 @@ describe('getTransaction Saga', () => {
         type: LOAD_TRANSACTION_SUCCESS,
         transaction: response,
       });
-  });
-
-  it('should call the transactionLoadingError action if the response errors', () => {
-    const response = new Error('Some error');
-    const putDescriptor = getTransactionGenerator.throw(response).value;
-    expect(putDescriptor).toEqual(put(transactionLoadingError(response)));
   });
 });
 

@@ -4,10 +4,19 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import chunk from 'lodash/chunk';
 
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
-import { LOAD_MANY_PROPERTIES, LOAD_PROPERTY, LOAD_PROPERTY_DEEP, FETCHING_PROPERTY } from './constants';
-import { cancelFetch, updateFetch, updateFetchMany, startFetch } from './actions';
+import getLocationPath from 'utils/getLocationPath';
+import {
+  LOAD_MANY_PROPERTIES,
+  LOAD_PROPERTY,
+  LOAD_PROPERTY_DEEP,
+  FETCHING_PROPERTY,
+} from './constants';
+import {
+  cancelFetch,
+  updateFetch,
+  updateFetchMany,
+  startFetch,
+} from './actions';
 import { getTokens } from './selectors';
 
 function* fetchSingleProperty(action) {
@@ -18,7 +27,7 @@ function* fetchSingleProperty(action) {
   const { tokens } = state.token;
 
   let requestedProp;
-  if(action.id){
+  if (action.id) {
     requestedProp = tokens[action.id.toString()];
   } else {
     throw new Error(`The property hasn't got an Id`);
@@ -35,10 +44,9 @@ function* fetchSingleProperty(action) {
 
     yield put(updateFetch(property));
     return property;
-  } else {
-    // nothing to load..
-    yield call(cancelFetch);
   }
+  // nothing to load..
+  yield call(cancelFetch);
 }
 
 export function* watchFetchProperty() {
@@ -75,7 +83,10 @@ function* fetchPropertyDeep(action) {
 
   // load desired property if it's still not requested
   const propertyiddesired = (property.propertyiddesired || '').toString();
-  if (propertyiddesired && (!tokens[propertyiddesired] || !tokens[propertyiddesired].isFetching)) {
+  if (
+    propertyiddesired &&
+    (!tokens[propertyiddesired] || !tokens[propertyiddesired].isFetching)
+  ) {
     console.log('fetch desired property ', propertyiddesired);
     yield call(fetchProperty, propertyiddesired);
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { shallowWithState } from 'enzyme-redux';
 
-import { BlockList } from '../index';
+import BlockList from '../index';
 
 describe('<BlockList />', () => {
   const ReactComponent = () => <BlockList />;

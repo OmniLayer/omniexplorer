@@ -11,8 +11,6 @@ import getInjectors, { injectReducerFactory } from '../reducerInjectors';
 
 // Fixtures
 
-import produce from 'immer';
-
 export const initialState = { reduced: 'soon' };
 
 const reducer = (state = initialState, action) => {

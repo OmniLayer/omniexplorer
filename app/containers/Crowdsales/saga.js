@@ -2,8 +2,7 @@ import { call, put, take } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import { LOAD_CROWDSALES } from './constants';
 import { crowdsalesLoaded } from './actions';
 

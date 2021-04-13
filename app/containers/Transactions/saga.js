@@ -5,11 +5,8 @@ import {
   LOAD_CLASSAB_TXS,
   SET_TRANSACTION_TYPE,
 } from 'containers/Transactions/constants';
-import {
-  API_URL_BASE,
-  FN_API_URL_BLOCKCHAIN_ADDR,
-} from 'containers/App/constants';
-import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
+import { FN_API_URL_BLOCKCHAIN_ADDR } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';

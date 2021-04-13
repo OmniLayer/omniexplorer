@@ -32,6 +32,7 @@ export function* getAddress({ addr }) {
 
   try {
     btcBalance = yield call(request, urlBTCBalance);
+    // eslint-disable-next-line no-empty
   } catch {}
   // let [wallet, btcBalance] = yield all([
   //   call(request, requestURL, options),
@@ -47,7 +48,11 @@ export function* getAddress({ addr }) {
   let btcBalanceValue;
 
   // if there is a valid response use btc balance from blockchain.info response
-  if (btcBalance && btcBalance[addr] && !isNil(btcBalance[addr].final_balance)) {
+  if (
+    btcBalance &&
+    btcBalance[addr] &&
+    !isNil(btcBalance[addr].final_balance)
+  ) {
     btcBalanceValue = btcBalance[addr].final_balance;
   } else {
     // if blockchain.info retrieves an error try with blockchair
@@ -58,6 +63,7 @@ export function* getAddress({ addr }) {
       btcBalance = yield call(request, urlBTCBalanceAlternative);
       // use btc balance from blockchair.com response
       btcBalanceValue = btcBalance.data[addr].address.balance;
+      // eslint-disable-next-line no-empty
     } catch {}
   }
 

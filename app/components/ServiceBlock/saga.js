@@ -2,7 +2,7 @@ import { call, put, take } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import { LOAD_STATUS } from './constants';
 import { updateFetch } from './actions';
 

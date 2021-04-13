@@ -2,8 +2,7 @@ import { call, put, select, take } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import { LOAD_CROWDSALE_TRANSACTIONS } from './constants';
 import { updateCrowdsaleTransactionsFetch } from './actions';
 import makeSelectCrowdsaleDetail from './selectors';
@@ -13,10 +12,13 @@ export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
   const state = yield select(makeSelectCrowdsaleDetail());
   const startPage = state.currentPage || start;
 
-  const body = encoderURIParams({
-    start: startPage,
-    count,
-  }, true);
+  const body = encoderURIParams(
+    {
+      start: startPage,
+      count,
+    },
+    true,
+  );
 
   const getTransactionsOptions = {
     method: 'POST',
@@ -27,11 +29,7 @@ export function* getCrowdsaleTransactions({ start = 0, count = 10, id }) {
     body,
   };
 
-  const transactions = yield call(
-    request,
-    requestURL,
-    getTransactionsOptions,
-  );
+  const transactions = yield call(request, requestURL, getTransactionsOptions);
 
   yield put(
     updateCrowdsaleTransactionsFetch(

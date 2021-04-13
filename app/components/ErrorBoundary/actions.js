@@ -1,7 +1,4 @@
-import {
-  ERROR_BACKEND_LAGGED,
-  ERROR_CLEAN,
-} from './constants';
+import { ERROR_BACKEND_LAGGED, ERROR_CLEAN } from './constants';
 
 export function cleanError() {
   return {

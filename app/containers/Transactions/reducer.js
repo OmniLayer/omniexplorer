@@ -34,7 +34,7 @@ export const initialState = {
   stamp: null,
 };
 
-/* eslint-disable default-case, no-param-reassign */
+/* eslint-disable default-case, no-param-reassign, no-undef */
 const transactionsReducer = (
   state = initialState,
   { type, addr, transactions, pages, page, txType, txcount } = action,

@@ -5,8 +5,16 @@
  */
 import produce from 'immer';
 import sortBy from 'lodash/sortBy';
-import { ECOSYSTEM_PROD, ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME } from 'containers/App/constants';
-import { LOAD_CROWDSALES, LOAD_CROWDSALES_SUCCESS } from './constants';
+import {
+  ECOSYSTEM_PROD,
+  ECOSYSTEM_PROD_NAME,
+  ECOSYSTEM_TEST_NAME,
+} from 'containers/App/constants';
+import {
+  LOAD_CROWDSALES,
+  LOAD_CROWDSALES_SUCCESS,
+  LOAD_CROWDSALES_ERROR,
+} from './constants';
 
 export const initialState = {
   loading: true,
@@ -16,7 +24,10 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const crowdsalesReducer = (state = initialState, { error, ecosystem, payload, type } = action) =>
+const crowdsalesReducer = (
+  state = initialState,
+  { error, ecosystem, payload, type } = action,
+) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_CROWDSALES:
@@ -33,6 +44,10 @@ const crowdsalesReducer = (state = initialState, { error, ecosystem, payload, ty
         draft.loading = false;
         draft.status = payload.status;
         draft.crowdsales = sortBy(payload.crowdsales, 'deadline');
+        break;
+      case LOAD_CROWDSALES_ERROR:
+        draft.error = error;
+        draft.loading = false;
         break;
     }
   });

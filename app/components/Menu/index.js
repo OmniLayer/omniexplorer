@@ -11,14 +11,18 @@ import Switch from 'rc-switch';
 import parseKey from 'parse-key';
 
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
-import { ECOSYSTEM_PROD_NAME, ECOSYSTEM_TEST_NAME, TXS_CLASS_AB } from 'containers/App/constants';
+import {
+  ECOSYSTEM_PROD_NAME,
+  ECOSYSTEM_TEST_NAME,
+  TXS_CLASS_AB,
+} from 'containers/App/constants';
 
 import DarkModeToggle from 'components/DarkModeToggle';
 import MenuButton from 'components/MenuButton';
 
 import isTestnet from 'utils/isTestnet';
-import { toggleDisabledTestnet } from './actions';
 import menuReducer, { initialState } from 'components/Menu/reducer';
+import { toggleDisabledTestnet } from './actions';
 
 import './menu.scss';
 import './switch.scss';
@@ -35,7 +39,6 @@ function Menu(props) {
   const [menuOpened, setMenuOpened] = useState(false);
   const [testnet, setTestnet] = useState(isTestnet);
   const [state, dispatch] = useReducer(menuReducer, initialState);
-
 
   const toggleMenu = syntheticEvent => {
     const newState = !menuOpened;
@@ -176,9 +179,7 @@ function Menu(props) {
             <NavLink href={`${getSufixURL()}/activations`}>
               Feature Activations
             </NavLink>
-            {isTestnet &&
-            <NavLink href="/exchange">Exchange</NavLink>
-            }
+            {isTestnet && <NavLink href="/exchange">Exchange</NavLink>}
             {/*  <NavLink href="/analytics">Analytics</NavLink> */}
             <NavLink
               href="https://github.com/OmniLayer/omniexplorer/wiki/OmniExplorer-FAQ"
@@ -203,16 +204,10 @@ function Menu(props) {
             >
               Omni Academy
             </NavLink>
-            <NavLink
-              href="https://omnilab.online/omniwallet/"
-              target="_blank"
-            >
+            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
               Omni Wallet
             </NavLink>
-            <NavLink
-              href="https://omnilab.online/OmniBOLT/"
-              target="_blank"
-            >
+            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
               OmniBOLT
             </NavLink>
           </Col>

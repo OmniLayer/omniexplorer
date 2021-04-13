@@ -4,8 +4,6 @@ const initialBlock = {
   transactions: [],
 };
 
-import produce from 'immer';
-
 export const initialState = {
   loading: true,
   block: initialBlock,

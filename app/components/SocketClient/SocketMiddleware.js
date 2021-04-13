@@ -1,6 +1,6 @@
 export default function socketMiddleware(socket) {
   // Socket param is the client. We'll show how to set this up later.
-  return ({dispatch, getState}) => next => action => {
+  return ({ dispatch, getState }) => next => action => {
     if (typeof action === 'function') {
       return action(dispatch, getState);
     }
@@ -19,14 +19,10 @@ export default function socketMiddleware(socket) {
     }
 
     const [REQUEST, SUCCESS, FAILURE] = types;
-    next({...rest, type: REQUEST});
+    next({ ...rest, type: REQUEST });
 
     return promise(socket)
-      .then((result) => {
-        return next({...rest, result, type: SUCCESS });
-      })
-      .catch((error) => {
-        return next({...rest, error, type: FAILURE });
-      })
+      .then(result => next({ ...rest, result, type: SUCCESS }))
+      .catch(error => next({ ...rest, error, type: FAILURE }));
   };
 }

@@ -31,5 +31,5 @@ export default defineMessages({
       id: 'app.containers.Activations.columns.hash',
       defaultMessage: 'Hash',
     },
-  }
+  },
 });

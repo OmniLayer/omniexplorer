@@ -1,4 +1,3 @@
-
 import ActivationsReducer from '../reducer';
 
 describe('ActivationsReducer', () => {

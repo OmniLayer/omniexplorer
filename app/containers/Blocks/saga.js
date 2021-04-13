@@ -1,7 +1,6 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import { LOAD_BLOCKS } from 'containers/Blocks/constants';
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import request from 'utils/request';
 import { blocksLoaded } from './actions';
 import { makeSelectBlocks } from './selectors';

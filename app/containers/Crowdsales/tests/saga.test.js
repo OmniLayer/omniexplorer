@@ -7,12 +7,9 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
-import {
-  crowdsalesLoaded,
-  crowdsalesLoadingError,
-} from 'containers/Crowdsales/actions';
+import { ECOSYSTEM_PROD } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
+import { crowdsalesLoaded } from 'containers/Crowdsales/actions';
 
 import { LOAD_CROWDSALES } from '../constants';
 import root, { getCrowdsales } from '../saga';
@@ -80,12 +77,6 @@ describe('getCrowdsales Saga', () => {
       .call(request, url, options)
       .next(response)
       .put(crowdsalesLoaded(response));
-  });
-
-  it('should call the crowdsalesLoadingError action if the response errors', () => {
-    const response = new Error('Some error');
-    const putDescriptor = getCrowdsalesGenerator.throw(response).value;
-    expect(putDescriptor).toEqual(put(crowdsalesLoadingError(response)));
   });
 });
 

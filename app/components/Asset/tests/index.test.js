@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { shallowWithState } from 'enzyme-redux';
+import { shallow } from 'enzyme';
 
 import Asset from '../index';
 

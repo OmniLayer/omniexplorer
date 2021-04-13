@@ -18,7 +18,6 @@ export const initialState = {
   error: null,
 };
 
-
 /* eslint-disable default-case, no-param-reassign */
 const socketClientReducer = (state = initialState, action = {}) => {
   const { payload, type } = action;
