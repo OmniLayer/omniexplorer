@@ -31,7 +31,7 @@ export function* getAddress({ addr }) {
   let btcBalance;
 
   try {
-    btcBalance = yield* call(request, urlBTCBalance);
+    btcBalance = yield call(request, urlBTCBalance);
     // eslint-disable-next-line no-empty
   } catch {}
   // let [wallet, btcBalance] = yield all([
@@ -60,7 +60,7 @@ export function* getAddress({ addr }) {
       address: addr,
     });
     try {
-      btcBalance = yield* call(request, urlBTCBalanceAlternative);
+      btcBalance = yield call(request, urlBTCBalanceAlternative);
       // use btc balance from blockchair.com response
       btcBalanceValue = btcBalance.data[addr].address.balance;
       // eslint-disable-next-line no-empty
