@@ -25,7 +25,8 @@ const StyledLink = styled(Link).attrs({
     vertical-align: middle;
   }
 
-  &.disabled, &.disabled a {
+  &.disabled,
+  &.disabled a {
     pointer-events: none;
     cursor: default;
   }

@@ -23,25 +23,27 @@ export function subscribeMessages() {
   return {
     event: 'message',
     handle: SEND,
-  }
+  };
 }
 
 export function unsubscribeMessages() {
   return {
     event: 'message',
     leave: true,
-  }
+  };
 }
 
 // Action creator with received function:
 export function subscribeConversation() {
-  return dispatch => dispatch({
-    event: 'message',
-    handle: data => dispatch({
-      type: WS_NEW_MESSAGE,
-      payload: data.message,
-    }),
-  });
+  return dispatch =>
+    dispatch({
+      event: 'message',
+      handle: data =>
+        dispatch({
+          type: WS_NEW_MESSAGE,
+          payload: data.message,
+        }),
+    });
 }
 
 export const wsConnect = host => ({ type: WS_CONNECT, host });

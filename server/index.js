@@ -36,16 +36,13 @@ app.listen(port, host, err => {
 
   // Connect to ngrok in dev mode
   if (ngrok) {
-    ngrok.connect(
-      port,
-      (innerErr, url) => {
-        if (innerErr) {
-          return logger.error(innerErr);
-        }
+    ngrok.connect(port, (innerErr, url) => {
+      if (innerErr) {
+        return logger.error(innerErr);
+      }
 
-        logger.appStarted(port, prettyHost, url);
-      },
-    );
+      logger.appStarted(port, prettyHost, url);
+    });
   } else {
     logger.appStarted(port, prettyHost);
   }

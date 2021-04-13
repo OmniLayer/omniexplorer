@@ -1,6 +1,6 @@
 module.exports = {
   globals: {
-    'NODE_ENV': 'test'
+    NODE_ENV: 'test',
   },
   collectCoverageFrom: [
     'app/**/*.{js,jsx}',
@@ -31,7 +31,5 @@ module.exports = {
   setupFiles: ['raf/polyfill'],
   testRegex: 'tests/.*\\.test\\.js$',
   snapshotSerializers: [],
-  transformIgnorePatterns: [
-    'node_modules/(?!(moment)/)',
-  ]
+  transformIgnorePatterns: ['node_modules/(?!(moment)/)'],
 };

@@ -4,7 +4,8 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the crowdsaleDetail state domain
  */
-const selectCrowdsaleDetailDomain = state => state.crowdsaleDetail || initialState;
+const selectCrowdsaleDetailDomain = state =>
+  state.crowdsaleDetail || initialState;
 
 /**
  * Other specific selectors
@@ -15,7 +16,10 @@ const selectCrowdsaleDetailDomain = state => state.crowdsaleDetail || initialSta
  */
 
 const makeSelectCrowdsaleDetail = () =>
-  createSelector(selectCrowdsaleDetailDomain, substate => substate);
+  createSelector(
+    selectCrowdsaleDetailDomain,
+    substate => substate,
+  );
 
 export default makeSelectCrowdsaleDetail;
 export { selectCrowdsaleDetailDomain };

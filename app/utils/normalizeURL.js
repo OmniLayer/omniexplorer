@@ -1,1 +1,1 @@
-export default (url) => url.indexOf('//') > -1 ? url : `//${url}`;
+export default url => (url.indexOf('//') > -1 ? url : `//${url}`);

@@ -15,7 +15,10 @@ const selectAddressDetailDomain = state => state.addressDetail || initialState;
  */
 
 const makeSelectAddressDetail = () =>
-  createSelector(selectAddressDetailDomain, substate => substate);
+  createSelector(
+    selectAddressDetailDomain,
+    substate => substate,
+  );
 
 export default makeSelectAddressDetail;
 export { selectAddressDetailDomain };

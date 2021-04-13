@@ -2,17 +2,14 @@
  * Tests for CrowdsalesDetail sagas
  */
 
-import { all, put, takeEvery } from 'redux-saga/effects';
+import { all, takeEvery } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE, ECOSYSTEM_PROD } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
-import {
-  errorCrowdsaleTransactionsFetch,
-  updateCrowdsaleTransactionsFetch,
-} from 'containers/CrowdsaleDetail/actions';
+import { ECOSYSTEM_PROD } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
+import { updateCrowdsaleTransactionsFetch } from 'containers/CrowdsaleDetail/actions';
 
 import { LOAD_CROWDSALE_TRANSACTIONS } from '../constants';
 import root, { getCrowdsaleTransactions } from '../saga';
@@ -84,15 +81,6 @@ describe('getCrowdsaleTransactions Saga', () => {
           response.page,
         ),
       );
-  });
-
-  it('should call the addressLoadingError action if the response errors', () => {
-    const response = new Error('Some error');
-    const putDescriptor = getCrowdsaleTransactionsGenerator.throw(response)
-      .value;
-    expect(putDescriptor).toEqual(
-      put(errorCrowdsaleTransactionsFetch(response)),
-    );
   });
 });
 

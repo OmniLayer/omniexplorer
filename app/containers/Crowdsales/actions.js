@@ -15,10 +15,7 @@
  *    }
  */
 
-import {
-  LOAD_CROWDSALES,
-  LOAD_CROWDSALES_SUCCESS,
-} from './constants';
+import { LOAD_CROWDSALES, LOAD_CROWDSALES_SUCCESS } from './constants';
 
 /**
  * Load the crowdsales, this action starts the request saga

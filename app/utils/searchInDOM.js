@@ -1,13 +1,16 @@
-export default (query) => (function (query) {
-  const docWidth = document.documentElement.offsetWidth;
-  [].forEach.call(
-    document.querySelectorAll('*'),
+export default query =>
+  (q => {
+    const docWidth = document.documentElement.offsetWidth;
+    [].forEach.call(
+      document.querySelectorAll('*'),
 
-    function (el) {
-      if (el.offsetWidth > docWidth) {
-        el.style.outline = query;
-        console.log(el);
-      }
-    },
-  );
-})(query); // query= '1px solid red'
+      el => {
+        if (el.offsetWidth > docWidth) {
+          // eslint-disable-next-line no-param-reassign
+          el.style.outline = q;
+          // eslint-disable-next-line no-console
+          console.log(el);
+        }
+      },
+    );
+  })(query); // query= '1px solid red'

@@ -4,4 +4,7 @@ import { initialState } from './reducer';
 const getStatus = state => state.status || initialState;
 
 export const makeSelectStatus = () =>
-  createSelector(getStatus, state => state.status);
+  createSelector(
+    getStatus,
+    state => state.status,
+  );

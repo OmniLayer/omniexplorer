@@ -1,6 +1,5 @@
 import { call, put, take } from 'redux-saga/effects';
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import request from 'utils/request';
 
 import { LOAD_ACTIVATIONS } from './constants';

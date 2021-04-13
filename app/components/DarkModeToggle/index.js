@@ -4,13 +4,13 @@ import { Moon } from '@styled-icons/fa-solid/Moon';
 import { Sun } from '@styled-icons/fa-solid/Sun';
 import styled from 'styled-components';
 
-const StyleIcon = (icon) => styled(icon)`
+const StyleIcon = icon => styled(icon)`
   text-decoration: none;
   background-color: transparent;
 
   &:hover {
     color: #2196f3;
-    transition: .3s;
+    transition: 0.3s;
   }
 `;
 const MoonIcon = StyleIcon(Moon);
@@ -21,8 +21,8 @@ const DarkModeToggle = () => {
 
   return (
     <div>
-      {!darkMode.value && (<MoonIcon size={16} onClick={darkMode.toggle} />)}
-      {!!darkMode.value && (<SunIcon size={16} onClick={darkMode.toggle} />)}
+      {!darkMode.value && <MoonIcon size={16} onClick={darkMode.toggle} />}
+      {!!darkMode.value && <SunIcon size={16} onClick={darkMode.toggle} />}
     </div>
   );
 };

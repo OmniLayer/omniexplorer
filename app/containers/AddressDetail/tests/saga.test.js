@@ -7,8 +7,7 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import {
   addressLoaded,
   addressLoadingError,

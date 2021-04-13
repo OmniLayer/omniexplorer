@@ -15,7 +15,10 @@ const selectBlockDetailDomain = state => state.blockDetail || initialState;
  */
 
 const makeSelectBlockDetail = () =>
-  createSelector(selectBlockDetailDomain, substate => substate);
+  createSelector(
+    selectBlockDetailDomain,
+    substate => substate,
+  );
 
 export default makeSelectBlockDetail;
 export { selectBlockDetailDomain };

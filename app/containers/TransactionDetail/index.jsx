@@ -47,14 +47,16 @@ export function TransactionDetail(props) {
   }, [tx]);
 
   useEffect(() => {
+    const propId = props.txdetail.transaction.propertyid;
+
     if (
       (!props.tokens.lastFetched || isActivation()) &&
       !props.txdetail.loading
     ) {
       if (isActivation()) {
         props.loadActivations();
-      } else if (props.txdetail.transaction.propertyid){
-        props.getProperty(props.txdetail.transaction.propertyid);
+      } else if (propId && !props.tokens[propId]){
+        props.getProperty(propId);
       } else {
         props.cancelFetch();
       }

@@ -29,20 +29,19 @@ const socketMiddleware = () => {
     socket = io.connect(host, { path: socketPath });
     return new Promise((resolve, reject) => {
       socket.on('connect', () => resolve());
-      socket.on('connect_error', (error) => reject(error));
+      socket.on('connect_error', error => reject(error));
     });
   };
 
-  const disconnect = () => {
-    return new Promise((resolve) => {
+  const disconnect = () =>
+    new Promise(resolve => {
       socket.disconnect(() => {
         socket = null;
         resolve();
       });
     });
-  };
 
-  const onOpen = store => (event) => {
+  const onOpen = store => event => {
     console.log('websocket open', event.target.url);
     store.dispatch(actions.wsConnected(event.target.url));
   };
@@ -51,7 +50,7 @@ const socketMiddleware = () => {
     store.dispatch(actions.wsDisconnected());
   };
 
-  const onMessage = store => (event) => {
+  const onMessage = store => event => {
     const payload = JSON.parse(event.data);
     console.log('receiving server message');
 
@@ -91,10 +90,12 @@ const socketMiddleware = () => {
         break;
       case WS_NEW_MESSAGE:
         console.log('sending a message', action.msg);
-        socket.send(JSON.stringify({
-          command: 'NEW_MESSAGE',
-          message: action.msg,
-        }));
+        socket.send(
+          JSON.stringify({
+            command: 'NEW_MESSAGE',
+            message: action.msg,
+          }),
+        );
         break;
       default:
         console.log('the next action:', action);

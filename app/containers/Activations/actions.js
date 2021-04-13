@@ -4,10 +4,7 @@
  *
  */
 
-import {
-  LOAD_ACTIVATIONS,
-  LOAD_ACTIVATIONS_SUCCESS,
-} from './constants';
+import { LOAD_ACTIVATIONS, LOAD_ACTIVATIONS_SUCCESS } from './constants';
 
 /**
  * Load activations, this action starts the request saga

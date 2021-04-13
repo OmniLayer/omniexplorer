@@ -18,6 +18,7 @@
 import {
   LOAD_SEARCH,
   LOAD_SEARCH_SUCCESS,
+  LOAD_SEARCH_ERROR,
 } from './constants';
 
 /**
@@ -42,6 +43,20 @@ export function loadSearch(query) {
 export function searchLoaded(payload) {
   return {
     type: LOAD_SEARCH_SUCCESS,
+    payload,
+  };
+}
+
+/**
+ * Dispatched when the search are loaded by the request saga
+ *
+ * @param  {array} Search The search data
+ *
+ * @return {object} An action object with a type of LOAD_SEARCH_SUCCESS passing the search
+ */
+export function searchLoadingError(payload) {
+  return {
+    type: LOAD_SEARCH_ERROR,
     payload,
   };
 }

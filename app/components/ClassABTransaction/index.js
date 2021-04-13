@@ -19,7 +19,7 @@ import { TXCLASSAB_ADDRESS_MAINNET } from 'containers/App/constants';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 
@@ -37,20 +37,20 @@ function ClassABTransaction(props) {
   const [tooltipSenderOpen, setTooltipSenderOpen] = useState(false);
   const [tooltipRefererOpen, setTooltipRefererOpen] = useState(false);
 
-const toggleTxTooltip = () => {
-  setTooltipTxOpen( true);
-  setTimeout(() => setTooltipTxOpen( false ), 1000);
-};
+  const toggleTxTooltip = () => {
+    setTooltipTxOpen(true);
+    setTimeout(() => setTooltipTxOpen(false), 1000);
+  };
 
-const toggleSenderTooltip = () => {
-  setTooltipSenderOpen(true);
-  setTimeout(() => setTooltipSenderOpen(false), 1000);
-};
+  const toggleSenderTooltip = () => {
+    setTooltipSenderOpen(true);
+    setTimeout(() => setTooltipSenderOpen(false), 1000);
+  };
 
-const toggleRefererTooltip = () => {
-  setTooltipRefererOpen(true);
-  setTimeout(() => setTooltipRefererOpen(false), 1000);
-};
+  const toggleRefererTooltip = () => {
+    setTooltipRefererOpen(true);
+    setTimeout(() => setTooltipRefererOpen(false), 1000);
+  };
 
   let statusCSSClass =
     'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
@@ -69,7 +69,8 @@ const toggleRefererTooltip = () => {
     confirmed: CONFIRMATIONS,
   });
 
-  const getHighlightIfOwner = address => isOwner(address) ? 'text-success' : '';
+  const getHighlightIfOwner = address =>
+    isOwner(address) ? 'text-success' : '';
 
   const isOwner = address => TXCLASSAB_ADDRESS_MAINNET === address;
 
@@ -80,7 +81,7 @@ const toggleRefererTooltip = () => {
 
   const transactionAmount = props.amount || '';
 
-  const txcopyid = `txid_${props.txid.slice(0, 12)}`.replace(/ /g, "");
+  const txcopyid = `txid_${props.txid.slice(0, 12)}`.replace(/ /g, '');
   const sendercopyid = `s-${txcopyid}`;
   const referercopyid = `r-${txcopyid}`;
   const invalidid = `invalid-${txcopyid}`;
@@ -98,7 +99,11 @@ const toggleRefererTooltip = () => {
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
               <div className="p-md-2 pt-xs-2 pl-xs-2">
                 <span className="title d-block-down-md">
-                   <SanitizedFormattedNumber value={transactionAmount} forceDecimals/> BTC
+                  <SanitizedFormattedNumber
+                    value={transactionAmount}
+                    forceDecimals
+                  />{' '}
+                  BTC
                 </span>
               </div>
             </Row>
@@ -110,120 +115,121 @@ const toggleRefererTooltip = () => {
                     state: { state: props.state },
                   }}
                   target="_blank"
-                  rel='noopener noreferrer'
+                  rel="noopener noreferrer"
                 >
                   <ColoredHash hash={props.txid} />
                 </StyledLink>
               </WrapperTx>
-               <CopyToClipboard
-                text={props.txid}
-                onCopy={toggleTxTooltip}
-               >
+              <CopyToClipboard text={props.txid} onCopy={toggleTxTooltip}>
                 <StyledIconCopy
                   className="d-inline-flex d-md-none"
                   size={24}
                   id={txcopyid}
                 />
-               </CopyToClipboard>
-               <Tooltip
-                hideArrow
-                isOpen={tooltipTxOpen}
-                target={txcopyid}
-               >
+              </CopyToClipboard>
+              <Tooltip hideArrow isOpen={tooltipTxOpen} target={txcopyid}>
                 Transaction Id Copied
-               </Tooltip>
+              </Tooltip>
             </Row>
           </Col>
           <Col sm="12" md="5">
             <div className="d-flex flex-column text-center align-items-center">
               <WrapperTxDatetime>
-                 <FormattedUnixDateTime datetime={props.blocktime} />
+                <FormattedUnixDateTime datetime={props.blocktime} />
               </WrapperTxDatetime>
             </div>
           </Col>
         </Row>
         <Row noGutters xs="1" sm="1" md="2">
           <Col>
-            {/*<div className="desc">*/}
-            {/*<div>*/}
-              <AddressWrapper>
-                <ClassABTxsWrapperLink>
-                   <StyledLink
-                    className={getHighlightIfOwner(props.sendingaddress)}
-                    to={`${getSufixURL()}/address/${props.sendingaddress}`}
-                   >
-                    {props.sendingaddress}
-                   </StyledLink>
-                </ClassABTxsWrapperLink>
-                 <CopyToClipboard
-                  text={props.sendingaddress}
-                  onCopy={toggleSenderTooltip}
-                 >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={sendercopyid}
-                  />
-                 </CopyToClipboard>
-                 <Tooltip
-                  hideArrow
-                  isOpen={tooltipSenderOpen}
-                  target={sendercopyid}
-                 >
-                  Sender Address Copied
-                 </Tooltip>
-              </AddressWrapper>
-               <GrayArrowForward
-                size={20}
-                color="gray"
-                className={`d-none ${arrowcnameright} ${arrowcname}`}
-               />
-               <GrayArrowDown
-                size={20}
-                color="gray"
-                className={`d-md-none ${arrowcname}`}
-               />
+            {/* <div className="desc"> */}
+            {/* <div> */}
+            <AddressWrapper>
+              <ClassABTxsWrapperLink>
+                <StyledLink
+                  className={getHighlightIfOwner(props.sendingaddress)}
+                  to={`${getSufixURL()}/address/${props.sendingaddress}`}
+                >
+                  {props.sendingaddress}
+                </StyledLink>
+              </ClassABTxsWrapperLink>
+              <CopyToClipboard
+                text={props.sendingaddress}
+                onCopy={toggleSenderTooltip}
+              >
+                <StyledIconCopy
+                  className="d-inline-flex"
+                  size={24}
+                  id={sendercopyid}
+                />
+              </CopyToClipboard>
+              <Tooltip
+                hideArrow
+                isOpen={tooltipSenderOpen}
+                target={sendercopyid}
+              >
+                Sender Address Copied
+              </Tooltip>
+            </AddressWrapper>
+            <GrayArrowForward
+              size={20}
+              color="gray"
+              className={`d-none ${arrowcnameright} ${arrowcname}`}
+            />
+            <GrayArrowDown
+              size={20}
+              color="gray"
+              className={`d-md-none ${arrowcname}`}
+            />
           </Col>
           <Col>
-                {props.referenceaddresses.map((reference, idx) => {
-                  const invalidAddr = isEmpty(reference.addr);
-                  const defaultClass = invalidAddr ? 'd-none':'';
-                  const referenceAddr = invalidAddr ? 'Unable to decode' : reference.addr;
-                  return (
-                    <AddressWrapper className={showreferencecname} key={getItemKey(referenceAddr, idx)}>
-                      <ClassABTxsWrapperLink>
-                        <StyledLink
-                        className={addresscname}
-                        to={(invalidAddr? '' : `${getSufixURL()}/address/${referenceAddr}`)}
-                        disabled={invalidAddr}
-                        >
-                          {referenceAddr}
-                        </StyledLink>
-                      </ClassABTxsWrapperLink>
-                      <CopyToClipboard
-                      text={referenceAddr}
-                      onCopy={toggleRefererTooltip}
-                      className={defaultClass}
-                      >
-                        <StyledIconCopy
-                        className="d-inline-flex"
-                        size={24}
-                        id={referercopyid}
-                        />
-                      </CopyToClipboard>
-                      <Tooltip
-                      hideArrow
-                      isOpen={tooltipRefererOpen}
-                      target={referercopyid}
-                      className={defaultClass}
-                      >
-                        Reference Address Copied
-                      </Tooltip>
-
-                  </AddressWrapper>
-                  );
-                })}
-            {/*</div>*/}
+            {props.referenceaddresses.map((reference, idx) => {
+              const invalidAddr = isEmpty(reference.addr);
+              const defaultClass = invalidAddr ? 'd-none' : '';
+              const referenceAddr = invalidAddr
+                ? 'Unable to decode'
+                : reference.addr;
+              return (
+                <AddressWrapper
+                  className={showreferencecname}
+                  key={getItemKey(referenceAddr, idx)}
+                >
+                  <ClassABTxsWrapperLink>
+                    <StyledLink
+                      className={addresscname}
+                      to={
+                        invalidAddr
+                          ? ''
+                          : `${getSufixURL()}/address/${referenceAddr}`
+                      }
+                      disabled={invalidAddr}
+                    >
+                      {referenceAddr}
+                    </StyledLink>
+                  </ClassABTxsWrapperLink>
+                  <CopyToClipboard
+                    text={referenceAddr}
+                    onCopy={toggleRefererTooltip}
+                    className={defaultClass}
+                  >
+                    <StyledIconCopy
+                      className="d-inline-flex"
+                      size={24}
+                      id={referercopyid}
+                    />
+                  </CopyToClipboard>
+                  <Tooltip
+                    hideArrow
+                    isOpen={tooltipRefererOpen}
+                    target={referercopyid}
+                    className={defaultClass}
+                  >
+                    Reference Address Copied
+                  </Tooltip>
+                </AddressWrapper>
+              );
+            })}
+            {/* </div> */}
           </Col>
         </Row>
       </div>

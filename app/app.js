@@ -38,6 +38,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 // Import react-vis styles
 import 'react-vis/dist/style.css';
 
+// Import components
+import SocketClient from 'components/SocketClient';
+
 import configureStore from './configureStore';
 
 // Import i18n messages
@@ -54,9 +57,6 @@ import './responsive-styles.scss';
 //
 // // Import theming modes
 import './theming/theming-modes.scss';
-
-// Import components
-import SocketClient from 'components/SocketClient';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)

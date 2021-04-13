@@ -18,12 +18,12 @@ const errorBoundaryReducer = (state = initialState, action = {}) => {
         break;
       case ERROR_BACKEND_LAGGED:
         draft.error = 'backend lagged';
-        draft.errorInfo = (errorInfo || { componentStack: 'backend lagged' });
+        draft.errorInfo = errorInfo || { componentStack: 'backend lagged' };
         break;
       case GLOBAL_ON_SAGA_ERROR:
         draft.modal = true;
         draft.error = error;
-        draft.errorInfo = (errorInfo || { componentStack: error.message });
+        draft.errorInfo = errorInfo || { componentStack: error.message };
         break;
     }
   });

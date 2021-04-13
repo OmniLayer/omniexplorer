@@ -1,7 +1,6 @@
 import { call, put, take } from 'redux-saga/effects';
 import { LOAD_BLOCK } from 'containers/BlockDetail/constants';
-import { API_URL_BASE } from 'containers/App/constants';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath from 'utils/getLocationPath';
 import { blockLoaded } from 'containers/BlockDetail/actions';
 
 import request from 'utils/request';

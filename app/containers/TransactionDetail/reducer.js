@@ -14,7 +14,10 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const transactionDetailReducer = (state = initialState, { type, transaction } = action) =>
+const transactionDetailReducer = (
+  state = initialState,
+  { type, transaction } = action,
+) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_TRANSACTION:
@@ -23,7 +26,8 @@ const transactionDetailReducer = (state = initialState, { type, transaction } = 
         draft.transaction = {};
         break;
       case LOAD_TRANSACTION_SUCCESS:
-        draft.transaction = (typeof transaction === 'string') ? { notFound: true } : transaction;
+        draft.transaction =
+          typeof transaction === 'string' ? { notFound: true } : transaction;
         draft.error = false;
         draft.loading = false;
         break;

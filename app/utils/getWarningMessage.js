@@ -32,7 +32,8 @@ export default (flags, tokenName, tokenId) => {
             <StyledCardBody>
               <CardText>
                 Please note this property has been reported as being a scam or
-                intentionally malicious.<br />
+                intentionally malicious.
+                <br />
                 <b>
                   Users are advised to avoid any interactions/use of this
                   property.
@@ -60,7 +61,8 @@ export default (flags, tokenName, tokenId) => {
               <CardText>
                 Please note this property has a name that is either a duplicate
                 or similar to a previously issued property. It is possible that
-                this property is intended to imitate a different property.<br />
+                this property is intended to imitate a different property.
+                <br />
                 <b>
                   Always verify the Property ID of any Omni Layer transaction.
                 </b>
@@ -87,7 +89,8 @@ export default (flags, tokenName, tokenId) => {
               <CardText>
                 Please note that the issuer of this property {tokenDesc}, has
                 informed OmniExplorer.info that this property is deprecated and
-                should no longer be used.<br />
+                should no longer be used.
+                <br />
                 <b>The issuer has advised that the token has been replaced.</b>
               </CardText>
             </StyledCardBody>
