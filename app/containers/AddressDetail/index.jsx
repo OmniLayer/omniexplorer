@@ -25,6 +25,7 @@ import sagaAddress from './saga';
 
 export function AddressDetail(props) {
   const { address } = props.match.params;
+  const currentPage = props.match.params.page || 1;
 
   useInjectReducer({
     key: 'addressDetail',
@@ -52,7 +53,7 @@ export function AddressDetail(props) {
       </Row>
       <Row noGutters>
         <Col sm>
-          <Transactions addr={address} {...props} currentPage={1} />
+          <Transactions addr={address} {...props} currentPage={currentPage} />
         </Col>
       </Row>
     </ContainerBase>
