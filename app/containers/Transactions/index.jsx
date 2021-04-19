@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -58,15 +58,13 @@ export function Transactions(props) {
     .toLowerCase()
     .includes(TXS_CLASS_AB);
 
-  const pageParam =
+  const currentPage = () =>
     props.match.params.page ||
     (unconfirmedTxs && props.transactions.currentPage) ||
     (classABTxs && props.transactions.currentPage) ||
-    props.currentPage ||
-    1;
-  const maxPagesByMedia = getMaxPagesByMedia();
+    props.currentPage;
 
-  props.setCurrentPage(pageParam);
+  const maxPagesByMedia = getMaxPagesByMedia();
 
   useInjectSaga({
     key: 'transactions',
@@ -80,6 +78,7 @@ export function Transactions(props) {
   useEffect(() => {
     // load transactions on every change address
     if (!classABTxs) {
+      props.setCurrentPage(currentPage() || 1);
       loadTxs(
         unconfirmedTxs
           ? TRANSACTION_TYPE.UNCONFIRMED
@@ -93,7 +92,7 @@ export function Transactions(props) {
     if (!props.transactions.stamp && classABTxs) {
       loadTxs(TRANSACTION_TYPE.CLASSABTX);
     }
-  }, [classABTxs, pageParam]);
+  }, [classABTxs, currentPage()]);
 
   useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
@@ -101,15 +100,19 @@ export function Transactions(props) {
       !props.loading &&
       !classABTxs &&
       (!props.transactions.stamp ||
-        unconfirmedTxs !== props.transactions.unconfirmed)
+        (unconfirmedTxs !== props.transactions.unconfirmed &&
+          props.unconfirmed) ||
+        !props.unconfirmed)
     ) {
+      // props.setCurrentPage(+pageParam || 1);
+      props.setCurrentPage(currentPage() || 1);
       loadTxs(
         unconfirmedTxs
           ? TRANSACTION_TYPE.UNCONFIRMED
           : TRANSACTION_TYPE.CONFIRMED,
       );
     }
-  }, [unconfirmedTxs, pageParam, unconfirmedTxs && !props.addr]);
+  }, [unconfirmedTxs, currentPage(), unconfirmedTxs && !props.addr]);
 
   const getCurrentData = page => {
     const maxResults = 10;
@@ -117,9 +120,9 @@ export function Transactions(props) {
 
     const start =
       transactions.length > maxResults
-        ? ((page || pageParam) - 1) * maxResults
+        ? ((page || currentPage()) - 1) * maxResults
         : 0;
-        // ? ((page || pageParam) - 1) * maxPagesByMedia
+    // ? ((page || pageParam) - 1) * maxPagesByMedia
 
     // const end =
     //   transactions.length > maxPagesByMedia
@@ -127,7 +130,7 @@ export function Transactions(props) {
     //     : maxPagesByMedia;
     const end =
       transactions.length > maxResults
-        ? ((page || pageParam) - 1) * maxResults + maxResults
+        ? ((page || currentPage()) - 1) * maxResults + maxResults
         : maxResults;
     return transactions.slice(start, end);
   };
@@ -139,10 +142,10 @@ export function Transactions(props) {
   const pathname = props.addr
     ? `${getSufixURL()}/address/${props.addr}`
     : `${getSufixURL()}`;
+
   const hashLink = v =>
     classABTxs ? `${pathname}/${TXS_CLASS_AB}/${v}` : `${pathname}/${v}`;
-  // const loadTxs = confirmed =>
-  //   (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
+
   const loadTxs = txType => {
     switch (txType) {
       case TRANSACTION_TYPE.CONFIRMED:
@@ -166,7 +169,6 @@ export function Transactions(props) {
   };
 
   const onRadioBtnClick = txType => {
-    // history.push(hashLink(confirmed ? '' : 'unconfirmed'));
     history.push(hashLink(txType !== TRANSACTION_TYPE.CONFIRMED ? txType : ''));
   };
 
@@ -184,7 +186,7 @@ export function Transactions(props) {
     const _props = {
       ...props.transactions,
       addr,
-      inner: Transaction, // classABTxs ? ClassABTransaction : Transaction,
+      inner: Transaction,
       onSetPage: props.unconfirmed
         ? unconfirmedHandlePageClick
         : classABTxs
@@ -269,7 +271,9 @@ Transactions.propTypes = {
   loadClassABTxs: PropTypes.func,
   transactions: PropTypes.object.isRequired,
   setCurrentPage: PropTypes.func,
+  currentPage: PropTypes.any,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   addr: PropTypes.string,
   unconfirmed: PropTypes.bool,
   match: PropTypes.object,
