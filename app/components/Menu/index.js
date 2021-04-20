@@ -136,7 +136,7 @@ function Menu(props) {
               checkedChildren="Mainnet"
               defaultChecked={!testnet}
               unCheckedChildren="Testnet"
-              className="hack-switch"
+              className="d-none hack-switch"
               disabled={state.disabledTestnet}
             />
           </Col>
