@@ -13,6 +13,7 @@ import { compose } from 'redux';
 
 import styled from 'styled-components';
 import {
+  Alert,
   Container,
   DropdownItem,
   DropdownMenu,
@@ -225,6 +226,11 @@ export function BlockDetail(props) {
   );
 
   const validInvalidTxs = hasInvalid ? dropdown : null;
+  const firstBlockMessage = ((block - 1) < FIRST_BLOCK) ?
+    <Alert color="warning" className="mt-1">
+      <strong>{FIRST_BLOCK}</strong> is the first Omni Layer block
+    </Alert> :
+    null;
 
   return (
     <StyledContainer>
@@ -259,6 +265,7 @@ export function BlockDetail(props) {
         <br />
         {validInvalidTxs}
       </ListHeader>
+      {firstBlockMessage}
       <BlockPagination block={block} latest={lastBlock} />
       {content}
       <BlockPagination block={block} latest={lastBlock} />
