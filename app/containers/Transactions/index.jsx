@@ -122,16 +122,12 @@ export function Transactions(props) {
       transactions.length > maxResults
         ? ((page || currentPage()) - 1) * maxResults
         : 0;
-    // ? ((page || pageParam) - 1) * maxPagesByMedia
 
-    // const end =
-    //   transactions.length > maxPagesByMedia
-    //     ? ((page || pageParam) - 1) * maxPagesByMedia + maxPagesByMedia
-    //     : maxPagesByMedia;
     const end =
       transactions.length > maxResults
         ? ((page || currentPage()) - 1) * maxResults + maxResults
         : maxResults;
+    
     return transactions.slice(start, end);
   };
   const getTransactions = () => props.transactions.transactions;
