@@ -19,13 +19,24 @@ import range from 'lodash/range';
 import { makeSelectLocation } from 'containers/App/selectors';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-const StyledPaginationLink = styled(PaginationLink)`
-  border-radius: 3.2px;
+const StyledPagination = styled(Pagination).attrs({
+  className: 'pagination justify-content-end mt-2 mb-2',
+})`
+  .pagination {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+`;
+
+const StyledPaginationLink = styled(PaginationLink).attrs({
+  rounded: 'true',
+})`
   margin-left: 1px;
 `;
 const StyledPaginationButton = styled(PaginationItem)`
   margin: 0 2px;
   background-color: white;
+
   &.disabled {
     cursor: not-allowed;
   }
@@ -33,8 +44,10 @@ const StyledPaginationButton = styled(PaginationItem)`
 
 const StyledPaginationItem = styled(StyledPaginationButton)`
   & > .page-link {
-    color: #337ab7;
+    color: lightgrey;
+    white-space: nowrap;
   }
+
   &.active > .page-link {
     background-color: #3498db !important;
     color: #337ab7;
@@ -44,10 +57,14 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
 const ListPagination = props => {
   const buildListPagination = (page, qtyPages) => {
     const maxPagesByMedia = getMaxPagesByMedia();
-    const startPage = (Math.floor((page - 1) / maxPagesByMedia)) * maxPagesByMedia + 1;
+    const startPage =
+      Math.floor((page - 1) / maxPagesByMedia) * maxPagesByMedia + 1;
     // const minPaginationLength = qtyPages % maxPagesByMedia || 1;
     const minPaginationLength = qtyPages % maxPagesByMedia || maxPagesByMedia;
-    const paginationLength = (startPage + maxPagesByMedia) <= qtyPages ? maxPagesByMedia : minPaginationLength;
+    const paginationLength =
+      startPage + maxPagesByMedia <= qtyPages
+        ? maxPagesByMedia
+        : minPaginationLength;
     const listPagination = {
       // + 1 because it's up to, but not including, `end`
       range: range(paginationLength).map(x => {
@@ -86,20 +103,20 @@ const ListPagination = props => {
       : listPagination.current;
 
   return (
-    <Pagination className="pagination justify-content-end mt-2 mb-2">
+    <StyledPagination>
       <StyledPaginationButton
         onClick={e => setPage(e, 1)}
         disabled={listPagination.count === 1 || listPagination.current === 1}
         key="first"
       >
-        <PaginationLink first/>
+        <PaginationLink first />
       </StyledPaginationButton>
       <StyledPaginationButton
         onClick={e => setPage(e, getPrevious())}
         disabled={listPagination.count === 1 || listPagination.current === 1}
         key="previous"
       >
-        <StyledPaginationLink previous/>
+        <StyledPaginationLink previous />
       </StyledPaginationButton>
       {listPagination.range.map(v => (
         <StyledPaginationItem
@@ -107,9 +124,7 @@ const ListPagination = props => {
           className={v.isCurrent ? 'page-item active' : 'page-item'}
           key={v.value}
         >
-          <StyledPaginationLink>
-            {v.value}
-          </StyledPaginationLink>
+          <StyledPaginationLink>{v.value}</StyledPaginationLink>
         </StyledPaginationItem>
       ))}
       <StyledPaginationButton
@@ -120,7 +135,7 @@ const ListPagination = props => {
         }
         key="next"
       >
-        <StyledPaginationLink next/>
+        <StyledPaginationLink next />
       </StyledPaginationButton>
       <StyledPaginationButton
         onClick={e => setPage(e, listPagination.count)}
@@ -130,9 +145,9 @@ const ListPagination = props => {
         }
         key="last"
       >
-        <PaginationLink last/>
+        <PaginationLink last />
       </StyledPaginationButton>
-    </Pagination>
+    </StyledPagination>
   );
 };
 

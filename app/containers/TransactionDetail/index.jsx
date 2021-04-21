@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Container } from 'reactstrap';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -19,7 +18,7 @@ import getPropByTx from 'utils/getPropByTx';
 import LoadingIndicator from 'components/LoadingIndicator';
 import TransactionInfo from 'components/TransactionInfo';
 import ContainerBase from 'components/ContainerBase';
-import { startFetch } from 'components/Token/actions';
+import { startFetch, cancelFetch } from 'components/Token/actions';
 import { makeSelectProperties } from 'components/Token/selectors';
 import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
@@ -48,22 +47,26 @@ export function TransactionDetail(props) {
   }, [tx]);
 
   useEffect(() => {
+    const propId = props.txdetail.transaction.propertyid;
+
     if (
       (!props.tokens.lastFetched || isActivation()) &&
       !props.txdetail.loading
     ) {
       if (isActivation()) {
         props.loadActivations();
+      } else if (propId && !props.tokens[propId]){
+        props.getProperty(propId);
       } else {
-        props.getProperty(props.txdetail.transaction.propertyid);
+        props.cancelFetch();
       }
     }
   }, [props.txdetail.loading]);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   const isActivation = () =>
@@ -88,7 +91,7 @@ export function TransactionDetail(props) {
 
   if (props.txdetail.transaction.notFound) {
     return (
-      <ContainerBase fluid>
+      <ContainerBase>
         <h1>
           {' '}
           Transaction
@@ -106,7 +109,7 @@ export function TransactionDetail(props) {
   );
 
   return (
-    <ContainerBase fluid>
+    <ContainerBase>
       {warningMessage}
       <TransactionInfo {...props.txdetail.transaction} asset={property} />
     </ContainerBase>
@@ -129,6 +132,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransaction: (addr, page) => dispatch(loadTransaction(addr, page)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
+    cancelFetch: ()=>dispatch(cancelFetch()),
     loadActivations: () => dispatch(loadActivations()),
   };
 }

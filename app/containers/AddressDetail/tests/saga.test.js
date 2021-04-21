@@ -7,7 +7,7 @@ import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 
-import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
 import {
   addressLoaded,
   addressLoadingError,
@@ -59,7 +59,7 @@ describe('getAddress Saga', () => {
     };
 
     const saga = testSaga(getAddress, { addr });
-    const url = `${API_URL_BASE}/address/addr`;
+    const url = `${getLocationPath()}/address/addr`;
     const body = encoderURIParams({ addr });
     const options = {
       method: 'POST',

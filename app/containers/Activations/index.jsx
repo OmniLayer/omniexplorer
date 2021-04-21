@@ -23,17 +23,13 @@ import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectActivations } from './selectors';
 import messages from './messages';
 import reducer from './reducer';
 import saga from './saga';
 import { loadActivations } from './actions';
-
-const StyledContainer = styled(ContainerBase)`
-  overflow: auto;
-  padding-bottom: 0;
-`;
 
 const StyledTR = styled.tr`
   // cursor: pointer;
@@ -60,9 +56,9 @@ export function Activations(props) {
   }, []);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   if (props.activations.loading) {
@@ -112,7 +108,7 @@ export function Activations(props) {
               <WrapperTx>
                 <StyledLink
                   to={{
-                    pathname: `/tx/${activation.txhash}`,
+                    pathname: `${getSufixURL()}/tx/${activation.txhash}`,
                     state: { state: props.state },
                   }}
                 >
@@ -127,10 +123,10 @@ export function Activations(props) {
   );
 
   return (
-    <StyledContainer fluid>
+    <ContainerBase>
       <ListHeader message={messages.header} />
       {content}
-    </StyledContainer>
+    </ContainerBase>
   );
 }
 

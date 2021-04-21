@@ -20,7 +20,4 @@ const makeSelectActivations = () =>
     substate => substate,
   );
 
-export {
-  selectActivationsDomain,
-  makeSelectActivations,
-};
+export { selectActivationsDomain, makeSelectActivations };

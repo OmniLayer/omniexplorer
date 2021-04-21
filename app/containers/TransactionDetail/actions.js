@@ -15,10 +15,7 @@
  *    }
  */
 
-import {
-  LOAD_TRANSACTION,
-  LOAD_TRANSACTION_SUCCESS,
-} from './constants';
+import { LOAD_TRANSACTION, LOAD_TRANSACTION_SUCCESS } from './constants';
 
 /**
  * Load the transaction, this action starts the request saga

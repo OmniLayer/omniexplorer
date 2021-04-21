@@ -5,10 +5,10 @@
   margin: 0;
   width: 100%;
 
-  .transation-result {
+  .transaction-result {
     margin-bottom: 0.75rem;
     margin-top: 0.75rem;
-    background-color: white;
+    //background-color: white;
 
     & > div {
       padding: 1rem;
@@ -76,10 +76,10 @@
 
 @media (max-width: 768px) {
   .result-list {
-    .transation-result {
+    .transaction-result {
       .desc {
         .wrapper-link {
-          width: 60%;
+          width: 90%;
         }
       }
     }
@@ -100,13 +100,27 @@
     .result-price {
       border-top: 1px dashed #ddd;
     }
-    .transation-result {
+    .transaction-result {
       .desc {
         .wrapper-link {
           overflow: hidden;
-          width: 60%;
+          width: 90%;
         }
       }
     }
+  }
+}
+
+@include media-breakpoint-between(xs, sm) {
+  .copy-icon-address {
+    //display: none;
+    //position: absolute;
+    //float: right;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .copy-icon-address {
+    display: inline-flex;
   }
 }

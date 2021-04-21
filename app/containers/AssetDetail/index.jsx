@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import StyledLink from 'components/StyledLink';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Col, Row, Table } from 'reactstrap';
 
 import { startFetch } from 'components/Token/actions';
 import { makeSelectLoading, makeSelectProperties } from 'components/Token/selectors';
@@ -21,8 +21,11 @@ import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 
 import getWarningMessage from 'utils/getWarningMessage';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
-const DetailRow = styled(Row)`
+const DetailRow = styled(Row).attrs({
+  className: 'no-gutters',
+})`
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
@@ -45,9 +48,9 @@ export function AssetDetail(props) {
   }, [propertyid]);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   const asset = getProp(propertyid);
@@ -67,11 +70,11 @@ export function AssetDetail(props) {
   }
 
   return (
-    <ContainerBase fluid>
+    <ContainerBase>
       {warningMessage}
       <DetailRow>
         <Col sm>
-          <Table responsive className="table-horizontal">
+          <Table responsive>
             <thead>
             <tr>
               <th>
@@ -92,7 +95,7 @@ export function AssetDetail(props) {
                     <span>created by &nbsp;</span>
                     <StyledLink
                       to={{
-                        pathname: `/tx/${asset.creationtxid}`,
+                        pathname: `${getSufixURL()}/tx/${asset.creationtxid}`,
                         state: { state: props.state },
                       }}
                     >

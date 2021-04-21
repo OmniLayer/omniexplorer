@@ -15,12 +15,11 @@ const WrapperTxLabel = styled.span`
   font-size: 1.25rem !important;
 `;
 
-const NewCrowdsaleTxDetail = (props) => (
+const NewCrowdsaleTxDetail = props => (
   <WrapperTxLabel>
     <p>
       <span>
-        Crowdsale Purchase
-        &nbsp;
+        Crowdsale Purchase &nbsp;
         <SanitizedFormattedNumber
           value={props.amount}
           forceDecimals={props.divisible}
@@ -40,16 +39,14 @@ const NewCrowdsaleTxDetail = (props) => (
     </div>
     <div style={{ display: 'inline-grid' }}>
       <span className="text-left">
-        Purchaser
-        &nbsp;
+        Purchaser &nbsp;
         <SanitizedFormattedNumber
           value={props.purchasedtokens}
           fractionDigits={8}
         />
       </span>
       <span className="text-left">
-        Issuer
-        &nbsp;
+        Issuer &nbsp;
         <SanitizedFormattedNumber
           value={props.issuertokens}
           fractionDigits={8}
@@ -60,9 +57,7 @@ const NewCrowdsaleTxDetail = (props) => (
 );
 
 function CrowdsalePurchaseAmounts(props) {
-  return (
-    <NewCrowdsaleTxDetail {...props} />
-  );
+  return <NewCrowdsaleTxDetail {...props} />;
 }
 
 CrowdsalePurchaseAmounts.propTypes = {};

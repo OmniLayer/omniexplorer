@@ -8,40 +8,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
-
+import { getSufixURL } from 'utils/getLocationPath';
 import StyledA from 'components/StyledA';
+import { FIRST_BLOCK } from 'containers/App/constants';
 
 const H4 = styled.h4`
   margin-top: 0.5rem;
 `;
 
-function BlockPagination({ block, latest }) {
-  const LinkPrevious = StyledA;
-
-  const LinkNext =
-    latest > block
-      ? StyledA
-      : styled(StyledA)`
-          pointer-events: none;
-          text-decoration: none;
-          opacity: 0.5;
-          cursor: not-allowed;
-        `;
+function BlockPagination({
+  block,
+  latest,
+}) {
+  const DisabledLink = styled(StyledA)`
+    pointer-events: none;
+    text-decoration: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  `;
 
   const prevBlock = parseInt(block, 10) - 1;
   const nextBlock = parseInt(block, 10) + 1;
+
+  const LinkPrevious = prevBlock < FIRST_BLOCK ? DisabledLink : StyledA;
+  const LinkNext = latest > block ? StyledA : DisabledLink;
+
   return (
-    <Row>
-      <Col sm={{ size: 2 }}>
+    <Row noGutters>
+      <Col>
         <H4>
-          <LinkPrevious href={`/block/${prevBlock}`}>
+          <LinkPrevious href={`${getSufixURL()}/block/${prevBlock}`}>
             &lt;&lt; Block {prevBlock}
           </LinkPrevious>
         </H4>
       </Col>
-      <Col sm={{ size: 2, offset: 8 }} className="text-right">
+      <Col className="text-right">
         <H4>
-          <LinkNext href={`/block/${nextBlock}`}>
+          <LinkNext href={`${getSufixURL()}/block/${nextBlock}`}>
             Block {nextBlock} &gt;&gt;
           </LinkNext>
         </H4>

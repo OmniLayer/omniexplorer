@@ -23,6 +23,7 @@ import AssetLink from 'components/AssetLink';
 import WrapperTx from 'components/WrapperTx';
 import WrapperTxDatetime from 'components/WrapperTxDatetime';
 import 'components/Transaction/transaction.scss';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
@@ -99,7 +100,7 @@ class CrowdsaleTransaction extends React.PureComponent {
       addresscname = 'd-none';
     }
 
-    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
+    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, "");
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
 
@@ -126,8 +127,8 @@ class CrowdsaleTransaction extends React.PureComponent {
         };
 
     return (
-      <div className="transation-result mx-auto text-center-down-md">
-        <Row className="pb-0">
+      <div className="transaction-result mx-auto text-center-down-md">
+        <Row noGutters className="pb-0">
           <Col sm="12" md="1">
             <AssetLink asset={txAsset.propertyid} state={this.props.state}>
               <AssetLogo
@@ -149,7 +150,7 @@ class CrowdsaleTransaction extends React.PureComponent {
               <WrapperTx>
                 <StyledLink
                   to={{
-                    pathname: `/tx/${this.props.txid}`,
+                    pathname: `${getSufixURL()}/tx/${this.props.txid}`,
                     state: { state: this.props.state },
                   }}
                 >
@@ -183,7 +184,7 @@ class CrowdsaleTransaction extends React.PureComponent {
               <StyledLink
                 className={statusCSSClass}
                 to={{
-                  pathname: `/tx/${this.props.txid}`,
+                  pathname: `${getSufixURL()}/tx/${this.props.txid}`,
                   state: { state: this.props.state },
                 }}
               >
@@ -192,7 +193,7 @@ class CrowdsaleTransaction extends React.PureComponent {
             </div>
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <div className="desc">
               <AddressWrapper>
@@ -202,7 +203,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                       this.props.sendingaddress,
                     )}`}
                     to={{
-                      pathname: `/address/${this.props.sendingaddress}`,
+                      pathname: `${getSufixURL()}/address/${this.props.sendingaddress}`,
                       state: { state: this.props.state },
                     }}
                   >
@@ -236,7 +237,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                   <StyledLink
                     className={addresscname}
                     to={{
-                      pathname: `/address/${this.props.referenceaddress}`,
+                      pathname: `${getSufixURL()}/address/${this.props.referenceaddress}`,
                       state: { state: this.props.state },
                     }}
                   >

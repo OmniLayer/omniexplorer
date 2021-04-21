@@ -4,7 +4,7 @@ const GlobalStyle = createGlobalStyle`
   * {
     outline: none;
   }
-  
+
   html,
   body {
     height: 100%;
@@ -19,7 +19,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #app {
-    background-color: #fafafa;
     min-height: 100%;
     min-width: 100%;
   }
@@ -28,7 +27,7 @@ const GlobalStyle = createGlobalStyle`
   label {
     line-height: 1.5em;
   }
-  
+
   div.card .card-text {
 	  font-family: inherit;
   }
@@ -36,13 +35,13 @@ const GlobalStyle = createGlobalStyle`
   div.card .card-header {
 	  background-color: #348FE2;
   }
-  
+
   h1 small,h2 small,h3 small,h4 small,h5 small,h6 small {
     font-size: 60%;
     font-weight: 300;
     color: #7c7f83
   }
-  
+
   a {
     transition: color 100ms ease-in-out;
     -o-transition: color 100ms ease-in-out;
@@ -50,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
     -moz-transition: color 100ms ease-in-out;
     -webkit-transition: color 100ms ease-in-out;
   }
-  
+
   a:link,
   a:visited,
   a:hover,
@@ -60,29 +59,43 @@ const GlobalStyle = createGlobalStyle`
       background-color: transparent;
     }
   }
-  
+
   .table td, .table th {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
-  
+
   .table th {
     font-size: 1.3rem;
     font-weight: bold;
   }
-  
+
   .table td {
     font-size: 1.2rem;
     font-weight: 400;
   }
-  
+
   :disabled:hover {
     cursor: not-allowed;
   }
-  
+
   .table-responsive .table th,
   .table-responsive .table td {
   	padding-right: 0.5rem;
   	padding-left: 0.5rem;
+  }
+
+  .bm-item:hover{
+    &, a.dropdown-toggle:hover {
+      color: whitesmoke;
+    }
+   a.dropdown-item:hover {
+      background-color: transparent;
+    }
+  }
+
+  .btn, .btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
 `;
 

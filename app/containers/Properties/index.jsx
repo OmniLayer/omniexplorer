@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Col, Row, Table } from 'reactstrap';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -32,9 +32,6 @@ import {
 } from 'containers/App/constants';
 import messages from './messages';
 
-const StyledContainer = styled(ContainerBase)`
-  margin-top: 1rem;
-`;
 const StyledTH = styled.th`
   border: none !important;
 `;
@@ -56,9 +53,9 @@ export class Properties extends React.PureComponent {
   render() {
     if (this.props.search.loading) {
       return (
-        <Container>
+        <ContainerBase>
           <LoadingIndicator />
-        </Container>
+        </ContainerBase>
       );
     }
 
@@ -84,8 +81,8 @@ export class Properties extends React.PureComponent {
     );
 
     return (
-      <StyledContainer fluid>
-        <Row>
+      <ContainerBase>
+        <Row noGutters>
           <Col sm>
             <ListHeader
               total={this.props.search.asset.length}
@@ -97,10 +94,10 @@ export class Properties extends React.PureComponent {
             />
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>{assets}</Col>
         </Row>
-      </StyledContainer>
+      </ContainerBase>
     );
   }
 }

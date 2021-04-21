@@ -9,8 +9,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import styled from 'styled-components';
-import {Search} from '@styled-icons/fa-solid/Search';
 import history from 'utils/history';
+import SearchIcon from 'components/SearchIcon';
+import { getSufixURL } from 'utils/getLocationPath';
 
 import messages from './messages';
 
@@ -20,53 +21,53 @@ const Input = styled.input.attrs({
 })``;
 
 const Wrapper = styled.div.attrs({
-  className: 'mb-3 mb-sm-0',
+  className: 'mb-3 mb-sm-0 searchbox-form rounded',
 })`
-  & div.input-group > input.form-control.searchbox-input {
+  & .searchbox-input {
     outline: none;
-    border-radius: 19px;
     max-width: 100%;
     padding-right: 38px;
   }
-
-  & div.input-group > svg.searchbox-icon {
-    height: auto;
-    margin-left: -3rem;
-    z-index: 999;
-    cursor: pointer;
-  }
 `;
 
-export function SearchBox(props) {
+const SearchBox = () => {
   const [query, setQuery] = useState('');
 
-  const handleDoSearch = (e) => {
-    history.push(`/search/${query.trim()}`);
-    setQuery('');
-  };
-
-  const handleKeyUp = (e) => {
-    const value = e.target.value;
-    if (e.keyCode === 13 && value) {
-      handleDoSearch(e);
+  const handleDoSearch = () => {
+    if (query) {
+      const searchURL = `${getSufixURL()}/search/${query.trim()}`;
+      history.push(searchURL);
+      setQuery('');
     }
   };
 
+  const handleKeyPress = ({ key }) => {
+    if (key === 'Enter') {
+      handleDoSearch();
+    }
+  };
+
+  const handleChange = ({ target }) => {
+    setQuery(target.value);
+  };
+
   return (
-    <Wrapper className="searchbox-form">
+    <Wrapper>
       <div className="input-group">
         <Input
           value={query}
-          className="form-control searchbox-input"
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyUp={(e) => handleKeyUp(e)}
-        >
-        </Input>
-        <Search className="searchbox-icon" size={21} onClick={(e) => handleDoSearch(e)} />
+          className="form-control searchbox-input rounded"
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+        />
+        <SearchIcon
+          disabled={!query}
+          onClick={() => !!query && handleDoSearch()}
+        />
       </div>
     </Wrapper>
   );
-}
+};
 
 SearchBox.propTypes = {};
 
@@ -77,8 +78,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
-export default compose(
-  withConnect,
-)(SearchBox);
+export default compose(withConnect)(SearchBox);

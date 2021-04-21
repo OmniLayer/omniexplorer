@@ -1,12 +1,12 @@
 import { call, put, take } from 'redux-saga/effects';
-import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
 import request from 'utils/request';
 
 import { LOAD_ACTIVATIONS } from './constants';
 import { activationsLoaded } from './actions';
 
 export function* getActivations() {
-  const requestURL = `${API_URL_BASE}/system/featureactivations`;
+  const requestURL = `${getLocationPath()}/system/featureactivations`;
   const activations = yield call(request, requestURL);
   yield put(activationsLoaded(activations));
 }

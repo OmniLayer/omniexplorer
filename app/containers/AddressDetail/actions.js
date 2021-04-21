@@ -18,6 +18,7 @@
 import {
   LOAD_ADDRESS,
   LOAD_ADDRESS_SUCCESS,
+  LOAD_ADDRESS_ERROR,
 } from './constants';
 
 /**
@@ -43,5 +44,19 @@ export function addressLoaded(address) {
   return {
     type: LOAD_ADDRESS_SUCCESS,
     address,
+  };
+}
+
+/**
+ * Dispatched when the address are loaded by the request saga
+ *
+ * @param  {array} Address The address data
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS_SUCCESS passing the address
+ */
+export function addressLoadingError(payload) {
+  return {
+    type: LOAD_ADDRESS_ERROR,
+    payload,
   };
 }

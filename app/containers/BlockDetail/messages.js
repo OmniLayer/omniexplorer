@@ -13,7 +13,18 @@ export default defineMessages({
     {br}
     Block hash: {hash}
     `,
-    one: 'Block',
+    one: 'Blocks',
+    other: 'Blocks',
+    zero: 'Blocks',
+  },
+  headerOnePage: {
+    id: 'app.containers.BlockDetail.header',
+    defaultMessage: `
+    Block {blockNumber}, {txCount} Transactions ({pageCount} Page), created at {timestamp}, {confirmations} confirmations
+    {br}
+    Block hash: {hash}
+    `,
+    one: 'Blocks',
     other: 'Blocks',
     zero: 'Blocks',
   },

@@ -1,5 +1,5 @@
 /**
-* Asynchronously loads the component
+ * Asynchronously loads the component
  */
 
 import React from 'react';

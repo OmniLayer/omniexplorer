@@ -11,13 +11,46 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 
 import { Alert, Jumbotron, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import styled from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import StyledLink from 'components/StyledLink';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import ContainerBase from 'components/ContainerBase';
 import moment from 'moment/src/moment';
 import isJSON from 'utils/isJSON';
 import PropTypes from 'prop-types';
 import { cleanError } from './actions';
 import reducer from './reducer';
+
+const RetryLink = styled(StyledLink)`
+  vertical-align: bottom;
+  line-height: 1.2em;
+`;
+
+const RetryMessage = () => (
+  <h5>
+    Please&nbsp;
+    <BrowserRouter forceRefresh>
+      <RetryLink to="">
+        <span>retry</span>
+      </RetryLink>
+    </BrowserRouter>
+    &nbsp; again in few moments.
+  </h5>
+);
+
+const GoHomepageMessage = () => (
+  <h5>
+    Please go to&nbsp;
+    <BrowserRouter forceRefresh>
+      <RetryLink to="/">
+        <span>homepage</span>
+      </RetryLink>
+    </BrowserRouter>
+    and let us know if the issue persists.
+  </h5>
+);
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -53,9 +86,14 @@ class ErrorBoundary extends React.Component {
       error.message = error.message || error.text;
       const reason = isJSON(error.message);
 
+      const errDescription = reason ? reason.reason : error.message;
+      const allowRetry = errDescription.indexOf('Rate Limit') > -1;
+      const RedirectMsg = allowRetry ? RetryMessage : GoHomepageMessage;
+
       content = (
-        <div>
+        <ContainerBase>
           <Modal
+            className="error-boundary"
             isOpen={this.props.st.modal}
             toggle={this.props.cleanError}
             backdrop
@@ -63,47 +101,27 @@ class ErrorBoundary extends React.Component {
             <ModalHeader toggle={this.props.cleanError} />
             <ModalBody>
               <Jumbotron className="text-center">
-                <h4>{ (reason ? reason.reason : error.message)}</h4>
+                <h4>{reason ? reason.reason : error.message}</h4>
                 <br />
-                <h5>
-                  Please{' '}
-                  <StyledLink
-                    onClick={() => window.location.reload()}
-                    to=""
-                    refresh="true"
-                  >
-                    <span>retry</span>
-                  </StyledLink>{' '}
-                  again in few moments.
-                </h5>
+                <RedirectMsg />
               </Jumbotron>
             </ModalBody>
           </Modal>
           {this.props.children}
-        </div>
+        </ContainerBase>
       );
     } else if (this.state.error) {
       content = (
-        <div>
+        <ContainerBase>
           <Jumbotron>
-            <h1>Something was wrong..</h1>
+            <h1>Sorry something went wrong on our end..</h1>
             <hr className="my-2" />
             <br />
             <h4>{this.state.error && this.state.error.toString()}</h4>
             <br />
-            <h5>
-              Please{' '}
-              <StyledLink
-                onClick={() => window.location.reload()}
-                to=""
-                refresh="true"
-              >
-                <span>retry</span>
-              </StyledLink>{' '}
-              again in few seconds.
-            </h5>
+            <GoHomepageMessage />
           </Jumbotron>
-        </div>
+        </ContainerBase>
       );
     } else if (lastParsed) {
       const lastParsedDiff = moment
@@ -112,7 +130,7 @@ class ErrorBoundary extends React.Component {
 
       if (lastParsedDiff > 10) {
         content = (
-          <div>
+          <ContainerBase>
             <Alert color="warning">
               <span>
                 We are currently experiencing delayed updates from our backend.
@@ -120,7 +138,7 @@ class ErrorBoundary extends React.Component {
               </span>
             </Alert>
             {this.props.children}
-          </div>
+          </ContainerBase>
         );
       }
     }

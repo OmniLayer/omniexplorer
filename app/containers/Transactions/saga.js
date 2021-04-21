@@ -1,18 +1,54 @@
 import { all, call, put, select, take } from 'redux-saga/effects';
-import { LOAD_TRANSACTIONS, LOAD_UNCONFIRMED, SET_TRANSACTION_TYPE } from 'containers/Transactions/constants';
-import { API_URL_BASE } from 'containers/App/constants';
+import {
+  LOAD_TRANSACTIONS,
+  LOAD_UNCONFIRMED,
+  LOAD_CLASSAB_TXS,
+  SET_TRANSACTION_TYPE,
+} from 'containers/Transactions/constants';
+import { FN_API_URL_BLOCKCHAIN_ADDR } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
-import { transactionsLoaded } from './actions';
+import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+import { transactionsLoaded, ClassABTxsLoaded } from './actions';
 import { makeSelectTransactions } from './selectors';
 
 export function* getUnconfirmed({ addr }) {
   const requestURL = addr
-    ? `${API_URL_BASE}/transaction/unconfirmed/${addr}`
-    : `${API_URL_BASE}/transaction/unconfirmed`;
+    ? `${getLocationPath()}/transaction/unconfirmed/${addr}`
+    : `${getLocationPath()}/transaction/unconfirmed`;
 
   const transactions = yield call(request, requestURL);
   yield put(transactionsLoaded(transactions.data, 1));
+}
+
+export function* getClassABTxs() {
+  const requestURL = `${getLocationPath()}/transaction/recentab/`;
+
+  const result = yield call(request, requestURL);
+  yield put(ClassABTxsLoaded(result.transactions));
+}
+
+export function* getClassABTxsByBlockchainInfo({ addr }) {
+  const state = yield select(makeSelectTransactions());
+  const maxPagesByMedia = getMaxPagesByMedia();
+  const page = state.currentPage;
+  const offset = (page - 1) * maxPagesByMedia;
+  const requestURL = FN_API_URL_BLOCKCHAIN_ADDR({
+    address: addr,
+    limit: maxPagesByMedia,
+    offset,
+  });
+
+  const transactions = yield call(request, requestURL);
+  yield put(
+    ClassABTxsLoaded(
+      transactions.txs,
+      transactions.n_tx / maxPagesByMedia,
+      addr,
+      transactions.n_tx,
+    ),
+  );
 }
 
 export function* getTransactions({ addr }) {
@@ -21,8 +57,8 @@ export function* getTransactions({ addr }) {
   const { txType } = state;
 
   const requestURL = addr
-    ? `${API_URL_BASE}/transaction/address/${page}`
-    : `${API_URL_BASE}/transaction/general/${page}`;
+    ? `${getLocationPath()}/transaction/address/${page}`
+    : `${getLocationPath()}/transaction/general/${page}`;
 
   const getTransactionsOptions = {
     type: 'cors',
@@ -48,7 +84,12 @@ export function* getTransactions({ addr }) {
 
   const transactions = yield call(request, requestURL, getTransactionsOptions);
   yield put(
-    transactionsLoaded(transactions.transactions, transactions.pages, addr, transactions.txcount),
+    transactionsLoaded(
+      transactions.transactions,
+      transactions.pages,
+      addr,
+      transactions.txcount,
+    ),
   );
 }
 
@@ -63,6 +104,13 @@ function* watchGetUnconfirmed() {
   while (true) {
     const payload = yield take(LOAD_UNCONFIRMED);
     yield call(getUnconfirmed, payload);
+  }
+}
+
+function* watchGetClassABTxs() {
+  while (true) {
+    const payload = yield take(LOAD_CLASSAB_TXS);
+    yield call(getClassABTxs, payload);
   }
 }
 
@@ -81,5 +129,6 @@ export default function* root() {
     call(watchGetTransactions),
     call(watchGetTransactionsByType),
     call(watchGetUnconfirmed),
+    call(watchGetClassABTxs),
   ]);
 }

@@ -5,32 +5,42 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import styled from 'styled-components';
+import isNil from 'lodash/isNil';
 import List from 'components/List';
 import TransactionListHeader from 'components/TransactionListHeader';
 import Transaction from 'components/Transaction';
+import ContainerBase from 'components/ContainerBase';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
-import ContainerBase from 'components/ContainerBase';
 import FooterLinks from 'components/FooterLinks';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import history from 'utils/history';
+import { getSufixURL } from 'utils/getLocationPath';
+import isTestnet from 'utils/isTestnet';
 
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+
+import {
+  TXCLASSAB_ADDRESS_MAINNET,
+  TXCLASSAB_ADDRESS_TESTNET,
+  TXS_CLASS_AB,
+} from 'containers/App/constants';
+
 import {
   makeSelectLoading,
   makeSelectTransactions,
   makeSelectUnconfirmed,
 } from './selectors';
 import {
+  loadClassABTxs,
   loadTransactions,
   loadUnconfirmed,
   setPage,
@@ -40,22 +50,21 @@ import messages from './messages';
 
 import saga from './saga';
 import reducer from './reducer';
-
-const StyledContainer = styled(ContainerBase)`
-  overflow: auto;
-  padding-bottom: 0;
-`;
+import { TRANSACTION_TYPE } from './constants';
 
 export function Transactions(props) {
   const unconfirmedTxs = props.location.pathname.includes('unconfirmed');
-  const pageParam =
+  const classABTxs = props.location.pathname
+    .toLowerCase()
+    .includes(TXS_CLASS_AB);
+
+  const currentPage = () =>
     props.match.params.page ||
     (unconfirmedTxs && props.transactions.currentPage) ||
-    props.currentPage ||
-    1;
-  const maxPagesByMedia = getMaxPagesByMedia();
+    (classABTxs && props.transactions.currentPage) ||
+    props.currentPage;
 
-  props.setCurrentPage(pageParam);
+  const maxPagesByMedia = getMaxPagesByMedia();
 
   useInjectSaga({
     key: 'transactions',
@@ -68,19 +77,42 @@ export function Transactions(props) {
 
   useEffect(() => {
     // load transactions on every change address
-    loadTxs(!unconfirmedTxs);
-  }, [props.addr]);
+    if (!classABTxs) {
+      props.setCurrentPage(currentPage() || 1);
+      loadTxs(
+        unconfirmedTxs
+          ? TRANSACTION_TYPE.UNCONFIRMED
+          : TRANSACTION_TYPE.CONFIRMED,
+      );
+    }
+  }, [props.addr, isNil(props.match.params.page)]);
+
+  useEffect(() => {
+    // load class AB transactions when it's selected
+    if (!props.transactions.stamp && classABTxs) {
+      loadTxs(TRANSACTION_TYPE.CLASSABTX);
+    }
+  }, [classABTxs, currentPage()]);
 
   useEffect(() => {
     // load transactions when it's on unconfirmed page and the state wasn't updated, and when isn't unconfirmed page
     if (
       !props.loading &&
+      !classABTxs &&
       (!props.transactions.stamp ||
-        unconfirmedTxs !== props.transactions.unconfirmed)
+        (unconfirmedTxs !== props.transactions.unconfirmed &&
+          props.unconfirmed) ||
+        !props.unconfirmed)
     ) {
-      loadTxs(!unconfirmedTxs);
+      // props.setCurrentPage(+pageParam || 1);
+      props.setCurrentPage(currentPage() || 1);
+      loadTxs(
+        unconfirmedTxs
+          ? TRANSACTION_TYPE.UNCONFIRMED
+          : TRANSACTION_TYPE.CONFIRMED,
+      );
     }
-  }, [unconfirmedTxs, pageParam, unconfirmedTxs && !props.addr]);
+  }, [unconfirmedTxs, currentPage(), unconfirmedTxs && !props.addr]);
 
   const getCurrentData = page => {
     const maxResults = 10;
@@ -88,13 +120,14 @@ export function Transactions(props) {
 
     const start =
       transactions.length > maxResults
-        ? ((page || pageParam) - 1) * maxResults
+        ? ((page || currentPage()) - 1) * maxResults
         : 0;
 
     const end =
       transactions.length > maxResults
-        ? ((page || pageParam) - 1) * maxResults + maxResults
+        ? ((page || currentPage()) - 1) * maxResults + maxResults
         : maxResults;
+    
     return transactions.slice(start, end);
   };
   const getTransactions = () => props.transactions.transactions;
@@ -102,19 +135,37 @@ export function Transactions(props) {
     props.setCurrentPage(page);
   };
 
-  const pathname = props.addr ? `/address/${props.addr}` : '';
-  const hashLink = v => `${pathname}/${v}`;
-  const loadTxs = confirmed =>
-    (confirmed ? props.loadTransactions : props.loadUnconfirmed)(props.addr);
+  const pathname = props.addr
+    ? `${getSufixURL()}/address/${props.addr}`
+    : `${getSufixURL()}`;
+
+  const hashLink = v =>
+    classABTxs ? `${pathname}/${TXS_CLASS_AB}/${v}` : `${pathname}/${v}`;
+
+  const loadTxs = txType => {
+    switch (txType) {
+      case TRANSACTION_TYPE.CONFIRMED:
+        props.loadTransactions(props.addr);
+        break;
+      case TRANSACTION_TYPE.UNCONFIRMED:
+        props.loadUnconfirmed(props.addr);
+        break;
+      case TRANSACTION_TYPE.CLASSABTX:
+        props.loadClassABTxs(
+          isTestnet ? TXCLASSAB_ADDRESS_TESTNET : TXCLASSAB_ADDRESS_MAINNET,
+        );
+        break;
+    }
+  };
 
   const handlePageClick = page => {
     props.setCurrentPage(page);
     history.push(hashLink(page));
-    loadTxs(true);
+    loadTxs(TRANSACTION_TYPE.CONFIRMED);
   };
 
-  const onRadioBtnClick = confirmed => {
-    history.push(hashLink(confirmed ? '' : 'unconfirmed'));
+  const onRadioBtnClick = txType => {
+    history.push(hashLink(txType !== TRANSACTION_TYPE.CONFIRMED ? txType : ''));
   };
 
   let content;
@@ -134,7 +185,9 @@ export function Transactions(props) {
       inner: Transaction,
       onSetPage: props.unconfirmed
         ? unconfirmedHandlePageClick
-        : handlePageClick,
+        : classABTxs
+          ? unconfirmedHandlePageClick
+          : handlePageClick,
       currentPage: props.transactions.currentPage,
       hashLink,
       getItemKey,
@@ -145,17 +198,26 @@ export function Transactions(props) {
     content = <List {..._props} />;
   }
   const footer = <FooterLinks blocklist />;
+  const headerMessage = () => {
+    let result;
+
+    if (props.unconfirmed) {
+      result = messages.unconfirmedHeader;
+    } else if (classABTxs) {
+      result = messages.classABTxsHeader;
+    } else {
+      result = {
+        id: 'app.components.Transactions.unconfirmedHeader',
+        defaultMessage: `${props.transactions.txCount} Transactions`,
+      };
+    }
+
+    return result;
+  };
 
   const header = (
     <TransactionListHeader
-      customHeader={
-        props.unconfirmed
-          ? messages.unconfirmedHeader
-          : {
-            id: 'app.components.Transactions.unconfirmedHeader',
-            defaultMessage: `${props.transactions.txCount} Transactions`,
-          }
-      }
+      customHeader={headerMessage()}
       totalPreText={
         props.unconfirmed && props.transactions ? 'Displaying the ' : null
       }
@@ -171,14 +233,14 @@ export function Transactions(props) {
         !!props.addr && (
           <ButtonGroup>
             <Button
-              onClick={() => onRadioBtnClick(true)}
-              active={!props.unconfirmed}
-              disabled={!props.unconfirmed}
+              onClick={() => onRadioBtnClick(TRANSACTION_TYPE.CONFIRMED)}
+              active={!props.unconfirmed && !classABTxs}
+              disabled={!props.unconfirmed && !classABTxs}
             >
               Confirmed
             </Button>
             <Button
-              onClick={() => onRadioBtnClick(false)}
+              onClick={() => onRadioBtnClick(TRANSACTION_TYPE.UNCONFIRMED)}
               active={!!props.unconfirmed}
               disabled={!!props.unconfirmed}
             >
@@ -191,20 +253,23 @@ export function Transactions(props) {
   );
 
   return (
-    <StyledContainer fluid>
+    <ContainerBase>
       {header}
       {content}
       {footer}
-    </StyledContainer>
+    </ContainerBase>
   );
 }
 
 Transactions.propTypes = {
   loadTransactions: PropTypes.func,
   loadUnconfirmed: PropTypes.func,
+  loadClassABTxs: PropTypes.func,
   transactions: PropTypes.object.isRequired,
   setCurrentPage: PropTypes.func,
+  currentPage: PropTypes.any,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   addr: PropTypes.string,
   unconfirmed: PropTypes.bool,
   match: PropTypes.object,
@@ -222,6 +287,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     loadTransactions: addr => dispatch(loadTransactions(addr)),
     loadUnconfirmed: addr => dispatch(loadUnconfirmed(addr)),
+    loadClassABTxs: addr => dispatch(loadClassABTxs(addr)),
     setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
   };

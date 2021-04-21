@@ -3,11 +3,9 @@ import { CHANGE_LOCALE } from '../constants';
 
 describe('languageProviderReducer', () => {
   it('returns the initial state', () => {
-    expect(languageProviderReducer(undefined, {})).toEqual(
-      {
-        locale: 'en',
-      },
-    );
+    expect(languageProviderReducer(undefined, {})).toEqual({
+      locale: 'en',
+    });
   });
 
   it('changes the locale', () => {

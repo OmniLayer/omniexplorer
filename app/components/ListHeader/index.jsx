@@ -14,8 +14,10 @@ class ListHeader extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const StyledRow = styled(Row)`
-      background-color: #7c8fa0;
-      color: white;
+      //background-color: whitesmoke;
+      //color: white;
+      margin: 0 -12px !important;
+      padding: 0 12px;
     `;
     const HeaderTitle = styled.span`
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -28,7 +30,7 @@ class ListHeader extends React.PureComponent {
     const countMessage = this.props.countMessage || this.props.message;
 
     return (
-      <StyledRow className="text-center-down-sm pt-2 pb-2">
+      <StyledRow noGutters className="list-header text-center-down-sm pt-2 pb-2" style={this.props.sx}>
         <Col sm md={8}>
           <HeaderTitle>
             <FormattedMessage

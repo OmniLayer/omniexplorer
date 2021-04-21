@@ -8,7 +8,7 @@ import messages from './messages';
 const Wrapper = styled.footer`
   display: flex;
   justify-content: space-between;
-  padding: 2rem 0;
+  padding: 2rem 1rem;
   margin-top: 1rem;
   border-top: 1px solid #666;
 `;

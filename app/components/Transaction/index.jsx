@@ -19,6 +19,7 @@ import AssetLink from 'components/AssetLink';
 import AssetLogo from 'components/AssetLogo';
 import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import './transaction.scss';
 
 import AddressWrapper from 'components/AddressWrapper';
@@ -101,14 +102,14 @@ class Transaction extends React.PureComponent {
 
     const transactionAmount = this.props.amount || '';
 
-    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`;
+    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, "");
     const sendercopyid = `s-${txcopyid}`;
     const referercopyid = `r-${txcopyid}`;
     const invalidid = `invalid-${txcopyid}`;
 
     return (
-      <div className="transation-result mx-auto text-center-down-md">
-        <Row className="align-items-end pb-0">
+      <div className="transaction-result mx-auto text-center-down-md">
+        <Row noGutters className="align-items-end pb-0">
           <Col sm="12" md="1">
             <AssetLink asset={this.props.propertyid} state={this.props.state}>
               <AssetLogo
@@ -147,7 +148,7 @@ class Transaction extends React.PureComponent {
               <WrapperTx>
                 <StyledLink
                   to={{
-                    pathname: `/tx/${this.props.txid}`,
+                    pathname: `${getSufixURL()}/tx/${this.props.txid}`,
                     state: { state: this.props.state },
                   }}
                 >
@@ -159,7 +160,7 @@ class Transaction extends React.PureComponent {
                 onCopy={this.toggleTxTooltip}
               >
                 <StyledIconCopy
-                  className="d-inline-flex d-md-none"
+                  className="d-inline-flex"
                   size={24}
                   id={txcopyid}
                 />
@@ -182,7 +183,7 @@ class Transaction extends React.PureComponent {
                 className={statusCSSClass}
                 style={{ cursor: 'default' }}
                 to={{
-                  pathname: `/tx/${this.props.txid}`,
+                  pathname: `${getSufixURL()}/tx/${this.props.txid}`,
                   state: { state: this.props.state },
                 }}
                 id={invalidid}
@@ -200,28 +201,29 @@ class Transaction extends React.PureComponent {
             </div>
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col sm>
             <div className="desc">
               <AddressWrapper>
                 <WrapperLink>
                   <StyledLink
                     className={this.getHighlightIfOwner(this.props.sendingaddress)}
-                    to={`/address/${this.props.sendingaddress}`}
+                    to={`${getSufixURL()}/address/${this.props.sendingaddress}`}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
+                  <CopyToClipboard
+                    text={this.props.sendingaddress}
+                    onCopy={this.toggleSenderTooltip}
+                  >
+                    <StyledIconCopy
+                      className="copy-icon-address float-right"
+                      size={24}
+                      id={sendercopyid}
+                    />
+                  </CopyToClipboard>
                 </WrapperLink>
-                <CopyToClipboard
-                  text={this.props.sendingaddress}
-                  onCopy={this.toggleSenderTooltip}
-                >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={sendercopyid}
-                  />
-                </CopyToClipboard>
+
                 <Tooltip
                   hideArrow
                   isOpen={this.state.tooltipSenderOpen}
@@ -244,21 +246,21 @@ class Transaction extends React.PureComponent {
                 <WrapperLink>
                   <StyledLink
                     className={addresscname}
-                    to={`/address/${this.props.referenceaddress}`}
+                    to={`${getSufixURL()}/address/${this.props.referenceaddress}`}
                   >
                     {this.props.referenceaddress}
                   </StyledLink>
+                  <CopyToClipboard
+                    text={this.props.referenceaddress}
+                    onCopy={this.toggleRefererTooltip}
+                  >
+                    <StyledIconCopy
+                      className="copy-icon-address float-right"
+                      size={24}
+                      id={referercopyid}
+                    />
+                  </CopyToClipboard>
                 </WrapperLink>
-                <CopyToClipboard
-                  text={this.props.referenceaddress}
-                  onCopy={this.toggleRefererTooltip}
-                >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={referercopyid}
-                  />
-                </CopyToClipboard>
                 <Tooltip
                   hideArrow
                   isOpen={this.state.tooltipRefererOpen}
@@ -281,7 +283,7 @@ Transaction.propTypes = {
   confirmations: PropTypes.number,
   type: PropTypes.string,
   txid: PropTypes.string,
-  amount: PropTypes.string,
+  amount: PropTypes.any,
   valid: PropTypes.bool,
   blocktime: PropTypes.number,
   propertyname: PropTypes.string,

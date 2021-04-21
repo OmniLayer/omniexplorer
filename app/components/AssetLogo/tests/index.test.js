@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { shallowWithState } from 'enzyme-redux';
 
-import { AssetLogo } from '../index';
+import AssetLogo from '../index';
 
 describe('<AssetLogo />', () => {
   const ReactComponent = () => <AssetLogo />;

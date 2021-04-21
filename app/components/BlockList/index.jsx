@@ -13,10 +13,12 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import flatMap from 'lodash/flatMap';
 
 import { startFetch } from 'components/Token/actions';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import ColoredHash from 'components/ColoredHash';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
@@ -44,9 +46,9 @@ class BlockList extends React.PureComponent {
 
   getDistinctTokensFromBlockList(blocks) {
     const properties = Object.values(blocks)
-      .map(block => Object.keys(block.value.details))
-      .flat();
-    const distincts = [...new Set(properties)];
+      .map(block => Object.keys(block.value.details));
+      // .flat();
+    const distincts = [...new Set(flatMap(properties))];
     return distincts;
   }
 
@@ -181,7 +183,7 @@ class BlockList extends React.PureComponent {
               <td>
                 <StyledLink
                   to={{
-                    pathname: `/block/${block.block}`,
+                    pathname: `${getSufixURL()}/block/${block.block}`,
                     state: { state: this.props.state },
                   }}
                 >
@@ -226,7 +228,7 @@ class BlockList extends React.PureComponent {
               <td className="text-center">
                 <StyledLink
                   to={{
-                    pathname: `/block/${block.block}`,
+                    pathname: `${getSufixURL()}/block/${block.block}`,
                     state: { state: this.props.state },
                   }}
                 >

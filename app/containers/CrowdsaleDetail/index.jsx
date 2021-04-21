@@ -17,7 +17,6 @@ import {
   CardBody,
   CardTitle,
   Col,
-  Container,
   ListGroup,
   ListGroupItem,
   Row,
@@ -29,6 +28,7 @@ import styled from 'styled-components';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import getWarningMessage from 'utils/getWarningMessage';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import { startDeepFetch } from 'components/Token/actions';
 import AssetInfo from 'components/AssetInfo';
 import { makeSelectProperties } from 'components/Token/selectors';
@@ -71,14 +71,17 @@ import { setPage } from '../Transactions/actions';
 const StyledCard = styled(Card).attrs({
   className: 'text-center',
 })`
-  width: 100%;
+  width: 90%;
+  margin: 5%;
 `;
 
 const StyledDivContent = styled.div.attrs({
   className: 'mt-3 mb-3 mx-auto text-md-left',
 })``;
 
-const HistoryContainer = ContainerBase;
+const HistoryContainer = styled(ContainerBase)`
+  padding: 0;
+`;
 
 const StyledRow = styled(Row).attrs({})``;
 
@@ -100,9 +103,9 @@ export function CrowdsaleDetail(props) {
   }, [crowdsaleid]);
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   const crowdsale = props.tokens[crowdsaleid];
@@ -139,7 +142,7 @@ export function CrowdsaleDetail(props) {
     </div>
   );
 
-  const pathname = props.addr ? `/address/${props.addr}` : '';
+  const pathname = props.addr ? `${getSufixURL}/address/${props.addr}` : `${getSufixURL()}`;
   const hashLink = v => `${pathname}/${v}`;
   const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
 
@@ -163,14 +166,14 @@ export function CrowdsaleDetail(props) {
     crowdsale.propertyname ||
     crowdsale.type;
   return (
-    <Container fluid className="mt-3 p-1">
+    <ContainerBase>
       <Helmet>
         <meta name="twitter:card" content="summary" />
         <meta property="twitter:title" content="OmniLayer crowdsale" />
         <meta name="twitter:description" content={shareTitle} />
       </Helmet>
       {warningMessage}
-      <Row>
+      <Row noGutters>
         <Col sm="12" md="9">
           <StyledDivContent>
             <Table responsive hover>
@@ -320,10 +323,10 @@ export function CrowdsaleDetail(props) {
           </StyledCard>
         </Col>
       </Row>
-      <Row>&nbsp;</Row>
-      <Row>
+      <Row noGutters>&nbsp;</Row>
+      <Row noGutters>
         <Col>
-          <HistoryContainer fluid>
+          <HistoryContainer>
             <StyledRow>
               <Col sm>
                 <ListHeader
@@ -336,7 +339,7 @@ export function CrowdsaleDetail(props) {
           </HistoryContainer>
         </Col>
       </Row>
-    </Container>
+    </ContainerBase>
   );
 }
 

@@ -24,6 +24,7 @@ const propertyReducer = (state = initialState, action = {}) => {
       case LOAD_PROPERTY_CANCEL:
         draft.isFetching = false;
         draft.lastFetched = Date.now();
+        break;
       case LOAD_PROPERTY:
         draft.isFetching = true;
         draft.lastFetched = 0;
@@ -32,6 +33,7 @@ const propertyReducer = (state = initialState, action = {}) => {
       case FETCHING_PROPERTY:
         draft.isFetching = true;
         draft.tokens[propertyId] = { isFetching: true };
+        break;
       case LOAD_PROPERTY_DEEP:
         draft.isFetching = true;
         draft.error = null;

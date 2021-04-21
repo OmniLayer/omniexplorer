@@ -6,13 +6,13 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 
-import { API_URL_BASE } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
 import {
   LOAD_TRANSACTIONS,
   SET_TRANSACTION_TYPE,
   LOAD_UNCONFIRMED,
 } from '../constants';
-import { transactionsLoadingError, transactionsLoaded } from '../actions';
+import { transactionsLoaded } from '../actions';
 import { initialState } from '../reducer';
 import root, { getTransactions, getUnconfirmed } from '../saga';
 
@@ -58,7 +58,7 @@ describe('getTransaction Saga', () => {
     };
 
     const saga = testSaga(getTransactions, { tx: txid });
-    const url = `${API_URL_BASE}/transaction/general/0`;
+    const url = `${getLocationPath()}/transaction/general/0`;
     const getTransactionsOptions = {
       type: 'cors',
       method: 'POST',
@@ -74,12 +74,6 @@ describe('getTransaction Saga', () => {
       .call(request, url, getTransactionsOptions)
       .next(response)
       .put(transactionsLoaded(response.transactions, response.pages));
-  });
-
-  it('should call the transactionsLoadingError action if the response errors', () => {
-    const response = new Error('Some error');
-    const putDescriptor = getTransactionGenerator.throw(response).value;
-    expect(putDescriptor).toEqual(put(transactionsLoadingError(response)));
   });
 });
 

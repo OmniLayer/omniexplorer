@@ -13,6 +13,7 @@ import { compose } from 'redux';
 
 import styled from 'styled-components';
 import {
+  Alert,
   Container,
   DropdownItem,
   DropdownMenu,
@@ -34,6 +35,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import isEmpty from 'lodash/isEmpty';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
@@ -56,8 +58,6 @@ import './blockdetail.scss';
 const StyledContainer = styled(ContainerBase).attrs({
   className: 'blockdetail-container',
 })`
-  overflow: auto;
-
   .wrapper-tx-timestamp,
   .wrapper-btn-block:not(.tx-invalid) {
     display: none;
@@ -127,12 +127,11 @@ export function BlockDetail(props) {
   };
 
   const statusLoading = !props || !props.status || !props.status.last_block;
-
   if (props.blockdetail.loading || statusLoading) {
     return (
-      <Container>
+      <ContainerBase>
         <LoadingIndicator />
-      </Container>
+      </ContainerBase>
     );
   }
 
@@ -227,13 +226,18 @@ export function BlockDetail(props) {
   );
 
   const validInvalidTxs = hasInvalid ? dropdown : null;
+  const firstBlockMessage = ((block - 1) < FIRST_BLOCK) ?
+    <Alert color="warning" className="mt-1">
+      <strong>{FIRST_BLOCK}</strong> is the first Omni Layer block
+    </Alert> :
+    null;
 
   return (
-    <StyledContainer fluid>
+    <StyledContainer>
       <ListHeader
         message={
           blockdetail.block.transactions && blockdetail.block.transactions.length
-            ? messages.header
+            ? (pageCount>1 ? messages.header : messages.headerOnePage)
             : messages.doesNotHaveTransactions.header
         }
         values={{
@@ -256,11 +260,12 @@ export function BlockDetail(props) {
         }}
       >
         <JumpToBlock
-          onValidate={value => FIRST_BLOCK < value && value <= lastBlock}
+          onValidate={value => value <= lastBlock}
         />
         <br />
         {validInvalidTxs}
       </ListHeader>
+      {firstBlockMessage}
       <BlockPagination block={block} latest={lastBlock} />
       {content}
       <BlockPagination block={block} latest={lastBlock} />

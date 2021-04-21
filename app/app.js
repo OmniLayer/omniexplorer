@@ -38,16 +38,25 @@ import 'bootstrap/dist/css/bootstrap.css';
 // Import react-vis styles
 import 'react-vis/dist/style.css';
 
+// Import components
+import SocketClient from 'components/SocketClient';
+
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 
-// Import CSS reset and Global Styles
-import './global-styles';
-
-// Import SASS responsive styles
+// // Import CSS reset and Global Styles
+// import './global-styles';
+//
+// // Import SASS responsive styles
 import './responsive-styles.scss';
+//
+// // Import theming
+// import './theming/theming.scss';
+//
+// // Import theming modes
+import './theming/theming-modes.scss';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -68,7 +77,9 @@ openSansObserver.load().then(
 
 // Create redux store with history
 const initialState = {};
-const store = configureStore(initialState, history);
+const socketClient = new SocketClient();
+
+const store = configureStore(initialState, socketClient, history);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {

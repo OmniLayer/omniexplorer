@@ -21,9 +21,7 @@ const ExternalLink = styled.a.attrs({
 
 const ExplorerName = styled.span.attrs({
   className: "explorer-name",
-})`
-  color: #000;
-`;
+})``;
 
 const explorers = {
   [EXTERNAL_EXPLORER_BLOCKCHAIR]: {

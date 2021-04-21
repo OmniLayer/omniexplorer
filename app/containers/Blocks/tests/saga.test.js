@@ -6,13 +6,11 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 
-import {
-  API_URL_BASE,
-  FIRST_BLOCK,
-} from 'containers/App/constants';
+import { FIRST_BLOCK } from 'containers/App/constants';
+import getLocationPath from 'utils/getLocationPath';
 
 import { LOAD_BLOCKS } from '../constants';
-import { blocksLoadingError, blocksLoaded } from '../actions';
+import { blocksLoaded } from '../actions';
 import root, { getBlocks } from '../saga';
 import { initialState } from '../reducer';
 
@@ -38,7 +36,7 @@ describe('getBlocks Saga', () => {
     };
 
     const saga = testSaga(getBlocks, { block: FIRST_BLOCK });
-    const url = `${API_URL_BASE}/transaction/blocks/${FIRST_BLOCK}`;
+    const url = `${getLocationPath()}/transaction/blocks/${FIRST_BLOCK}`;
 
     saga
       .next()
@@ -46,12 +44,6 @@ describe('getBlocks Saga', () => {
       .call(request, url)
       .next(response)
       .put(blocksLoaded(response));
-  });
-
-  it('should call the blocksLoadingError action if the response errors', () => {
-    const response = new Error('Some error');
-    const putDescriptor = getBlocksGenerator.throw(response).value;
-    expect(putDescriptor).toEqual(put(blocksLoadingError(response)));
   });
 });
 

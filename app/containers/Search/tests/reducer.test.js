@@ -1,7 +1,5 @@
 import searchReducer from '../reducer';
 
-import produce from 'immer';
-
 export const initialState = {
   loading: true,
   query: '',

@@ -8,9 +8,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Container, Jumbotron, Row, Table } from 'reactstrap';
+import { Col, Jumbotron, Row, Table } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import { useInjectSaga } from 'utils/injectSaga';
@@ -24,12 +25,12 @@ import Asset from 'components/Asset';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import StyledLink from 'components/StyledLink';
+import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
-import { startFetch } from 'components/Token/actions';
+import { startFetch, cancelFetch } from 'components/Token/actions';
 import {
-  makeSelectLoading,
   makeSelectProperties,
   makeSelectProperty,
 } from 'components/Token/selectors';
@@ -53,12 +54,13 @@ const StyledTR = styled.tr.attrs({
 })``;
 
 export function Search(props) {
-  const { query } = props.match.params;
+  const { query } = useParams();
 
   useInjectReducer({
     key: 'search',
     reducer: searchReducer,
   });
+
   useInjectSaga({
     key: 'search',
     saga: searchSaga,
@@ -75,8 +77,10 @@ export function Search(props) {
     ) {
       if (isActivation()) {
         props.loadActivations();
-      } else {
+      } else if (props.search.tx.propertyid){
         props.getProperty(props.search.tx.propertyid);
+      } else {
+        props.cancelFetch();
       }
     }
   }, [props.search.loading]);
@@ -89,13 +93,14 @@ export function Search(props) {
     props.search.tx.type_int === FEATURE_ACTIVATION_TYPE_INT;
 
   const loading = (
-    <Container>
+    <ContainerBase>
       <LoadingIndicator />
-    </Container>
+    </ContainerBase>
   );
 
   if (
     props.search.loading ||
+    (!props.search.loading && props.search.query !== query) ||
     (!isActivation() && props.tokens.isFetching) ||
     (isActivation() && props.activations.loading)
   ) {
@@ -123,7 +128,7 @@ export function Search(props) {
         <div className="container-fluid">
           <StyledLink
             to={{
-              pathname: `/address/${query}`,
+              pathname: `${getSufixURL()}/address/${query}`,
               state: { state: props.state },
             }}
           >
@@ -145,7 +150,10 @@ export function Search(props) {
           <tr>
             <StyledAssetTH>
               <h4 className="align-self-end text-sm-left">
-                <strong className="d-block">Properties</strong>
+                <strong className="d-inline-block">Properties</strong>
+                { props.search.asset.length > 1 &&
+                  <span className="d-inline-block">&nbsp;(only first 10 results are displayed)</span>
+                }
               </h4>
             </StyledAssetTH>
           </tr>
@@ -167,8 +175,8 @@ export function Search(props) {
 
   if (!wallet && !assets && !tx) {
     return (
-      <Container fluid>
-        <Row>
+      <ContainerBase>
+        <Row noGutters>
           <Col sm>
             <div>
               <Jumbotron className="text-center">
@@ -181,19 +189,17 @@ export function Search(props) {
             </div>
           </Col>
         </Row>
-      </Container>
+      </ContainerBase>
     );
   }
 
   const StyledRow = styled(Row)`
-    background-color: #7c8fa0;
-    color: white;
     padding-top: 1rem;
     padding-bottom: 1rem;
   `;
   return (
-    <ContainerBase fluid>
-      <StyledRow>
+    <ContainerBase>
+      <StyledRow noGutters>
         <Col sm>
           <h4>
             Showing results for:&nbsp;
@@ -209,13 +215,13 @@ export function Search(props) {
           </h4>
         </Col>
       </StyledRow>
-      <Row>
+      <Row noGutters>
         <Col sm>{wallet}</Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>{assets}</Col>
       </Row>
-      <Row>
+      <Row noGutters>
         <Col sm>{tx}</Col>
       </Row>
     </ContainerBase>
@@ -225,6 +231,7 @@ export function Search(props) {
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loadSearch: PropTypes.func,
+  cancelFetch: PropTypes.func,
   search: PropTypes.object,
   getProperty: PropTypes.func.isRequired,
   properties: PropTypes.func.isRequired,
@@ -237,7 +244,6 @@ Search.propTypes = {
 const mapStateToProps = createStructuredSelector({
   search: makeSelectSearch(),
   tokens: makeSelectProperties(),
-  tokenIsFetching: state => makeSelectLoading(state),
   properties: state => makeSelectProperty(state),
   activations: makeSelectActivations(),
 });
@@ -248,6 +254,7 @@ function mapDispatchToProps(dispatch) {
     loadSearch: query => dispatch(loadSearch(query)),
     getProperty: propertyId => dispatch(startFetch(propertyId)),
     loadActivations: () => dispatch(loadActivations()),
+    cancelFetch: () => dispatch(cancelFetch()),
   };
 }
 

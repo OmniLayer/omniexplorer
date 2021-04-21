@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { shallowWithState } from 'enzyme-redux';
 
-import { AssetInfo } from '../index';
+import AssetInfo from '../index';
 
 describe('<AssetInfo />', () => {
   const ReactComponent = () => <AssetInfo />;
