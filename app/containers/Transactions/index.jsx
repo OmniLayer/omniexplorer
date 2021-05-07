@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -18,6 +18,14 @@ import ContainerBase from 'components/ContainerBase';
 import LoadingIndicator from 'components/LoadingIndicator';
 import NoOmniTransactions from 'components/NoOmniTransactions';
 import FooterLinks from 'components/FooterLinks';
+import { startFetchMany } from 'components/Token/actions';
+import {
+  makeSelectLoadingTokens,
+  makeSelectHasProperty,
+  makeSelectLastFetched,
+  makeSelectProperties,
+} from 'components/Token/selectors';
+
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -127,7 +135,7 @@ export function Transactions(props) {
       transactions.length > maxResults
         ? ((page || currentPage()) - 1) * maxResults + maxResults
         : maxResults;
-    
+
     return transactions.slice(start, end);
   };
   const getTransactions = () => props.transactions.transactions;
@@ -170,11 +178,21 @@ export function Transactions(props) {
 
   let content;
 
-  if (props.loading) {
+  if (props.loading || props.loadingTokens) {
     content = <LoadingIndicator />;
   } else if ((getTransactions() || []).length === 0) {
     content = <NoOmniTransactions />;
   } else {
+    // const {transactions: txs} = props.transactions;
+    const needFetchTokens = getTransactions().some(
+      b => b.propertyid && !props.hasPropertyFetched(b.propertyid),
+    );
+    if (needFetchTokens || (!props.loadingTokens && !props.lastFetched)) {
+      const propertiesToFetch = getTransactions().filter(tx => tx.propertyid).map(tx => tx.propertyid);
+      props.getProperties(propertiesToFetch);
+      return (<LoadingIndicator />);
+    }
+
     const getItemKey = (item, idx) => item.txid.slice(0, 22).concat(idx);
     const { addr } = props;
     const usePagination = true;
@@ -194,7 +212,8 @@ export function Transactions(props) {
       usePagination,
     };
 
-    _props.items = getCurrentData(props.transactions.currentPage);
+    const mergePropertyFlags = property => (property.propertyid ? {...property, flags: props.tokens[property.propertyid].flags} : property)
+    _props.items = getCurrentData(props.transactions.currentPage).map(x => mergePropertyFlags(x));
     content = <List {..._props} />;
   }
   const footer = <FooterLinks blocklist />;
@@ -274,12 +293,17 @@ Transactions.propTypes = {
   unconfirmed: PropTypes.bool,
   match: PropTypes.object,
   onSetTransactionType: PropTypes.func,
+  getProperties: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   transactions: makeSelectTransactions(),
   loading: makeSelectLoading(),
   unconfirmed: makeSelectUnconfirmed(),
+  lastFetched: makeSelectLastFetched(),
+  loadingTokens: makeSelectLoadingTokens(),
+  tokens: makeSelectProperties(),
+  hasPropertyFetched: makeSelectHasProperty,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -290,6 +314,7 @@ function mapDispatchToProps(dispatch) {
     loadClassABTxs: addr => dispatch(loadClassABTxs(addr)),
     setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
+    getProperties: propIdList => dispatch(startFetchMany(propIdList)),
   };
 }
 
