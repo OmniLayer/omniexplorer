@@ -22,13 +22,13 @@ const makeSelectProperties = () =>
     substate => substate.tokens,
   );
 
-const makeSelectProperty = id =>
+const makeSelectProperty = state => id =>
   createSelector(
-    [selectTokenDomain],
-    (substate, id) => substate.tokens[id],
+    selectTokenDomain,
+    substate => substate.tokens[id],
   );
 
-const makeSelectLoading = () =>
+const makeSelectLoadingTokens = () =>
   createSelector(
     selectTokenDomain,
     substate => substate.isFetching,
@@ -40,7 +40,7 @@ const makeSelectLastFetched = () =>
     substate => substate.lastFetched,
   );
 
-const makeSelectHasProperty = id =>
+const makeSelectHasProperty = state => id =>
   createSelector(
     selectTokenDomain,
     substate => !!substate.tokens[id],
@@ -50,7 +50,7 @@ export {
   selectTokenDomain,
   makeSelectProperties,
   makeSelectProperty,
-  makeSelectLoading,
+  makeSelectLoadingTokens,
   makeSelectHasProperty,
   makeSelectLastFetched,
 };

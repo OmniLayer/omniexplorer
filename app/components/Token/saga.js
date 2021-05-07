@@ -134,7 +134,7 @@ function* fetchManyProperties(action) {
       },
       body,
     });
-    const propChunks = chunk(action.properties.map(token => token.id), 30);
+    const propChunks = chunk(action.properties, 30);
     const encodedChunks = propChunks.map(propChunk =>
       encoderURIParams({ prop_ids: propChunk.map(id => id) }),
     );

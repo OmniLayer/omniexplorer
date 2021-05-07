@@ -29,7 +29,7 @@ import { startFetchMany } from 'components/Token/actions';
 import {
   makeSelectHasProperty,
   makeSelectLastFetched,
-  makeSelectLoading,
+  makeSelectLoadingTokens,
   makeSelectProperties,
 } from 'components/Token/selectors';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -271,7 +271,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = createStructuredSelector({
   tokens: makeSelectProperties(),
-  loadingTokens: makeSelectLoading(),
+  loadingTokens: makeSelectLoadingTokens(),
   lastFetched: makeSelectLastFetched(),
   hasPropertyFetched: makeSelectHasProperty,
 });
