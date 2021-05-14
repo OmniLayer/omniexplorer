@@ -212,7 +212,7 @@ export function Transactions(props) {
       usePagination,
     };
 
-    const mergePropertyFlags = property => (property.propertyid ? {...property, flags: props.tokens[property.propertyid].flags} : property)
+    const mergePropertyFlags = property => (property.propertyid ? {...property, flags: (props.tokens[property.propertyid] || {flags:{}}).flags} : property);
     _props.items = getCurrentData(props.transactions.currentPage).map(x => mergePropertyFlags(x));
     content = <List {..._props} />;
   }
