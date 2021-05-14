@@ -3,10 +3,10 @@
  * Asynchronously loads the component for BlockList
  *
  */
+import React from 'react';
+import loadable from 'utils/loadable';
+import LoadingIndicator from 'components/LoadingIndicator';
 
-import Loadable from 'react-loadable';
-
-export default Loadable({
-  loader: () => import('./index'),
-  loading: () => null,
+export default loadable(() => import('./index'), {
+  fallback: <LoadingIndicator />,
 });
