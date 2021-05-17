@@ -12,8 +12,9 @@ import { ArrowDown } from '@styled-icons/fa-solid/ArrowDown';
 const GreenArrowDown = styled(ArrowDown).attrs({
   size: 20,
   color: 'green',
+  className: 'mx-auto my-2 d-block',
 })`
-  margin: 0.5rem auto;
+  //margin: 0.5rem auto;
 `;
 
 GreenArrowDown.propTypes = {};

@@ -15,17 +15,10 @@ import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import StyledA from 'components/StyledA';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
-
-const StyledTDTextLeft = styled(StyledTD).attrs({
-  className: 'text-left pt-3',
-})`
-  white-space: pre-wrap;
-`;
 
 class CrowdsaleInfo extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -49,7 +42,7 @@ class CrowdsaleInfo extends React.PureComponent {
             />
           </AssetLink>
         </StyledTD>
-        <StyledTDTextLeft>
+        <StyledTD>
           <AssetLink
             asset={this.props.propertyid}
             state={this.props.state}
@@ -59,8 +52,8 @@ class CrowdsaleInfo extends React.PureComponent {
             <br/>
             {`(#${this.props.propertyid})`}
           </AssetLink>
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD>
           <AssetLink
             asset={this.props.propertyiddesired}
             state={this.props.state}
@@ -69,28 +62,28 @@ class CrowdsaleInfo extends React.PureComponent {
             <br/>
             {`(#${this.props.propertyiddesired})`}
           </AssetLink>
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD className="text-right">
           <SanitizedFormattedNumber
             value={this.props.tokensperunit}
             forceDecimals
           />
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD className="text-center">
           <span>
             <FormattedUnixDateTime
               datetime={this.props.deadline}
               useSeconds={false}
             />
           </span>
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD className="text-right">
           <SanitizedFormattedNumber
             value={this.props.totaltokens}
             fractionDigits={8}
           />
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD>
           <StyledA
             className="btn btn-primary"
             target="_blank"
@@ -102,7 +95,7 @@ class CrowdsaleInfo extends React.PureComponent {
             <br/>
             Omniwallet
           </StyledA>
-        </StyledTDTextLeft>
+        </StyledTD>
       </tr>
     );
   }
@@ -116,6 +109,7 @@ CrowdsaleInfo.propTypes = {
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
   propertyiddesired: PropTypes.any.isRequired,
+  state: PropTypes.object.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
