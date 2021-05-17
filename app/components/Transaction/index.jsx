@@ -128,7 +128,7 @@ class Transaction extends React.PureComponent {
           </Col>
           <Col sm="12" md="5">
             <Row className="d-flex flex-xs-column flex-center-down-md mb-2">
-              <div className="p-md-2 pt-xs-2 pr-xs-2">
+              <div className="py-md-2 pt-xs-2 pr-xs-2">
                 <span className="title d-block-down-md">
                   {getTransactionHeading(this.props)}
                 </span>
@@ -207,7 +207,7 @@ class Transaction extends React.PureComponent {
               <AddressWrapper>
                 <WrapperLink>
                   <StyledLink
-                    className={this.getHighlightIfOwner(this.props.sendingaddress)}
+                    className={`${this.getHighlightIfOwner(this.props.sendingaddress)} w-75 d-inline-block`}
                     to={`${getSufixURL()}/address/${this.props.sendingaddress}`}
                   >
                     {this.props.sendingaddress}
@@ -245,7 +245,7 @@ class Transaction extends React.PureComponent {
               <AddressWrapper className={showreferencecname}>
                 <WrapperLink>
                   <StyledLink
-                    className={addresscname}
+                    className={`${addresscname} w-75 d-inline-block`}
                     to={`${getSufixURL()}/address/${this.props.referenceaddress}`}
                   >
                     {this.props.referenceaddress}

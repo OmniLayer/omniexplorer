@@ -70,8 +70,8 @@ export class Crowdsales extends React.Component {
             <StyledTH />
             <StyledTH>Crowdsale</StyledTH>
             <StyledTH>Buy With</StyledTH>
-            <StyledTH>Rate</StyledTH>
-            <StyledTH>
+            <StyledTH className="text-right">Rate</StyledTH>
+            <StyledTH className="text-center">
               Closing Datetime
               <InfoCircleIcon id="crowdsalesClosingDate" />
               <UncontrolledTooltip
@@ -81,7 +81,7 @@ export class Crowdsales extends React.Component {
                 <FormattedMessage {...datetimeMessages.utc} />
               </UncontrolledTooltip>
             </StyledTH>
-            <StyledTH>Tokens Created</StyledTH>
+            <StyledTH className="text-right">Tokens Created</StyledTH>
             <StyledTH />
           </tr>
         </thead>
