@@ -36,7 +36,7 @@ const RetryMessage = () => (
         <span>retry</span>
       </RetryLink>
     </BrowserRouter>
-    &nbsp; again in few moments.
+    again in few moments.
   </h5>
 );
 

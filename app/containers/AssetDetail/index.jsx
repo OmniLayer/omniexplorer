@@ -14,7 +14,7 @@ import StyledLink from 'components/StyledLink';
 import { Col, Row, Table } from 'reactstrap';
 
 import { startFetch } from 'components/Token/actions';
-import { makeSelectLoading, makeSelectProperties } from 'components/Token/selectors';
+import { makeSelectLoadingTokens, makeSelectProperties } from 'components/Token/selectors';
 import AssetInfo from 'components/AssetInfo';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
@@ -122,7 +122,7 @@ AssetDetail.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectLoading(),
+  loading: makeSelectLoadingTokens(),
   tokens: makeSelectProperties(),
 });
 
