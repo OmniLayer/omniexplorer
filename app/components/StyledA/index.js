@@ -11,8 +11,12 @@ const StyledA = styled.a.attrs({
   className: 'mr-1 text-truncate',
 })`
   color: #337ab7;
-
   text-decoration: none;
+
+  &.btn {
+    color: white;
+  }
+
   &:hover {
     text-decoration: none;
     color: #6cc0e5;

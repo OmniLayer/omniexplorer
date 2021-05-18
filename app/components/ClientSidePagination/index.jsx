@@ -29,7 +29,7 @@ function ClientSidePagination({ idx, latest, base }) {
         `;
 
   return (
-    <Row>
+    <Row noGutters>
       <Col sm={{ size: 2, offset: 1 }}>
         <H3>
           <LinkPrevious href={`${getSufixURL()}/${base}/${parseInt(idx, 10) - 1}`}>

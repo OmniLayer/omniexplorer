@@ -98,7 +98,7 @@ export function Blocks(props) {
           `;
 
     pagination = (
-      <Row>
+      <Row noGutters>
         <Col>
           <h3>
             <LinkPrevious href={hashLink(previousBlockSet())}>
