@@ -145,7 +145,7 @@ function TransactionInfo(props) {
       <tr>
         <td className="field">Property</td>
         <td>
-          <AssetLink asset={props.propertyid} state={props.state}>
+          <AssetLink asset={props.propertyid} >
             <strong>
               {props.propertyname} &#40;#{props.propertyid}&#41;
             </strong>
@@ -228,7 +228,7 @@ function TransactionInfo(props) {
             <thead>
               <tr>
                 <th>
-                  <AssetLink asset={props.asset.propertyid} state={props.state}>
+                  <AssetLink asset={props.asset.propertyid} >
                     <AssetLogo
                       asset={props.asset}
                       prop={props.asset.propertyid}
