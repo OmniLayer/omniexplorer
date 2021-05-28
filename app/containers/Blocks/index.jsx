@@ -31,6 +31,8 @@ import { makeSelectBlocks, makeSelectLatestBlock, makeSelectLoading, makeSelectP
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
 
+const LinkPrevious = styled(StyledA)``;
+
 export function Blocks(props) {
   const block = props.match.params.block || '';
 
@@ -63,6 +65,7 @@ export function Blocks(props) {
         ? `${getSufixURL()}/blocks/`
         : `${getSufixURL()}/`;
     const hashLink = blockNum => `${pathname}${blockNum}`;
+
     const previousBlockSet = () => {
       let result;
       const previous = block - 10;
@@ -86,7 +89,6 @@ export function Blocks(props) {
       return result;
     };
 
-    const LinkPrevious = styled(StyledA)``;
     const LinkNext =
       isEmpty(blocks) || props.latest > blocks[0].block
         ? StyledA
@@ -115,8 +117,6 @@ export function Blocks(props) {
     );
   }
 
-  const footer = props.footer || <div />;
-
   return (
     <div>
       <ListHeader message={messages.header}>
@@ -126,7 +126,6 @@ export function Blocks(props) {
       </ListHeader>
       {content}
       {props.withPagination && pagination}
-      {footer}
     </div>
   );
 }
@@ -141,7 +140,6 @@ Blocks.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object,
   withPagination: PropTypes.bool,
-  footer: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
