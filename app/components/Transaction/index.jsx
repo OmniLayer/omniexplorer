@@ -125,7 +125,7 @@ class Transaction extends React.PureComponent {
                 </StyledLink>
               </WrapperTx>
               <CopyToClipboard
-                toolip="Transaction Id Copied"
+                tooltip="Transaction Id Copied"
                 value={this.props.txid}
                 hideArrow
               />
@@ -138,7 +138,7 @@ class Transaction extends React.PureComponent {
               </WrapperTxDatetime>
               {/*@TODO: refactoring status to StatusCOnfirmation*/}
               <StyledLink
-                className={statusCSSClass}
+                // className={statusCSSClass}
                 style={{ cursor: 'default' }}
                 to={{
                   pathname: `${getSufixURL()}/tx/${this.props.txid}`,
@@ -171,10 +171,11 @@ class Transaction extends React.PureComponent {
                     {this.props.sendingaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    toolip="Sender Address Copied"
+                    tooltip="Sender Address Copied"
                     value={this.props.sendingaddress}
                     hideArrow
                   />
+                </WrapperLink>
               </AddressWrapper>
               <GrayArrowForward
                 size={20}
@@ -195,7 +196,7 @@ class Transaction extends React.PureComponent {
                     {this.props.referenceaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    toolip="Reference Address Copied"
+                    tooltip="Reference Address Copied"
                     value={this.props.referenceaddress}
                     hideArrow
                   />

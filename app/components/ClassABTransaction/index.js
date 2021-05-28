@@ -77,7 +77,7 @@ function ClassABTransaction(props) {
                 </StyledLink>
               </WrapperTx>
               <CopyToClipboard
-                toolip="Transaction Id Copied"
+                tooltip="Transaction Id Copied"
                 value={props.txid}
                 hideArrow
               />
@@ -104,7 +104,7 @@ function ClassABTransaction(props) {
                 </StyledLink>
               </ClassABTxsWrapperLink>
               <CopyToClipboard
-                toolip="Sender Address Copied"
+                tooltip="Sender Address Copied"
                 value={props.sendingaddress}
                 hideArrow
               />
@@ -148,7 +148,7 @@ function ClassABTransaction(props) {
                   </ClassABTxsWrapperLink>
                   <CopyToClipboard
                     className={defaultClass}
-                    toolip="Reference Address Copied"
+                    tooltip="Reference Address Copied"
                     value={referenceAddr}
                     hideArrow
                   />

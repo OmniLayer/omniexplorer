@@ -182,7 +182,7 @@ function AssetInfo(asset) {
         <td>
           {txIssuer}
           <CopyToClipboard
-            toolip="Sender Address Copied"
+            tooltip="Sender Address Copied"
             value={asset.issuer}
             hideArrow
           />

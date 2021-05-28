@@ -229,7 +229,7 @@ function TransactionInfo(props) {
                     {props.sendingaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    toolip="Sender Address Copied"
+                    tooltip="Sender Address Copied"
                     value={props.sendingaddress}
                     hideArrow
                   />
@@ -248,7 +248,7 @@ function TransactionInfo(props) {
                       {recipient}
                     </StyledLink>
                     <CopyToClipboard
-                      toolip="Reference Address Copied"
+                      tooltip="Reference Address Copied"
                       value={recipient}
                       hideArrow
                     />

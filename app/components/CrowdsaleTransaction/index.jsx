@@ -127,7 +127,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                 </StyledLink>
               </WrapperTx>
               <CopyToClipboard
-                toolip="CrowdsaleTransaction Id Copied"
+                tooltip="CrowdsaleTransaction Id Copied"
                 value={this.props.txid}
                 hideArrow
               />
@@ -170,7 +170,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                   </StyledLink>
                 </WrapperLink>
                 <CopyToClipboard
-                  toolip="Sender Address Copied"
+                  tooltip="Sender Address Copied"
                   value={this.props.sendingaddress}
                   hideArrow
                 />
@@ -194,7 +194,7 @@ class CrowdsaleTransaction extends React.PureComponent {
                   </StyledLink>
                 </WrapperLink>
                 <CopyToClipboard
-                  toolip="Reference Address Copied"
+                  tooltip="Reference Address Copied"
                   value={this.props.referenceaddress}
                   hideArrow
                 />
