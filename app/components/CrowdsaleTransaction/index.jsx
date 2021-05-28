@@ -8,10 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Col, Row, Tooltip } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
-
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
@@ -23,46 +21,20 @@ import AssetLink from 'components/AssetLink';
 import WrapperTx from 'components/WrapperTx';
 import WrapperTxDatetime from 'components/WrapperTxDatetime';
 import 'components/Transaction/transaction.scss';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 
 import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
-import StyledIconCopy from 'components/StyledIconCopy';
 import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
 import CrowdsalePurchaseAmounts from 'components/CrowdsalePurchaseAmounts';
+import CopyToClipboard from 'components/CopyToClipboard';
 
 const WrapperTxLabel = styled.span`
   font-size: 1.25rem !important;
 `;
 
 class CrowdsaleTransaction extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tooltipTxOpen: false,
-      tooltipSenderOpen: false,
-      tooltipRefererOpen: false,
-    };
-  }
-
-  toggleTxTooltip = () => {
-    this.setState({ tooltipTxOpen: true });
-    setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
-  };
-
-  toggleSenderTooltip = () => {
-    this.setState({ tooltipSenderOpen: true });
-    setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
-  };
-
-  toggleRefererTooltip = () => {
-    this.setState({ tooltipRefererOpen: true });
-    setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
-  };
-
   getHighlightIfOwner(address) {
     return this.isOwner(address) ? 'text-success' : '';
   }
@@ -72,18 +44,19 @@ class CrowdsaleTransaction extends React.PureComponent {
   }
 
   render() {
-    let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
-    statusCSSClass = this.props.valid
-      ? `${statusCSSClass} btn-blue`
-      : this.props.confirmations === 0
-        ? `${statusCSSClass} btn-warning`
-        : `${statusCSSClass} btn-danger`;
-
-    const status = StatusConfirmation({
-      valid: this.props.valid,
-      confirmations: this.props.confirmations,
-      confirmed: CONFIRMATIONS,
-    });
+    // @TODO: refactor StatusConfirmation with environment detection
+    // let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
+    // statusCSSClass = this.props.valid
+    //   ? `${statusCSSClass} btn-blue`
+    //   : this.props.confirmations === 0
+    //     ? `${statusCSSClass} btn-warning`
+    //     : `${statusCSSClass} btn-danger`;
+    //
+    // const status = StatusConfirmation({
+    //   valid: this.props.valid,
+    //   confirmations: this.props.confirmations,
+    //   confirmed: CONFIRMATIONS,
+    // });
 
     let arrowcname;
     let arrowcnameright;
@@ -99,10 +72,6 @@ class CrowdsaleTransaction extends React.PureComponent {
       arrowcname = 'd-none';
       addresscname = 'd-none';
     }
-
-    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, "");
-    const sendercopyid = `s-${txcopyid}`;
-    const referercopyid = `r-${txcopyid}`;
 
     const TransactionLabel = props =>
       props.type_int === 51 ? (
@@ -130,7 +99,7 @@ class CrowdsaleTransaction extends React.PureComponent {
       <div className="transaction-result mx-auto text-center-down-md">
         <Row noGutters className="pb-0">
           <Col sm="12" md="1">
-            <AssetLink asset={txAsset.propertyid} state={this.props.state}>
+            <AssetLink asset={txAsset.propertyid}>
               <AssetLogo
                 asset={txAsset}
                 prop={txAsset.propertyid}
@@ -158,22 +127,10 @@ class CrowdsaleTransaction extends React.PureComponent {
                 </StyledLink>
               </WrapperTx>
               <CopyToClipboard
-                text={this.props.txid}
-                onCopy={this.toggleTxTooltip}
-              >
-                <StyledIconCopy
-                  className="d-inline-flex d-md-none"
-                  size={24}
-                  id={txcopyid}
-                />
-              </CopyToClipboard>
-              <Tooltip
+                toolip="CrowdsaleTransaction Id Copied"
+                value={this.props.txid}
                 hideArrow
-                isOpen={this.state.tooltipTxOpen}
-                target={txcopyid}
-              >
-                CrowdsaleTransaction Id Copied
-              </Tooltip>
+              />
             </Row>
           </Col>
           <Col sm="12" md="5">
@@ -203,7 +160,9 @@ class CrowdsaleTransaction extends React.PureComponent {
                       this.props.sendingaddress,
                     )}`}
                     to={{
-                      pathname: `${getSufixURL()}/address/${this.props.sendingaddress}`,
+                      pathname: `${getSufixURL()}/address/${
+                        this.props.sendingaddress
+                      }`,
                       state: { state: this.props.state },
                     }}
                   >
@@ -211,22 +170,10 @@ class CrowdsaleTransaction extends React.PureComponent {
                   </StyledLink>
                 </WrapperLink>
                 <CopyToClipboard
-                  text={this.props.sendingaddress}
-                  onCopy={this.toggleSenderTooltip}
-                >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={sendercopyid}
-                  />
-                </CopyToClipboard>
-                <Tooltip
+                  toolip="Sender Address Copied"
+                  value={this.props.sendingaddress}
                   hideArrow
-                  isOpen={this.state.tooltipSenderOpen}
-                  target={sendercopyid}
-                >
-                  Sender Address Copied
-                </Tooltip>
+                />
               </AddressWrapper>
               <GrayArrowForward
                 className={`d-none ${arrowcnameright} ${arrowcname}`}
@@ -237,7 +184,9 @@ class CrowdsaleTransaction extends React.PureComponent {
                   <StyledLink
                     className={addresscname}
                     to={{
-                      pathname: `${getSufixURL()}/address/${this.props.referenceaddress}`,
+                      pathname: `${getSufixURL()}/address/${
+                        this.props.referenceaddress
+                      }`,
                       state: { state: this.props.state },
                     }}
                   >
@@ -245,22 +194,10 @@ class CrowdsaleTransaction extends React.PureComponent {
                   </StyledLink>
                 </WrapperLink>
                 <CopyToClipboard
-                  text={this.props.referenceaddress}
-                  onCopy={this.toggleRefererTooltip}
-                >
-                  <StyledIconCopy
-                    className="d-inline-flex"
-                    size={24}
-                    id={referercopyid}
-                  />
-                </CopyToClipboard>
-                <Tooltip
+                  toolip="Reference Address Copied"
+                  value={this.props.referenceaddress}
                   hideArrow
-                  isOpen={this.state.tooltipRefererOpen}
-                  target={referercopyid}
-                >
-                  Reference Address Copied
-                </Tooltip>
+                />
               </AddressWrapper>
             </div>
           </Col>

@@ -4,29 +4,18 @@
  *
  */
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
+import CopyToClipboard from 'components/CopyToClipboard';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import StyledLink from 'components/StyledLink';
-import StyledIconCopy from 'components/StyledIconCopy';
 import StyledA from 'components/StyledA';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardText,
-  Col,
-  Collapse,
-  Row,
-  Table,
-  Tooltip,
-} from 'reactstrap';
+import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
 
 import ContainerBase from 'components/ContainerBase';
 import TransactionAmount from 'components/TransactionAmount';
@@ -39,10 +28,7 @@ import ExplorerLink from 'components/ExplorerLink';
 import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import {
-  API_URL_BASE,
-  FEATURE_ACTIVATION_TYPE_INT,
-} from 'containers/App/constants';
+import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
 
@@ -66,34 +52,10 @@ const SubtitleDetail = styled.small`
 `;
 
 function TransactionInfo(props) {
-  const txcopyid = `txid_${props.txid.slice(0, 12)}`.replace(/ /g, "");
-  const sendercopyid = `s-${txcopyid}`;
-  const referercopyid = `r-${txcopyid}`;
-
-  const [tooltipTxOpen, setTooltipTxOpen] = useState(false);
-  const [tooltipSenderOpen, setTooltipSenderOpen] = useState(false);
-  const [tooltipRefererOpen, setTooltipRefererOpen] = useState(false);
-
-  const toggleTxTooltip = () => {
-    setTooltipTxOpen( true);
-    setTimeout(() => setTooltipTxOpen( false ), 1000);
-  };
-
-  const toggleSenderTooltip = () => {
-    setTooltipSenderOpen(true);
-    setTimeout(() => setTooltipSenderOpen(false), 1000);
-  };
-
-  const toggleRefererTooltip = () => {
-    setTooltipRefererOpen(true);
-    setTimeout(() => setTooltipRefererOpen(false), 1000);
-  };
-
-  // let collapseOmniData = false;
   let collapseDecoded = false;
-  // const toggleRawData = () => (collapseOmniData = !collapseOmniData);
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
 
+  // @TODO: refactor StatusCOnfirmation
   const statusColor = props.valid
     ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light'
     : props.confirmations === 0
@@ -145,7 +107,7 @@ function TransactionInfo(props) {
       <tr>
         <td className="field">Property</td>
         <td>
-          <AssetLink asset={props.propertyid} state={props.state}>
+          <AssetLink asset={props.propertyid} >
             <strong>
               {props.propertyname} &#40;#{props.propertyid}&#41;
             </strong>
@@ -228,7 +190,7 @@ function TransactionInfo(props) {
             <thead>
               <tr>
                 <th>
-                  <AssetLink asset={props.asset.propertyid} state={props.state}>
+                  <AssetLink asset={props.asset.propertyid} >
                     <AssetLogo
                       asset={props.asset}
                       prop={props.asset.propertyid}
@@ -267,22 +229,10 @@ function TransactionInfo(props) {
                     {props.sendingaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    text={props.sendingaddress}
-                    onCopy={toggleSenderTooltip}
-                  >
-                    <StyledIconCopy
-                      className="d-inline-flex"
-                      size={24}
-                      id={sendercopyid}
-                    />
-                  </CopyToClipboard>
-                  <Tooltip
+                    toolip="Sender Address Copied"
+                    value={props.sendingaddress}
                     hideArrow
-                    isOpen={tooltipSenderOpen}
-                    target={sendercopyid}
-                  >
-                    Sender Address Copied
-                  </Tooltip>
+                  />
                 </td>
               </tr>
               {recipient && (
@@ -298,22 +248,10 @@ function TransactionInfo(props) {
                       {recipient}
                     </StyledLink>
                     <CopyToClipboard
-                      text={recipient}
-                      onCopy={toggleRefererTooltip}
-                    >
-                      <StyledIconCopy
-                        className="d-inline-flex"
-                        size={24}
-                        id={referercopyid}
-                      />
-                    </CopyToClipboard>
-                    <Tooltip
+                      toolip="Reference Address Copied"
+                      value={recipient}
                       hideArrow
-                      isOpen={tooltipRefererOpen}
-                      target={referercopyid}
-                    >
-                      Reference Address Copied
-                    </Tooltip>
+                    />
                   </td>
                 </tr>
               )}

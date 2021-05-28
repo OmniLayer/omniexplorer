@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import moment from 'moment/src/moment';
@@ -13,15 +13,10 @@ import StyledLink from 'components/StyledLink';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import {
-  API_URL_BASE,
-  FEATURE_ACTIVATION_TYPE_INT,
-} from 'containers/App/constants';
+import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import normalizeURL from 'utils/normalizeURL';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import StyledIconCopy from 'components/StyledIconCopy';
-import { Tooltip } from 'reactstrap';
+import CopyToClipboard from 'components/CopyToClipboard';
 
 const StyledTD = styled.td.attrs({
   className: 'field',
@@ -30,15 +25,6 @@ const StyledTD = styled.td.attrs({
 `;
 
 function AssetInfo(asset) {
-  const issuercopyid = `s-${asset.issuer}`.replace(/ /g, '');
-
-  const [tooltipIssuerOpen, settooltipIssuerOpen] = useState(false);
-
-  const toggleSenderTooltip = () => {
-    settooltipIssuerOpen(true);
-    setTimeout(() => settooltipIssuerOpen(false), 1000);
-  };
-
   const rawAssetURL = `${getLocationPath()}/property/${asset.propertyid}`;
 
   let tokenName;
@@ -195,16 +181,11 @@ function AssetInfo(asset) {
         <StyledTD>Issuer</StyledTD>
         <td>
           {txIssuer}
-          <CopyToClipboard text={asset.issuer} onCopy={toggleSenderTooltip}>
-            <StyledIconCopy
-              className="d-inline-flex"
-              size={24}
-              id={issuercopyid}
-            />
-          </CopyToClipboard>
-          <Tooltip hideArrow isOpen={tooltipIssuerOpen} target={issuercopyid}>
-            Sender Address Copied
-          </Tooltip>
+          <CopyToClipboard
+            toolip="Sender Address Copied"
+            value={asset.issuer}
+            hideArrow
+          />
         </td>
       </tr>
       {asset.category && (

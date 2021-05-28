@@ -50,7 +50,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                   <div key={idx}>
                     <div className="mt-2">
                       <span>
-                        <AssetLink asset={purchase.propertyid} state={this.props.state}>
+                        <AssetLink asset={purchase.propertyid} >
                           <AssetLogo asset={{...this.props, name: purchase.propertyname, type_int: purchase.propertyid}} prop={purchase.propertyid} style={{width: '2rem', height: '2rem'}}/>
                         </AssetLink>
                         <SanitizedFormattedNumber value={purchase.amountbought} /> { purchase.propertyname }
@@ -58,7 +58,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                     </div>
                     <div className="mt-2">
                       <span>
-                        <AssetLink asset={0} state={this.state}>
+                        <AssetLink asset={0} >
                           <AssetLogo asset={{...this.props, name: 'BTC', type_int: 1}} prop={0} style={{width: '2rem', height: '2rem'}}/>
                         </AssetLink>
                         <SanitizedFormattedNumber value={purchase.amountpaid} /> BTC Paid
@@ -91,7 +91,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 { (this.props.subsends || []).map((send, idx) => (
                   <div key={idx} className="mt-2">
                     <span>
-                      <AssetLink asset={send.propertyid} state={this.state}>
+                      <AssetLink asset={send.propertyid} >
                         <AssetLogo asset={{...send, name: send.propertyname}} prop={send.propertyid} style={{width: '2rem', height: '2rem'}}/>
                       </AssetLink>
                       <SanitizedFormattedNumber value={send.amount} /> &nbsp;
@@ -117,7 +117,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               <Collapse isOpen={true}>
                 <div>
                   <span>
-                    <AssetLink asset={this.props.propertyiddesired} state={this.state}>
+                    <AssetLink asset={this.props.propertyiddesired} >
                       <AssetLogo asset={this.props.propertydesired} prop={this.props.propertyiddesired} style={{width: '2rem', height: '2rem'}}/>
                     </AssetLink>
                     <SanitizedFormattedNumber value={this.props.amountdesired} /> { this.props.propertydesired.name } (#{ this.props.propertyiddesired }) Desired
@@ -125,7 +125,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 </div>
                 <div className="mt-2">
                   <span>
-                    <AssetLink asset={this.props.propertyidforsale} state={this.state}>
+                    <AssetLink asset={this.props.propertyidforsale} >
                       <AssetLogo asset={this.props.propertyforsale} prop={this.props.propertyidforsale} style={{width: '2rem', height: '2rem'}}/>
                     </AssetLink>
                     <SanitizedFormattedNumber value={this.props.amountforsale} /> { this.props.propertyforsale.name } (#{ this.props.propertyidforsale }) For Sale
@@ -148,7 +148,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
               <Collapse isOpen={true}>
                 <div className="mt-2">
                   <span>
-                    <AssetLink asset={this.props.propertyid} state={this.state}>
+                    <AssetLink asset={this.props.propertyid} >
                       <AssetLogo asset={{...this.props, name:this.props.propertyname}} prop={this.props.propertyid} style={{width: '2rem', height: '2rem'}}/>
                     </AssetLink>
                     <SanitizedFormattedNumber value={this.props.amount} /> { this.props.propertyname } (#{ this.props.propertyid }) Sent
@@ -156,7 +156,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 </div>
                 <div className="mt-2">
                   <span>
-                    <AssetLink asset={this.props.purchasedpropertyid} state={this.state}>
+                    <AssetLink asset={this.props.purchasedpropertyid} >
                       <AssetLogo asset={{...this.props, name:this.props.purchasedpropertyname}} prop={this.props.purchasedpropertyid} style={{width: '2rem', height: '2rem'}}/>
                     </AssetLink>
                     <SanitizedFormattedNumber value={this.props.purchasedtokens} /> { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) Purchased
@@ -164,7 +164,7 @@ class TransactionAmount extends React.Component { // eslint-disable-line react/p
                 </div>
                 <div className="mt-2">
                   <span>
-                    <AssetLink asset={this.props.purchasedpropertyid} state={this.state}>
+                    <AssetLink asset={this.props.purchasedpropertyid} >
                       <AssetLogo asset={{...this.props, name:this.props.purchasedpropertyname}} prop={this.props.purchasedpropertyid} style={{width: '2rem', height: '2rem'}}/>
                     </AssetLink>
                     <SanitizedFormattedNumber value={this.props.issuertokens} /> { this.props.purchasedpropertyname } (#{ this.props.purchasedpropertyid }) additional generated for Issuer
