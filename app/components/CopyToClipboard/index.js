@@ -10,14 +10,19 @@ import PropTypes from 'prop-types';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Tooltip } from 'reactstrap';
 import StyledIconCopy from 'components/StyledIconCopy';
+import useSetTimeout from 'utils/useSetTimeout';
 
 function CopyToClipboardComponent(props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const elementId = `c2c-${Date.now()}`;
 
+  const { doTimer } = useSetTimeout(() => {
+    setTooltipOpen(false);
+  });
+
   const toggleTxTooltip = () => {
     setTooltipOpen(true);
-    setTimeout(() => setTooltipOpen(false), 1500);
+    doTimer();
   };
 
   return (
