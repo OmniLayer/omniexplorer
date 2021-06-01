@@ -29,7 +29,6 @@ class CrowdsaleInfo extends React.PureComponent {
         <StyledTD>
           <AssetLink
             asset={this.props.propertyid}
-            state={this.props.state}
             basepath="/crowdsale"
           >
             <AssetLogo
@@ -45,7 +44,6 @@ class CrowdsaleInfo extends React.PureComponent {
         <StyledTD>
           <AssetLink
             asset={this.props.propertyid}
-            state={this.props.state}
             basepath="/crowdsale"
           >
             {this.props.name}
@@ -54,10 +52,7 @@ class CrowdsaleInfo extends React.PureComponent {
           </AssetLink>
         </StyledTD>
         <StyledTD>
-          <AssetLink
-            asset={this.props.propertyiddesired}
-            state={this.props.state}
-          >
+          <AssetLink asset={this.props.propertyiddesired} >
             {this.props.propertydesired.name}
             <br/>
             {`(#${this.props.propertyiddesired})`}
@@ -109,7 +104,7 @@ CrowdsaleInfo.propTypes = {
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
   propertyiddesired: PropTypes.any.isRequired,
-  state: PropTypes.object.isRequired,
+  state: PropTypes.object,
 };
 
 function mapDispatchToProps(dispatch) {

@@ -12,6 +12,8 @@ import { createStructuredSelector } from 'reselect';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 import styled from 'styled-components';
+import isEmpty from 'lodash/isEmpty';
+
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import { startFetch } from './actions';
@@ -22,11 +24,12 @@ const StyledTD = styled.td.attrs({
 })``;
 
 export function Token(props) {
-  if (!props.bulkLoading) {
-    useEffect(() => {
-      if (props.id && props.id.toString().trim().length > 0) props.getProperty(props.id.toString());
-    }, []);
-  }
+  useEffect(() => {
+    const propId = (props.id || '').toString();
+    if (!props.bulkLoading && !isEmpty(propId)) {
+      props.getProperty(propId);
+    }
+  }, []);
 
   const getTokenName = () => (props.propertyinfo || { name: '' }).name;
 
@@ -54,13 +57,15 @@ export function Token(props) {
     value = available;
   }
 
-  const reservedBalance = props.id == 0 ?
-    <span>--</span> :
-    <SanitizedFormattedNumber
-      value={reserved}
-      forceDecimals={props.divisible}
-    />
-  ;
+  const reservedBalance =
+    props.id == 0 ? (
+      <span>--</span>
+    ) : (
+      <SanitizedFormattedNumber
+        value={reserved}
+        forceDecimals={props.divisible}
+      />
+    );
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
@@ -76,19 +81,17 @@ export function Token(props) {
         </AssetLink>
       </StyledTD>
       <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
-        <AssetLink asset={props.id}>
-          {props.id}
-        </AssetLink>
+        <AssetLink asset={props.id}>{props.id}</AssetLink>
       </StyledTD>
       <StyledTD className="text-truncate" style={{ paddingTop: '13px' }}>
-        <AssetLink asset={props.id}>
-          {getTokenName()}
-        </AssetLink>
+        <AssetLink asset={props.id}>{getTokenName()}</AssetLink>
       </StyledTD>
-      <StyledTD style={{
-        textAlign: 'right',
-        paddingTop: '13px',
-      }}>
+      <StyledTD
+        style={{
+          textAlign: 'right',
+          paddingTop: '13px',
+        }}
+      >
         <strong>
           <SanitizedFormattedNumber
             value={value}
@@ -97,10 +100,12 @@ export function Token(props) {
           {vlabel}
         </strong>
       </StyledTD>
-      <StyledTD style={{
-        textAlign: 'right',
-        paddingTop: '13px',
-      }}>
+      <StyledTD
+        style={{
+          textAlign: 'right',
+          paddingTop: '13px',
+        }}
+      >
         {reservedBalance}
       </StyledTD>
     </tr>
@@ -118,7 +123,7 @@ const mapStateToProps = createStructuredSelector({
   properties: makeSelectProperties(),
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   getProperty: propertyId => dispatch(startFetch(propertyId)),
   dispatch,
 });

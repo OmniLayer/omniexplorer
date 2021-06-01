@@ -180,7 +180,7 @@ export function CrowdsaleDetail(props) {
               <thead>
                 <tr>
                   <td className="border-top-0">
-                    <AssetLink asset={crowdsale.propertyid} state={props.state}>
+                    <AssetLink asset={crowdsale.propertyid} >
                       <AssetLogo
                         asset={crowdsale}
                         prop={crowdsale.propertyid}

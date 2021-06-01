@@ -22,7 +22,6 @@ import Blocks from 'containers/Blocks';
 import FooterLinks from 'components/FooterLinks';
 
 export function HomePage() {
-  const footer = <FooterLinks unconfirmed blocklist />;
   return (
     <ContainerBase>
       <Row noGutters>
@@ -37,7 +36,8 @@ export function HomePage() {
       </Row>
       <Row noGutters>
         <Col sm>
-          <Blocks footer={footer} />
+          <Blocks />
+          <FooterLinks unconfirmed blocklist />
         </Col>
       </Row>
     </ContainerBase>

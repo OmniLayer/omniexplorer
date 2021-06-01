@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Col, Row, Tooltip } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import WrapperTx from 'components/WrapperTx';
@@ -10,18 +10,15 @@ import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
 import ColoredHash from 'components/ColoredHash';
 import WrapperLink from 'components/WrapperLink';
-import StyledIconCopy from 'components/StyledIconCopy';
 import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
-import StatusConfirmation from 'components/StatusConfirmation';
-import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { TXCLASSAB_ADDRESS_MAINNET } from 'containers/App/constants';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
+import { getSufixURL } from 'utils/getLocationPath';
 
-import CopyToClipboard from 'react-copy-to-clipboard';
+import CopyToClipboard from 'components/CopyToClipboard';
 
 /**
  *
@@ -33,42 +30,6 @@ const ClassABTxsWrapperLink = styled(WrapperLink)`
   width: 90% !important;
 `;
 function ClassABTransaction(props) {
-  const [tooltipTxOpen, setTooltipTxOpen] = useState(false);
-  const [tooltipSenderOpen, setTooltipSenderOpen] = useState(false);
-  const [tooltipRefererOpen, setTooltipRefererOpen] = useState(false);
-
-  const toggleTxTooltip = () => {
-    setTooltipTxOpen(true);
-    setTimeout(() => setTooltipTxOpen(false), 1000);
-  };
-
-  const toggleSenderTooltip = () => {
-    setTooltipSenderOpen(true);
-    setTimeout(() => setTooltipSenderOpen(false), 1000);
-  };
-
-  const toggleRefererTooltip = () => {
-    setTooltipRefererOpen(true);
-    setTimeout(() => setTooltipRefererOpen(false), 1000);
-  };
-
-  let statusCSSClass =
-    'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
-
-  const invalidClass = confirmations =>
-    confirmations === 0
-      ? `${statusCSSClass} tx-invalid btn-warning`
-      : `${statusCSSClass} tx-invalid btn-danger`;
-
-  statusCSSClass = props.valid
-    ? `${statusCSSClass} btn-blue`
-    : invalidClass(props.confirmations);
-
-  const status = StatusConfirmation({
-    ...props,
-    confirmed: CONFIRMATIONS,
-  });
-
   const getHighlightIfOwner = address =>
     isOwner(address) ? 'text-success' : '';
 
@@ -78,13 +39,7 @@ function ClassABTransaction(props) {
   const arrowcnameright = 'd-md-inline-flex';
   const addresscname = getHighlightIfOwner(props.referenceaddress);
   const showreferencecname = '';
-
   const transactionAmount = props.amount || '';
-
-  const txcopyid = `txid_${props.txid.slice(0, 12)}`.replace(/ /g, '');
-  const sendercopyid = `s-${txcopyid}`;
-  const referercopyid = `r-${txcopyid}`;
-  const invalidid = `invalid-${txcopyid}`;
 
   const getItemKey = (item, idx) => item.slice(0, 11).concat(idx);
 
@@ -120,16 +75,11 @@ function ClassABTransaction(props) {
                   <ColoredHash hash={props.txid} />
                 </StyledLink>
               </WrapperTx>
-              <CopyToClipboard text={props.txid} onCopy={toggleTxTooltip}>
-                <StyledIconCopy
-                  className="d-inline-flex d-md-none"
-                  size={24}
-                  id={txcopyid}
-                />
-              </CopyToClipboard>
-              <Tooltip hideArrow isOpen={tooltipTxOpen} target={txcopyid}>
-                Transaction Id Copied
-              </Tooltip>
+              <CopyToClipboard
+                tooltip="Transaction Id Copied"
+                value={props.txid}
+                hideArrow
+              />
             </Row>
           </Col>
           <Col sm="12" md="5">
@@ -142,8 +92,6 @@ function ClassABTransaction(props) {
         </Row>
         <Row noGutters xs="1" sm="1" md="2">
           <Col>
-            {/* <div className="desc"> */}
-            {/* <div> */}
             <AddressWrapper>
               <ClassABTxsWrapperLink>
                 <StyledLink
@@ -154,22 +102,10 @@ function ClassABTransaction(props) {
                 </StyledLink>
               </ClassABTxsWrapperLink>
               <CopyToClipboard
-                text={props.sendingaddress}
-                onCopy={toggleSenderTooltip}
-              >
-                <StyledIconCopy
-                  className="d-inline-flex"
-                  size={24}
-                  id={sendercopyid}
-                />
-              </CopyToClipboard>
-              <Tooltip
+                tooltip="Sender Address Copied"
+                value={props.sendingaddress}
                 hideArrow
-                isOpen={tooltipSenderOpen}
-                target={sendercopyid}
-              >
-                Sender Address Copied
-              </Tooltip>
+              />
             </AddressWrapper>
             <GrayArrowForward
               size={20}
@@ -208,28 +144,14 @@ function ClassABTransaction(props) {
                     </StyledLink>
                   </ClassABTxsWrapperLink>
                   <CopyToClipboard
-                    text={referenceAddr}
-                    onCopy={toggleRefererTooltip}
                     className={defaultClass}
-                  >
-                    <StyledIconCopy
-                      className="d-inline-flex"
-                      size={24}
-                      id={referercopyid}
-                    />
-                  </CopyToClipboard>
-                  <Tooltip
+                    tooltip="Reference Address Copied"
+                    value={referenceAddr}
                     hideArrow
-                    isOpen={tooltipRefererOpen}
-                    target={referercopyid}
-                    className={defaultClass}
-                  >
-                    Reference Address Copied
-                  </Tooltip>
+                  />
                 </AddressWrapper>
               );
             })}
-            {/* </div> */}
           </Col>
         </Row>
       </div>

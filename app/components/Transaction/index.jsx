@@ -6,25 +6,23 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row, Tooltip } from 'reactstrap';
-
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { Col, Row } from 'reactstrap';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
+import CopyToClipboard from 'components/CopyToClipboard';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
-import StatusConfirmation from 'components/StatusConfirmation';
 import AssetLink from 'components/AssetLink';
 import AssetLogo from 'components/AssetLogo';
 import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import StatusConfirmation from 'components/StatusConfirmation';
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import './transaction.scss';
 
 import AddressWrapper from 'components/AddressWrapper';
 import StyledLink from 'components/StyledLink';
-import StyledIconCopy from 'components/StyledIconCopy';
 import WrapperTx from 'components/WrapperTx';
 import WrapperTxDatetime from 'components/WrapperTxDatetime';
 import WarningTooltip from 'components/WarningTooltip';
@@ -33,32 +31,6 @@ import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
 
 class Transaction extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tooltipTxOpen: false,
-      tooltipSenderOpen: false,
-      tooltipRefererOpen: false,
-    };
-  }
-
-  toggleTxTooltip = () => {
-    this.setState({ tooltipTxOpen: true });
-    setTimeout(() => this.setState({ tooltipTxOpen: false }), 1000);
-  };
-
-  toggleSenderTooltip = () => {
-    this.setState({ tooltipSenderOpen: true });
-    setTimeout(() => this.setState({ tooltipSenderOpen: false }), 1000);
-  };
-
-  toggleRefererTooltip = () => {
-    this.setState({ tooltipRefererOpen: true });
-    setTimeout(() => this.setState({ tooltipRefererOpen: false }), 1000);
-  };
-
   getHighlightIfOwner(address) {
     return this.isOwner(address) ? 'text-success' : '';
   }
@@ -103,15 +75,13 @@ class Transaction extends React.PureComponent {
     const transactionAmount = this.props.amount || '';
 
     const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, "");
-    const sendercopyid = `s-${txcopyid}`;
-    const referercopyid = `r-${txcopyid}`;
     const invalidid = `invalid-${txcopyid}`;
 
     return (
       <div className="transaction-result mx-auto text-center-down-md">
         <Row noGutters className="align-items-end pb-0">
           <Col sm="12" md="1">
-            <AssetLink asset={this.props.propertyid} state={this.props.state}>
+            <AssetLink asset={this.props.propertyid} >
               <AssetLogo
                 asset={{
                   ...this.props,
@@ -156,22 +126,10 @@ class Transaction extends React.PureComponent {
                 </StyledLink>
               </WrapperTx>
               <CopyToClipboard
-                text={this.props.txid}
-                onCopy={this.toggleTxTooltip}
-              >
-                <StyledIconCopy
-                  className="d-inline-flex"
-                  size={24}
-                  id={txcopyid}
-                />
-              </CopyToClipboard>
-              <Tooltip
+                tooltip="Transaction Id Copied"
+                value={this.props.txid}
                 hideArrow
-                isOpen={this.state.tooltipTxOpen}
-                target={txcopyid}
-              >
-                Transaction Id Copied
-              </Tooltip>
+              />
             </Row>
           </Col>
           <Col sm="12" md="5">
@@ -213,24 +171,11 @@ class Transaction extends React.PureComponent {
                     {this.props.sendingaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    text={this.props.sendingaddress}
-                    onCopy={this.toggleSenderTooltip}
-                  >
-                    <StyledIconCopy
-                      className="copy-icon-address float-right"
-                      size={24}
-                      id={sendercopyid}
-                    />
-                  </CopyToClipboard>
+                    tooltip="Sender Address Copied"
+                    value={this.props.sendingaddress}
+                    hideArrow
+                  />
                 </WrapperLink>
-
-                <Tooltip
-                  hideArrow
-                  isOpen={this.state.tooltipSenderOpen}
-                  target={sendercopyid}
-                >
-                  Sender Address Copied
-                </Tooltip>
               </AddressWrapper>
               <GrayArrowForward
                 size={20}
@@ -251,23 +196,11 @@ class Transaction extends React.PureComponent {
                     {this.props.referenceaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    text={this.props.referenceaddress}
-                    onCopy={this.toggleRefererTooltip}
-                  >
-                    <StyledIconCopy
-                      className="copy-icon-address float-right"
-                      size={24}
-                      id={referercopyid}
-                    />
-                  </CopyToClipboard>
+                    tooltip="Reference Address Copied"
+                    value={this.props.referenceaddress}
+                    hideArrow
+                  />
                 </WrapperLink>
-                <Tooltip
-                  hideArrow
-                  isOpen={this.state.tooltipRefererOpen}
-                  target={referercopyid}
-                >
-                  Reference Address Copied
-                </Tooltip>
               </AddressWrapper>
             </div>
           </Col>
