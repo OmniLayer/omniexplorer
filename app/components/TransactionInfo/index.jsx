@@ -55,7 +55,6 @@ function TransactionInfo(props) {
   let collapseDecoded = false;
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
 
-  // @TODO: refactor StatusCOnfirmation
   const statusColor = props.valid
     ? 'btn btn-group btn-primary btn-block btn-blue font-weight-light'
     : props.confirmations === 0

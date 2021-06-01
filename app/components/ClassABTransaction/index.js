@@ -16,8 +16,7 @@ import { TXCLASSAB_ADDRESS_MAINNET } from 'containers/App/constants';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-// @TODO: remove getLocationPath from others than sagas and Link component
-import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
+import { getSufixURL } from 'utils/getLocationPath';
 
 import CopyToClipboard from 'components/CopyToClipboard';
 
@@ -95,7 +94,6 @@ function ClassABTransaction(props) {
           <Col>
             <AddressWrapper>
               <ClassABTxsWrapperLink>
-                @TODO: refactoring to CustomStyledLink with environment detection
                 <StyledLink
                   className={getHighlightIfOwner(props.sendingaddress)}
                   to={`${getSufixURL()}/address/${props.sendingaddress}`}
@@ -133,7 +131,6 @@ function ClassABTransaction(props) {
                   key={getItemKey(referenceAddr, idx)}
                 >
                   <ClassABTxsWrapperLink>
-                    @TODO: refactoring to StyledLink with environment detection
                     <StyledLink
                       className={addresscname}
                       to={

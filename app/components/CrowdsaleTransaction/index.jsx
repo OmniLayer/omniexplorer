@@ -44,19 +44,18 @@ class CrowdsaleTransaction extends React.PureComponent {
   }
 
   render() {
-    // @TODO: refactor StatusConfirmation with environment detection
-    // let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
-    // statusCSSClass = this.props.valid
-    //   ? `${statusCSSClass} btn-blue`
-    //   : this.props.confirmations === 0
-    //     ? `${statusCSSClass} btn-warning`
-    //     : `${statusCSSClass} btn-danger`;
-    //
-    // const status = StatusConfirmation({
-    //   valid: this.props.valid,
-    //   confirmations: this.props.confirmations,
-    //   confirmed: CONFIRMATIONS,
-    // });
+    let statusCSSClass = 'btn btn-primary btn-block font-weight-light w-50';
+    statusCSSClass = this.props.valid
+      ? `${statusCSSClass} btn-blue`
+      : this.props.confirmations === 0
+        ? `${statusCSSClass} btn-warning`
+        : `${statusCSSClass} btn-danger`;
+
+    const status = StatusConfirmation({
+      valid: this.props.valid,
+      confirmations: this.props.confirmations,
+      confirmed: CONFIRMATIONS,
+    });
 
     let arrowcname;
     let arrowcnameright;

@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 
+import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import CopyToClipboard from 'components/CopyToClipboard';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
@@ -16,6 +17,7 @@ import AssetLink from 'components/AssetLink';
 import AssetLogo from 'components/AssetLogo';
 import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import StatusConfirmation from 'components/StatusConfirmation';
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 import './transaction.scss';
 
@@ -38,23 +40,22 @@ class Transaction extends React.PureComponent {
   }
 
   render() {
-    // @TODO: refactoring move status to component
-    // let statusCSSClass =
-    //   'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
-    //
-    // const invalidClass = confirmations =>
-    //   confirmations === 0
-    //     ? `${statusCSSClass} tx-invalid btn-warning`
-    //     : `${statusCSSClass} tx-invalid btn-danger`;
-    //
-    // statusCSSClass = this.props.valid
-    //   ? `${statusCSSClass} btn-blue`
-    //   : invalidClass(this.props.confirmations);
-    //
-    // const status = StatusConfirmation({
-    //   ...this.props,
-    //   confirmed: CONFIRMATIONS,
-    // });
+    let statusCSSClass =
+      'wrapper-btn-block btn btn-primary btn-block font-weight-light w-50';
+
+    const invalidClass = confirmations =>
+      confirmations === 0
+        ? `${statusCSSClass} tx-invalid btn-warning`
+        : `${statusCSSClass} tx-invalid btn-danger`;
+
+    statusCSSClass = this.props.valid
+      ? `${statusCSSClass} btn-blue`
+      : invalidClass(this.props.confirmations);
+
+    const status = StatusConfirmation({
+      ...this.props,
+      confirmed: CONFIRMATIONS,
+    });
 
     let arrowcname;
     let arrowcnameright;
@@ -136,9 +137,8 @@ class Transaction extends React.PureComponent {
               <WrapperTxDatetime>
                 <FormattedUnixDateTime datetime={this.props.blocktime} />
               </WrapperTxDatetime>
-              {/*@TODO: refactoring status to StatusCOnfirmation*/}
               <StyledLink
-                // className={statusCSSClass}
+                className={statusCSSClass}
                 style={{ cursor: 'default' }}
                 to={{
                   pathname: `${getSufixURL()}/tx/${this.props.txid}`,
