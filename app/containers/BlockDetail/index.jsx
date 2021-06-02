@@ -72,11 +72,12 @@ export function BlockDetail(props) {
   });
 
   const setTxs = (page = 1) => {
-    console.log('call setTransactions');
     const { blockdetail } = props;
+    const currentUrlPage = parseInt(props.location.hash.replace('#', ''), 10);
 
     if (isEmpty(transactions) && blockdetail.block.block === Number(block)) {
-      setCurrentPage(parseInt(props.location.hash.replace('#', ''), 10) || page);
+      console.log('call setTransactions');
+      setCurrentPage(currentUrlPage || page);
       setCurrentData(blockdetail.block.transactions.slice(0, maxPagesByMedia));
       setPageCount(Math.ceil(blockdetail.block.transactions.length / maxPagesByMedia));
 
@@ -103,6 +104,7 @@ export function BlockDetail(props) {
   };
 
   useEffect(() => {
+    console.log("change block");
     setTransactions({});
     props.loadBlock(block);
   }, [block]);
