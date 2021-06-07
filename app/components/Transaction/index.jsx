@@ -170,12 +170,12 @@ class Transaction extends React.PureComponent {
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
-                  <CopyToClipboard
-                    tooltip="Sender Address Copied"
-                    value={this.props.sendingaddress}
-                    hideArrow
-                  />
                 </WrapperLink>
+                <CopyToClipboard
+                  tooltip="Sender Address Copied"
+                  value={this.props.sendingaddress}
+                  hideArrow
+                />
               </AddressWrapper>
               <GrayArrowForward
                 size={20}
@@ -195,12 +195,12 @@ class Transaction extends React.PureComponent {
                   >
                     {this.props.referenceaddress}
                   </StyledLink>
-                  <CopyToClipboard
-                    tooltip="Reference Address Copied"
-                    value={this.props.referenceaddress}
-                    hideArrow
-                  />
                 </WrapperLink>
+                <CopyToClipboard
+                  tooltip="Reference Address Copied"
+                  value={this.props.referenceaddress}
+                  hideArrow
+                />
               </AddressWrapper>
             </div>
           </Col>
