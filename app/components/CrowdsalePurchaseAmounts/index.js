@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
@@ -15,7 +14,7 @@ const WrapperTxLabel = styled.span`
   font-size: 1.25rem !important;
 `;
 
-const NewCrowdsaleTxDetail = props => (
+const CrowdsalePurchaseAmounts = props => (
   <WrapperTxLabel>
     <p>
       <span>
@@ -38,27 +37,25 @@ const NewCrowdsaleTxDetail = props => (
       <img src={fork} alt="" width={44} className="align-top" />
     </div>
     <div style={{ display: 'inline-grid' }}>
-      <span className="text-left">
-        Purchaser &nbsp;
+      <div>
+        <span className="text-left">Purchaser &nbsp;</span>
         <SanitizedFormattedNumber
+          className="float-right"
           value={props.purchasedtokens}
           fractionDigits={8}
         />
-      </span>
-      <span className="text-left">
-        Issuer &nbsp;
+      </div>
+      <div>
+        <span className="text-left">Issuer &nbsp;</span>
         <SanitizedFormattedNumber
+          className="float-right"
           value={props.issuertokens}
           fractionDigits={8}
         />
-      </span>
+      </div>
     </div>
   </WrapperTxLabel>
 );
-
-function CrowdsalePurchaseAmounts(props) {
-  return <NewCrowdsaleTxDetail {...props} />;
-}
 
 CrowdsalePurchaseAmounts.propTypes = {};
 
