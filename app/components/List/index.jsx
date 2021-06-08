@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import ListPagination from 'components/ListPagination';
 import styled from 'styled-components';
 
+import listItemFactory from './listItemFactory';
+
 const HR = styled.hr`
   background-color: #e2e7eb;
 `;
@@ -16,8 +18,11 @@ const HR = styled.hr`
 class List extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const ListItem = this.props.inner;
-
+    // const ListItem = this.props.inner;
+    const getItem = (item, props, idx) => {
+      const Item = listItemFactory(props.inner);
+      return <Item {...props} key={props.getItemKey(item, idx)} {...item} />;
+    };
     return (
       <div>
         {this.props.usePagination && (
@@ -29,14 +34,8 @@ class List extends React.PureComponent {
         )}
         <ul className="result-list">
           {this.props.items.map((item, idx) => (
-            <div
-              key={`item-${this.props.getItemKey(item, idx)}`}
-            >
-              <ListItem
-                {...this.props}
-                key={this.props.getItemKey(item, idx)}
-                {...item}
-              />
+            <div key={`item-${this.props.getItemKey(item, idx)}`}>
+              {getItem(item, this.props, idx)}
               <HR />
             </div>
           ))}
