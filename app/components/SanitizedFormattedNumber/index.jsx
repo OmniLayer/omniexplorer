@@ -34,7 +34,7 @@ function SanitizedFormattedNumber(props) {
   );
   const number = (isNumeric(value) ?
       (
-        <span>
+        <span className={props.className}>
         <FormattedNumber
           value={value}
           minimunFractionDigits={fractionDigits}
