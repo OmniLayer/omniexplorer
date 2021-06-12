@@ -25,7 +25,7 @@ import Asset from 'components/Asset';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import StyledLink from 'components/StyledLink';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 
 import { loadActivations } from 'containers/Activations/actions';
 import { makeSelectActivations } from 'containers/Activations/selectors';
@@ -53,6 +53,11 @@ const StyledTR = styled.tr.attrs({
   className: 'text-light bg-secondary',
 })``;
 
+const StyledRow = styled(Row)`
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+`;
+
 export function Search(props) {
   const { query } = useParams();
 
@@ -77,7 +82,7 @@ export function Search(props) {
     ) {
       if (isActivation()) {
         props.loadActivations();
-      } else if (props.search.tx.propertyid){
+      } else if (props.search.tx.propertyid) {
         props.getProperty(props.search.tx.propertyid);
       } else {
         props.cancelFetch();
@@ -151,9 +156,11 @@ export function Search(props) {
             <StyledAssetTH>
               <h4 className="align-self-end text-sm-left">
                 <strong className="d-inline-block">Properties</strong>
-                { props.search.asset.length > 1 &&
-                  <span className="d-inline-block">&nbsp;(only first 10 results are displayed)</span>
-                }
+                {props.search.asset.length > 1 && (
+                  <span className="d-inline-block">
+                    &nbsp;(only first 10 results are displayed)
+                  </span>
+                )}
               </h4>
             </StyledAssetTH>
           </tr>
@@ -166,7 +173,7 @@ export function Search(props) {
         </thead>
         <tbody>
           {props.search.asset.map((x, idx) => (
-            <Asset {...x} key={x[2] + idx} />
+            <Asset {...x} key={`${x[2]} ${idx}`} />
           ))}
         </tbody>
       </Table>
@@ -193,10 +200,6 @@ export function Search(props) {
     );
   }
 
-  const StyledRow = styled(Row)`
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  `;
   return (
     <ContainerBase>
       <StyledRow noGutters>

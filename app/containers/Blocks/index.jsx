@@ -33,6 +33,13 @@ import messages from './messages';
 
 const LinkPrevious = styled(StyledA)``;
 
+const DisabledStyledA = styled(StyledA)`
+            pointer-events: none;
+            text-decoration: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+          `;
+
 export function Blocks(props) {
   const block = props.match.params.block || '';
 
@@ -92,12 +99,7 @@ export function Blocks(props) {
     const LinkNext =
       isEmpty(blocks) || props.latest > blocks[0].block
         ? StyledA
-        : styled(StyledA)`
-            pointer-events: none;
-            text-decoration: none;
-            opacity: 0.5;
-            cursor: not-allowed;
-          `;
+        : DisabledStyledA;
 
     pagination = (
       <Row noGutters>
