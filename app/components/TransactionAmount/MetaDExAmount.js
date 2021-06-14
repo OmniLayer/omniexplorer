@@ -51,7 +51,8 @@ const MetaDExAmount = props => (
 );
 
 MetaDExAmount.propTypes = {
-  purchases: PropTypes.any.isRequired,
+  propertyiddesired: PropTypes.any.isRequired,
+  propertydesired: PropTypes.any.isRequired,
 };
 
 export default MetaDExAmount;
