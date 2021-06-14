@@ -92,8 +92,9 @@ class Transaction extends React.PureComponent {
       this.props.propertyid &&
       [0, 3, 22, 50, 51, 53, 54, 55, 56, 70, 71, 185, 65534].includes(
         this.props.type_int,
-      ) ? (
-          <div className="py-md-2 pr-md-2 pb-sm-2">
+      ) &&
+      !(this.props.type === 'Crowdsale Purchase') ? (
+          <div className="py-md-2 pr-md-2 pb-sm-2 tx-heading-prop-name">
             <span className="title text-muted">
               {this.props.propertyname} (#{this.props.propertyid})
             </span>
@@ -102,9 +103,11 @@ class Transaction extends React.PureComponent {
 
     // [-22, 4, 20, 25, 26] need break line
     // [0, 3, 22, 50, 51, 53, 54, 55, 56, 70, 71, 185, 65534] just a text line
-    const TxAmountWrapper = [-22, 4, 20, 25, 26].includes(this.props.type_int) || this.props.type  === "DEx Purchase"
-      ? styled(WrapperTxAmount).attrs({ className: 'w-100 d-block' })``
-      : StyledWrapperTxAmount;
+    const TxAmountWrapper =
+      [-22, 4, 20, 25, 26].includes(this.props.type_int) ||
+      this.props.type === 'DEx Purchase'
+        ? styled(WrapperTxAmount).attrs({ className: 'w-100 d-block' })``
+        : StyledWrapperTxAmount;
 
     return (
       <div className="transaction-result mx-auto text-center-down-md">
@@ -114,7 +117,8 @@ class Transaction extends React.PureComponent {
               <AssetLogo
                 asset={{
                   ...this.props,
-                  propertyname: this.props.propertyname || this.props.featurename,
+                  propertyname:
+                    this.props.propertyname || this.props.featurename,
                 }}
                 prop={this.props.propertyid}
                 style={{
