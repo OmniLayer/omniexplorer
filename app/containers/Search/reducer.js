@@ -17,15 +17,15 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign, no-undef */
-const searchReducer = (state = initialState, { payload, type } = action) =>
+const searchReducer = (state = initialState, { payload, type, query } = action) =>
   produce(state, draft => {
     switch (type) {
       case LOAD_SEARCH:
         draft.loading = true;
+        draft.query = query;
         break;
       case LOAD_SEARCH_SUCCESS:
         draft.loading = false;
-        draft.query = payload.query;
         draft.address = payload.data.address;
         draft.asset = payload.data.asset;
         draft.tx = payload.data.tx;

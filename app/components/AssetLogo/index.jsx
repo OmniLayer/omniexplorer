@@ -27,12 +27,11 @@ function AssetLogo({ asset, prop, className, style }) {
     (value, key) => key !== 'registered' && value,
   );
   const Tooltip = hasWarning ? WarningTooltip : UncontrolledTooltip;
-  debugger;
   const assetName = [4, -22, 25, 26, 28, FEATURE_ACTIVATION_TYPE_INT].includes(
     asset.type_int,
   ) || asset.type === 'DEx Purchase'
-    ? (asset.type || asset.name)
-    : `#${prop}: ${asset.name}`;
+    ? (asset.type || asset.name || asset.propertyname)
+    : `#${prop}: ${asset.name || asset.propertyname}`;
   const tooltipText = hasWarning
     ? asset.invalidreason || 'Warning!'
     : assetName;
