@@ -59,7 +59,7 @@ const StyledRow = styled(Row)`
 `;
 
 export function Search(props) {
-  const { query } = useParams();
+  const query = decodeURIComponent(useParams().query);
 
   useInjectReducer({
     key: 'search',
