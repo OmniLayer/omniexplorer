@@ -1,0 +1,62 @@
+type: 0 (Simple Send)
+001e9ed2e5f7037cd4bef92997b09203b4be5d8dd6ed10ccdfe0561e6a070949
+
+type: 3 (Send To Owners
+0937f162eda99e5aeeab550b26ea7cdd1322a3281fe1721b6ae9c8eb0eab374d
+
+type: 4 (Send All)
+d7ef550252a5f4ca6d6afbed779c74ece78b05f54bc647304be128a80ee95503
+
+type: 20 (DEx sell offer)
+9a017721f168c0a733d7a8495ffbab102c5c56ac3907f57382dc10a18357b004
+
+type: 20 (DEx sell offer cancel)
+f706f60ff3f8cfb4161e9135af82d432f5bc588cae77dfdfedde011ec8baf287
+
+type: 22 (DEx accept offer)
+3d7742608f3df0436c7d482465b092344c083105fb4d8f5f7745494074ec1d3b
+
+type: -22 (DEx pay for accepted offer)
+113ecae01dec65dd6884264969a06d6f068efcaaea3c53c5ef1f054a2bc0abb0
+
+type: 25 (Metadex Trade)
+7d8ed59f1e966ba722c769dcd50e01f7f9da5a756f0ae432dd89021314f7bb22
+
+type: 26 (MetaDEx cancel-price)
+b53b87517871df583f3f108ed5b1e02d52335a7cf431382bed227d35fdf43e76
+
+type: 28 (MetaDEx cancel-ecosystem)
+b327750093459c1b36c2412f90a55e9ae0053a2b0c056efcf34a8eaf46ff977c
+
+type: 50 (Fixed property creation)
+3bfadbdaa445bb0b5c6ba35d03cad7dc5631a0c26229edd234d0dc409619f03f
+
+type: 51 (Variable property creation)
+b01d1594a7e2083ebcd428706045df003f290c4dc7bd6d77c93df9fcca68232f
+
+type: 0 (Participating in crowdsale)
+c1ff92f278432d6e14e08ab60f2dceab4d8b4396b4d7e62b5b10e88e840b39d4
+
+type: 53 (Close Crowdsale)
+b8864525a2eef4f76a58f33a4af50dc24461445e1a420e21bcc99a1901740e79
+
+type: 54 (Create Property - Manual)
+73914fb386c19f09181ac01cb3680eaee01268ef0781dff9f25d5c069b5334f0
+
+type: 55 (Grant Property Tokens)
+1caf0432ef165b19d5b5d726dc7fd1461390283c15bade2c9683fd712099e53b
+
+type: 56 (Revoke Property Tokens)
+7429731487105e72ab915a77e677a59d08e6be43b4e8daab58906058382ffbce
+
+type: 70 (Change Issuer)
+bd59746656478a94a1053f93974042015fdcda2b846350912d872f2b28636075
+
+type: 71 (Enable Freezing)
+f8d31b28c8f83d2cde19a8d78fb16f26746a4b234808b859418d62bfcfc9df0c
+
+type: 185 (Freeze Property Tokens)
+f007b37618c9fbf457804edd9c835ff74f8a87d220fd8499920b5527cefdbcd0
+
+type: 65534 (Feature Activation)
+3ab30a2166ff78b06ae4d33abbef1d2ea2684f5c60bd1fb2fd92a6462c06f814

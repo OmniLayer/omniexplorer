@@ -7,18 +7,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
+import styled from 'styled-components';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import CopyToClipboard from 'components/CopyToClipboard';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
-import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import ColoredHash from 'components/ColoredHash';
 import AssetLink from 'components/AssetLink';
 import AssetLogo from 'components/AssetLogo';
 import WrapperLink from 'components/WrapperLink';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import StatusConfirmation from 'components/StatusConfirmation';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import './transaction.scss';
 
 import AddressWrapper from 'components/AddressWrapper';
@@ -29,6 +29,16 @@ import WarningTooltip from 'components/WarningTooltip';
 
 import GrayArrowForward from 'components/GrayArrowForward';
 import GrayArrowDown from 'components/GrayArrowDown';
+
+import { TransactionAmountFactory } from 'components/TransactionAmount';
+
+const WrapperTxAmount = styled.div`
+  font-size: 1.25rem !important;
+`;
+
+const StyledWrapperTxAmount = styled.div.attrs({
+  className: 'p-md-2 pt-xs-2 pl-xs-2 title d-block-down-md',
+})``;
 
 class Transaction extends React.PureComponent {
   getHighlightIfOwner(address) {
@@ -72,20 +82,39 @@ class Transaction extends React.PureComponent {
       addresscname = 'd-none';
     }
 
-    const transactionAmount = this.props.amount || '';
+    const amountDisplay = TransactionAmountFactory(this.props);
 
-    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, "");
+    const txcopyid = `txid_${this.props.txid.slice(0, 12)}`.replace(/ /g, '');
     const invalidid = `invalid-${txcopyid}`;
+
+    const txHeadingPropName =
+      this.props.propertyname &&
+      this.props.propertyid &&
+      [0, 3, 22, 50, 51, 53, 54, 55, 56, 70, 71, 185, 65534].includes(
+        this.props.type_int,
+      ) ? (
+          <div className="py-md-2 pr-md-2 pb-sm-2">
+            <span className="title text-muted">
+              {this.props.propertyname} (#{this.props.propertyid})
+            </span>
+          </div>
+        ) : null;
+
+    // [-22, 4, 20, 25, 26] need break line
+    // [0, 3, 22, 50, 51, 53, 54, 55, 56, 70, 71, 185, 65534] just a text line
+    const TxAmountWrapper = [-22, 4, 20, 25, 26].includes(this.props.type_int) || this.props.type  === "DEx Purchase"
+      ? styled(WrapperTxAmount).attrs({ className: 'w-100 d-block' })``
+      : StyledWrapperTxAmount;
 
     return (
       <div className="transaction-result mx-auto text-center-down-md">
         <Row noGutters className="align-items-end pb-0">
-          <Col sm="12" md="1">
-            <AssetLink asset={this.props.propertyid} >
+          <Col className="align-self-start" sm="12" md="1">
+            <AssetLink asset={this.props.propertyid}>
               <AssetLogo
                 asset={{
                   ...this.props,
-                  name: this.props.propertyname,
+                  propertyname: this.props.propertyname || this.props.featurename,
                 }}
                 prop={this.props.propertyid}
                 style={{
@@ -103,16 +132,8 @@ class Transaction extends React.PureComponent {
                   {getTransactionHeading(this.props)}
                 </span>
               </div>
-              <div className="p-md-2 pt-xs-2 pl-xs-2">
-                <span className="title d-block-down-md">
-                  <SanitizedFormattedNumber value={transactionAmount} />
-                </span>
-              </div>
-              <div className="p-md-2 pb-sm-2">
-                <span className="title text-muted">
-                  {this.props.propertyname} (#{this.props.propertyid})
-                </span>
-              </div>
+              <TxAmountWrapper>{amountDisplay}</TxAmountWrapper>
+              {txHeadingPropName}
             </Row>
             <Row className="d-flex flex-center-down-md mb-1 mt-1">
               <WrapperTx>
@@ -148,14 +169,11 @@ class Transaction extends React.PureComponent {
               >
                 {status}
               </StyledLink>
-              {this.props.invalidreason &&
-              <WarningTooltip
-                placement="top"
-                target={invalidid}
-              >
-                {this.props.invalidreason}
-              </WarningTooltip>
-              }
+              {this.props.invalidreason && (
+                <WarningTooltip placement="top" target={invalidid}>
+                  {this.props.invalidreason}
+                </WarningTooltip>
+              )}
             </div>
           </Col>
         </Row>
@@ -165,43 +183,51 @@ class Transaction extends React.PureComponent {
               <AddressWrapper>
                 <WrapperLink>
                   <StyledLink
-                    className={`${this.getHighlightIfOwner(this.props.sendingaddress)} w-75 d-inline-block`}
+                    className={`${this.getHighlightIfOwner(
+                      this.props.sendingaddress,
+                    )} w-75 d-inline-block`}
                     to={`${getSufixURL()}/address/${this.props.sendingaddress}`}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
-                  <CopyToClipboard
-                    tooltip="Sender Address Copied"
-                    value={this.props.sendingaddress}
-                    hideArrow
-                  />
                 </WrapperLink>
+                <CopyToClipboard
+                  tooltip="Sender Address Copied"
+                  value={this.props.sendingaddress}
+                  hideArrow
+                />
               </AddressWrapper>
-              <GrayArrowForward
-                size={20}
-                color="gray"
-                className={`d-none ${arrowcnameright} ${arrowcname}`}
-              />
-              <GrayArrowDown
-                size={20}
-                color="gray"
-                className={`d-md-none ${arrowcname}`}
-              />
-              <AddressWrapper className={showreferencecname}>
-                <WrapperLink>
-                  <StyledLink
-                    className={`${addresscname} w-75 d-inline-block`}
-                    to={`${getSufixURL()}/address/${this.props.referenceaddress}`}
-                  >
-                    {this.props.referenceaddress}
-                  </StyledLink>
-                  <CopyToClipboard
-                    tooltip="Reference Address Copied"
-                    value={this.props.referenceaddress}
-                    hideArrow
+              {this.props.referenceaddress && (
+                <div className="d-inline">
+                  <GrayArrowForward
+                    size={20}
+                    color="gray"
+                    className={`d-none ${arrowcnameright} ${arrowcname}`}
                   />
-                </WrapperLink>
-              </AddressWrapper>
+                  <GrayArrowDown
+                    size={20}
+                    color="gray"
+                    className={`d-md-none ${arrowcname}`}
+                  />
+                  <AddressWrapper className={showreferencecname}>
+                    <WrapperLink>
+                      <StyledLink
+                        className={`${addresscname} w-75 d-inline-block`}
+                        to={`${getSufixURL()}/address/${
+                          this.props.referenceaddress
+                        }`}
+                      >
+                        {this.props.referenceaddress}
+                      </StyledLink>
+                    </WrapperLink>
+                    <CopyToClipboard
+                      tooltip="Reference Address Copied"
+                      value={this.props.referenceaddress}
+                      hideArrow
+                    />
+                  </AddressWrapper>
+                </div>
+              )}
             </div>
           </Col>
         </Row>

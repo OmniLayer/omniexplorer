@@ -75,7 +75,7 @@ export function TransactionDetail(props) {
   if (
     props.txdetail.loading ||
     (!isActivation() && props.tokens.isFetching) ||
-    (isActivation() && props.activations.loading)
+    (isActivation() && !props.activations.list.length)
   ) {
     return loading;
   }

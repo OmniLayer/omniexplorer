@@ -174,30 +174,34 @@ class CrowdsaleTransaction extends React.PureComponent {
                   hideArrow
                 />
               </AddressWrapper>
-              <GrayArrowForward
-                className={`d-none ${arrowcnameright} ${arrowcname}`}
-              />
-              <GrayArrowDown className={`d-md-none ${arrowcname}`} />
-              <AddressWrapper className={showreferencecname}>
-                <WrapperLink>
-                  <StyledLink
-                    className={addresscname}
-                    to={{
-                      pathname: `${getSufixURL()}/address/${
-                        this.props.referenceaddress
-                      }`,
-                      state: { state: this.props.state },
-                    }}
-                  >
-                    {this.props.referenceaddress}
-                  </StyledLink>
-                </WrapperLink>
-                <CopyToClipboard
-                  tooltip="Reference Address Copied"
-                  value={this.props.referenceaddress}
-                  hideArrow
-                />
-              </AddressWrapper>
+              {this.props.referenceaddress && (
+                <div className="d-inline">
+                  <GrayArrowForward
+                    className={`d-none ${arrowcnameright} ${arrowcname}`}
+                  />
+                  <GrayArrowDown className={`d-md-none ${arrowcname}`} />
+                  <AddressWrapper className={showreferencecname}>
+                    <WrapperLink>
+                      <StyledLink
+                        className={addresscname}
+                        to={{
+                          pathname: `${getSufixURL()}/address/${
+                            this.props.referenceaddress
+                          }`,
+                          state: { state: this.props.state },
+                        }}
+                      >
+                        {this.props.referenceaddress}
+                      </StyledLink>
+                    </WrapperLink>
+                    <CopyToClipboard
+                      tooltip="Reference Address Copied"
+                      value={this.props.referenceaddress}
+                      hideArrow
+                    />
+                  </AddressWrapper>
+                </div>
+              )}
             </div>
           </Col>
         </Row>

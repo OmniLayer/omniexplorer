@@ -1,6 +1,6 @@
 {
   "name": "omniexplorer",
-  "version": "5.1.5",
+  "version": "5.2.0",
   "description": "Omni Explorer is a Block Explorer and Analytics Platform for the Omni Layer",
   "repository": {
     "type": "git",
@@ -37,7 +37,10 @@
     "pretest": "npm run test:clean && npm run lint",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:clean": "rimraf ./coverage",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll"
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
+    "version:patch": "npm --no-git-tag-version version patch",
+    "version:minor": "npm --no-git-tag-version version minor",
+    "version:major": "npm --no-git-tag-version version major"
   },
   "pre-commit": "lint:staged",
   "lint-staged": {

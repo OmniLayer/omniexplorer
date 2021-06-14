@@ -190,8 +190,8 @@ class Wallet extends React.PureComponent {
             </tr>
           )}
           {!loading &&
-            nonFlaggedProps.map(balance => (
-              <Token {...balance} key={balance.id} bulkLoading />
+            nonFlaggedProps.map((balance, idx) => (
+              <Token {...balance} key={`${balance.id} ${idx}`} bulkLoading />
             ))}
           <tr>
             <td colSpan="5" className="p-0 m-0">
@@ -243,8 +243,8 @@ class Wallet extends React.PureComponent {
                     </StyledTR>
                   </thead>
                   <tbody>
-                    {flaggedProps.map(balance => (
-                      <Token {...balance} key={balance.id} bulkLoading />
+                    {flaggedProps.map((balance, idx) => (
+                      <Token {...balance} key={`${balance.id} ${idx}`} bulkLoading />
                     ))}
                   </tbody>
                 </StyledTable>

@@ -32,12 +32,12 @@ function isCompositeTypeElement(element) {
 export default (ListItem, type) => {
   let listItemComponent;
 
-  if (isElement(ListItem) || isReactComponent(ListItem)) {
-    listItemComponent = ListItem;
+  if (Array.isArray(ListItem) && ListItem.length) {
+    listItemComponent = ListItem[type];
   } else if (ListItem.type === 'function') {
     listItemComponent = ListItem();
-  } else if (Array.isArray(ListItem) && ListItem.length){
-    listItemComponent = ListItem[type];
+  } else {
+    listItemComponent = ListItem;
   }
 
   return listItemComponent;
