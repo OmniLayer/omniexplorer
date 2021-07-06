@@ -19,6 +19,7 @@ import Asset from 'components/Asset';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import makeSelectSearch from 'containers/Search/selectors';
 import searchReducer from 'containers/Search/reducer';
@@ -80,8 +81,14 @@ export class Properties extends React.PureComponent {
       </Table>
     );
 
+    const linkPreview = FactoryLinkPreview({
+      title: `${this.props.search.asset.length} properties on ${this.ecosystem}`,
+      slug: `properties/${this.ecosystem}`,
+    });
+
     return (
       <ContainerBase>
+        {linkPreview}
         <Row noGutters>
           <Col sm>
             <ListHeader

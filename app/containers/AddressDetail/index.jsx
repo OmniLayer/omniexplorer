@@ -14,6 +14,7 @@ import { Col, Row } from 'reactstrap';
 import ContainerBase from 'components/ContainerBase';
 import Transactions from 'containers/Transactions';
 import Wallet from 'components/Wallet';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -44,8 +45,16 @@ export function AddressDetail(props) {
     return;
   }
 
+  const addrTokens = props.addressdetail.address.balance.map(t => t.id ? `#${t.id}` : '').join(', ');
+
+  const linkPreview = FactoryLinkPreview({
+    title: `${address}, tokens (${addrTokens})`,
+    slug: `address/${address}`,
+  });
+
   return (
     <ContainerBase className="mt-3">
+      {linkPreview}
       <Row noGutters>
         <Col sm>
           <Wallet {...props.addressdetail} addr={address} />

@@ -39,7 +39,7 @@ import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import moment from 'moment/src/moment';
-import { Helmet } from 'react-helmet';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import {
   FacebookIcon,
@@ -165,13 +165,15 @@ export function CrowdsaleDetail(props) {
     crowdsale.name ||
     crowdsale.propertyname ||
     crowdsale.type;
+
+  const linkPreview = FactoryLinkPreview({
+    title: `Crowdsale ${crowdsale.name} (#${crowdsale.propertyid})`,
+    slug: `crowdsale/${crowdsale.propertyid}`,
+  });
+
   return (
     <ContainerBase>
-      <Helmet>
-        <meta name="twitter:card" content="summary" />
-        <meta property="twitter:title" content="OmniLayer crowdsale" />
-        <meta name="twitter:description" content={shareTitle} />
-      </Helmet>
+      {linkPreview}
       {warningMessage}
       <Row noGutters>
         <Col sm="12" md="9">

@@ -23,6 +23,7 @@ import NoOmniBlockTransactions from 'components/NoOmniBlockTransactions';
 import ContainerBase from 'components/ContainerBase';
 import JumpToBlock from 'components/JumpToBlock';
 import { FIRST_BLOCK } from 'containers/App/constants';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -223,8 +224,18 @@ export function BlockDetail(props) {
     </Alert> :
     null;
 
+  const blockTxCount = blockdetail.block.transactions
+    ? blockdetail.block.transactions.length
+    : 0;
+
+  const linkPreview = FactoryLinkPreview({
+    title: `Block ${block}, Txs ${blockTxCount}`,
+    slug: `block/${block}`,
+  });
+
   return (
     <StyledContainer>
+      {linkPreview}
       <ListHeader
         message={
           blockdetail.block.transactions && blockdetail.block.transactions.length
@@ -235,9 +246,7 @@ export function BlockDetail(props) {
           br: <br />,
           hash: <ColoredHash hash={blockdetail.block.blockhash} />,
           blockNumber: block,
-          txCount: blockdetail.block.transactions
-            ? blockdetail.block.transactions.length
-            : 0,
+          txCount: blockTxCount,
           pageCount: pageCount,
           confirmations,
           timestamp:

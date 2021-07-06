@@ -18,7 +18,7 @@ import StyledA from 'components/StyledA';
 import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
 
 import ContainerBase from 'components/ContainerBase';
-import TransactionAmount from 'components/TransactionAmount';
+import TransactionAmount, {TransactionAmountTitleFactory}  from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import StatusConfirmation from 'components/StatusConfirmation';
 import { makeSelectProperty } from 'components/Token/selectors';
@@ -26,6 +26,7 @@ import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
 import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
@@ -180,8 +181,15 @@ function TransactionInfo(props) {
   const recipient =
     props.referenceaddress || (props.purchases || [{}])[0].referenceaddress;
 
+  const txTitle = TransactionAmountTitleFactory(props);
+  const linkPreview = FactoryLinkPreview({
+    title: txTitle,
+    slug: `tx/${props.txid}`,
+  });
+
   return (
     <ContainerBase>
+      {linkPreview}
       {warningMessage}
       <DetailRow>
         <Col sm>

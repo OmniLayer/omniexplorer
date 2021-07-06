@@ -19,6 +19,7 @@ import AssetInfo from 'components/AssetInfo';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import getWarningMessage from 'utils/getWarningMessage';
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
@@ -69,8 +70,16 @@ export function AssetDetail(props) {
     subtitleclass = 'd-none';
   }
 
+  const title = `${(asset.name || asset.propertyname || asset.type)} #${asset.propertyid}`;
+
+  const linkPreview = FactoryLinkPreview({
+    title: title,
+    postSlug: `asset/${asset.propertyid}`,
+  });
+
   return (
     <ContainerBase>
+      {linkPreview}
       {warningMessage}
       <DetailRow>
         <Col sm>

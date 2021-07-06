@@ -27,6 +27,7 @@ import {
 
 import ListHeader from 'components/ListHeader';
 import { Messages as datetimeMessages } from 'components/FormattedDateTime';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 import messages from './messages';
 import makeSelectCrowdsales from './selectors';
 import crowdsalesReducer from './reducer';
@@ -95,15 +96,23 @@ export class Crowdsales extends React.Component {
       </Table>
     );
 
+    const crowdsalesCount = this.props.crowdsales.crowdsales.length;
+    const crowdsalesEcosystem = this.props.crowdsales.ecosystemName;
+    const linkPreview = FactoryLinkPreview({
+      title: `${crowdsalesCount} crowdsales on ${crowdsalesEcosystem}`,
+      slug: `crowdsales/${crowdsalesEcosystem}`,
+    });
+
     return (
       <ContainerBase>
+        {linkPreview}
         <Row noGutters>
           <Col sm>
             <ListHeader
-              total={this.props.crowdsales.crowdsales.length}
+              total={crowdsalesCount}
               message={messages.header}
               values={{
-                ecosystem: this.props.crowdsales.ecosystemName,
+                ecosystem: crowdsalesEcosystem,
               }}
             />
           </Col>

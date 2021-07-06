@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TransactionAmountFactory from './TransactionAmountFactory';
+import TransactionAmountTitleFactory from './TransactionAmountTitleFactory';
 
 const TransactionAmount = props => {
   const transactionAmount = TransactionAmountFactory(props);
@@ -29,4 +30,4 @@ TransactionAmount.propTypes = {
 };
 
 export default TransactionAmount;
-export { TransactionAmountFactory };
+export { TransactionAmountFactory, TransactionAmountTitleFactory };
