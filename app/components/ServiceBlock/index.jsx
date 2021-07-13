@@ -14,6 +14,8 @@ import isEmpty from 'lodash/isEmpty';
 import featureLogoPNG from 'images/token1.png';
 import { Col, Row } from 'reactstrap';
 import { makeSelectStatus } from './selectors';
+import isOmniFeather from 'utils/isOmniFeather';
+const ftcLogo = require(`images/external_logos/ftc.png`);
 
 const IMG = styled.img`
   margin-right: 6px;
@@ -59,9 +61,14 @@ class ServiceBlock extends React.PureComponent {
       <Container>
         <Row xs="1" sm="1" md="5">
           <Col className="mt-3 mt-sm-0">
-            <IMG src={featureLogoPNG} alt="OmniExplorer.info" />
+            {!isOmniFeather && (
+              <IMG src={featureLogoPNG} alt="OmniExplorer.info" />
+            )}
+            {isOmniFeather && (
+              <IMG src={ftcLogo} alt="OmniFeather Explorer" />
+            )}
             <div className="d-sm-block d-md-inline-block text-whites align-middle">
-              <h5>Omni Token (#1)</h5>
+              <h5>{(isOmniFeather ? 'FeatherCoin (#0)' : 'Omni Token (#1)')}</h5>
               <span>Featured Property</span>
             </div>
           </Col>

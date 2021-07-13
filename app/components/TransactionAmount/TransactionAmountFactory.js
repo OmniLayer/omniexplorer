@@ -10,7 +10,7 @@ import MetaDExAmount from './MetaDExAmount';
 import DefaultTxAmount from './DefaultTxAmount';
 import DExSellOfferAmount from './DExSellOfferAmount';
 
-export default props => {
+const TransactionAmountFactory = props => {
   // txs without amount
   if ([28, 51, 53, 70, 185, 65534].includes(props.type_int)) {
     return null;
@@ -49,3 +49,5 @@ export default props => {
   // others
   return <DefaultTxAmount {...props} />;
 };
+
+export default TransactionAmountFactory;
