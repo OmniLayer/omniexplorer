@@ -13,6 +13,8 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import NavigationBar from 'components/NavigationBar';
 import ServiceBlock from 'components/ServiceBlock';
 import SearchBox from 'components/SearchBox';
+import isOmniFeather from 'utils/isOmniFeather';
+const ftcLogo = require(`images/external_logos/ftc.png`);
 
 const IMG = styled.img`
   padding-bottom: 3px;
@@ -24,8 +26,17 @@ function Header(props) {
     <div id="app-header">
       <NavigationBar>
         <NavbarBrand href="/">
-          <IMG src="/favicon.png" alt="OmniExplorer.info" />
-          OmniExplorer.info
+          {!isOmniFeather && (
+            <span>
+              <IMG src="/favicon.png" alt="OmniExplorer.info" />
+              OmniExplorer.info
+            </span>
+          )}
+          {isOmniFeather && (
+            <span>
+              OmniFeather Explorer
+            </span>
+          )}
         </NavbarBrand>
         <div className="ml-auto w-50 d-flex">
           <div className="w-100 ml-auto d-none-only-sm-down">
@@ -34,7 +45,7 @@ function Header(props) {
           <Menu />
         </div>
         <div className="w-100 ml-auto d-block-only-sm-down">
-          <SearchBox className="w-100"/>
+          <SearchBox className="w-100" />
         </div>
       </NavigationBar>
       <ServiceBlock />
