@@ -21,11 +21,14 @@ import DarkModeToggle from 'components/DarkModeToggle';
 import MenuButton from 'components/MenuButton';
 
 import isTestnet from 'utils/isTestnet';
+import isOmniFeather from 'utils/isOmniFeather';
 import menuReducer, { initialState } from 'components/Menu/reducer';
 import { toggleDisabledTestnet } from './actions';
 
 import './menu.scss';
 import './switch.scss';
+const oeLogo = require('images/token1.png');
+const ftcLogo = require('images/external_logos/ftc.png');
 
 const MenuDivider = styled.div`
   width: 100%;
@@ -33,6 +36,10 @@ const MenuDivider = styled.div`
   background-color: rgba(0, 0, 0, 0.15);
   margin-top: 6px;
   margin-bottom: 12px;
+`;
+
+const IMGLogo = styled.img`
+  display: inline;
 `;
 
 function Menu(props) {
@@ -136,7 +143,7 @@ function Menu(props) {
               checkedChildren="Mainnet"
               defaultChecked={!testnet}
               unCheckedChildren="Testnet"
-              className="d-none hack-switch"
+              className="hack-switch"
               disabled={state.disabledTestnet}
             />
           </Col>
@@ -173,9 +180,39 @@ function Menu(props) {
           </Col>
           <Col xs="6" sm="4">
             <h5>Misc</h5>
-            <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
-              Recent Class A/B TX's
-            </NavLink>
+            {isOmniFeather && (
+              <NavLink className="pr-0" href="/">
+                <IMGLogo
+                  src={oeLogo}
+                  alt="omniexplorer"
+                  className={'mr-3'}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                  }}
+                />
+                OmniExplorer
+              </NavLink>
+            )}
+            {!isOmniFeather && (
+              <NavLink href="/ftc">
+                <IMGLogo
+                  src={ftcLogo}
+                  alt="omnifeather explorer"
+                  className={'mr-3'}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                  }}
+                />
+                OmniFeather Explorer
+              </NavLink>
+            )}
+            {!isOmniFeather && (
+              <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
+                Recent Class A/B TX's
+              </NavLink>
+            )}
             <NavLink href={`${getSufixURL()}/activations`}>
               Feature Activations
             </NavLink>

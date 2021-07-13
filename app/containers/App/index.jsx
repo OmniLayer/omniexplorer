@@ -72,6 +72,8 @@ const AppWrapper = styled.div`
 `;
 
 export function App({ loadStatus }) {
+  const [theme, setTheme] = useState('light');
+
   useInjectSaga({
     key: 'tokenDetail',
     saga: tokenSaga,
@@ -91,150 +93,192 @@ export function App({ loadStatus }) {
     loadStatus();
   }, []);
 
-  const [theme, setTheme] = useState('light');
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  };
-  const lightTheme={mode:'light'};
-  const darkTheme={mode:'dark'};
+  const lightTheme = { mode: 'light' };
+  const darkTheme = { mode: 'dark' };
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <AppWrapper>
-      <Helmet
-        titleTemplate="%s - Omni Explorer"
-        defaultTitle="Omni Explorer - The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
-      >
-        <meta
-          name="description"
-          content="The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
-        />
-        <link rel="canonical" href="https://omniexplorer.info" />
-        <meta name="referrer" content="always" />
-      </Helmet>
-      <Header />
-      <ErrorBoundary>
-        <Switch>
-          <Route exact path="/:block(\d+)?" component={HomePage} />
-          <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
-
-          <Route path="/tx/:tx" component={TransactionDetail} />
-          <Route path="/testnet/tx/:tx" component={TransactionDetail} />
-
-          <Route path="/transactions/unconfirmed" component={Transactions} />
-          <Route
-            path="/testnet/transactions/unconfirmed"
-            component={Transactions}
+        <Helmet
+          titleTemplate="%s - Omni Explorer"
+          defaultTitle="Omni Explorer - The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+        >
+          <meta
+            name="description"
+            content="The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
           />
+          <link rel="canonical" href="https://omniexplorer.info" />
+          <meta name="referrer" content="always" />
+        </Helmet>
+        <Header />
+        <ErrorBoundary>
+          <Switch>
+            <Route exact path="/:block(\d+)?" component={HomePage} />
+            <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
+            <Route exact path="/ftc/:block(\d+)?" component={HomePage} />
 
-          <Route path={`/testnet/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname}/>
-          <Route path={`/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname}/>
+            <Route path="/tx/:tx" component={TransactionDetail} />
+            <Route path="/testnet/tx/:tx" component={TransactionDetail} />
+            <Route path="/ftc/tx/:tx" component={TransactionDetail} />
 
-          <Route
-            path="/address/:address/:page(\d+)?"
-            component={AddressDetail}
-            key={location.pathname}
-          />
-          <Route
-            path="/testnet/address/:address/:page(\d+)?"
-            component={AddressDetail}
-            key={location.pathname}
-          />
+            <Route path="/transactions/unconfirmed" component={Transactions} />
+            <Route
+              path="/testnet/transactions/unconfirmed"
+              component={Transactions}
+            />
+            <Route
+              path="/ftc/transactions/unconfirmed"
+              component={Transactions}
+            />
 
-          <Route
-            path="/search/:query"
-            component={Search}
-            key={location.pathname}
-          />
-          <Route
-            path="/testnet/search/:query"
-            component={Search}
-            key={location.pathname}
-          />
+            <Route path={`/testnet/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname} />
+            {/*<Route path={`/ftc/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname} />*/}
+            <Route path={`/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname} />
 
-          <Route
-            path="/properties/:query"
-            component={Properties}
-            key={location.pathname}
-          />
-          <Route
-            path="/testnet/properties/:query"
-            component={Properties}
-            key={location.pathname}
-          />
+            <Route
+              path="/address/:address/:page(\d+)?"
+              component={AddressDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/testnet/address/:address/:page(\d+)?"
+              component={AddressDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/ftc/address/:address/:page(\d+)?"
+              component={AddressDetail}
+              key={location.pathname}
+            />
 
-          <Route
-            path="/asset/:propertyid(\d+)"
-            component={AssetDetail}
-            key={location.pathname}
-          />
-          <Route
-            path="/testnet/asset/:propertyid(\d+)"
-            component={AssetDetail}
-            key={location.pathname}
-          />
+            <Route
+              path="/search/:query?"
+              component={Search}
+              key={location.pathname}
+            />
+            <Route
+              path="/testnet/search/:query"
+              component={Search}
+              key={location.pathname}
+            />
+            <Route
+              path="/ftc/search/:query"
+              component={Search}
+              key={location.pathname}
+            />
 
-          <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
-          <Route
-            exact
-            path="/testnet/crowdsales/:ecosystem"
-            component={Crowdsales}
-          />
+            <Route
+              path="/properties/:query"
+              component={Properties}
+              key={location.pathname}
+            />
+            <Route
+              path="/testnet/properties/:query"
+              component={Properties}
+              key={location.pathname}
+            />
+            <Route
+              path="/ftc/properties/:query"
+              component={Properties}
+              key={location.pathname}
+            />
 
-          <Route
-            path="/crowdsale/:crowdsaleid(\d+)"
-            component={CrowdsaleDetail}
-            key={location.pathname}
-          />
-          <Route
-            path="/testnet/crowdsale/:crowdsaleid(\d+)"
-            component={CrowdsaleDetail}
-            key={location.pathname}
-          />
+            <Route
+              path="/asset/:propertyid(\d+)"
+              component={AssetDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/testnet/asset/:propertyid(\d+)"
+              component={AssetDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/ftc/asset/:propertyid(\d+)"
+              component={AssetDetail}
+              key={location.pathname}
+            />
 
-          <Route
-            exact
-            path="/block/:block(\d+)"
-            component={BlockDetail}
-            key={location.pathname}
-          />
-          <Route
-            exact
-            path="/testnet/block/:block(\d+)"
-            component={BlockDetail}
-            key={location.pathname}
-          />
+            <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
+            <Route
+              exact
+              path="/testnet/crowdsales/:ecosystem"
+              component={Crowdsales}
+            />
+            <Route
+              exact
+              path="/ftc/crowdsales/:ecosystem"
+              component={Crowdsales}
+            />
 
-          <Route exact path="/promote" component={Promote} />
+            <Route
+              path="/crowdsale/:crowdsaleid(\d+)"
+              component={CrowdsaleDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/testnet/crowdsale/:crowdsaleid(\d+)"
+              component={CrowdsaleDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/ftc/crowdsale/:crowdsaleid(\d+)"
+              component={CrowdsaleDetail}
+              key={location.pathname}
+            />
 
-          <Route exact path="/submitfeedback" component={Feedback} />
+            <Route
+              exact
+              path="/block/:block(\d+)"
+              component={BlockDetail}
+              key={location.pathname}
+            />
+            <Route
+              exact
+              path="/testnet/block/:block(\d+)"
+              component={BlockDetail}
+              key={location.pathname}
+            />
+            <Route
+              exact
+              path="/ftc/block/:block(\d+)"
+              component={BlockDetail}
+              key={location.pathname}
+            />
 
-          {/* <Route exact path="/analytics" component={HistoryChart} /> */}
-          <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
-          <Route
-            exact
-            path="/testnet/blocks/:block(\d+)?"
-            component={FullBlockList}
-          />
+            <Route exact path="/promote" component={Promote} />
 
-          <Route exact path="/activations" component={Activations} />
-          <Route exact path="/testnet/activations" component={Activations} />
+            <Route exact path="/submitfeedback" component={Feedback} />
 
-          <Route exact path="/testnet/exchange" component={Exchange} />
+            {/* <Route exact path="/analytics" component={HistoryChart} /> */}
+            <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
+            <Route
+              exact
+              path="/testnet/blocks/:block(\d+)?"
+              component={FullBlockList}
+            />
+            <Route
+              exact
+              path="/ftc/blocks/:block(\d+)?"
+              component={FullBlockList}
+            />
 
-          <Route path="" component={NotFoundPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </ErrorBoundary>
-      <Footer />
-      {isTestnet && <TestnetMarquee />}
-      {isDev ? <DevTools /> : <div />}
-      <GlobalStyle />
-    </AppWrapper>
+            <Route exact path="/activations" component={Activations} />
+            <Route exact path="/testnet/activations" component={Activations} />
+            <Route exact path="/ftc/activations" component={Activations} />
+
+            <Route exact path="/testnet/exchange" component={Exchange} />
+            <Route exact path="/ftc/exchange" component={Exchange} />
+
+            <Route path="" component={NotFoundPage} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </ErrorBoundary>
+        <Footer />
+        {isTestnet && <TestnetMarquee />}
+        {isDev ? <DevTools /> : <div />}
+        <GlobalStyle />
+      </AppWrapper>
     </ThemeProvider>
   );
 }
