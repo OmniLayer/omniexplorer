@@ -180,7 +180,8 @@ export function Transactions(props) {
     );
     if (needFetchTokens || (!props.loadingTokens && !props.lastFetched)) {
       const propertiesToFetch = getTransactions().filter(tx => tx.propertyid).map(tx => tx.propertyid);
-      props.getProperties(propertiesToFetch);
+      const uniquePropsId = [...new Set(propertiesToFetch)];
+      props.getProperties(uniquePropsId);
       return (<LoadingIndicator />);
     }
 

@@ -15,6 +15,7 @@ import { compose } from 'redux';
 import history from 'utils/history';
 import useSetTimeout from 'utils/useSetTimeout';
 import { FIRST_BLOCK } from 'containers/App/constants';
+import { getSufixURL } from 'utils/getLocationPath';
 import messages from './messages';
 
 const Input = styled.input.attrs({
@@ -43,7 +44,7 @@ export function JumpToBlock(props) {
 
   const handleJumpToBlock = e => {
     const blockNumber = blockToJump < FIRST_BLOCK ? FIRST_BLOCK : blockToJump;
-    history.push(`/block/${blockNumber}`);
+    history.push(`${getSufixURL()}/block/${blockNumber}`);
   };
 
   const toggleRefererTooltip = () => {

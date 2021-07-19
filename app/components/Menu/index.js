@@ -28,7 +28,7 @@ import { toggleDisabledTestnet } from './actions';
 import './menu.scss';
 import './switch.scss';
 const oeLogo = require('images/token1.png');
-const ftcLogo = require('images/external_logos/ftc.png');
+const ftcLogo = require('images/external_logos/token0.png');
 
 const MenuDivider = styled.div`
   width: 100%;
