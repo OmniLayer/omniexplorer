@@ -1,9 +1,14 @@
 /* eslint-disable global-require,camelcase */
 import isEmpty from 'lodash/isEmpty';
+import isOmniFeather from 'utils/isOmniFeather';
 
 export default (id, propertyinfo = {}) => {
   let logo;
-  const { flags, type_int } = propertyinfo;
+  const {
+    flags,
+    type_int,
+  } = propertyinfo;
+  const isftc = isOmniFeather;
 
   try {
     if (type_int === 4) {
@@ -16,14 +21,14 @@ export default (id, propertyinfo = {}) => {
       } else if (flags.replaced) {
         logo = require('images/tokenreplaced.png');
       } else if (flags.registered && id) {
-        logo = require(`images/token${id}.png`);
+        logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
       } else if (flags.invalid && id) {
-        logo = require(`images/token${id}.png`);
+        logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
       } else {
         logo = require('images/tokendefault.png');
       }
     } else {
-      logo = require(`images/token${id}.png`);
+      logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
     }
   } catch (e) {
     if (id > 2147483650) {

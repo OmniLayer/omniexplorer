@@ -55,7 +55,6 @@ const DExSellOfferAmount = props => (
 );
 
 DExSellOfferAmount.propTypes = {
-  props: PropTypes.any.isRequired,
 };
 
 export default DExSellOfferAmount;

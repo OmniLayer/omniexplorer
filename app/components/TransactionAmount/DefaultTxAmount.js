@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 
 const DefaultTxAmount = props => (
-  <SanitizedFormattedNumber className="default-tx-amount" value={props.amount} />
+  <SanitizedFormattedNumber className="default-tx-amount" value={props.amount || (props.asset && props.asset.amount)} />
 );
 
 DefaultTxAmount.propTypes = {
