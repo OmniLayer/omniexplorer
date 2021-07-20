@@ -345,7 +345,7 @@ function TransactionInfo(props) {
                 </td>
               </tr>
               <tr>
-                <td className="field">Raw Data</td>
+                <td className="field">JSON Data</td>
                 <td>
                   <span id="lrawgettx">
                     <StyledA href={rawTransactionURL} target="_blank">

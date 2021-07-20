@@ -227,7 +227,7 @@ function AssetInfo(asset) {
         </td>
       </tr>
       <tr>
-        <StyledTD>Raw Data</StyledTD>
+        <StyledTD>JSON Data</StyledTD>
         <td>
           <span id="lrawgettx">
             <StyledA href={rawAssetURL} target="_blank">
