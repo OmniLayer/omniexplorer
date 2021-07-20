@@ -15,7 +15,7 @@ import featureLogoPNG from 'images/token1.png';
 import { Col, Row } from 'reactstrap';
 import { makeSelectStatus } from './selectors';
 import isOmniFeather from 'utils/isOmniFeather';
-const ftcLogo = require(`images/external_logos/ftc.png`);
+const ftcLogo = require(`images/external_logos/token0.png`);
 
 const IMG = styled.img`
   margin-right: 6px;

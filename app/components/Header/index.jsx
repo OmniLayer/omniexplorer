@@ -14,7 +14,7 @@ import NavigationBar from 'components/NavigationBar';
 import ServiceBlock from 'components/ServiceBlock';
 import SearchBox from 'components/SearchBox';
 import isOmniFeather from 'utils/isOmniFeather';
-const ftcLogo = require(`images/external_logos/ftc.png`);
+import { getSufixURL } from 'utils/getLocationPath';
 
 const IMG = styled.img`
   padding-bottom: 3px;
@@ -25,7 +25,7 @@ function Header(props) {
   return (
     <div id="app-header">
       <NavigationBar>
-        <NavbarBrand href="/">
+        <NavbarBrand href={`${getSufixURL()}`}>
           {!isOmniFeather && (
             <span>
               <IMG src="/favicon.png" alt="OmniExplorer.info" />
