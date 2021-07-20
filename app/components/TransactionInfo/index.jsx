@@ -100,6 +100,16 @@ function TransactionInfo(props) {
   }
 
   const amountDisplay = <TransactionAmount {...props} />;
+
+  let ecosystem = (
+    <tr>
+      <td className="field">Ecosystem</td>
+      <td>
+        <span className="text-uppercase">{props.ecosystem}</span>
+      </td>
+    </tr>
+  );
+
   let tokenName;
   let activationBlock;
   if (![4, -22, 25, 26].includes(props.type_int)) {
@@ -117,14 +127,8 @@ function TransactionInfo(props) {
     );
   }
   if (props.type_int === 28) {
-    tokenName = (
-      <tr>
-        <td className="field">Ecosystem</td>
-        <td>
-          <strong>{props.ecosystem}</strong>
-        </td>
-      </tr>
-    );
+    tokenName = ecosystem;
+    ecosystem = null;
   }
   if (props.type_int === FEATURE_ACTIVATION_TYPE_INT) {
     tokenName = (
@@ -220,6 +224,7 @@ function TransactionInfo(props) {
             <tbody>
               {amountDisplay}
               {tokenName}
+              {ecosystem}
               {activationBlock}
               {btcDesired}
               <tr>
