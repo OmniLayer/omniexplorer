@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 import isOmniExplorer from 'utils/isOmniExplorer';
 import isOmniFeather from 'utils/isOmniFeather';
-import isOmniLite from 'utils/isOmniLite';
+import isLTC from 'utils/isLTC';
 
 import ftcLogo from 'images/external_logos/ftc-logo.png';
-import olLogo from 'images/external_logos/omnilite-logo.png';
+import ltcLogo from 'images/external_logos/omnilite-logo.png';
 import oeLogo from 'images/token1.png';
 
 const IMG = styled.img`
@@ -24,9 +24,9 @@ export default () => {
     logo = <IMG src={ftcLogo} alt="OmniFeather Explorer" />;
   }
 
-  if (isOmniLite) {
-    ecosystem = 'OmniLite (#1)';
-    logo = <IMG src={olLogo} alt="OmniLite Explorer" />;
+  if (isLTC) {
+    ecosystem = 'LTC (#1)';
+    logo = <IMG src={ltcLogo} alt="LTC Explorer" />;
   }
 
   if (isOmniExplorer) {

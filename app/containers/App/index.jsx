@@ -116,12 +116,12 @@ export function App({ loadStatus }) {
             <Route exact path="/:block(\d+)?" component={HomePage} />
             <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
             <Route exact path="/ftc/:block(\d+)?" component={HomePage} />
-            <Route exact path="/omnilite/:block(\d+)?" component={HomePage} />
+            <Route exact path="/ltc/:block(\d+)?" component={HomePage} />
 
             <Route path="/tx/:tx" component={TransactionDetail} />
             <Route path="/testnet/tx/:tx" component={TransactionDetail} />
             <Route path="/ftc/tx/:tx" component={TransactionDetail} />
-            <Route path="/omnilite/tx/:tx" component={TransactionDetail} />
+            <Route path="/ltc/tx/:tx" component={TransactionDetail} />
 
             <Route path="/transactions/unconfirmed" component={Transactions} />
             <Route
@@ -133,7 +133,7 @@ export function App({ loadStatus }) {
               component={Transactions}
             />
             <Route
-              path="/omnilite/transactions/unconfirmed"
+              path="/ltc/transactions/unconfirmed"
               component={Transactions}
             />
 
@@ -157,7 +157,7 @@ export function App({ loadStatus }) {
               key={location.pathname}
             />
             <Route
-              path="/omnilite/address/:address/:page(\d+)?"
+              path="/ltc/address/:address/:page(\d+)?"
               component={AddressDetail}
               key={location.pathname}
             />
@@ -178,7 +178,7 @@ export function App({ loadStatus }) {
               key={location.pathname}
             />
             <Route
-              path="/omnilite/search/:query"
+              path="/ltc/search/:query"
               component={Search}
               key={location.pathname}
             />
@@ -199,7 +199,7 @@ export function App({ loadStatus }) {
               key={location.pathname}
             />
             <Route
-              path="/omnilite/properties/:query"
+              path="/ltc/properties/:query"
               component={Properties}
               key={location.pathname}
             />
@@ -220,7 +220,7 @@ export function App({ loadStatus }) {
               key={location.pathname}
             />
             <Route
-              path="/omnilite/asset/:propertyid(\d+)"
+              path="/ltc/asset/:propertyid(\d+)"
               component={AssetDetail}
               key={location.pathname}
             />
@@ -238,7 +238,7 @@ export function App({ loadStatus }) {
             />
             <Route
               exact
-              path="/omnilite/crowdsales/:ecosystem"
+              path="/ltc/crowdsales/:ecosystem"
               component={Crowdsales}
             />
 
@@ -258,7 +258,7 @@ export function App({ loadStatus }) {
               key={location.pathname}
             />
             <Route
-              path="/omnilite/crowdsale/:crowdsaleid(\d+)"
+              path="/ltc/crowdsale/:crowdsaleid(\d+)"
               component={CrowdsaleDetail}
               key={location.pathname}
             />
@@ -283,7 +283,7 @@ export function App({ loadStatus }) {
             />
             <Route
               exact
-              path="/omnilite/block/:block(\d+)"
+              path="/ltc/block/:block(\d+)"
               component={BlockDetail}
               key={location.pathname}
             />
@@ -306,18 +306,18 @@ export function App({ loadStatus }) {
             />
             <Route
               exact
-              path="/omnilite/blocks/:block(\d+)?"
+              path="/ltc/blocks/:block(\d+)?"
               component={FullBlockList}
             />
 
             <Route exact path="/activations" component={Activations} />
             <Route exact path="/testnet/activations" component={Activations} />
             <Route exact path="/ftc/activations" component={Activations} />
-            <Route exact path="/omnilite/activations" component={Activations} />
+            <Route exact path="/ltc/activations" component={Activations} />
 
             <Route exact path="/testnet/exchange" component={Exchange} />
             <Route exact path="/ftc/exchange" component={Exchange} />
-            <Route exact path="/omnilite/exchange" component={Exchange} />
+            <Route exact path="/ltc/exchange" component={Exchange} />
 
             <Route path="" component={NotFoundPage} />
             <Route component={NotFoundPage} />

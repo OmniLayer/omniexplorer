@@ -5,30 +5,20 @@
  */
 
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import { NavLink } from "reactstrap";
-// import isTestnet from 'utils/isTestnet';
-// import isOmniFeather from 'utils/isOmniFeather';
-// import isOmniLite from 'utils/isOmniLite';
+import { NavLink } from 'reactstrap';
 
 const oeLogo = require('images/token1.png');
 const ftcLogo = require('images/external_logos/ftc-logo.png');
-const omniliteLogo = require('images/external_logos/omnilite-logo.png');
+const ltcLogo = require('images/external_logos/omnilite-logo.png');
 
 const IMGLogo = styled.img`
   display: inline;
 `;
 
 function EcosystemLogo() {
-  // let Logo;
-
-  // if (isOmniFeather) {
-   const Logo = (
-      <>
+  const Logo = (
+    <>
       <NavLink className="pr-0" href="/">
         <IMGLogo
           src={oeLogo}
@@ -41,9 +31,6 @@ function EcosystemLogo() {
         />
         OmniExplorer
       </NavLink>
-    {/*);*/}
-  {/*} else {*/}
-  {/*  Logo = (*/}
       <NavLink href="/ftc">
         <IMGLogo
           src={ftcLogo}
@@ -56,21 +43,20 @@ function EcosystemLogo() {
         />
         OmniFeather Explorer
       </NavLink>
-        <NavLink href="/omnilite">
-          <IMGLogo
-            src={omniliteLogo}
-            alt="omnilite explorer"
-            className="mr-3"
-            style={{
-              width: '2rem',
-              height: '2rem',
-            }}
-          />
-          OmniLite Explorer
-        </NavLink>
-      </>
-    );
-  // }
+      <NavLink href="/ltc">
+        <IMGLogo
+          src={ltcLogo}
+          alt="ltc explorer"
+          className="mr-3"
+          style={{
+            width: '2rem',
+            height: '2rem',
+          }}
+        />
+        LTC Explorer
+      </NavLink>
+    </>
+  );
 
   return Logo;
 }

@@ -1,1 +1,1 @@
-export default (!window.location.href.includes('ftc') && !window.location.href.includes('omnilite'));
+export default (!window.location.href.includes('ftc') && !window.location.href.includes('ltc'));

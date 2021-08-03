@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { NavbarBrand } from 'reactstrap';
 import isOmniExplorer from 'utils/isOmniExplorer';
 import isOmniFeather from 'utils/isOmniFeather';
-import isOmniLite from 'utils/isOmniLite';
+import isLTC from 'utils/isLTC';
 import { getSufixURL } from 'utils/getLocationPath';
 
 const IMG = styled.img`
@@ -30,7 +30,7 @@ function HeaderBrand() {
         </span>
       )}
       {isOmniFeather && <span>OmniFeather Explorer</span>}
-      {isOmniLite && <span>OmniLite Explorer</span>}
+      {isLTC && <span>LTC Explorer</span>}
     </NavbarBrand>
   );
 }

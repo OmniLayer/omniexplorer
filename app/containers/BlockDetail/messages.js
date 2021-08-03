@@ -38,7 +38,7 @@ export default defineMessages({
     },
     body: {
       id: 'app.containers.BlockDetail.doesNotHaveTransactions',
-      defaultMessage: 'Block {blockNumber} has no Omni Layer transactions',
+      defaultMessage: 'Block {blockNumber} has no transactions',
     },
   },
 });
