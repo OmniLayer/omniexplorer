@@ -10,7 +10,7 @@ import StyledA from 'components/StyledA';
 export default defineMessages({
   header: {
     id: 'app.components.NoOmniTransactions.header',
-    defaultMessage: 'No Omni Layer transactions found',
+    defaultMessage: 'No transactions found',
   },
   main: {
     id: 'app.components.NoOmniTransactions.main',

@@ -6,7 +6,7 @@ import isNil from 'lodash/isNil';
 import { API_URL_BLOCKCHAIN_BTC_BALANCE, FN_API_URL_BLOCKCHAIR_BTC_BALANCE } from 'containers/App/constants';
 import getLocationPath from 'utils/getLocationPath';
 import isFeatherCoin from 'utils/isOmniFeather';
-import isOmniLite from 'utils/isOmniLite';
+import isLTC from 'utils/isLTC';
 import { LOAD_SEARCH } from './constants';
 import { searchLoaded } from './actions';
 
@@ -24,7 +24,7 @@ export function* getSearch({ query }) {
 
   const search = yield call(request, requestURL, options);
   // if the query is an address get BTC balance from blockchain.info for the given wallet
-  if (!isNil(search.data.address) && isNil(search.data.address.error) && !isFeatherCoin && !isOmniLite) {
+  if (!isNil(search.data.address) && isNil(search.data.address.error) && !isFeatherCoin && !isLTC) {
     const wallet = search.data.address;
     const address = search.query;
 

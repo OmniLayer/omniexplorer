@@ -13,7 +13,7 @@ import generateTemplate from 'utils/generateTemplate';
 export const API_URL_BASE = 'https://api.omniexplorer.info/v1';
 export const API_TESTNET_URL_BASE = 'https://testnetapi.omniexplorer.info/v1';
 export const API_OMNIFEATHER_URL_BASE = 'https://api.omnifeather.com/v1';
-export const API_OMNILITE_URL_BASE = 'https://api.omnilite.org/v1';
+export const API_LTC_URL_BASE = 'https://api.omnilite.org/v1';
 export const API_URL_BLOCKCHAIN_BTC_BALANCE =
   'https://blockchain.info/balance?cors=true&active=';
 export const FN_API_URL_BLOCKCHAIR_BTC_BALANCE = data =>

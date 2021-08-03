@@ -1,7 +1,7 @@
 /* eslint-disable global-require,camelcase */
 import isEmpty from 'lodash/isEmpty';
 import isOmniFeather from 'utils/isOmniFeather';
-import isOmniLite from 'utils/isOmniLite';
+import isLTC from 'utils/isLTC';
 
 export default (id, propertyinfo = {}) => {
   let logo;
