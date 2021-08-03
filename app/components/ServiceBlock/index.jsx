@@ -11,17 +11,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import isEmpty from 'lodash/isEmpty';
-import featureLogoPNG from 'images/token1.png';
 import { Col, Row } from 'reactstrap';
 import { makeSelectStatus } from './selectors';
-import isOmniFeather from 'utils/isOmniFeather';
-const ftcLogo = require(`images/external_logos/token0.png`);
-
-const IMG = styled.img`
-  margin-right: 6px;
-  width: 60px;
-  height: 60px;
-`;
+import ServiceBlockLogo from './ServiceBlockLogo';
 
 const Container = styled.div.attrs({
   className: 'service-block text-center-down-md text-white lead',
@@ -30,7 +22,7 @@ const Container = styled.div.attrs({
 `;
 
 const BlockTitle = styled.span.attrs({
-  className: "d-block",
+  className: 'd-block',
 })`
   font-size: 0.9rem;
 `;
@@ -61,16 +53,7 @@ class ServiceBlock extends React.PureComponent {
       <Container>
         <Row xs="1" sm="1" md="5">
           <Col className="mt-3 mt-sm-0">
-            {!isOmniFeather && (
-              <IMG src={featureLogoPNG} alt="OmniExplorer.info" />
-            )}
-            {isOmniFeather && (
-              <IMG src={ftcLogo} alt="OmniFeather Explorer" />
-            )}
-            <div className="d-sm-block d-md-inline-block text-whites align-middle">
-              <h5>{(isOmniFeather ? 'FeatherCoin (#0)' : 'Omni Token (#1)')}</h5>
-              <span>Featured Property</span>
-            </div>
+            <ServiceBlockLogo />
           </Col>
           <Col className="mt-3 mt-sm-0">
             <BlockTitle>LAST UPDATE</BlockTitle>
