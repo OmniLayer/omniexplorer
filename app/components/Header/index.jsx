@@ -13,31 +13,13 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import NavigationBar from 'components/NavigationBar';
 import ServiceBlock from 'components/ServiceBlock';
 import SearchBox from 'components/SearchBox';
-import isOmniFeather from 'utils/isOmniFeather';
-import { getSufixURL } from 'utils/getLocationPath';
-
-const IMG = styled.img`
-  padding-bottom: 3px;
-  padding-right: 9px;
-`;
+import HeaderBrand from 'components/HeaderBrand';
 
 function Header(props) {
   return (
     <div id="app-header">
       <NavigationBar>
-        <NavbarBrand href={`${getSufixURL()}`}>
-          {!isOmniFeather && (
-            <span>
-              <IMG src="/favicon.png" alt="OmniExplorer.info" />
-              OmniExplorer.info
-            </span>
-          )}
-          {isOmniFeather && (
-            <span>
-              OmniFeather Explorer
-            </span>
-          )}
-        </NavbarBrand>
+        <HeaderBrand />
         <div className="ml-auto w-50 d-flex">
           <div className="w-100 ml-auto d-none-only-sm-down">
             <SearchBox />
