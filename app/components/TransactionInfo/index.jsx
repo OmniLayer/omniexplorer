@@ -101,7 +101,7 @@ function TransactionInfo(props) {
 
   const amountDisplay = <TransactionAmount {...props} />;
 
-  let ecosystem = (
+  let ecosystem = props.ecosystem && (
     <tr>
       <td className="field">Ecosystem</td>
       <td>

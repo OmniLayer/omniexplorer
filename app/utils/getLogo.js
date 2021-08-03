@@ -1,6 +1,7 @@
 /* eslint-disable global-require,camelcase */
 import isEmpty from 'lodash/isEmpty';
 import isOmniFeather from 'utils/isOmniFeather';
+import isOmniLite from 'utils/isOmniLite';
 
 export default (id, propertyinfo = {}) => {
   let logo;
@@ -21,6 +22,7 @@ export default (id, propertyinfo = {}) => {
       } else if (flags.replaced) {
         logo = require('images/tokenreplaced.png');
       } else if (flags.registered && id) {
+        // @TODO: buildEcosystemURL
         logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
       } else if (flags.invalid && id) {
         logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);

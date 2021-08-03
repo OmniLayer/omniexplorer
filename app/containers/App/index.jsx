@@ -116,10 +116,12 @@ export function App({ loadStatus }) {
             <Route exact path="/:block(\d+)?" component={HomePage} />
             <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
             <Route exact path="/ftc/:block(\d+)?" component={HomePage} />
+            <Route exact path="/omnilite/:block(\d+)?" component={HomePage} />
 
             <Route path="/tx/:tx" component={TransactionDetail} />
             <Route path="/testnet/tx/:tx" component={TransactionDetail} />
             <Route path="/ftc/tx/:tx" component={TransactionDetail} />
+            <Route path="/omnilite/tx/:tx" component={TransactionDetail} />
 
             <Route path="/transactions/unconfirmed" component={Transactions} />
             <Route
@@ -128,6 +130,10 @@ export function App({ loadStatus }) {
             />
             <Route
               path="/ftc/transactions/unconfirmed"
+              component={Transactions}
+            />
+            <Route
+              path="/omnilite/transactions/unconfirmed"
               component={Transactions}
             />
 
@@ -150,6 +156,11 @@ export function App({ loadStatus }) {
               component={AddressDetail}
               key={location.pathname}
             />
+            <Route
+              path="/omnilite/address/:address/:page(\d+)?"
+              component={AddressDetail}
+              key={location.pathname}
+            />
 
             <Route
               path="/search/:query?"
@@ -163,6 +174,11 @@ export function App({ loadStatus }) {
             />
             <Route
               path="/ftc/search/:query"
+              component={Search}
+              key={location.pathname}
+            />
+            <Route
+              path="/omnilite/search/:query"
               component={Search}
               key={location.pathname}
             />
@@ -182,6 +198,11 @@ export function App({ loadStatus }) {
               component={Properties}
               key={location.pathname}
             />
+            <Route
+              path="/omnilite/properties/:query"
+              component={Properties}
+              key={location.pathname}
+            />
 
             <Route
               path="/asset/:propertyid(\d+)"
@@ -198,6 +219,11 @@ export function App({ loadStatus }) {
               component={AssetDetail}
               key={location.pathname}
             />
+            <Route
+              path="/omnilite/asset/:propertyid(\d+)"
+              component={AssetDetail}
+              key={location.pathname}
+            />
 
             <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
             <Route
@@ -208,6 +234,11 @@ export function App({ loadStatus }) {
             <Route
               exact
               path="/ftc/crowdsales/:ecosystem"
+              component={Crowdsales}
+            />
+            <Route
+              exact
+              path="/omnilite/crowdsales/:ecosystem"
               component={Crowdsales}
             />
 
@@ -223,6 +254,11 @@ export function App({ loadStatus }) {
             />
             <Route
               path="/ftc/crowdsale/:crowdsaleid(\d+)"
+              component={CrowdsaleDetail}
+              key={location.pathname}
+            />
+            <Route
+              path="/omnilite/crowdsale/:crowdsaleid(\d+)"
               component={CrowdsaleDetail}
               key={location.pathname}
             />
@@ -245,6 +281,12 @@ export function App({ loadStatus }) {
               component={BlockDetail}
               key={location.pathname}
             />
+            <Route
+              exact
+              path="/omnilite/block/:block(\d+)"
+              component={BlockDetail}
+              key={location.pathname}
+            />
 
             <Route exact path="/promote" component={Promote} />
 
@@ -262,13 +304,20 @@ export function App({ loadStatus }) {
               path="/ftc/blocks/:block(\d+)?"
               component={FullBlockList}
             />
+            <Route
+              exact
+              path="/omnilite/blocks/:block(\d+)?"
+              component={FullBlockList}
+            />
 
             <Route exact path="/activations" component={Activations} />
             <Route exact path="/testnet/activations" component={Activations} />
             <Route exact path="/ftc/activations" component={Activations} />
+            <Route exact path="/omnilite/activations" component={Activations} />
 
             <Route exact path="/testnet/exchange" component={Exchange} />
             <Route exact path="/ftc/exchange" component={Exchange} />
+            <Route exact path="/omnilite/exchange" component={Exchange} />
 
             <Route path="" component={NotFoundPage} />
             <Route component={NotFoundPage} />

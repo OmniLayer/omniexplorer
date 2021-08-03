@@ -23,12 +23,11 @@ import MenuButton from 'components/MenuButton';
 import isTestnet from 'utils/isTestnet';
 import isOmniFeather from 'utils/isOmniFeather';
 import menuReducer, { initialState } from 'components/Menu/reducer';
+import EcosystemLogo from 'components/EcosystemLogo';
 import { toggleDisabledTestnet } from './actions';
 
 import './menu.scss';
 import './switch.scss';
-const oeLogo = require('images/token1.png');
-const ftcLogo = require('images/external_logos/token0.png');
 
 const MenuDivider = styled.div`
   width: 100%;
@@ -36,10 +35,6 @@ const MenuDivider = styled.div`
   background-color: rgba(0, 0, 0, 0.15);
   margin-top: 6px;
   margin-bottom: 12px;
-`;
-
-const IMGLogo = styled.img`
-  display: inline;
 `;
 
 function Menu(props) {
@@ -179,35 +174,31 @@ function Menu(props) {
             </NavLink>
           </Col>
           <Col xs="6" sm="4">
+            <h5>Ecosystems</h5>
+            <EcosystemLogo />
+            <h5>API</h5>
+            <NavLink
+              href={getLocationPath()}
+              target="_blank"
+            >
+              Documentation
+            </NavLink>
+          </Col>
+          <Col xs="6" sm="4">
+            <h5>Omni Lab</h5>
+            <NavLink
+              href="https://omnilab.online/omni-academy/"
+              target="_blank"
+            >
+              Omni Academy
+            </NavLink>
+            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
+              Omni Wallet
+            </NavLink>
+            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
+              OmniBOLT
+            </NavLink>
             <h5>Misc</h5>
-            {isOmniFeather && (
-              <NavLink className="pr-0" href="/">
-                <IMGLogo
-                  src={oeLogo}
-                  alt="omniexplorer"
-                  className={'mr-3'}
-                  style={{
-                    width: '2rem',
-                    height: '2rem',
-                  }}
-                />
-                OmniExplorer
-              </NavLink>
-            )}
-            {!isOmniFeather && (
-              <NavLink href="/ftc">
-                <IMGLogo
-                  src={ftcLogo}
-                  alt="omnifeather explorer"
-                  className={'mr-3'}
-                  style={{
-                    width: '2rem',
-                    height: '2rem',
-                  }}
-                />
-                OmniFeather Explorer
-              </NavLink>
-            )}
             {!isOmniFeather && (
               <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
                 Recent Class A/B TX's
@@ -229,23 +220,6 @@ function Menu(props) {
               target="_blank"
             >
               View/Report Issues
-            </NavLink>
-          </Col>
-          <Col xs="6" sm="4">
-            <h5>API</h5>
-            <NavLink href={getLocationPath()}>Documentation</NavLink>
-            <h5>Omni Lab</h5>
-            <NavLink
-              href="https://omnilab.online/omni-academy/"
-              target="_blank"
-            >
-              Omni Academy
-            </NavLink>
-            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
-              Omni Wallet
-            </NavLink>
-            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
-              OmniBOLT
             </NavLink>
           </Col>
         </Row>
