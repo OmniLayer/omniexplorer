@@ -7,6 +7,7 @@ import { addressLoaded } from 'containers/AddressDetail/actions';
 import encoderURIParams from 'utils/encoderURIParams';
 import request from 'utils/request';
 import isFeatherCoin from 'utils/isOmniFeather';
+import isOmniLite from 'utils/isOmniLite';
 import isNil from 'lodash/isNil';
 
 export function* getAddress({ addr }) {
@@ -66,7 +67,7 @@ export function* getAddress({ addr }) {
     }
   }
 
-  if(!isFeatherCoin){
+  if(!isFeatherCoin && !isOmniLite){
     const walletBTCBalance = wallet.balance.find(x => x.id == 0);
     if (walletBTCBalance) walletBTCBalance.value = btcBalanceValue;
   }
