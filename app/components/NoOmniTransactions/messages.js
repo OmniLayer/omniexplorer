@@ -6,18 +6,18 @@
 import { defineMessages } from 'react-intl';
 import React from 'react';
 import StyledA from 'components/StyledA';
+import { getLayerName } from "utils/getBlockchainName";
 
 export default defineMessages({
   header: {
     id: 'app.components.NoOmniTransactions.header',
-    defaultMessage: 'No transactions found',
+    defaultMessage: `No ${getLayerName()} transactions found`,
   },
   main: {
     id: 'app.components.NoOmniTransactions.main',
     defaultMessage:
       'If the transaction you are searching for was just broadcast it might\n' +
-      '        take a few minutes for the network to pass it around for us to see\n' +
-      '        it.',
+      'take a few minutes for the network to pass it around for us to see it',
   },
   secondary: {
     id: 'app.components.NoOmniTransactions.secondary',

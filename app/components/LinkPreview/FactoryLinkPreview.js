@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import getBlockchainName, { getLongName, getLayerName, getSiteDescriptor } from "utils/getBlockchainName";
 
 const config = {
-  shortSiteTitle: 'Omni Explorer',
-  siteTitle: 'The block explorer for Omni Layer Tokens',
-  siteDescription:
-    'The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies',
+  shortSiteTitle: getLongName(),
+  siteTitle: `The block explorer for ${getLayerName()} Tokens`,
+  siteDescription: getSiteDescriptor(),
   siteImage: '/favicon.png',
   siteUrl: 'https://omniexplorer.info',
   pathPrefix: '',

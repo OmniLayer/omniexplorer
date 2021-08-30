@@ -6,6 +6,7 @@
 import React from 'react';
 import { defineMessages } from 'react-intl';
 import StyledA from 'components/StyledA';
+import isOmniExplorer from "utils/isOmniExplorer";
 
 export default defineMessages({
   header: {

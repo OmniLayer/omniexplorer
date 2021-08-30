@@ -9,7 +9,6 @@ import isOmniFeather from './isOmniFeather';
 import isLTC from './isLTC';
 
 export default () => {
-
   if (isTestnet) {
     return API_TESTNET_URL_BASE;
   }

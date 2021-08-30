@@ -51,6 +51,7 @@ import activationsSaga from 'containers/Activations/saga';
 import statusSaga from 'components/ServiceBlock/saga';
 import TestnetMarquee from 'components/TestnetMarquee';
 import isTestnet from 'utils/isTestnet';
+import getBlockchainName, { getLongName, getLayerName, getSiteDescriptor } from "utils/getBlockchainName";
 import GlobalStyle from '../../global-styles';
 
 import { TXS_CLASS_AB } from './constants';
@@ -100,12 +101,12 @@ export function App({ loadStatus }) {
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <AppWrapper>
         <Helmet
-          titleTemplate="%s - Omni Explorer"
-          defaultTitle="Omni Explorer - The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+          titleTemplate={`%s - ${getLongName()}`}
+          defaultTitle={getSiteDescriptor()}
         >
           <meta
             name="description"
-            content="The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies"
+            content={getSiteDescriptor()}
           />
           <link rel="canonical" href="https://omniexplorer.info" />
           <meta name="referrer" content="always" />

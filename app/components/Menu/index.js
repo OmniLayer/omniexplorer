@@ -174,7 +174,7 @@ function Menu(props) {
             </NavLink>
           </Col>
           <Col xs="6" sm="4">
-            <h5>Ecosystems</h5>
+            <h5>Blockchain</h5>
             <EcosystemLogo />
             <h5>API</h5>
             <NavLink

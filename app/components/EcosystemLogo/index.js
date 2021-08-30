@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { NavLink } from 'reactstrap';
 
 const oeLogo = require('images/token1.png');
+const btcLogo = require('images/token0.png');
 const ftcLogo = require('images/external_logos/ftc-logo.png');
 const ltcLogo = require('images/external_logos/omnilite-logo.png');
 
@@ -21,7 +22,7 @@ function EcosystemLogo() {
     <>
       <NavLink className="pr-0" href="/">
         <IMGLogo
-          src={oeLogo}
+          src={btcLogo}
           alt="omniexplorer"
           className="mr-3"
           style={{
@@ -29,7 +30,7 @@ function EcosystemLogo() {
             height: '2rem',
           }}
         />
-        OmniExplorer
+        Bitcoin
       </NavLink>
       <NavLink href="/ftc">
         <IMGLogo
@@ -41,7 +42,7 @@ function EcosystemLogo() {
             height: '2rem',
           }}
         />
-        OmniFeather Explorer
+        Feathercoin
       </NavLink>
       <NavLink href="/ltc">
         <IMGLogo
@@ -53,7 +54,7 @@ function EcosystemLogo() {
             height: '2rem',
           }}
         />
-        LTC Explorer
+        Litecoin
       </NavLink>
     </>
   );

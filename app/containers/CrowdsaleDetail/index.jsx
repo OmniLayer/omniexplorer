@@ -157,9 +157,7 @@ export function CrowdsaleDetail(props) {
     getItemKey,
   };
 
-  const shareUrl = `https://www.omniexplorer.info/crowdsale/${
-    crowdsale.propertyid
-  }`;
+  const shareUrl = `${getLocationPath()}/crowdsale/${crowdsale.propertyid}`;
   const shareTitle =
     crowdsale.data ||
     crowdsale.name ||

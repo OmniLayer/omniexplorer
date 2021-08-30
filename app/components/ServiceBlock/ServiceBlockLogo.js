@@ -20,12 +20,12 @@ export default () => {
   let logo;
 
   if (isOmniFeather) {
-    ecosystem = 'FeatherCoin (#0)';
+    ecosystem = 'Feathercoin (#0)';
     logo = <IMG src={ftcLogo} alt="OmniFeather Explorer" />;
   }
 
   if (isLTC) {
-    ecosystem = 'LTC (#1)';
+    ecosystem = 'LTC (#0)';
     logo = <IMG src={ltcLogo} alt="LTC Explorer" />;
   }
 
