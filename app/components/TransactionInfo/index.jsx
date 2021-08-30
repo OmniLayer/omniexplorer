@@ -32,6 +32,7 @@ import { CONFIRMATIONS } from 'containers/Transactions/constants';
 import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import isOmniExplorer from 'utils/isOmniExplorer';
 
 const StyledCard = styled(Card)`
   background-color: #2a72b5;
@@ -354,6 +355,7 @@ function TransactionInfo(props) {
                   </span>
                 </td>
               </tr>
+              {isOmniExplorer &&
               <tr>
                 <td className="field">Other explorers</td>
                 <td>
@@ -364,6 +366,7 @@ function TransactionInfo(props) {
                   />
                 </td>
               </tr>
+              }
               <tr className="d-none">
                 <td colSpan="2">
                   <StyledA

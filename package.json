@@ -1,6 +1,6 @@
 {
   "name": "omniexplorer",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "Omni Explorer is a Block Explorer and Analytics Platform for the Omni Layer",
   "repository": {
     "type": "git",
@@ -66,6 +66,7 @@
     "@styled-icons/fa-solid": "^10.18.0",
     "bootstrap": "^4.5.2",
     "chalk": "2.4.2",
+    "components": "^0.1.0",
     "compression": "1.7.4",
     "connected-react-router": "6.6.0",
     "cross-env": "5.2.0",

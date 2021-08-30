@@ -4,14 +4,12 @@
  *
  */
 
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { NavbarBrand } from 'reactstrap';
-import isOmniExplorer from 'utils/isOmniExplorer';
-import isOmniFeather from 'utils/isOmniFeather';
-import isLTC from 'utils/isLTC';
-import { getSufixURL } from 'utils/getLocationPath';
+import React, { memo } from "react";
+import styled from "styled-components";
+import { NavbarBrand } from "reactstrap";
+import isOmniExplorer from "utils/isOmniExplorer";
+import { getSufixURL } from "utils/getLocationPath";
+import { getLongName } from "utils/getBlockchainName";
 
 const IMG = styled.img`
   padding-bottom: 3px;
@@ -19,18 +17,16 @@ const IMG = styled.img`
 `;
 
 function HeaderBrand() {
-  const brandURL = getSufixURL();
+  const brandURL = getSufixURL() || "/";
 
   return (
     <NavbarBrand href={brandURL}>
-      {isOmniExplorer && (
         <span>
-          <IMG src="/favicon.png" alt="OmniExplorer.info" />
-          OmniExplorer.info
+          {isOmniExplorer &&
+          <IMG src="/favicon.png" alt={getLongName()} />
+          }
+          {getLongName()}
         </span>
-      )}
-      {isOmniFeather && <span>OmniFeather Explorer</span>}
-      {isLTC && <span>LTC Explorer</span>}
     </NavbarBrand>
   );
 }

@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 import isEmpty from 'lodash/isEmpty';
 import { Col, Row } from 'reactstrap';
+import isOmniExplorer from 'utils/isOmniExplorer';
 import { makeSelectStatus } from './selectors';
 import ServiceBlockLogo from './ServiceBlockLogo';
 
@@ -60,16 +61,18 @@ class ServiceBlock extends React.PureComponent {
             <span className="d-block">{`As of Block ${this.props.status.last_block}`}</span>
             <small className="d-block">{`${this.props.status.block_time} UTC`}</small>
           </Col>
+          { isOmniExplorer &&
           <Col className="mt-3 mt-sm-0">
             <BlockTitle>LATEST OMNI EXCHANGE RATE</BlockTitle>
             <span>{omniPriceValue(this.props.status)}</span>
           </Col>
+          }
           <Col className="mt-3 mt-sm-0">
             <BlockTitle>TOTAL TRANSACTIONS (24 hrs)</BlockTitle>
             <span>{this.props.status.txcount_24hr}</span>
           </Col>
           <Col className="mt-3 mt-sm-0">
-            <BlockTitle>OMNI PROPERTIES</BlockTitle>
+            <BlockTitle>PROPERTIES</BlockTitle>
             <span>{propertiesCountValue(this.props.status)}</span>
           </Col>
         </Row>

@@ -22,15 +22,32 @@ export default (id, propertyinfo = {}) => {
       } else if (flags.replaced) {
         logo = require('images/tokenreplaced.png');
       } else if (flags.registered && id) {
-        // @TODO: buildEcosystemURL
-        logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
+        if(isftc && id == 0){
+          logo = require(`images/external_logos/token${id}.png`);
+        } else if (isLTC && id == 0) {
+          logo = require(`images/external_logos/ltc.png`);
+        } else{
+          logo = require(`images/token${id}.png`);
+        }
       } else if (flags.invalid && id) {
-        logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
+        if(isftc && id == 0){
+          logo = require(`images/external_logos/token${id}.png`);
+        } else if (isLTC && id == 0) {
+          logo = require(`images/external_logos/token1.png`);
+        } else{
+          logo = require(`images/token${id}.png`);
+        }
       } else {
         logo = require('images/tokendefault.png');
       }
     } else {
-      logo = require(`images/${(isftc && id == 0) ? 'external_logos/' : ''}token${id}.png`);
+      if(isftc && id == 0){
+        logo = require(`images/external_logos/token${id}.png`);
+      } else if (isLTC && id == 0) {
+        logo = require(`images/external_logos/token1.png`);
+      } else{
+        logo = require(`images/token${id}.png`);
+      }
     }
   } catch (e) {
     if (id > 2147483650) {
