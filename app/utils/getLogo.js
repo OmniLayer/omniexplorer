@@ -5,10 +5,7 @@ import isLTC from 'utils/isLTC';
 
 export default (id, propertyinfo = {}) => {
   let logo;
-  const {
-    flags,
-    type_int,
-  } = propertyinfo;
+  const { flags, type_int } = propertyinfo;
   const isftc = isOmniFeather;
 
   try {
@@ -22,32 +19,30 @@ export default (id, propertyinfo = {}) => {
       } else if (flags.replaced) {
         logo = require('images/tokenreplaced.png');
       } else if (flags.registered && id) {
-        if(isftc && id == 0){
+        if (isftc && id == 0) {
           logo = require(`images/external_logos/token${id}.png`);
         } else if (isLTC && id == 0) {
           logo = require(`images/external_logos/ltc.png`);
-        } else{
+        } else {
           logo = require(`images/token${id}.png`);
         }
       } else if (flags.invalid && id) {
-        if(isftc && id == 0){
+        if (isftc && id == 0) {
           logo = require(`images/external_logos/token${id}.png`);
         } else if (isLTC && id == 0) {
           logo = require(`images/external_logos/token1.png`);
-        } else{
+        } else {
           logo = require(`images/token${id}.png`);
         }
       } else {
         logo = require('images/tokendefault.png');
       }
+    } else if (isftc) {
+      logo = require(`images/external_logos/ftc/token${id}.png`);
+    } else if (isLTC) {
+      logo = require(`images/external_logos/ltc/token${id}.png`);
     } else {
-      if(isftc && id == 0){
-        logo = require(`images/external_logos/token${id}.png`);
-      } else if (isLTC && id == 0) {
-        logo = require(`images/external_logos/token1.png`);
-      } else{
-        logo = require(`images/token${id}.png`);
-      }
+      logo = require(`images/token${id}.png`);
     }
   } catch (e) {
     if (id > 2147483650) {
