@@ -21,10 +21,10 @@ import ContainerBase from 'components/ContainerBase';
 import ListHeader from 'components/ListHeader';
 import { FactoryLinkPreview } from 'components/LinkPreview';
 
-import makeSelectSearch from 'containers/Search/selectors';
-import searchReducer from 'containers/Search/reducer';
-import searchSaga from 'containers/Search/saga';
-import { loadSearch } from 'containers/Search/actions';
+import makeSelectProperties from 'containers/Properties/selectors';
+import propertiesReducer from 'containers/Properties/reducer';
+import propertiesSaga from 'containers/Properties/saga';
+import { loadProperties } from 'containers/Properties/actions';
 import {
   ECOSYSTEM_PROD,
   ECOSYSTEM_TEST,
@@ -42,17 +42,17 @@ export class Properties extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.query =
-      props.match.params.query.toString() === ECOSYSTEM_PROD_NAME.toLowerCase()
+    this.ecosystemNum =
+      props.match.params.ecosystem.toString() === ECOSYSTEM_PROD_NAME.toLowerCase()
         ? ECOSYSTEM_PROD
         : ECOSYSTEM_TEST;
     this.ecosystem =
-      this.query === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME;
-    this.props.loadSearch(this.query);
+      this.ecosystem === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME;
+    this.props.loadProperties(this.ecosystemNum);
   }
 
   render() {
-    if (this.props.search.loading) {
+    if (this.props.properties.tokens.loading) {
       return (
         <ContainerBase>
           <LoadingIndicator />
@@ -71,9 +71,12 @@ export class Properties extends React.PureComponent {
           </tr>
         </thead>
         <tbody>
-          {this.props.search.asset.map((x, idx) => (
+          {this.props.properties.tokens.map((x, idx) => (
             <Asset
-              {...x}
+              id={x.propertyid}
+              name={x.name}
+              issuer={x.issuer}
+              flags={x.flags || {}}
               key={x[2] + idx}
             />
           ))}
@@ -82,7 +85,7 @@ export class Properties extends React.PureComponent {
     );
 
     const linkPreview = FactoryLinkPreview({
-      title: `${this.props.search.asset.length} properties on ${this.ecosystem}`,
+      title: `${this.props.properties.tokens.length} properties on ${this.ecosystem}`,
       slug: `properties/${this.ecosystem}`,
     });
 
@@ -92,7 +95,7 @@ export class Properties extends React.PureComponent {
         <Row noGutters>
           <Col sm>
             <ListHeader
-              total={this.props.search.asset.length}
+              total={this.props.properties.tokens.length}
               totalLabel="Property"
               message={messages.header}
               values={{
@@ -111,19 +114,19 @@ export class Properties extends React.PureComponent {
 
 Properties.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  loadSearch: PropTypes.func,
-  search: PropTypes.any,
+  loadProperties: PropTypes.func,
+  properties: PropTypes.any,
   match: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
-  search: makeSelectSearch(),
+  properties: makeSelectProperties(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    loadSearch: query => dispatch(loadSearch(query)),
+    loadProperties: ecosystem => dispatch(loadProperties(ecosystem)),
   };
 }
 
@@ -133,12 +136,12 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({
-  key: 'search',
-  reducer: searchReducer,
+  key: 'properties',
+  reducer: propertiesReducer,
 });
 const withSaga = injectSaga({
-  key: 'search',
-  saga: searchSaga,
+  key: 'properties',
+  saga: propertiesSaga,
 });
 
 export default compose(

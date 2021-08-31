@@ -185,22 +185,22 @@ export function App({ loadStatus }) {
             />
 
             <Route
-              path="/properties/:query"
+              path="/properties/:ecosystem"
               component={Properties}
               key={location.pathname}
             />
             <Route
-              path="/testnet/properties/:query"
+              path="/testnet/properties/:ecosystem"
               component={Properties}
               key={location.pathname}
             />
             <Route
-              path="/ftc/properties/:query"
+              path="/ftc/properties/:ecosystem"
               component={Properties}
               key={location.pathname}
             />
             <Route
-              path="/ltc/properties/:query"
+              path="/ltc/properties/:ecosystem"
               component={Properties}
               key={location.pathname}
             />

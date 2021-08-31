@@ -21,10 +21,10 @@ const StyledTDTextLeft = styled.td.attrs({
 
 function Asset(props) {
   const asset = {
-    id: props[0],
-    name: props[1],
-    issuer: props[2],
-    flags: props[3],
+    id: props.id || props[0],
+    name: props.name || props[1],
+    issuer: props.issuer || props[2],
+    flags: props.flags || props[3],
   };
 
   return (
