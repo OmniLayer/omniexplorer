@@ -21,7 +21,7 @@ import StyledA from 'components/StyledA';
 import isEmpty from 'lodash/isEmpty';
 import { useInjectSaga } from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
-import { FIRST_BLOCK } from 'containers/App/constants';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
 import { Col, Row } from 'reactstrap';
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
@@ -77,7 +77,7 @@ export function Blocks(props) {
       let result;
       const previous = block - 10;
       if (isEmpty(blocks)) {
-        result = previous > FIRST_BLOCK ? previous : FIRST_BLOCK;
+        result = previous > getBlockchainFirstBlock() ? previous : getBlockchainFirstBlock();
       } else if (block > blocks[0].block + 9) {
         result = blocks[0].block;
       } else {
@@ -89,7 +89,7 @@ export function Blocks(props) {
     const nextBlockSet = () => {
       let result;
       if (isEmpty(blocks) || block > blocks[0].block + 9) {
-        result = (parseInt(block, 10) || FIRST_BLOCK) + 10;
+        result = (parseInt(block, 10) || getBlockchainFirstBlock()) + 10;
       } else {
         result = blocks[0].block + 10;
       }

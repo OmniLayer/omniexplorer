@@ -12,7 +12,13 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import styled from 'styled-components';
-import { Alert, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import {
+  Alert,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from 'reactstrap';
 
 import List from 'components/List';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -22,13 +28,14 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import NoOmniBlockTransactions from 'components/NoOmniBlockTransactions';
 import ContainerBase from 'components/ContainerBase';
 import JumpToBlock from 'components/JumpToBlock';
-import { FIRST_BLOCK } from 'containers/App/constants';
 import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import isEmpty from 'lodash/isEmpty';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
+import { getLayerName } from 'utils/getBlockchainName';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
@@ -140,7 +147,7 @@ export function BlockDetail(props) {
   const getItemKey = (blockItem, idx) =>
     blockItem.blockhash.slice(0, 22).concat(idx);
 
-  if (block < FIRST_BLOCK || !blockdetail.block.transactions) {
+  if (block < getBlockchainFirstBlock() || !blockdetail.block.transactions) {
     const errMsg = `Block ${block} not found`;
 
     content = (
@@ -218,9 +225,9 @@ export function BlockDetail(props) {
   );
 
   const validInvalidTxs = hasInvalid ? dropdown : null;
-  const firstBlockMessage = ((block - 1) < FIRST_BLOCK) ?
+  const firstBlockMessage = ((block - 1) < getBlockchainFirstBlock()) ?
     <Alert color="warning" className="mt-1">
-      <strong>{FIRST_BLOCK}</strong> is the first Omni Layer block
+      <strong>{getBlockchainFirstBlock()}</strong> is the first {getLayerName()} block
     </Alert> :
     null;
 
