@@ -14,7 +14,7 @@ import { Tooltip } from 'reactstrap';
 import { compose } from 'redux';
 import history from 'utils/history';
 import useSetTimeout from 'utils/useSetTimeout';
-import { FIRST_BLOCK } from 'containers/App/constants';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
 import { getSufixURL } from 'utils/getLocationPath';
 import messages from './messages';
 
@@ -43,7 +43,7 @@ export function JumpToBlock(props) {
   const isValid = value => props.onValidate && value && props.onValidate(value);
 
   const handleJumpToBlock = e => {
-    const blockNumber = blockToJump < FIRST_BLOCK ? FIRST_BLOCK : blockToJump;
+    const blockNumber = blockToJump < getBlockchainFirstBlock() ? getBlockchainFirstBlock() : blockToJump;
     history.push(`${getSufixURL()}/block/${blockNumber}`);
   };
 

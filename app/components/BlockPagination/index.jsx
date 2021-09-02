@@ -10,7 +10,7 @@ import { Col, Row } from 'reactstrap';
 import styled from 'styled-components';
 import { getSufixURL } from 'utils/getLocationPath';
 import StyledA from 'components/StyledA';
-import { FIRST_BLOCK } from 'containers/App/constants';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
 
 const H4 = styled.h4`
   margin-top: 0.5rem;
@@ -27,7 +27,7 @@ function BlockPagination({ block, latest }) {
   const prevBlock = parseInt(block, 10) - 1;
   const nextBlock = parseInt(block, 10) + 1;
 
-  const LinkPrevious = prevBlock < FIRST_BLOCK ? DisabledLink : StyledA;
+  const LinkPrevious = prevBlock < getBlockchainFirstBlock() ? DisabledLink : StyledA;
   const LinkNext = latest > block ? StyledA : DisabledLink;
 
   return (
