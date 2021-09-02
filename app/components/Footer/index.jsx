@@ -15,7 +15,7 @@ const Wrapper = styled.footer`
   margin-top: 1rem;
   &,
   a.nav-link {
-    background-color: #0a0a0a !important;
+    background-color: #10171d !important;
     color: white !important;
 
     font-size: 1.2rem;

@@ -63,7 +63,9 @@ import { TXS_CLASS_AB } from './constants';
 // Import DevTools, only for dev environment
 const isDev = process.env.NODE_ENV !== 'production';
 
-const AppWrapper = styled.div`
+const AppWrapper = styled.div.attrs({
+  className: 'd-flex flex-column min-vh-100',
+})`
   //max-width: calc(1170px + 16px * 2);
   margin: 0 auto;
 
@@ -111,6 +113,7 @@ export function App({ loadStatus }) {
           <link rel="canonical" href="https://omniexplorer.info" />
           <meta name="referrer" content="always" />
         </Helmet>
+        <div className="wrapper flex-grow-1">
         <Header />
         <ErrorBoundary>
           <Switch>
@@ -324,6 +327,7 @@ export function App({ loadStatus }) {
             <Route component={NotFoundPage} />
           </Switch>
         </ErrorBoundary>
+        </div>
         <Footer />
         {isTestnet && <TestnetMarquee />}
         {isDev ? <DevTools /> : <div />}
