@@ -122,16 +122,18 @@ class TransactionHistory extends React.Component {
             TXs:&nbsp;
             <SanitizedFormattedNumber value={crosshairValues[0].y / 10000} />
           </span>
-          <br />
-          <LegendUnderline color="green" className="d-inline-block" />
           {isOmniExplorer &&
-          <span className="d-inline-block">
-            USD:&nbsp;
-            <span>
-              $&nbsp;
-              <SanitizedFormattedNumber value={crosshairValues[1].y} />
+          <>
+            <br />
+            <LegendUnderline color="green" className="d-inline-block" />
+            <span className="d-inline-block">
+              USD:&nbsp;
+              <span>
+                $&nbsp;
+                <SanitizedFormattedNumber value={crosshairValues[1].y} />
+              </span>
             </span>
-          </span>
+          </>
           }
         </div>
       );
