@@ -24,6 +24,8 @@ import {
   YAxis,
 } from 'react-vis';
 
+import isOmniExplorer from 'utils/isOmniExplorer';
+
 // https://github.com/uber/react-vis/blob/master/docs/flexible-plots.md#/examples/charts/responsive-vis
 // https://uber.github.io/react-vis/documentation/api-reference/crosshair
 // https://github.com/uber/react-vis/issues/834 //Axis Values are Slightly Off #834
@@ -118,19 +120,19 @@ class TransactionHistory extends React.Component {
           <LegendUnderline color="violet" className="d-inline-block" />
           <span className="d-inline-block">
             TXs:&nbsp;
-            {<SanitizedFormattedNumber value={crosshairValues[0].y / 10000} />}
+            <SanitizedFormattedNumber value={crosshairValues[0].y / 10000} />
           </span>
           <br />
           <LegendUnderline color="green" className="d-inline-block" />
+          {isOmniExplorer &&
           <span className="d-inline-block">
             USD:&nbsp;
-            {
-              <span>
-                $&nbsp;
-                <SanitizedFormattedNumber value={crosshairValues[1].y} />
-              </span>
-            }
+            <span>
+              $&nbsp;
+              <SanitizedFormattedNumber value={crosshairValues[1].y} />
+            </span>
           </span>
+          }
         </div>
       );
 
@@ -175,14 +177,16 @@ class TransactionHistory extends React.Component {
                 strokeWidth: 3,
               }}
             />
-            <LineSeries
-              data={DATA[1]}
-              style={{
-                stroke: 'green',
-                strokeWidth: 3,
-                strokeLinejoin: 'round',
-              }}
-            />
+            {isOmniExplorer &&
+              <LineSeries
+                data={DATA[1]}
+                style={{
+                  stroke: 'green',
+                  strokeWidth: 3,
+                  strokeLinejoin: 'round',
+                }}
+              />
+            }
             <Crosshair values={crosshairValues}>{crosshairContent()}</Crosshair>
           </FlexibleWidthXYPlot>
         )}
