@@ -49,11 +49,15 @@ function AssetInfo(asset) {
   }
 
   if (asset.type_int === 28) {
+    (asset.ecosystem === 'main' || !asset.ecosystem)
+      ? 'Production'
+      : asset.ecosystem;
+
     tokenName = (
       <tr>
         <StyledTD>Ecosystem</StyledTD>
         <td>
-          <strong>{asset.ecosystem}</strong>
+          <strong>{ecosystemName}</strong>
         </td>
       </tr>
     );
