@@ -11,10 +11,12 @@ import TransactionAmountTitleFactory from './TransactionAmountTitleFactory';
 
 const TransactionAmount = props => {
   const transactionAmount = TransactionAmountFactory(props);
+  const titleAmount =
+    props.type_int === 4 && props.subsends.length > 1 ? 'Amounts' : 'Amount';
 
   const TransactionAmountRecord = (
     <tr>
-      <td className="field">Amount</td>
+      <td className="field">{titleAmount}</td>
       <td>
         {transactionAmount}
       </td>

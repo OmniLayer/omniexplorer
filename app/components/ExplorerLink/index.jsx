@@ -7,7 +7,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { EXTERNAL_EXPLORER_BLOCKCHAIR } from './constants';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR, EXTERNAL_EXPLORER_FEATHERCOIN } from './constants';
 
 const IMG = styled.img.attrs({
   className: "explorer-logo",
@@ -21,7 +21,9 @@ const ExternalLink = styled.a.attrs({
 
 const ExplorerName = styled.span.attrs({
   className: "explorer-name",
-})``;
+})`
+  color: #337ab7;
+`;
 
 const explorers = {
   [EXTERNAL_EXPLORER_BLOCKCHAIR]: {
@@ -29,6 +31,12 @@ const explorers = {
     pathbase: 'https://blockchair.com/bitcoin/transaction/',
     title: 'View on Blockchair',
     linkText: 'Blockchair',
+  },
+  [EXTERNAL_EXPLORER_FEATHERCOIN]: {
+    name: 'feathercoin',
+    pathbase: 'https://explorer.feathercoin.com/tx/',
+    title: 'View on Feathercoin',
+    linkText: 'Feathercoin',
   },
 };
 
@@ -40,7 +48,7 @@ function ExplorerLink({ explorerId, tx, className }) {
   return (
     <div className={className}>
       <ExternalLink href={href} title={explorer.title}>
-        <IMG src={logo} alt={explorer.name} />
+        <IMG src={logo} alt={explorer.name} /> &nbsp;
         <ExplorerName>
           { explorer.linkText }
         </ExplorerName>

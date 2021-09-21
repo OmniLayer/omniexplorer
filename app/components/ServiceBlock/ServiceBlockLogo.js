@@ -5,8 +5,8 @@ import isOmniExplorer from 'utils/isOmniExplorer';
 import isOmniFeather from 'utils/isOmniFeather';
 import isLTC from 'utils/isLTC';
 
-import ftcLogo from 'images/external_logos/ftc-logo.png';
-import ltcLogo from 'images/external_logos/omnilite-logo.png';
+import ftcLogo from 'images/external_logos/ftc-service-block-logo.png';
+import ltcLogo from 'images/external_logos/ltc.png';
 import oeLogo from 'images/token1.png';
 
 const IMG = styled.img`

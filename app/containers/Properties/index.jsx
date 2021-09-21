@@ -47,7 +47,7 @@ export class Properties extends React.PureComponent {
         ? ECOSYSTEM_PROD
         : ECOSYSTEM_TEST;
     this.ecosystem =
-      this.ecosystem === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME;
+      this.ecosystemNum === ECOSYSTEM_PROD ? ECOSYSTEM_PROD_NAME : ECOSYSTEM_TEST_NAME;
     this.props.loadProperties(this.ecosystemNum);
   }
 

@@ -13,11 +13,16 @@ export default asset => {
     );
   }
   if (asset.propertyid === 28) {
+    const ecosystemName =
+    (asset.ecosystem === 'main' || !asset.ecosystem)
+      ? 'Production'
+      : asset.ecosystem;
+
     tokenName = (
       <tr>
         <td className="field">Ecosystem</td>
         <td>
-          <strong>{asset.ecosystem}</strong>
+          <strong>{ecosystemName}</strong>
         </td>
       </tr>
     );

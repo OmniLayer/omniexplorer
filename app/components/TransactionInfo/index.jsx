@@ -25,7 +25,7 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
-import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR, EXTERNAL_EXPLORER_FEATHERCOIN } from 'components/ExplorerLink/constants';
 import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
@@ -33,6 +33,7 @@ import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import isOmniExplorer from 'utils/isOmniExplorer';
+import isOmniFeather from "../../utils/isOmniFeather";
 
 const StyledCard = styled(Card)`
   background-color: #2a72b5;
@@ -102,11 +103,16 @@ function TransactionInfo(props) {
 
   const amountDisplay = <TransactionAmount {...props} />;
 
-  let ecosystem = props.ecosystem && (
+  const ecosystemName =
+    (props.ecosystem === 'main' || !props.ecosystem)
+      ? 'Production'
+      : props.ecosystem;
+
+  let ecosystem = (
     <tr>
       <td className="field">Ecosystem</td>
       <td>
-        <span className="text-uppercase">{props.ecosystem}</span>
+        <span className="text-capitalize">{ecosystemName}</span>
       </td>
     </tr>
   );
@@ -191,6 +197,10 @@ function TransactionInfo(props) {
     title: txTitle,
     slug: `tx/${props.txid}`,
   });
+
+  const otherExplorer =
+    (isOmniExplorer && EXTERNAL_EXPLORER_BLOCKCHAIR) ||
+    (isOmniFeather && EXTERNAL_EXPLORER_FEATHERCOIN);
 
   return (
     <ContainerBase>
@@ -355,13 +365,13 @@ function TransactionInfo(props) {
                   </span>
                 </td>
               </tr>
-              {isOmniExplorer &&
+              {otherExplorer &&
               <tr>
                 <td className="field">Other explorers</td>
                 <td>
                   <ExplorerLink
                     className="d-inline-block mr-3"
-                    explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR}
+                    explorerId={otherExplorer}
                     tx={props.txid}
                   />
                 </td>
