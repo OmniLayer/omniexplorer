@@ -2,11 +2,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { Heart } from '@styled-icons/fa-solid/Heart';
-import StyledA from 'components/StyledA';
 import { Col, NavLink, Row } from 'reactstrap';
 
-import getLocationPath from 'utils/getLocationPath';
 import EcosystemLogo from 'components/EcosystemLogo';
+import StyledA from 'components/StyledA';
+import getLocationPath from 'utils/getLocationPath';
+const version = require('../../../package.json').version;
 
 import messages from './messages';
 
@@ -90,6 +91,17 @@ function Footer() {
               ),
             }}
           />
+        </Col>
+      </Row>
+      <Row noGutters>
+        <Col sm>
+          <span>Data provided by: </span>
+          <StyledA href={getLocationPath()}>
+            {getLocationPath()}
+          </StyledA>
+        </Col>
+        <Col sm className="text-md-right">
+          version: {version}
         </Col>
       </Row>
     </Wrapper>
