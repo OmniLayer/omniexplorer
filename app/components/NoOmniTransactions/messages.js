@@ -6,7 +6,7 @@
 import { defineMessages } from 'react-intl';
 import React from 'react';
 import StyledA from 'components/StyledA';
-import { getLayerName } from "utils/getBlockchainName";
+import { getLayerName } from 'utils/getBlockchainName';
 
 export default defineMessages({
   header: {

@@ -1,7 +1,7 @@
 /*
- * NoOmniBlocks Messages
+ * EmptyBlockMessage Messages
  *
- * This contains all the text for the NoOmniBlocks component.
+ * This contains all the text for the EmptyBlockMessage component.
  */
 import React from 'react';
 import { defineMessages } from 'react-intl';
@@ -10,18 +10,16 @@ import { getLayerName } from 'utils/getBlockchainName';
 
 export default defineMessages({
   header: {
-    id: 'app.components.NoOmniBlocks.header',
-    defaultMessage: `No ${getLayerName()} blocks found`,
+    id: 'app.components.EmptyBlockMessage.header',
+    defaultMessage: `No ${getLayerName()} blocks with transactions found`,
   },
   main: {
-    id: 'app.components.NoOmniBlocks.main',
+    id: 'app.components.EmptyBlockMessage.main',
     defaultMessage:
-      'If the block you are searching for was just broadcast it might\n' +
-      '        take a few minutes for the network to pass it around for us to see\n' +
-      '        it.',
+      'Try looking into Older/Newer blocks.',
   },
   secondary: {
-    id: 'app.components.NoOmniBlocks.secondary',
+    id: 'app.components.EmptyBlockMessage.secondary',
     defaultMessage:
       'If the block you are searching for is a Bitcoin only\n' +
       'block you should use a bitcoin block explorer like\n' +

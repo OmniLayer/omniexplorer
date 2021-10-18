@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -22,11 +22,12 @@ import isEmpty from 'lodash/isEmpty';
 import { useInjectSaga } from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
 import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
-import { Col, Row } from 'reactstrap';
+import { Col, Row, CustomInput } from "reactstrap";
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectLocation } from 'containers/App/selectors';
 
+import EmptyBlockMessage from "components/EmptyBlockMessage";
 import { makeSelectBlocks, makeSelectLatestBlock, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
@@ -41,6 +42,7 @@ const DisabledStyledA = styled(StyledA)`
           `;
 
 export function Blocks(props) {
+  const [showEmpty, setShowEmpty] = useState(true);
   const block = props.match.params.block || '';
 
   useInjectSaga({
@@ -58,11 +60,16 @@ export function Blocks(props) {
     content = <LoadingIndicator />;
   } else {
     const { blocks } = props.blocks;
+
+    const allBlocksEmpty = (!showEmpty && !blocks.some(b => !!b.omni_tx_count));
+    const EmptyMessage = allBlocksEmpty ?EmptyBlockMessage : NoOmniBlocks;
     const list =
-      isEmpty(blocks) || block > blocks[0].block + 9 ? (
-        <NoOmniBlocks />
+      isEmpty(blocks) ||
+      block > blocks[0].block + 9 ||
+      allBlocksEmpty ? (
+        <EmptyMessage/>
       ) : (
-        <BlockList blocks={blocks} />
+        <BlockList blocks={blocks} showEmpty={showEmpty}/>
       );
 
     content = <div>{list}</div>;
@@ -121,7 +128,20 @@ export function Blocks(props) {
 
   return (
     <div>
-      <ListHeader message={messages.header}>
+      <ListHeader
+        message={messages.header}
+        extra={
+          <CustomInput
+            className="user-select-none"
+            type="switch"
+            id="showEmpty"
+            name="showEmptySwitch"
+            label="show empty blocks"
+            checked={showEmpty}
+            onClick={e => setShowEmpty(e.target.checked)}
+            inline
+          />}
+      >
         <JumpToBlock
           onValidate={value => value <= props.latest}
         />
