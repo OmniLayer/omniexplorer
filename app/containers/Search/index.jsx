@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Col, Jumbotron, Row, Table } from 'reactstrap';
+import { Col, Row, Table } from 'reactstrap';
 import isEmpty from 'lodash/isEmpty';
 
 import { useInjectSaga } from 'utils/injectSaga';
@@ -59,7 +59,7 @@ const StyledRow = styled(Row)`
 `;
 
 export function Search(props) {
-  const query = decodeURIComponent(useParams().query);
+  const query = decodeURIComponent(useParams().query || window.location.hash);
 
   useInjectReducer({
     key: 'search',
@@ -180,25 +180,7 @@ export function Search(props) {
     );
   }
 
-  if (!wallet && !assets && !tx) {
-    return (
-      <ContainerBase>
-        <Row noGutters>
-          <Col sm>
-            <div>
-              <Jumbotron className="text-center">
-                <h4 className="display-3">No results found :(</h4>
-                <p className="lead">
-                  Try using a valid transaction id, address, property id or
-                  asset name.
-                </p>
-              </Jumbotron>
-            </div>
-          </Col>
-        </Row>
-      </ContainerBase>
-    );
-  }
+  const noMatches = (!wallet && !assets && !tx);
 
   return (
     <ContainerBase>
@@ -227,6 +209,13 @@ export function Search(props) {
       <Row noGutters>
         <Col sm>{tx}</Col>
       </Row>
+      { noMatches &&
+        <Row noGutters>
+          <Col sm>
+            <h4>No matches</h4>
+          </Col>
+        </Row>
+      }
     </ContainerBase>
   );
 }
