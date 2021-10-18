@@ -51,7 +51,7 @@ body.light-mode {
   .styled-icon-copy {
     color: #17a2b8;
 
-    &:hover {
+    &:hover:enabled {
       color: darken(#17a2b8, 8%);
       transition: all 0.3s ease;
     }
@@ -145,7 +145,7 @@ body.dark-mode {
     }
   }
 
-  .btn:hover {
+  .btn:hover:enabled {
     color: #6cc0e5;
   }
 }

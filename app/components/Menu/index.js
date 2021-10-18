@@ -114,7 +114,7 @@ function Menu(props) {
   }, []);
 
   return (
-    <div>
+    <div className="user-select-none">
       <MenuButton menuOpened={menuOpened} toggleMenu={toggleMenu} />
       <div
         className="menu__block"

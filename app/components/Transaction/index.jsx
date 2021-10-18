@@ -109,6 +109,8 @@ class Transaction extends React.PureComponent {
         ? styled(WrapperTxAmount).attrs({ className: 'w-100 d-block' })``
         : StyledWrapperTxAmount;
 
+    const sendingAddress = `${getSufixURL()}/address/${this.props.sendingaddress}${this.props.unconfirmed && '/unconfirmed'}`;
+    const referenceAddress = `${getSufixURL()}/address/${this.props.referenceaddress}${this.props.unconfirmed && '/unconfirmed'}`;
     return (
       <div className="transaction-result mx-auto text-center-down-md">
         <Row noGutters className="align-items-end pb-0">
@@ -190,7 +192,7 @@ class Transaction extends React.PureComponent {
                     className={`${this.getHighlightIfOwner(
                       this.props.sendingaddress,
                     )} w-75 d-inline-block`}
-                    to={`${getSufixURL()}/address/${this.props.sendingaddress}`}
+                    to={sendingAddress}
                   >
                     {this.props.sendingaddress}
                   </StyledLink>
@@ -217,9 +219,7 @@ class Transaction extends React.PureComponent {
                     <WrapperLink>
                       <StyledLink
                         className={`${addresscname} w-75 d-inline-block`}
-                        to={`${getSufixURL()}/address/${
-                          this.props.referenceaddress
-                        }`}
+                        to={referenceAddress}
                       >
                         {this.props.referenceaddress}
                       </StyledLink>
