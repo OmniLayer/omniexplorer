@@ -5,6 +5,9 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import GrayArrowForward from 'components/GrayArrowForward';
+import getBlockchainAmount from 'utils/getBlockchainAmount';
+
+const desiredProp = getBlockchainAmount();
 
 const DExSellOfferAmount = props => (
   <div className="dex-sell-offer-amount">
@@ -46,11 +49,9 @@ const DExSellOfferAmount = props => (
     </AssetLink>
     <SanitizedFormattedNumber
       className="align-middle"
-      value={props.bitcoindesired}
+      value={props[desiredProp.amount]}
     />{' '}
-    <span className="text-muted align-middle">BTC Desired</span>
-
-
+    <span className="text-muted align-middle">{desiredProp.name}</span>
   </div>
 );
 

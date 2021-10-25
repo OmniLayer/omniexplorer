@@ -15,17 +15,31 @@ import CopyToClipboard from 'components/CopyToClipboard';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import StyledLink from 'components/StyledLink';
 import StyledA from 'components/StyledA';
-import { Card, CardBody, CardHeader, CardText, Col, Collapse, Row, Table } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardText,
+  Col,
+  Collapse,
+  Row,
+  Table,
+} from 'reactstrap';
 
 import ContainerBase from 'components/ContainerBase';
-import TransactionAmount, {TransactionAmountTitleFactory}  from 'components/TransactionAmount';
+import TransactionAmount, {
+  TransactionAmountTitleFactory,
+} from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import StatusConfirmation from 'components/StatusConfirmation';
 import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
-import { EXTERNAL_EXPLORER_BLOCKCHAIR, EXTERNAL_EXPLORER_FEATHERCOIN } from 'components/ExplorerLink/constants';
+import {
+  EXTERNAL_EXPLORER_BLOCKCHAIR,
+  EXTERNAL_EXPLORER_FEATHERCOIN,
+} from 'components/ExplorerLink/constants';
 import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
@@ -33,7 +47,9 @@ import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import isOmniExplorer from 'utils/isOmniExplorer';
-import isOmniFeather from "../../utils/isOmniFeather";
+import isOmniFeather from 'utils/isOmniFeather';
+import getBlockchainAmount from 'utils/getBlockchainAmount';
+import { getLayerName, getShortName, getMainToken } from 'utils/getBlockchainName';
 
 const StyledCard = styled(Card)`
   background-color: #2a72b5;
@@ -56,6 +72,7 @@ const SubtitleDetail = styled.small`
 
 function TransactionInfo(props) {
   let collapseDecoded = false;
+  const desiredProp = getBlockchainAmount();
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
 
   const statusColor = props.valid
@@ -104,7 +121,7 @@ function TransactionInfo(props) {
   const amountDisplay = <TransactionAmount {...props} />;
 
   const ecosystemName =
-    (props.ecosystem === 'main' || !props.ecosystem)
+    props.ecosystem === 'main' || !props.ecosystem
       ? 'Production'
       : props.ecosystem;
 
@@ -124,7 +141,7 @@ function TransactionInfo(props) {
       <tr>
         <td className="field">Property</td>
         <td>
-          <AssetLink asset={props.propertyid} >
+          <AssetLink asset={props.propertyid}>
             <strong>
               {props.propertyname} &#40;#{props.propertyid}&#41;
             </strong>
@@ -160,7 +177,6 @@ function TransactionInfo(props) {
     !props.valid &&
     ([50, 51, 54].includes(props.type_int) || !props.type_int)
   ) {
-
     tokenName = props.propertyname ? (
       <tr>
         <td className="field">Property</td>
@@ -176,11 +192,13 @@ function TransactionInfo(props) {
   if (props.type_int === 20) {
     btcDesired = (
       <tr>
-        <td className="field">Bitcoin Desired</td>
+        <td className="field">{desiredProp.name}</td>
         <td>
           <strong>
             <span id="lamount">
-              <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
+              <SanitizedFormattedNumber value={props[desiredProp.amount]} />
+              &nbsp;
+              {getMainToken()}
             </span>
           </strong>
         </td>
@@ -212,7 +230,7 @@ function TransactionInfo(props) {
             <thead>
               <tr>
                 <th>
-                  <AssetLink asset={props.asset.propertyid} >
+                  <AssetLink asset={props.asset.propertyid}>
                     <AssetLogo
                       asset={props.asset}
                       prop={props.asset.propertyid}
@@ -318,15 +336,9 @@ function TransactionInfo(props) {
                 </td>
               </tr>
               <tr>
-                <td className="field">Bitcoin Fees</td>
+                <td className="field">{desiredProp.layerFees}</td>
                 <td>
-                  <span id="lfees">{props.fee} BTC</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">Omni Layer Fees</td>
-                <td>
-                  <span id="lomnifees">0.00 OMNI</span>
+                  <span id="lfees">{props.fee} {getShortName()}</span>
                 </td>
               </tr>
               <tr className="d-none">
@@ -365,18 +377,18 @@ function TransactionInfo(props) {
                   </span>
                 </td>
               </tr>
-              {otherExplorer &&
-              <tr>
-                <td className="field">Other explorers</td>
-                <td>
-                  <ExplorerLink
-                    className="d-inline-block mr-3"
-                    explorerId={otherExplorer}
-                    tx={props.txid}
-                  />
-                </td>
-              </tr>
-              }
+              {otherExplorer && (
+                <tr>
+                  <td className="field">Other explorers</td>
+                  <td>
+                    <ExplorerLink
+                      className="d-inline-block mr-3"
+                      explorerId={otherExplorer}
+                      tx={props.txid}
+                    />
+                  </td>
+                </tr>
+              )}
               <tr className="d-none">
                 <td colSpan="2">
                   <StyledA

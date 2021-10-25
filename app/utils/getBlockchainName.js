@@ -12,6 +12,16 @@ export default () => {
   return 'OmniExplorer';
 };
 
+const getShortName = () => {
+  if (isOmniFeather) {
+    return 'FTC';
+  }
+  if (isLTC) {
+    return 'LTC';
+  }
+  return 'BTC';
+};
+
 const getLongName = () => {
   if (isOmniFeather) {
     return 'Feathercoin Explorer';
@@ -32,6 +42,16 @@ const getLayerName = () => {
   return 'Omni Layer';
 };
 
+const getMainToken = () => {
+  if (isOmniFeather) {
+    return 'FTC';
+  }
+  if (isLTC) {
+    return 'LTC';
+  }
+  return 'OMNI';
+};
+
 const getSiteDescriptor = () => {
   if (isOmniFeather) {
     return 'The block explorer for Feathercoin Tokens';
@@ -42,4 +62,4 @@ const getSiteDescriptor = () => {
   return 'The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies';
 };
 
-export { getLongName, getLayerName, getSiteDescriptor };
+export { getLongName, getShortName, getMainToken, getLayerName, getSiteDescriptor };

@@ -1,5 +1,6 @@
 import React from 'react';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import getBlockchainAmount from 'utils/getBlockchainAmount';
 
 /**
  * https://www.edwardbeazer.com/social-meta-tags/
@@ -70,11 +71,13 @@ export default props => {
 
   // DEx Sell Offer
   if (props.type_int === 20) {
+    const desired = getBlockchainAmount();
+
     return `${getTransactionHeading(props)} - ${props.action} : ${
       props.amount
     } ${props.propertyname} (#${props.propertyid}) => ${
-      props.bitcoindesired
-    } BTC Desired`;
+      props[desired.amount]
+    } ${desired.name}`;
   }
 
   // others
