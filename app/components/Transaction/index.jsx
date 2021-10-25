@@ -109,8 +109,10 @@ class Transaction extends React.PureComponent {
         ? styled(WrapperTxAmount).attrs({ className: 'w-100 d-block' })``
         : StyledWrapperTxAmount;
 
-    const sendingAddress = `${getSufixURL()}/address/${this.props.sendingaddress}${this.props.unconfirmed && '/unconfirmed'}`;
-    const referenceAddress = `${getSufixURL()}/address/${this.props.referenceaddress}${this.props.unconfirmed && '/unconfirmed'}`;
+    const unconfirmedSufix = this.props.unconfirmed ? '/unconfirmed' : '';
+    const sendingAddress = `${getSufixURL()}/address/${this.props.sendingaddress}${unconfirmedSufix}`;
+    const referenceAddress = `${getSufixURL()}/address/${this.props.referenceaddress}${unconfirmedSufix}`;
+  
     return (
       <div className="transaction-result mx-auto text-center-down-md">
         <Row noGutters className="align-items-end pb-0">
