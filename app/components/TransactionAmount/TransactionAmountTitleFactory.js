@@ -1,6 +1,7 @@
 import React from 'react';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import getBlockchainAmount from 'utils/getBlockchainAmount';
+import { getShortName } from "utils/getBlockchainName";
 
 /**
  * https://www.edwardbeazer.com/social-meta-tags/
@@ -50,7 +51,7 @@ export default props => {
     const purchases = (props.purchases || [])
       .map(
         (purchase, idx) =>
-          `${purchase.amountpaid} BTC Paid (#0) => ${purchase.amountbought} ${
+          `${purchase.amountpaid} ${getShortName()} Paid (#0) => ${purchase.amountbought} ${
             purchase.propertyname
           } (#${purchase.propertyid})`,
       )
@@ -73,7 +74,8 @@ export default props => {
   if (props.type_int === 20) {
     const desired = getBlockchainAmount();
 
-    return `${getTransactionHeading(props)} - ${props.action} : ${
+    // return `${getTransactionHeading(props)} - ${props.action} : ${
+    return `${getTransactionHeading(props)} : ${
       props.amount
     } ${props.propertyname} (#${props.propertyid}) => ${
       props[desired.amount]
