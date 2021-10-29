@@ -244,7 +244,7 @@ function TransactionInfo(props) {
                 </th>
                 <th>
                   <h4>
-                    {getTransactionHeading(props)} {specificAction}
+                    {getTransactionHeading(props)} {/*{specificAction}*/}
                     <SubtitleDetail>{props.txid}</SubtitleDetail>
                   </h4>
                 </th>
