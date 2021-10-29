@@ -3,4 +3,5 @@ const headings = {
   54: 'Create Property - Managed',
 };
 
-export default tx => headings[tx.type_int] || tx.type;
+const getAction = action => (action ? ` - ${action}` : '');
+export default tx => headings[tx.type_int] || tx.type + getAction(tx.action);
