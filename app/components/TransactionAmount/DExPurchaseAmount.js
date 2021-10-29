@@ -5,7 +5,7 @@ import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import GrayArrowForward from 'components/GrayArrowForward';
-import { getShortName } from "utils/getBlockchainName";
+import { getShortName } from 'utils/getBlockchainName';
 
 const DExPurchaseAmount = props => (
   <div className="dex-purchase-amount">
