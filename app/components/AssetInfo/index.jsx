@@ -49,7 +49,7 @@ function AssetInfo(asset) {
   }
 
   if (asset.type_int === 28) {
-    (asset.ecosystem === 'main' || !asset.ecosystem)
+    const ecosystemName = (asset.ecosystem === 'main' || !asset.ecosystem)
       ? 'Production'
       : asset.ecosystem;
 
