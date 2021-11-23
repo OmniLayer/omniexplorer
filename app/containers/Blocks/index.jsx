@@ -138,7 +138,7 @@ export function Blocks(props) {
             name="showEmptySwitch"
             label="show empty blocks"
             checked={showEmpty}
-            onClick={e => setShowEmpty(e.target.checked)}
+            onChange={e => setShowEmpty(e.target.checked)}
             inline
           />}
       >
