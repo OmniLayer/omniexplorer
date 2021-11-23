@@ -15,13 +15,15 @@ import styled from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import StyledLink from 'components/StyledLink';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import { getSufixURL } from 'utils/getLocationPath';
 import ContainerBase from 'components/ContainerBase';
 import moment from 'moment/src/moment';
 import isJSON from 'utils/isJSON';
 import PropTypes from 'prop-types';
 import { cleanError } from './actions';
 import reducer from './reducer';
+
+const brandURL = getSufixURL() || '/';
 
 const RetryLink = styled(StyledLink)`
   vertical-align: bottom;
@@ -32,7 +34,7 @@ const RetryMessage = () => (
   <h5>
     Please&nbsp;
     <BrowserRouter forceRefresh>
-      <RetryLink to="">
+      <RetryLink to={window.location.pathname}>
         <span>retry</span>
       </RetryLink>
     </BrowserRouter>
@@ -44,7 +46,7 @@ const GoHomepageMessage = () => (
   <h5>
     Please go to&nbsp;
     <BrowserRouter forceRefresh>
-      <RetryLink to="/">
+      <RetryLink to={brandURL}>
         <span>homepage</span>
       </RetryLink>
     </BrowserRouter>
@@ -95,10 +97,11 @@ class ErrorBoundary extends React.Component {
           <Modal
             className="error-boundary"
             isOpen={this.props.st.modal}
-            toggle={this.props.cleanError}
+            // toggle={this.props.cleanError}
             backdrop
           >
-            <ModalHeader toggle={this.props.cleanError} />
+            {/* <ModalHeader toggle={this.props.cleanError} /> */}
+            <ModalHeader />
             <ModalBody>
               <Jumbotron className="text-center">
                 <h4>{reason ? reason.reason : error.message}</h4>
