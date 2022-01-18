@@ -62,4 +62,14 @@ const getSiteDescriptor = () => {
   return 'The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies';
 };
 
+const getEmptyBLockMessage = () => {
+  if (isOmniFeather) {
+    return 'The block explorer for Feathercoin Tokens';
+  }
+  if (isLTC) {
+    return 'The block explorer for Litecoin Tokens';
+  }
+  return 'The block explorer for Omni Token, Tether, USDT, MaidSafe and Omni Layer Tokens / Cryptocurrencies';
+};
+
 export { getLongName, getShortName, getMainToken, getLayerName, getSiteDescriptor };
