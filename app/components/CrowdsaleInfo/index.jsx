@@ -16,6 +16,8 @@ import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import StyledA from 'components/StyledA';
 
+import isOmniExplorer from 'utils/isOmniExplorer';
+
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
@@ -23,14 +25,10 @@ const StyledTD = styled.td.attrs({
 class CrowdsaleInfo extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-
     return (
       <tr>
         <StyledTD>
-          <AssetLink
-            asset={this.props.propertyid}
-            basepath="/crowdsale"
-          >
+          <AssetLink asset={this.props.propertyid} basepath="/crowdsale">
             <AssetLogo
               asset={this.props}
               prop={this.props.propertyid}
@@ -42,19 +40,16 @@ class CrowdsaleInfo extends React.PureComponent {
           </AssetLink>
         </StyledTD>
         <StyledTD>
-          <AssetLink
-            asset={this.props.propertyid}
-            basepath="/crowdsale"
-          >
+          <AssetLink asset={this.props.propertyid} basepath="/crowdsale">
             {this.props.name}
-            <br/>
+            <br />
             {`(#${this.props.propertyid})`}
           </AssetLink>
         </StyledTD>
         <StyledTD>
-          <AssetLink asset={this.props.propertyiddesired} >
+          <AssetLink asset={this.props.propertyiddesired}>
             {this.props.propertydesired.name}
-            <br/>
+            <br />
             {`(#${this.props.propertyiddesired})`}
           </AssetLink>
         </StyledTD>
@@ -78,19 +73,21 @@ class CrowdsaleInfo extends React.PureComponent {
             fractionDigits={8}
           />
         </StyledTD>
-        <StyledTD>
-          <StyledA
-            className="btn btn-primary"
-            target="_blank"
-            href={`https://www.omniwallet.org/assets/details/${
-              this.props.propertyid
+        {isOmniExplorer && (
+          <StyledTD>
+            <StyledA
+              className="btn btn-primary"
+              target="_blank"
+              href={`https://www.omniwallet.org/assets/details/${
+                this.props.propertyid
               }`}
-          >
-            Buy with
-            <br/>
-            Omniwallet
-          </StyledA>
-        </StyledTD>
+            >
+              Buy with
+              <br />
+              Omniwallet
+            </StyledA>
+          </StyledTD>
+        )}
       </tr>
     );
   }
