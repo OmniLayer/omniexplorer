@@ -104,14 +104,6 @@ function AssetInfo(asset) {
     registeredMessage = (
       <td dangerouslySetInnerHTML={{ __html: asset.rdata }} />
     );
-  } else {
-    registeredMessage = (
-      <td style={{ whiteSpace: 'break-spaces' }}>
-        This property is not registered with OmniExplorer.info. Please see{' '}
-        <StyledA href="/promote">Promote Your Property</StyledA> for further
-        details.
-      </td>
-    );
   }
 
   let assetData;
@@ -240,10 +232,12 @@ function AssetInfo(asset) {
           </span>
         </td>
       </tr>
-      <tr>
-        <StyledTD>Registration</StyledTD>
-        {registeredMessage}
-      </tr>
+      {registeredMessage &&
+        <tr>
+          <StyledTD>Registration</StyledTD>
+          {registeredMessage}
+        </tr>
+      }
     </tbody>
   );
 }

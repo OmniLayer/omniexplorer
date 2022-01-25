@@ -27,7 +27,6 @@ import Search from 'containers/Search/Loadable';
 import Properties from 'containers/Properties/Loadable';
 import AssetDetail from 'containers/AssetDetail/Loadable';
 import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
-import Promote from 'containers/Promote/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
 import BlockDetail from 'containers/BlockDetail';
@@ -291,8 +290,6 @@ export function App({ loadStatus }) {
               component={BlockDetail}
               key={location.pathname}
             />
-
-            <Route exact path="/promote" component={Promote} />
 
             <Route exact path="/submitfeedback" component={Feedback} />
 
