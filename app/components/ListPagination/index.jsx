@@ -35,7 +35,6 @@ const StyledPaginationLink = styled(PaginationLink).attrs({
 `;
 const StyledPaginationButton = styled(PaginationItem)`
   margin: 0 2px;
-  background-color: white;
 
   &.disabled {
     cursor: not-allowed;
@@ -46,11 +45,12 @@ const StyledPaginationItem = styled(StyledPaginationButton)`
   & > .page-link {
     color: lightgrey;
     white-space: nowrap;
+    color: #337ab7;
   }
 
   &.active > .page-link {
     background-color: #3498db !important;
-    color: #337ab7;
+    color: white;
   }
 `;
 

@@ -10,6 +10,7 @@
  *   return state.set('yourStateVariable', true);
  */
 import produce from 'immer';
+import orderBy from 'lodash/orderBy';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 import {
   LOAD_CLASSAB_TXS,
@@ -71,9 +72,10 @@ const transactionsReducer = (
       case LOAD_TRANSACTIONS_SUCCESS: {
         const maxPagesByMedia = getMaxPagesByMedia();
 
-        draft.transactions = addr
+        const txs = addr
           ? transactions.filter(tx => !!tx.confirmations)
           : transactions;
+        draft.transactions = orderBy(txs, 'blocktime', 'desc');
         draft.pageCount = state.unconfirmed
           ? Math.ceil(transactions.length / maxPagesByMedia)
           : pages;
@@ -86,7 +88,7 @@ const transactionsReducer = (
       case LOAD_CLASSAB_TXS_SUCCESS: {
         const maxPagesByMedia = getMaxPagesByMedia();
 
-        draft.transactions = transactions;
+        draft.transactions = orderBy(transactions, 'blocktime', 'desc');
         draft.pageCount = Math.ceil(transactions.length / maxPagesByMedia);
         draft.txCount = transactions.length;
         draft.loading = false;
@@ -96,7 +98,7 @@ const transactionsReducer = (
       }
 
       case LOAD_CLASSAB_TXS_BLOCKCHAIN_INFO_SUCCESS: {
-        draft.transactions = transactions.map(tx => ({
+        const txs = transactions.map(tx => ({
           txid: tx.hash,
           sendingaddress: tx.inputs[0].prev_out.addr,
           referenceaddresses: tx.out.map(out => ({
@@ -108,6 +110,7 @@ const transactionsReducer = (
           blocktime: tx.time,
           block: tx.block_height,
         }));
+        draft.transactions = orderBy(txs, 'blocktime', 'desc');
         draft.pageCount = pages;
         draft.txCount = txcount;
         draft.loading = false;

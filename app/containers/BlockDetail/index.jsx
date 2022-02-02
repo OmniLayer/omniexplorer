@@ -14,7 +14,6 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 import {
   Alert,
-  Container,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -29,13 +28,14 @@ import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import NoOmniBlockTransactions from 'components/NoOmniBlockTransactions';
 import ContainerBase from 'components/ContainerBase';
 import JumpToBlock from 'components/JumpToBlock';
-import { FIRST_BLOCK } from 'containers/App/constants';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import isEmpty from 'lodash/isEmpty';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import { getLayerName } from 'utils/getBlockchainName';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
 
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import FooterLinks from 'components/FooterLinks';
@@ -48,11 +48,7 @@ import { loadBlock } from './actions';
 import sagaBlock from './saga';
 import messages from './messages';
 
-import {
-  ALL_BLOCK_TRANSACTIONS,
-  INVALID_BLOCK_TRANSACTIONS,
-  VALID_BLOCK_TRANSACTIONS,
-} from './constants';
+import { ALL_BLOCK_TRANSACTIONS, INVALID_BLOCK_TRANSACTIONS, VALID_BLOCK_TRANSACTIONS } from './constants';
 import './blockdetail.scss';
 
 const StyledContainer = styled(ContainerBase).attrs({
@@ -83,12 +79,13 @@ export function BlockDetail(props) {
     saga: sagaBlock,
   });
 
-  const getTransactions = (page= 1) => {
-    console.log('call getTransactions');
+  const setTxs = (page = 1) => {
     const { blockdetail } = props;
+    const currentUrlPage = parseInt(props.location.hash.replace('#', ''), 10);
 
     if (isEmpty(transactions) && blockdetail.block.block === Number(block)) {
-      setCurrentPage(parseInt(props.location.hash.replace('#', ''), 10) || page);
+      console.log('call setTransactions');
+      setCurrentPage(currentUrlPage || page);
       setCurrentData(blockdetail.block.transactions.slice(0, maxPagesByMedia));
       setPageCount(Math.ceil(blockdetail.block.transactions.length / maxPagesByMedia));
 
@@ -115,14 +112,16 @@ export function BlockDetail(props) {
   };
 
   useEffect(() => {
+    console.log("change block");
+    setTransactions({});
     props.loadBlock(block);
   }, [block]);
 
   const handlePageClick = page => {
-    const txs = getTransactions();
+    const txs = setTxs();
     setCurrentPage(page);
 
-    const currentTxs = txs.slice((page -1 )*maxPagesByMedia, (page-1) * maxPagesByMedia + maxPagesByMedia);
+    const currentTxs = txs.slice((page - 1) * maxPagesByMedia, (page - 1) * maxPagesByMedia + maxPagesByMedia);
     setCurrentData(currentTxs);
   };
 
@@ -135,7 +134,7 @@ export function BlockDetail(props) {
     );
   }
 
-  const txs = getTransactions();
+  setTxs();
   const { last_block: lastBlock } = props.status;
   const { blockdetail } = props;
   const { confirmations } = (blockdetail.block.transactions || []).find(
@@ -148,7 +147,7 @@ export function BlockDetail(props) {
   const getItemKey = (blockItem, idx) =>
     blockItem.blockhash.slice(0, 22).concat(idx);
 
-  if (block < FIRST_BLOCK || !blockdetail.block.transactions) {
+  if (block < getBlockchainFirstBlock() || !blockdetail.block.transactions) {
     const errMsg = `Block ${block} not found`;
 
     content = (
@@ -226,27 +225,35 @@ export function BlockDetail(props) {
   );
 
   const validInvalidTxs = hasInvalid ? dropdown : null;
-  const firstBlockMessage = ((block - 1) < FIRST_BLOCK) ?
+  const firstBlockMessage = ((block - 1) < getBlockchainFirstBlock()) ?
     <Alert color="warning" className="mt-1">
-      <strong>{FIRST_BLOCK}</strong> is the first Omni Layer block
+      <strong>{getBlockchainFirstBlock()}</strong> is the first {getLayerName()} block
     </Alert> :
     null;
 
+  const blockTxCount = blockdetail.block.transactions
+    ? blockdetail.block.transactions.length
+    : 0;
+
+  const linkPreview = FactoryLinkPreview({
+    title: `Block ${block}, Txs ${blockTxCount}`,
+    slug: `block/${block}`,
+  });
+
   return (
     <StyledContainer>
+      {linkPreview}
       <ListHeader
         message={
           blockdetail.block.transactions && blockdetail.block.transactions.length
-            ? (pageCount>1 ? messages.header : messages.headerOnePage)
+            ? (pageCount > 1 ? messages.header : messages.headerOnePage)
             : messages.doesNotHaveTransactions.header
         }
         values={{
           br: <br />,
           hash: <ColoredHash hash={blockdetail.block.blockhash} />,
           blockNumber: block,
-          txCount: blockdetail.block.transactions
-            ? blockdetail.block.transactions.length
-            : 0,
+          txCount: blockTxCount,
           pageCount: pageCount,
           confirmations,
           timestamp:

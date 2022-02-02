@@ -21,16 +21,16 @@ const StyledTDTextLeft = styled.td.attrs({
 
 function Asset(props) {
   const asset = {
-    id: props[0],
-    name: props[1],
-    issuer: props[2],
-    flags: props[3],
+    id: props.id || props[0],
+    name: props.name || props[1],
+    issuer: props.issuer || props[2],
+    flags: props.flags || props[3],
   };
 
   return (
     <tr>
       <StyledTD style={{ width: '56px' }}>
-        <AssetLink asset={asset.id} state={props.state} >
+        <AssetLink asset={asset.id}>
           <AssetLogo
             asset={asset}
             prop={asset.id}
@@ -42,11 +42,11 @@ function Asset(props) {
         </AssetLink>
       </StyledTD>
       <StyledTDTextLeft>
-        <AssetLink asset={asset.id} state={props.state} >
+        <AssetLink asset={asset.id}>
           #{asset.id}
         </AssetLink></StyledTDTextLeft>
       <StyledTDTextLeft>
-        <AssetLink asset={asset.id} state={props.state} >
+        <AssetLink asset={asset.id}>
           {`${asset.name.substring(0, 20)}${
             asset.name.length > 20 ? '...' : ''
           }`}

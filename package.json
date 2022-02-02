@@ -1,6 +1,6 @@
 {
   "name": "omniexplorer",
-  "version": "5.0.7",
+  "version": "7.1.0",
   "description": "Omni Explorer is a Block Explorer and Analytics Platform for the Omni Layer",
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "extract-intl": "node ./internals/scripts/extract-intl.js",
     "generate": "plop --plopfile internals/generators/index.js",
-    "preinstall": "npm run npmcheckversion",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint app/**/*.js",
     "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
@@ -38,7 +37,10 @@
     "pretest": "npm run test:clean && npm run lint",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:clean": "rimraf ./coverage",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll"
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
+    "version:patch": "npm --no-git-tag-version version patch",
+    "version:minor": "npm --no-git-tag-version version minor",
+    "version:major": "npm --no-git-tag-version version major"
   },
   "pre-commit": "lint:staged",
   "lint-staged": {
@@ -63,8 +65,9 @@
     "@babel/polyfill": "7.4.3",
     "@styled-icons/fa-solid": "^10.18.0",
     "bootstrap": "^4.5.2",
+    "caniuse-lite": "^1.0.30001296",
     "chalk": "2.4.2",
-    "classnames": "^2.2.6",
+    "components": "^0.1.0",
     "compression": "1.7.4",
     "connected-react-router": "6.6.0",
     "cross-env": "5.2.0",
@@ -72,11 +75,11 @@
     "fontfaceobserver": "2.1.0",
     "history": "4.9.0",
     "hoist-non-react-statics": "3.3.0",
-    "immer": "8.0.1",
+    "immer": "9.0.6",
     "intl": "1.2.5",
     "invariant": "2.2.4",
     "ip": "1.1.5",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "parse-key": "^0.2.1",
     "prop-types": "15.7.2",
@@ -87,7 +90,6 @@
     "react-dom": "16.11.0",
     "react-helmet": "6.0.0-beta",
     "react-intl": "2.8.0",
-    "react-moment": "^0.9.7",
     "react-redux": "7.1.3",
     "react-router-dom": "^5.2.0",
     "react-share": "^3.0.1",
@@ -102,10 +104,8 @@
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
     "socket.io-client": "^3.1.0",
-    "styled-components": "4.2.0",
-    "styled-theming": "^2.2.0",
-    "use-dark-mode": "^2.3.1",
-    "warning": "^4.0.3"
+    "styled-components": "^5.3.0",
+    "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -130,7 +130,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "circular-dependency-plugin": "5.0.2",
     "compare-versions": "3.4.0",
-    "compression-webpack-plugin": "^3.1.0",
+    "compression-webpack-plugin": "^6.1.1",
     "coveralls": "3.0.3",
     "css-loader": "2.1.1",
     "empty-module": "0.0.2",
@@ -159,10 +159,10 @@
     "mini-css-extract-plugin": "^0.9.0",
     "minimist": "^1.2.5",
     "ngrok": "3.1.1",
-    "node-plop": "^0.25.0",
+    "node-plop": "^0.26.2",
     "node-sass": "^4.14.1",
     "null-loader": "0.1.1",
-    "plop": "2.3.0",
+    "plop": "^2.7.4",
     "pre-commit": "1.2.2",
     "prettier": "1.17.0",
     "purgecss-webpack-plugin": "^2.3.0",
@@ -170,14 +170,15 @@
     "react-app-polyfill": "1.0.4",
     "react-test-renderer": "16.8.6",
     "react-testing-library": "6.1.2",
+    "redux-saga-test-plan": "^4.0.1",
     "rimraf": "2.6.3",
     "sass-loader": "^8.0.2",
     "shelljs": "0.8.3",
     "style-loader": "0.23.1",
-    "stylelint": "10.0.1",
-    "stylelint-config-recommended": "2.2.0",
-    "stylelint-config-styled-components": "0.1.1",
-    "stylelint-processor-styled-components": "1.6.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-recommended": "^5.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
     "svg-url-loader": "2.3.2",
     "terser-webpack-plugin": "^2.3.8",
     "url-loader": "1.1.2",
@@ -190,7 +191,7 @@
     "whatwg-fetch": "3.0.0"
   },
   "engines": {
-    "node": ">=8.15.1",
-    "npm": ">=5"
+    "node": ">=12.13.0",
+    "npm": ">=7"
   }
 }

@@ -4,17 +4,16 @@
  *
  */
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
+import CopyToClipboard from 'components/CopyToClipboard';
 import { FormattedUnixDateTime } from 'components/FormattedDateTime';
 import StyledLink from 'components/StyledLink';
-import StyledIconCopy from 'components/StyledIconCopy';
 import StyledA from 'components/StyledA';
 import {
   Card,
@@ -25,26 +24,32 @@ import {
   Collapse,
   Row,
   Table,
-  Tooltip,
 } from 'reactstrap';
 
 import ContainerBase from 'components/ContainerBase';
-import TransactionAmount from 'components/TransactionAmount';
+import TransactionAmount, {
+  TransactionAmountTitleFactory,
+} from 'components/TransactionAmount';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import StatusConfirmation from 'components/StatusConfirmation';
 import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
-import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
+import {
+  EXTERNAL_EXPLORER_BLOCKCHAIR,
+  EXTERNAL_EXPLORER_FEATHERCOIN,
+} from 'components/ExplorerLink/constants';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
-import {
-  API_URL_BASE,
-  FEATURE_ACTIVATION_TYPE_INT,
-} from 'containers/App/constants';
+import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
+import isOmniExplorer from 'utils/isOmniExplorer';
+import isOmniFeather from 'utils/isOmniFeather';
+import getBlockchainAmount from 'utils/getBlockchainAmount';
+import { getLayerName, getShortName, getMainToken } from 'utils/getBlockchainName';
 
 const StyledCard = styled(Card)`
   background-color: #2a72b5;
@@ -66,32 +71,8 @@ const SubtitleDetail = styled.small`
 `;
 
 function TransactionInfo(props) {
-  const txcopyid = `txid_${props.txid.slice(0, 12)}`.replace(/ /g, "");
-  const sendercopyid = `s-${txcopyid}`;
-  const referercopyid = `r-${txcopyid}`;
-
-  const [tooltipTxOpen, setTooltipTxOpen] = useState(false);
-  const [tooltipSenderOpen, setTooltipSenderOpen] = useState(false);
-  const [tooltipRefererOpen, setTooltipRefererOpen] = useState(false);
-
-  const toggleTxTooltip = () => {
-    setTooltipTxOpen( true);
-    setTimeout(() => setTooltipTxOpen( false ), 1000);
-  };
-
-  const toggleSenderTooltip = () => {
-    setTooltipSenderOpen(true);
-    setTimeout(() => setTooltipSenderOpen(false), 1000);
-  };
-
-  const toggleRefererTooltip = () => {
-    setTooltipRefererOpen(true);
-    setTimeout(() => setTooltipRefererOpen(false), 1000);
-  };
-
-  // let collapseOmniData = false;
   let collapseDecoded = false;
-  // const toggleRawData = () => (collapseOmniData = !collapseOmniData);
+  const desiredProp = getBlockchainAmount();
   const toggleDecoded = () => (collapseDecoded = !collapseDecoded);
 
   const statusColor = props.valid
@@ -138,6 +119,21 @@ function TransactionInfo(props) {
   }
 
   const amountDisplay = <TransactionAmount {...props} />;
+
+  const ecosystemName =
+    props.ecosystem === 'main' || !props.ecosystem
+      ? 'Production'
+      : props.ecosystem;
+
+  let ecosystem = (
+    <tr>
+      <td className="field">Ecosystem</td>
+      <td>
+        <span className="text-capitalize">{ecosystemName}</span>
+      </td>
+    </tr>
+  );
+
   let tokenName;
   let activationBlock;
   if (![4, -22, 25, 26].includes(props.type_int)) {
@@ -145,7 +141,7 @@ function TransactionInfo(props) {
       <tr>
         <td className="field">Property</td>
         <td>
-          <AssetLink asset={props.propertyid} state={props.state}>
+          <AssetLink asset={props.propertyid}>
             <strong>
               {props.propertyname} &#40;#{props.propertyid}&#41;
             </strong>
@@ -155,14 +151,8 @@ function TransactionInfo(props) {
     );
   }
   if (props.type_int === 28) {
-    tokenName = (
-      <tr>
-        <td className="field">Ecosystem</td>
-        <td>
-          <strong>{props.ecosystem}</strong>
-        </td>
-      </tr>
-    );
+    tokenName = ecosystem;
+    ecosystem = null;
   }
   if (props.type_int === FEATURE_ACTIVATION_TYPE_INT) {
     tokenName = (
@@ -187,7 +177,6 @@ function TransactionInfo(props) {
     !props.valid &&
     ([50, 51, 54].includes(props.type_int) || !props.type_int)
   ) {
-
     tokenName = props.propertyname ? (
       <tr>
         <td className="field">Property</td>
@@ -203,11 +192,13 @@ function TransactionInfo(props) {
   if (props.type_int === 20) {
     btcDesired = (
       <tr>
-        <td className="field">Bitcoin Desired</td>
+        <td className="field">{desiredProp.name}</td>
         <td>
           <strong>
             <span id="lamount">
-              <SanitizedFormattedNumber value={props.bitcoindesired} /> BTC
+              <SanitizedFormattedNumber value={props[desiredProp.amount]} />
+              &nbsp;
+              {getMainToken()}
             </span>
           </strong>
         </td>
@@ -219,8 +210,19 @@ function TransactionInfo(props) {
   const recipient =
     props.referenceaddress || (props.purchases || [{}])[0].referenceaddress;
 
+  const txTitle = TransactionAmountTitleFactory(props);
+  const linkPreview = FactoryLinkPreview({
+    title: txTitle,
+    slug: `tx/${props.txid}`,
+  });
+
+  const otherExplorer =
+    (isOmniExplorer && EXTERNAL_EXPLORER_BLOCKCHAIR) ||
+    (isOmniFeather && EXTERNAL_EXPLORER_FEATHERCOIN);
+
   return (
     <ContainerBase>
+      {linkPreview}
       {warningMessage}
       <DetailRow>
         <Col sm>
@@ -228,7 +230,7 @@ function TransactionInfo(props) {
             <thead>
               <tr>
                 <th>
-                  <AssetLink asset={props.asset.propertyid} state={props.state}>
+                  <AssetLink asset={props.asset.propertyid}>
                     <AssetLogo
                       asset={props.asset}
                       prop={props.asset.propertyid}
@@ -242,7 +244,7 @@ function TransactionInfo(props) {
                 </th>
                 <th>
                   <h4>
-                    {getTransactionHeading(props)} {specificAction}
+                    {getTransactionHeading(props)} {/*{specificAction}*/}
                     <SubtitleDetail>{props.txid}</SubtitleDetail>
                   </h4>
                 </th>
@@ -251,6 +253,7 @@ function TransactionInfo(props) {
             <tbody>
               {amountDisplay}
               {tokenName}
+              {ecosystem}
               {activationBlock}
               {btcDesired}
               <tr>
@@ -267,22 +270,10 @@ function TransactionInfo(props) {
                     {props.sendingaddress}
                   </StyledLink>
                   <CopyToClipboard
-                    text={props.sendingaddress}
-                    onCopy={toggleSenderTooltip}
-                  >
-                    <StyledIconCopy
-                      className="d-inline-flex"
-                      size={24}
-                      id={sendercopyid}
-                    />
-                  </CopyToClipboard>
-                  <Tooltip
+                    tooltip="Sender Address Copied"
+                    value={props.sendingaddress}
                     hideArrow
-                    isOpen={tooltipSenderOpen}
-                    target={sendercopyid}
-                  >
-                    Sender Address Copied
-                  </Tooltip>
+                  />
                 </td>
               </tr>
               {recipient && (
@@ -298,22 +289,10 @@ function TransactionInfo(props) {
                       {recipient}
                     </StyledLink>
                     <CopyToClipboard
-                      text={recipient}
-                      onCopy={toggleRefererTooltip}
-                    >
-                      <StyledIconCopy
-                        className="d-inline-flex"
-                        size={24}
-                        id={referercopyid}
-                      />
-                    </CopyToClipboard>
-                    <Tooltip
+                      tooltip="Reference Address Copied"
+                      value={recipient}
                       hideArrow
-                      isOpen={tooltipRefererOpen}
-                      target={referercopyid}
-                    >
-                      Reference Address Copied
-                    </Tooltip>
+                    />
                   </td>
                 </tr>
               )}
@@ -357,15 +336,9 @@ function TransactionInfo(props) {
                 </td>
               </tr>
               <tr>
-                <td className="field">Bitcoin Fees</td>
+                <td className="field">{desiredProp.layerFees}</td>
                 <td>
-                  <span id="lfees">{props.fee} BTC</span>
-                </td>
-              </tr>
-              <tr>
-                <td className="field">Omni Layer Fees</td>
-                <td>
-                  <span id="lomnifees">0.00 OMNI</span>
+                  <span id="lfees">{props.fee} {getShortName()}</span>
                 </td>
               </tr>
               <tr className="d-none">
@@ -395,7 +368,7 @@ function TransactionInfo(props) {
                 </td>
               </tr>
               <tr>
-                <td className="field">Raw Data</td>
+                <td className="field">JSON Data</td>
                 <td>
                   <span id="lrawgettx">
                     <StyledA href={rawTransactionURL} target="_blank">
@@ -404,16 +377,18 @@ function TransactionInfo(props) {
                   </span>
                 </td>
               </tr>
-              <tr>
-                <td className="field">Other explorers</td>
-                <td>
-                  <ExplorerLink
-                    className="d-inline-block mr-3"
-                    explorerId={EXTERNAL_EXPLORER_BLOCKCHAIR}
-                    tx={props.txid}
-                  />
-                </td>
-              </tr>
+              {otherExplorer && (
+                <tr>
+                  <td className="field">Other explorers</td>
+                  <td>
+                    <ExplorerLink
+                      className="d-inline-block mr-3"
+                      explorerId={otherExplorer}
+                      tx={props.txid}
+                    />
+                  </td>
+                </tr>
+              )}
               <tr className="d-none">
                 <td colSpan="2">
                   <StyledA

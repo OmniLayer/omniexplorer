@@ -6,7 +6,7 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 import request from 'utils/request';
 
-import { FIRST_BLOCK } from 'containers/App/constants';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
 import getLocationPath from 'utils/getLocationPath';
 import { blockLoaded } from '../actions';
 
@@ -20,7 +20,7 @@ describe('getBlock Saga', () => {
   // We have to test twice, once for a successful load and once for an unsuccessful one
   // so we do all the stuff that happens beforehand automatically in the beforeEach
   beforeEach(() => {
-    getBlockGenerator = getBlock({ FIRST_BLOCK });
+    getBlockGenerator = getBlock({ getBlockchainFirstBlock() });
 
     const selectDescriptor = getBlockGenerator.next().value;
     expect(selectDescriptor).toMatchSnapshot();
@@ -34,8 +34,8 @@ describe('getBlock Saga', () => {
       transactions: [],
     };
 
-    const saga = testSaga(getBlock, { block: FIRST_BLOCK });
-    const url = `${getLocationPath()}/transaction/block/${FIRST_BLOCK}`;
+    const saga = testSaga(getBlock, { block: getBlockchainFirstBlock() });
+    const url = `${getLocationPath()}/transaction/block/${getBlockchainFirstBlock()}`;
 
     saga
       .next()

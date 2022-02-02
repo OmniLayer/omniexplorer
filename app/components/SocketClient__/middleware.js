@@ -22,10 +22,8 @@ const socketPath = '/wstest';
 
 const socketMiddleware = () => {
   let socket = null;
-  debugger;
 
   const connect = () => {
-    debugger;
     socket = io.connect(host, { path: socketPath });
     return new Promise((resolve, reject) => {
       socket.on('connect', () => resolve());
@@ -65,7 +63,6 @@ const socketMiddleware = () => {
 
   // the middleware part of this function
   return store => next => action => {
-    debugger;
     switch (action.type) {
       case WS_CONNECT:
         if (socket !== null) {

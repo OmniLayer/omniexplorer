@@ -17,7 +17,7 @@ const activation = {
 };
 
 export const initialState = {
-  loading: true,
+  loading: false,
   list: [],
   error: null,
 };

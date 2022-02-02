@@ -33,9 +33,17 @@ function* fetchSingleProperty(action) {
     throw new Error(`The property hasn't got an Id`);
   }
 
+  let property;
+
   if (action.id && (!requestedProp || !requestedProp.isFetching)) {
     yield put({ type: FETCHING_PROPERTY, propertyId: action.id });
-    const property = yield call(fetchProperty, action.id);
+    try {
+      property = yield call(fetchProperty, action.id);
+    } catch (e){
+      console.log(e.message, e.stack);
+      const error = new Error(`Failed to fetch property ${action.id}`);
+      throw error;
+    }
 
     if (!property) {
       const error = new Error(`Failed to fetch property ${action.id}`);
@@ -135,8 +143,9 @@ function* fetchManyProperties(action) {
       body,
     });
     const propChunks = chunk(action.properties, 30);
+
     const encodedChunks = propChunks.map(propChunk =>
-      encoderURIParams({ prop_ids: propChunk.map(id => id) }),
+      encoderURIParams({ prop_ids: propChunk.map(x => x.id || x) }),
     );
     const optionsArray = encodedChunks.map(encodedChunk =>
       getOptions(encodedChunk),

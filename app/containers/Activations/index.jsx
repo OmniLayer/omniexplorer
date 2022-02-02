@@ -4,26 +4,27 @@
  *
  */
 
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
 import StyledLink from 'components/StyledLink';
 import ColoredHash from 'components/ColoredHash';
 import WrapperTx from 'components/WrapperTx';
 
-import { Container, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ContainerBase from 'components/ContainerBase';
 
 import ListHeader from 'components/ListHeader';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+import { getSufixURL } from 'utils/getLocationPath';
 
 import { makeSelectActivations } from './selectors';
 import messages from './messages';
@@ -74,56 +75,62 @@ export function Activations(props) {
   const content = (
     <StyledTable responsive striped hover>
       <thead>
-        <tr>
-          <th className="text-center">
-            <FormattedMessage {...messages.columns.id} />
-          </th>
-          <th className="text-left">
-            <FormattedMessage {...messages.columns.name} />
-          </th>
-          <th className="text-center">
-            <FormattedMessage {...messages.columns.block} />
-          </th>
-          <th className="text-center">
-            <FormattedMessage {...messages.columns.minimumVersion} />
-          </th>
-          <th className="text-center">
-            <FormattedMessage {...messages.columns.hash} />
-          </th>
-        </tr>
+      <tr>
+        <th className="text-center">
+          <FormattedMessage {...messages.columns.id} />
+        </th>
+        <th className="text-left">
+          <FormattedMessage {...messages.columns.name} />
+        </th>
+        <th className="text-center">
+          <FormattedMessage {...messages.columns.block} />
+        </th>
+        <th className="text-center">
+          <FormattedMessage {...messages.columns.minimumVersion} />
+        </th>
+        <th className="text-center">
+          <FormattedMessage {...messages.columns.hash} />
+        </th>
+      </tr>
       </thead>
       <tbody>
-        {props.activations.list.map((activation, idx) => (
-          <StyledTR key={getItemKey(activation, idx)}>
-            <td className="text-center">{activation.featureid}</td>
-            <td className="text-left">
-              {activation.featurename}
-              {activation.pending && (
-                <span className="text-warning">&nbsp;(Pending)</span>
-              )}
-            </td>
-            <td className="text-center">{activation.activationblock}</td>
-            <td className="text-center">{activation.minimumversion}</td>
-            <td className="text-center">
-              <WrapperTx>
-                <StyledLink
-                  to={{
-                    pathname: `${getSufixURL()}/tx/${activation.txhash}`,
-                    state: { state: props.state },
-                  }}
-                >
-                  <ColoredHash hash={activation.txhash} />
-                </StyledLink>
-              </WrapperTx>
-            </td>
-          </StyledTR>
-        ))}
+      {props.activations.list.map((activation, idx) => (
+        <StyledTR key={getItemKey(activation, idx)}>
+          <td className="text-center">{activation.featureid}</td>
+          <td className="text-left">
+            {activation.featurename}
+            {activation.pending && (
+              <span className="text-warning">&nbsp;(Pending)</span>
+            )}
+          </td>
+          <td className="text-center">{activation.activationblock}</td>
+          <td className="text-center">{activation.minimumversion}</td>
+          <td className="text-center">
+            <WrapperTx>
+              <StyledLink
+                to={{
+                  pathname: `${getSufixURL()}/tx/${activation.txhash}`,
+                  state: { state: props.state },
+                }}
+              >
+                <ColoredHash hash={activation.txhash} />
+              </StyledLink>
+            </WrapperTx>
+          </td>
+        </StyledTR>
+      ))}
       </tbody>
     </StyledTable>
   );
 
+  const linkPreview = FactoryLinkPreview({
+    title: 'Feature Activations',
+    postSlug: 'activations',
+  });
+
   return (
     <ContainerBase>
+      {linkPreview}
       <ListHeader message={messages.header} />
       {content}
     </ContainerBase>

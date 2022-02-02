@@ -5,7 +5,7 @@
 import '@babel/polyfill';
 
 require('./shim');
-require('fetch-reply-with');
+// require('fetch-reply-with');
 
 const { configure } = require('enzyme');
 const Adapter = require('enzyme-adapter-react-16');

@@ -58,6 +58,8 @@ import './responsive-styles.scss';
 // // Import theming modes
 import './theming/theming-modes.scss';
 
+import appInfo from '../package.json';
+console.info('app version: %s', appInfo.version);
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
 const openSansObserver = new FontFaceObserver('Open Sans', {});

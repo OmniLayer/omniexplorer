@@ -16,6 +16,10 @@ const StyledLink = styled(Link).attrs({
   line-height: 1.5rem;
   text-decoration: none;
 
+  &.btn {
+    color: white;
+  }
+
   &:hover {
     text-decoration: none;
     color: #6cc0e5;

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -13,7 +13,9 @@ import { Search } from '@styled-icons/fa-solid/Search';
 import { Tooltip } from 'reactstrap';
 import { compose } from 'redux';
 import history from 'utils/history';
-import { FIRST_BLOCK } from 'containers/App/constants';
+import useSetTimeout from 'utils/useSetTimeout';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
+import { getSufixURL } from 'utils/getLocationPath';
 import messages from './messages';
 
 const Input = styled.input.attrs({
@@ -35,25 +37,19 @@ export function JumpToBlock(props) {
   const [blockToJump, setBlockToJump] = useState('');
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const timerToTooltipOpen = useRef(false);
-  useEffect(() => {
-    if (tooltipOpen) {
-      timerToTooltipOpen.current = setTimeout(
-        () => setTooltipOpen(false),
-        1500,
-      );
-    }
-
-    return () => {
-      clearTimeout(timerToTooltipOpen.current);
-    };
-  }, [tooltipOpen]);
-
+  const { doTimer } = useSetTimeout(() => {
+    setTooltipOpen(false);
+  });
   const isValid = value => props.onValidate && value && props.onValidate(value);
 
   const handleJumpToBlock = e => {
-    const blockNumber = blockToJump < FIRST_BLOCK ? FIRST_BLOCK : blockToJump;
-    history.push(`/block/${blockNumber}`);
+    const blockNumber = blockToJump < getBlockchainFirstBlock() ? getBlockchainFirstBlock() : blockToJump;
+    history.push(`${getSufixURL()}/block/${blockNumber}`);
+  };
+
+  const toggleRefererTooltip = () => {
+    setTooltipOpen(true);
+    doTimer();
   };
 
   const handleKeyUp = e => {
@@ -62,7 +58,8 @@ export function JumpToBlock(props) {
       if (isValid(value)) {
         handleJumpToBlock(e);
       } else {
-        setTooltipOpen(true);
+        // setTooltipOpen(true);
+        toggleRefererTooltip();
       }
     }
   };

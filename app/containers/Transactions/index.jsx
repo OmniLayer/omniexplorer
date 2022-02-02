@@ -20,12 +20,19 @@ import NoOmniTransactions from 'components/NoOmniTransactions';
 import FooterLinks from 'components/FooterLinks';
 import { startFetchMany } from 'components/Token/actions';
 import {
-  makeSelectLoadingTokens,
   makeSelectHasProperty,
   makeSelectLastFetched,
+  makeSelectLoadingTokens,
   makeSelectProperties,
 } from 'components/Token/selectors';
-
+import { loadActivations } from 'containers/Activations/actions';
+import { makeSelectActivations } from 'containers/Activations/selectors';
+import {
+  FEATURE_ACTIVATION_TYPE_INT,
+  TXCLASSAB_ADDRESS_MAINNET,
+  TXCLASSAB_ADDRESS_TESTNET,
+  TXS_CLASS_AB,
+} from 'containers/App/constants';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -36,24 +43,8 @@ import isTestnet from 'utils/isTestnet';
 import { Button, ButtonGroup } from 'reactstrap';
 import getMaxPagesByMedia from 'utils/getMaxPagesByMedia';
 
-import {
-  TXCLASSAB_ADDRESS_MAINNET,
-  TXCLASSAB_ADDRESS_TESTNET,
-  TXS_CLASS_AB,
-} from 'containers/App/constants';
-
-import {
-  makeSelectLoading,
-  makeSelectTransactions,
-  makeSelectUnconfirmed,
-} from './selectors';
-import {
-  loadClassABTxs,
-  loadTransactions,
-  loadUnconfirmed,
-  setPage,
-  setTransactionType,
-} from './actions';
+import { makeSelectLoading, makeSelectTransactions, makeSelectUnconfirmed } from './selectors';
+import { loadClassABTxs, loadTransactions, loadUnconfirmed, setPage, setTransactionType } from './actions';
 import messages from './messages';
 
 import saga from './saga';
@@ -189,7 +180,18 @@ export function Transactions(props) {
     );
     if (needFetchTokens || (!props.loadingTokens && !props.lastFetched)) {
       const propertiesToFetch = getTransactions().filter(tx => tx.propertyid).map(tx => tx.propertyid);
-      props.getProperties(propertiesToFetch);
+      const uniquePropsId = [...new Set(propertiesToFetch)];
+      props.getProperties(uniquePropsId);
+      return (<LoadingIndicator />);
+    }
+
+    const needFetchActivations = getTransactions().some(
+      tx => tx.type_int === FEATURE_ACTIVATION_TYPE_INT && !props.activations.list.length,
+    );
+    if (needFetchActivations) {
+      if (!props.activations.loading && !props.activations.list.length) {
+        props.loadActivations();
+      }
       return (<LoadingIndicator />);
     }
 
@@ -212,7 +214,10 @@ export function Transactions(props) {
       usePagination,
     };
 
-    const mergePropertyFlags = property => (property.propertyid ? {...property, flags: (props.tokens[property.propertyid] || {flags:{}}).flags} : property);
+    const mergePropertyFlags = property => (property.propertyid ? {
+      ...property,
+      flags: (props.tokens[property.propertyid] || { flags: {} }).flags,
+    } : property);
     _props.items = getCurrentData(props.transactions.currentPage).map(x => mergePropertyFlags(x));
     content = <List {..._props} />;
   }
@@ -294,6 +299,7 @@ Transactions.propTypes = {
   match: PropTypes.object,
   onSetTransactionType: PropTypes.func,
   getProperties: PropTypes.func,
+  loadActivations: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -304,6 +310,7 @@ const mapStateToProps = createStructuredSelector({
   loadingTokens: makeSelectLoadingTokens(),
   tokens: makeSelectProperties(),
   hasPropertyFetched: makeSelectHasProperty,
+  activations: makeSelectActivations(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -315,6 +322,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentPage: p => dispatch(setPage(p)),
     onSetTransactionType: txtype => dispatch(setTransactionType(txtype)),
     getProperties: propIdList => dispatch(startFetchMany(propIdList)),
+    loadActivations: () => dispatch(loadActivations()),
   };
 }
 

@@ -15,30 +15,20 @@ import styled from 'styled-components';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import StyledA from 'components/StyledA';
-import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
+
+import isOmniExplorer from 'utils/isOmniExplorer';
 
 const StyledTD = styled.td.attrs({
   className: 'align-middle',
 })``;
 
-const StyledTDTextLeft = styled(StyledTD).attrs({
-  className: 'text-left pt-3',
-})`
-  white-space: pre-wrap;
-`;
-
 class CrowdsaleInfo extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-
     return (
       <tr>
         <StyledTD>
-          <AssetLink
-            asset={this.props.propertyid}
-            state={this.props.state}
-            basepath="/crowdsale"
-          >
+          <AssetLink asset={this.props.propertyid} basepath="/crowdsale">
             <AssetLogo
               asset={this.props}
               prop={this.props.propertyid}
@@ -49,60 +39,55 @@ class CrowdsaleInfo extends React.PureComponent {
             />
           </AssetLink>
         </StyledTD>
-        <StyledTDTextLeft>
-          <AssetLink
-            asset={this.props.propertyid}
-            state={this.props.state}
-            basepath="/crowdsale"
-          >
+        <StyledTD>
+          <AssetLink asset={this.props.propertyid} basepath="/crowdsale">
             {this.props.name}
-            <br/>
+            <br />
             {`(#${this.props.propertyid})`}
           </AssetLink>
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
-          <AssetLink
-            asset={this.props.propertyiddesired}
-            state={this.props.state}
-          >
+        </StyledTD>
+        <StyledTD>
+          <AssetLink asset={this.props.propertyiddesired}>
             {this.props.propertydesired.name}
-            <br/>
+            <br />
             {`(#${this.props.propertyiddesired})`}
           </AssetLink>
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD className="text-right">
           <SanitizedFormattedNumber
             value={this.props.tokensperunit}
             forceDecimals
           />
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD className="text-center">
           <span>
             <FormattedUnixDateTime
               datetime={this.props.deadline}
               useSeconds={false}
             />
           </span>
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
+        </StyledTD>
+        <StyledTD className="text-right">
           <SanitizedFormattedNumber
             value={this.props.totaltokens}
             fractionDigits={8}
           />
-        </StyledTDTextLeft>
-        <StyledTDTextLeft>
-          <StyledA
-            className="btn btn-primary"
-            target="_blank"
-            href={`https://www.omniwallet.org/assets/details/${
-              this.props.propertyid
+        </StyledTD>
+        {isOmniExplorer && (
+          <StyledTD>
+            <StyledA
+              className="btn btn-primary"
+              target="_blank"
+              href={`https://www.omniwallet.org/assets/details/${
+                this.props.propertyid
               }`}
-          >
-            Buy with
-            <br/>
-            Omniwallet
-          </StyledA>
-        </StyledTDTextLeft>
+            >
+              Buy with
+              <br />
+              Omniwallet
+            </StyledA>
+          </StyledTD>
+        )}
       </tr>
     );
   }
@@ -116,6 +101,7 @@ CrowdsaleInfo.propTypes = {
   deadline: PropTypes.number.isRequired,
   tokensperunit: PropTypes.string.isRequired,
   propertyiddesired: PropTypes.any.isRequired,
+  state: PropTypes.object,
 };
 
 function mapDispatchToProps(dispatch) {

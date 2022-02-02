@@ -20,11 +20,15 @@ import HeaderMessage from 'components/HeaderMessage';
 import TransactionHistory from 'components/TransactionHistory';
 import Blocks from 'containers/Blocks';
 import FooterLinks from 'components/FooterLinks';
+import { FactoryLinkPreview } from 'components/LinkPreview';
 
 export function HomePage() {
-  const footer = <FooterLinks unconfirmed blocklist />;
+
+  const linkPreview = FactoryLinkPreview({});
+
   return (
     <ContainerBase>
+      {linkPreview}
       <Row noGutters>
         <Col sm>
           <HeaderMessage />
@@ -37,7 +41,8 @@ export function HomePage() {
       </Row>
       <Row noGutters>
         <Col sm>
-          <Blocks footer={footer} />
+          <Blocks />
+          <FooterLinks unconfirmed blocklist />
         </Col>
       </Row>
     </ContainerBase>

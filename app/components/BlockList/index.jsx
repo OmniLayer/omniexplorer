@@ -130,7 +130,7 @@ class BlockList extends React.PureComponent {
         const asset = block.value.details[prop];
 
         return (
-          <AssetLink key={key} asset={prop} state={this.props.state}>
+          <AssetLink key={key} asset={prop} >
             <AssetLogo
               asset={asset}
               prop={prop}
@@ -178,7 +178,7 @@ class BlockList extends React.PureComponent {
           </tr>
         </thead>
         <tbody>
-          {this.props.blocks.map((block, idx) => (
+          {this.props.blocks.filter(block => (!!block.omni_tx_count || this.props.showEmpty) && block).map((block, idx) => (
             <StyledTR key={getItemKey(block, idx)}>
               <td>
                 <StyledLink

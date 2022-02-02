@@ -15,7 +15,7 @@
     }
 
     .title {
-      font-size: 1.5rem;
+      font-size: 1.25rem !important;
     }
 
     small.title {
@@ -121,6 +121,6 @@
 
 @include media-breakpoint-up(md) {
   .copy-icon-address {
-    display: inline-flex;
+    //display: inline-flex;
   }
 }

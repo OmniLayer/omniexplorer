@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -21,17 +21,28 @@ import StyledA from 'components/StyledA';
 import isEmpty from 'lodash/isEmpty';
 import { useInjectSaga } from 'utils/injectSaga';
 import sagaBlocks from 'containers/Blocks/saga';
-import { FIRST_BLOCK } from 'containers/App/constants';
-import { Col, Row } from 'reactstrap';
+import getBlockchainFirstBlock from 'utils/getBlockchainFirstBlock';
+import { Col, Row, CustomInput } from "reactstrap";
 import getLocationPath, {getSufixURL} from 'utils/getLocationPath';
 
 import { makeSelectLocation } from 'containers/App/selectors';
 
+import EmptyBlockMessage from "components/EmptyBlockMessage";
 import { makeSelectBlocks, makeSelectLatestBlock, makeSelectLoading, makeSelectPreviousBlock } from './selectors';
 import { disableLoading, loadBlocks } from './actions';
 import messages from './messages';
 
+const LinkPrevious = styled(StyledA)``;
+
+const DisabledStyledA = styled(StyledA)`
+            pointer-events: none;
+            text-decoration: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+          `;
+
 export function Blocks(props) {
+  const [showEmpty, setShowEmpty] = useState(true);
   const block = props.match.params.block || '';
 
   useInjectSaga({
@@ -49,11 +60,16 @@ export function Blocks(props) {
     content = <LoadingIndicator />;
   } else {
     const { blocks } = props.blocks;
+
+    const allBlocksEmpty = (!showEmpty && !blocks.some(b => !!b.omni_tx_count));
+    const EmptyMessage = allBlocksEmpty ?EmptyBlockMessage : NoOmniBlocks;
     const list =
-      isEmpty(blocks) || block > blocks[0].block + 9 ? (
-        <NoOmniBlocks />
+      isEmpty(blocks) ||
+      block > blocks[0].block + 9 ||
+      allBlocksEmpty ? (
+        <EmptyMessage/>
       ) : (
-        <BlockList blocks={blocks} />
+        <BlockList blocks={blocks} showEmpty={showEmpty}/>
       );
 
     content = <div>{list}</div>;
@@ -63,11 +79,12 @@ export function Blocks(props) {
         ? `${getSufixURL()}/blocks/`
         : `${getSufixURL()}/`;
     const hashLink = blockNum => `${pathname}${blockNum}`;
+
     const previousBlockSet = () => {
       let result;
       const previous = block - 10;
       if (isEmpty(blocks)) {
-        result = previous > FIRST_BLOCK ? previous : FIRST_BLOCK;
+        result = previous > getBlockchainFirstBlock() ? previous : getBlockchainFirstBlock();
       } else if (block > blocks[0].block + 9) {
         result = blocks[0].block;
       } else {
@@ -79,26 +96,20 @@ export function Blocks(props) {
     const nextBlockSet = () => {
       let result;
       if (isEmpty(blocks) || block > blocks[0].block + 9) {
-        result = (parseInt(block, 10) || FIRST_BLOCK) + 10;
+        result = (parseInt(block, 10) || getBlockchainFirstBlock()) + 10;
       } else {
         result = blocks[0].block + 10;
       }
       return result;
     };
 
-    const LinkPrevious = styled(StyledA)``;
     const LinkNext =
       isEmpty(blocks) || props.latest > blocks[0].block
         ? StyledA
-        : styled(StyledA)`
-            pointer-events: none;
-            text-decoration: none;
-            opacity: 0.5;
-            cursor: not-allowed;
-          `;
+        : DisabledStyledA;
 
     pagination = (
-      <Row>
+      <Row noGutters>
         <Col>
           <h3>
             <LinkPrevious href={hashLink(previousBlockSet())}>
@@ -115,18 +126,28 @@ export function Blocks(props) {
     );
   }
 
-  const footer = props.footer || <div />;
-
   return (
     <div>
-      <ListHeader message={messages.header}>
+      <ListHeader
+        message={messages.header}
+        extra={
+          <CustomInput
+            className="user-select-none"
+            type="switch"
+            id="showEmpty"
+            name="showEmptySwitch"
+            label="show empty blocks"
+            checked={showEmpty}
+            onChange={e => setShowEmpty(e.target.checked)}
+            inline
+          />}
+      >
         <JumpToBlock
           onValidate={value => value <= props.latest}
         />
       </ListHeader>
       {content}
       {props.withPagination && pagination}
-      {footer}
     </div>
   );
 }
@@ -141,7 +162,6 @@ Blocks.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object,
   withPagination: PropTypes.bool,
-  footer: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -21,7 +21,9 @@ import DarkModeToggle from 'components/DarkModeToggle';
 import MenuButton from 'components/MenuButton';
 
 import isTestnet from 'utils/isTestnet';
+import isOmniFeather from 'utils/isOmniFeather';
 import menuReducer, { initialState } from 'components/Menu/reducer';
+import EcosystemLogo from 'components/EcosystemLogo';
 import { toggleDisabledTestnet } from './actions';
 
 import './menu.scss';
@@ -112,7 +114,7 @@ function Menu(props) {
   }, []);
 
   return (
-    <div>
+    <div className="user-select-none">
       <MenuButton menuOpened={menuOpened} toggleMenu={toggleMenu} />
       <div
         className="menu__block"
@@ -136,7 +138,7 @@ function Menu(props) {
               checkedChildren="Mainnet"
               defaultChecked={!testnet}
               unCheckedChildren="Testnet"
-              className="d-none hack-switch"
+              className="hack-switch"
               disabled={state.disabledTestnet}
             />
           </Col>
@@ -172,10 +174,36 @@ function Menu(props) {
             </NavLink>
           </Col>
           <Col xs="6" sm="4">
-            <h5>Misc</h5>
-            <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
-              Recent Class A/B TX's
+            <h5>Blockchain</h5>
+            <EcosystemLogo />
+            <h5>API</h5>
+            <NavLink
+              href={getLocationPath()}
+              target="_blank"
+            >
+              Documentation
             </NavLink>
+          </Col>
+          <Col xs="6" sm="4">
+            <h5>Omni Lab</h5>
+            <NavLink
+              href="https://omnilab.online/omni-academy/"
+              target="_blank"
+            >
+              Omni Academy
+            </NavLink>
+            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
+              Omni Wallet
+            </NavLink>
+            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
+              OmniBOLT
+            </NavLink>
+            <h5>Misc</h5>
+            {!isOmniFeather && (
+              <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
+                Recent Class A/B TX's
+              </NavLink>
+            )}
             <NavLink href={`${getSufixURL()}/activations`}>
               Feature Activations
             </NavLink>
@@ -192,23 +220,6 @@ function Menu(props) {
               target="_blank"
             >
               View/Report Issues
-            </NavLink>
-          </Col>
-          <Col xs="6" sm="4">
-            <h5>API</h5>
-            <NavLink href={getLocationPath()}>Documentation</NavLink>
-            <h5>Omni Lab</h5>
-            <NavLink
-              href="https://omnilab.online/omni-academy/"
-              target="_blank"
-            >
-              Omni Academy
-            </NavLink>
-            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
-              Omni Wallet
-            </NavLink>
-            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
-              OmniBOLT
             </NavLink>
           </Col>
         </Row>

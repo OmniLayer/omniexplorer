@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, CardText, Col, Row } from 'reactstrap';
 import styled from 'styled-components';
+import { getLongName } from "utils/getBlockchainName";
 
 const StyledCard = styled(Card)`
   background-color: #a94442;
@@ -88,7 +89,7 @@ export default (flags, tokenName, tokenId) => {
             <StyledCardBody>
               <CardText>
                 Please note that the issuer of this property {tokenDesc}, has
-                informed OmniExplorer.info that this property is deprecated and
+                informed {getLongName()} that this property is deprecated and
                 should no longer be used.
                 <br />
                 <b>The issuer has advised that the token has been replaced.</b>

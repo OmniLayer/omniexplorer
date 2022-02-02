@@ -35,7 +35,7 @@ const SearchBox = () => {
 
   const handleDoSearch = () => {
     if (query) {
-      const searchURL = `${getSufixURL()}/search/${query.trim()}`;
+      const searchURL = `${getSufixURL()}/search/${encodeURIComponent(query.trim())}`;
       history.push(searchURL);
       setQuery('');
     }
