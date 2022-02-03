@@ -73,7 +73,7 @@
     "cross-env": "5.2.0",
     "express": "4.16.4",
     "fontfaceobserver": "2.1.0",
-    "history": "4.9.0",
+    "history": "4.10.1",
     "hoist-non-react-statics": "3.3.0",
     "immer": "9.0.6",
     "intl": "1.2.5",
