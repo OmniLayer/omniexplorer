@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/" # Location of package manifests
+    target-branch: "dev"
+    reviewers:
+      - "achamely"
+      - "germanf"
+    schedule:
+      interval: "daily"
+    labels:
+      - "📜 javascript"
+      - "🔗 dependencies"
