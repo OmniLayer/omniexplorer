@@ -132,7 +132,7 @@
     "compare-versions": "3.4.0",
     "compression-webpack-plugin": "^6.1.1",
     "coveralls": "3.0.3",
-    "css-loader": "2.1.1",
+    "css-loader": "5.2.7",
     "empty-module": "0.0.2",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.0",
