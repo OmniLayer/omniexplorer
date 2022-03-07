@@ -152,7 +152,7 @@
     "http-proxy-middleware": "^0.20.0",
     "image-webpack-loader": "4.6.0",
     "imports-loader": "0.8.0",
-    "jest-cli": "^25.5.4",
+    "jest-cli": "^27.5.1",
     "jest-dom": "4.0.0",
     "jest-styled-components": "^7.0.3",
     "lint-staged": "8.1.5",
