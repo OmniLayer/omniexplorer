@@ -82,7 +82,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "parse-key": "^0.2.1",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.1",
     "qrcode.react": "^0.9.3",
     "rc-switch": "^3.2.1",
     "react": "16.11.0",
