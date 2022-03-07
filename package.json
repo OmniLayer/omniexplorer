@@ -185,7 +185,7 @@
     "webpack": "4.36.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-middleware": "3.6.2",
+    "webpack-dev-middleware": "5.3.1",
     "webpack-hot-middleware": "2.24.3",
     "webpack-pwa-manifest": "^4.3.0",
     "whatwg-fetch": "3.0.0"
