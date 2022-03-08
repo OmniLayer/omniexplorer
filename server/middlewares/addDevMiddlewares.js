@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 function createWebpackMiddleware(compiler, publicPath) {
   return webpackDevMiddleware(compiler, {
@@ -32,7 +32,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   // `/api/lorum/ipsum` -> `http://localhost:3000/lorum/ipsum`
   app.use(
     '/api',
-    proxy({
+    createProxyMiddleware({
       target: 'https://api.omniexplorer.info/',
       changeOrigin: true,
       logLevel: 'debug',
