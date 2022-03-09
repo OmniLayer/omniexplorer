@@ -159,7 +159,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "minimist": "^1.2.5",
     "ngrok": "3.1.1",
-    "node-plop": "^0.26.2",
+    "node-plop": "^0.30.0",
     "node-sass": "^4.14.1",
     "null-loader": "4.0.1",
     "plop": "^2.7.4",
