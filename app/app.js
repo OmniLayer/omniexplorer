@@ -28,7 +28,7 @@ import LanguageProvider from 'containers/LanguageProvider/index';
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 import '!file-loader?name=[name].[ext]!./osd.xml';
 import '!file-loader?name=[name].[ext]!./sitemap.xml';
-import 'file-loader?name=[name].[ext]!./.htaccess';
+import 'file-loader?name=.htaccess!./.htaccess';
 import 'file-loader?name=[name].[ext]!./extras/404.html';
 /* eslint-enable import/no-unresolved, import/extensions */
 
