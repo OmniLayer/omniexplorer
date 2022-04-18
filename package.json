@@ -155,7 +155,7 @@
     "jest-cli": "^27.5.1",
     "jest-dom": "4.0.0",
     "jest-styled-components": "^7.0.3",
-    "lint-staged": "8.1.5",
+    "lint-staged": "12.3.8",
     "mini-css-extract-plugin": "^0.9.0",
     "minimist": "^1.2.5",
     "ngrok": "4.3.1",
