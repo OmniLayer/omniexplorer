@@ -80,7 +80,7 @@
     "invariant": "2.2.4",
     "ip": "1.1.5",
     "lodash": "^4.17.21",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "parse-key": "^0.2.1",
     "prop-types": "15.7.2",
     "qrcode.react": "^0.9.3",
