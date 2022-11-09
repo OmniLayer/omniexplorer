@@ -160,7 +160,7 @@
     "minimist": "^1.2.5",
     "ngrok": "4.3.1",
     "node-plop": "^0.30.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^8.0.0",
     "null-loader": "4.0.1",
     "plop": "^2.7.4",
     "pre-commit": "1.2.2",
