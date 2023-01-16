@@ -171,7 +171,7 @@
     "react-test-renderer": "16.8.6",
     "react-testing-library": "8.0.1",
     "redux-saga-test-plan": "^4.0.1",
-    "rimraf": "2.6.3",
+    "rimraf": "4.0.7",
     "sass-loader": "^8.0.2",
     "shelljs": "0.8.5",
     "style-loader": "2.0.0",
