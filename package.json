@@ -88,7 +88,7 @@
     "react": "16.11.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "16.13.0",
-    "react-helmet": "6.0.0-beta",
+    "react-helmet": "6.1.0",
     "react-intl": "2.8.0",
     "react-redux": "7.2.6",
     "react-router-dom": "^5.2.0",
