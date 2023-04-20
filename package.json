@@ -165,7 +165,7 @@
     "plop": "^2.7.4",
     "pre-commit": "1.2.2",
     "prettier": "1.17.0",
-    "purgecss-webpack-plugin": "^2.3.0",
+    "purgecss-webpack-plugin": "^5.0.0",
     "purifycss-webpack": "^0.7.0",
     "react-app-polyfill": "1.0.4",
     "react-test-renderer": "16.8.6",
