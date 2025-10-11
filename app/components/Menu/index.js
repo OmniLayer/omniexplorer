@@ -185,19 +185,19 @@ function Menu(props) {
             </NavLink>
           </Col>
           <Col xs="6" sm="4">
-            <h5>Omni Lab</h5>
-            <NavLink
-              href="https://omnilab.online/omni-academy/"
-              target="_blank"
-            >
-              Omni Academy
-            </NavLink>
-            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
-              Omni Wallet
-            </NavLink>
-            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
-              OmniBOLT
-            </NavLink>
+            {/*<h5>Omni Lab</h5>*/}
+            {/*<NavLink*/}
+            {/*  href="https://omnilab.online/omni-academy/"*/}
+            {/*  target="_blank"*/}
+            {/*>*/}
+            {/*  Omni Academy*/}
+            {/*</NavLink>*/}
+            {/*<NavLink href="https://omnilab.online/omniwallet/" target="_blank">*/}
+            {/*  Omni Wallet*/}
+            {/*</NavLink>*/}
+            {/*<NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">*/}
+            {/*  OmniBOLT*/}
+            {/*</NavLink>*/}
             <h5>Misc</h5>
             {!isOmniFeather && (
               <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
