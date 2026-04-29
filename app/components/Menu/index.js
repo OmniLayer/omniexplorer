@@ -183,7 +183,10 @@ function Menu(props) {
             </NavLink>
           </Col>
           <Col xs="6" sm="4">
-            <h5>Omni Lab</h5>
+            <h5>Misc</h5>
+            <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
+              Recent Class A/B TX&apos;s
+            </NavLink>
             <NavLink href={`${getSufixURL()}/activations`}>
               Feature Activations
             </NavLink>
