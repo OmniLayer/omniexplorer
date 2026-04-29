@@ -8,8 +8,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
-import isOmniFeather from 'utils/isOmniFeather';
-import isLTC from 'utils/isLTC';
 import messages from './messages';
 
 const StyledH3 = styled.h3`
@@ -17,15 +15,7 @@ const StyledH3 = styled.h3`
 `;
 
 function EmptyBlockMessage() {
-  let secondaryMessage = messages.secondaryOE;
-
-  if (isOmniFeather) {
-    secondaryMessage = messages.secondaryFTC;
-  }
-
-  if (isLTC) {
-    secondaryMessage = messages.secondaryLTC;
-  }
+  const secondaryMessage = messages.secondaryOE;
 
   return (
     <StyledH3 className="lead text-center">

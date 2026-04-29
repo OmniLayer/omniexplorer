@@ -6,7 +6,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import moment from 'moment/src/moment';
+import moment from 'moment';
 
 import TimerCard from './TimerCard';
 

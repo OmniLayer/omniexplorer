@@ -5,12 +5,12 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import StyledLink from 'components/StyledLink';
-import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
-import isOmniFeather from 'utils/isOmniFeather';
-import isLTC from 'utils/isLTC';
+import { /* getLocationPath, */ getSufixURL } from 'utils/getLocationPath';
 import messages from './messages';
 
 const StyledH3 = styled.h3`
@@ -18,15 +18,7 @@ const StyledH3 = styled.h3`
 `;
 
 function NoOmniBlockTransactions(props = { useDefaults: true }) {
-  let secondaryMessage = messages.secondaryOE;
-
-  if (isOmniFeather) {
-    secondaryMessage = messages.secondaryFTC;
-  }
-
-  if (isLTC) {
-    secondaryMessage = messages.secondaryLTC;
-  }
+  const secondaryMessage = messages.secondaryOE;
 
   return (
     <StyledH3 className="lead text-center">
@@ -59,6 +51,11 @@ function NoOmniBlockTransactions(props = { useDefaults: true }) {
   );
 }
 
-NoOmniBlockTransactions.propTypes = {};
+NoOmniBlockTransactions.propTypes = {
+  header: PropTypes.node,
+  mainText: PropTypes.node,
+  state: PropTypes.any,
+  useDefaults: PropTypes.bool,
+};
 
 export default NoOmniBlockTransactions;

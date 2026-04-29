@@ -36,10 +36,7 @@ import { makeSelectProperty } from 'components/Token/selectors';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
 import ExplorerLink from 'components/ExplorerLink';
-import {
-  EXTERNAL_EXPLORER_BLOCKCHAIR,
-  EXTERNAL_EXPLORER_FEATHERCOIN,
-} from 'components/ExplorerLink/constants';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR } from 'components/ExplorerLink/constants';
 import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import { CONFIRMATIONS } from 'containers/Transactions/constants';
@@ -47,7 +44,6 @@ import { FEATURE_ACTIVATION_TYPE_INT } from 'containers/App/constants';
 import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import getTransactionHeading from 'utils/getTransactionHeading';
 import isOmniExplorer from 'utils/isOmniExplorer';
-import isOmniFeather from 'utils/isOmniFeather';
 import getBlockchainAmount from 'utils/getBlockchainAmount';
 import { getLayerName, getShortName, getMainToken } from 'utils/getBlockchainName';
 
@@ -216,9 +212,7 @@ function TransactionInfo(props) {
     slug: `tx/${props.txid}`,
   });
 
-  const otherExplorer =
-    (isOmniExplorer && EXTERNAL_EXPLORER_BLOCKCHAIR) ||
-    (isOmniFeather && EXTERNAL_EXPLORER_FEATHERCOIN);
+  const otherExplorer = (isOmniExplorer && EXTERNAL_EXPLORER_BLOCKCHAIR);
 
   return (
     <ContainerBase>

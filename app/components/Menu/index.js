@@ -14,6 +14,7 @@ import getLocationPath, { getSufixURL } from 'utils/getLocationPath';
 import {
   ECOSYSTEM_PROD_NAME,
   ECOSYSTEM_TEST_NAME,
+  // eslint-disable-next-line no-unused-vars
   TXS_CLASS_AB,
 } from 'containers/App/constants';
 
@@ -21,7 +22,6 @@ import DarkModeToggle from 'components/DarkModeToggle';
 import MenuButton from 'components/MenuButton';
 
 import isTestnet from 'utils/isTestnet';
-import isOmniFeather from 'utils/isOmniFeather';
 import menuReducer, { initialState } from 'components/Menu/reducer';
 import EcosystemLogo from 'components/EcosystemLogo';
 import { toggleDisabledTestnet } from './actions';
@@ -37,6 +37,7 @@ const MenuDivider = styled.div`
   margin-bottom: 12px;
 `;
 
+// eslint-disable-next-line no-unused-vars
 function Menu(props) {
   const [menuOpened, setMenuOpened] = useState(false);
   const [testnet, setTestnet] = useState(isTestnet);
@@ -177,33 +178,15 @@ function Menu(props) {
             <h5>Blockchain</h5>
             <EcosystemLogo />
             <h5>API</h5>
-            <NavLink
-              href={getLocationPath()}
-              target="_blank"
-            >
+            <NavLink href={getLocationPath()} target="_blank">
               Documentation
             </NavLink>
           </Col>
           <Col xs="6" sm="4">
-            <h5>Omni Lab</h5>
-            <NavLink
-              href="https://omnilab.online/omni-academy/"
-              target="_blank"
-            >
-              Omni Academy
-            </NavLink>
-            <NavLink href="https://omnilab.online/omniwallet/" target="_blank">
-              Omni Wallet
-            </NavLink>
-            <NavLink href="https://omnilab.online/OmniBOLT/" target="_blank">
-              OmniBOLT
-            </NavLink>
             <h5>Misc</h5>
-            {!isOmniFeather && (
-              <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
-                Recent Class A/B TX's
-              </NavLink>
-            )}
+            <NavLink href={`${getSufixURL()}/${TXS_CLASS_AB}`}>
+              Recent Class A/B TX&apos;s
+            </NavLink>
             <NavLink href={`${getSufixURL()}/activations`}>
               Feature Activations
             </NavLink>

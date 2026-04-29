@@ -5,13 +5,11 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 import StyledA from 'components/StyledA';
-import {
-  EXTERNAL_EXPLORER_BLOCKCHAIR,
-  EXTERNAL_EXPLORER_FEATHERCOIN,
-} from './constants';
+import { EXTERNAL_EXPLORER_BLOCKCHAIR } from './constants';
 
 const IMG = styled.img.attrs({
   className: 'explorer-logo',
@@ -23,7 +21,6 @@ const ExternalLink = styled(StyledA).attrs({
   className: 'other-explorer',
 })``;
 
-const ftcLogo = require('images/external_logos/ftc-logo.png');
 const blockchairLogo = require('images/external_logos/logo-blockchair.png');
 
 const explorers = {
@@ -33,13 +30,6 @@ const explorers = {
     title: 'View on Blockchair',
     linkText: 'Blockchair',
     logo: blockchairLogo,
-  },
-  [EXTERNAL_EXPLORER_FEATHERCOIN]: {
-    name: 'feathercoin',
-    pathbase: 'https://explorer.feathercoin.com/tx/',
-    title: 'View on Feathercoin',
-    linkText: 'Feathercoin',
-    logo: ftcLogo,
   },
 };
 
@@ -66,6 +56,10 @@ function ExplorerLink({ explorerId, tx, className }) {
   );
 }
 
-ExplorerLink.propTypes = {};
+ExplorerLink.propTypes = {
+  explorerId: PropTypes.string.isRequired,
+  tx: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
 
 export default ExplorerLink;

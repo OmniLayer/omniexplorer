@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
-import moment from 'moment/src/moment';
+import moment from 'moment';
 import SanitizedFormattedNumber from 'components/SanitizedFormattedNumber';
 import LoadingIndicator from 'components/LoadingIndicator';
 import styled from 'styled-components';

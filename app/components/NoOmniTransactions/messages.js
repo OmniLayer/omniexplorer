@@ -27,31 +27,4 @@ export default defineMessages({
       link: <StyledA href="https://www.blockchair.com">blockchair.com</StyledA>,
     },
   },
-  secondaryFTC: {
-    id: 'app.components.NoOmniTransactions.secondaryFTC',
-    defaultMessage:
-      `If the transaction you are searching for is not found,
-       you can use a feathercoin explorer like {link}`,
-    values: {
-      link: (
-        <StyledA href="https://explorer.feathercoin.com/">
-          explorer.feathercoin.com
-        </StyledA>
-      ),
-    },
-  },
-  secondaryLTC: {
-    id: 'app.components.NoOmniTransactions.secondaryLTC',
-    defaultMessage:
-      'If the transaction you are searching for is not found,\n' +
-      'you can use a feathercoin explorer like\n' +
-      '{link}',
-    values: {
-      link: (
-        <StyledA href="https://blockchair.com/litecoin">
-          blockchair.com/litecoin
-        </StyledA>
-      ),
-    },
-  },
 });

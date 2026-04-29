@@ -17,7 +17,7 @@ import { makeSelectStatus } from 'components/ServiceBlock/selectors';
 import StyledLink from 'components/StyledLink';
 import { getSufixURL } from 'utils/getLocationPath';
 import ContainerBase from 'components/ContainerBase';
-import moment from 'moment/src/moment';
+import moment from 'moment';
 import isJSON from 'utils/isJSON';
 import PropTypes from 'prop-types';
 import { cleanError } from './actions';

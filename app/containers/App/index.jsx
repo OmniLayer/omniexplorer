@@ -30,7 +30,7 @@ import CrowdsaleDetail from 'containers/CrowdsaleDetail/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Crowdsales from 'containers/Crowdsales';
 import BlockDetail from 'containers/BlockDetail';
-import HistoryChart from 'containers/HistoryChart';
+// import HistoryChart from 'containers/HistoryChart';
 import FullBlockList from 'containers/FullBlockList';
 import Activations from 'containers/Activations';
 import Exchange from 'containers/Exchange';
@@ -50,7 +50,7 @@ import activationsSaga from 'containers/Activations/saga';
 import statusSaga from 'components/ServiceBlock/saga';
 import TestnetMarquee from 'components/TestnetMarquee';
 import isTestnet from 'utils/isTestnet';
-import getBlockchainName, { getLongName, getLayerName, getSiteDescriptor } from "utils/getBlockchainName";
+import { getLongName, getSiteDescriptor } from 'utils/getBlockchainName';
 import GlobalStyle from '../../global-styles';
 
 import { TXS_CLASS_AB } from './constants';
@@ -74,6 +74,7 @@ const AppWrapper = styled.div.attrs({
 `;
 
 export function App({ loadStatus }) {
+  // eslint-disable-next-line no-unused-vars
   const [theme, setTheme] = useState('light');
 
   useInjectSaga({
@@ -105,225 +106,146 @@ export function App({ loadStatus }) {
           titleTemplate={`%s - ${getLongName()}`}
           defaultTitle={getSiteDescriptor()}
         >
-          <meta
-            name="description"
-            content={getSiteDescriptor()}
-          />
+          <meta name="description" content={getSiteDescriptor()} />
           <link rel="canonical" href="https://omniexplorer.info" />
           <meta name="referrer" content="always" />
         </Helmet>
         <div className="wrapper flex-grow-1">
-        <Header />
-        <ErrorBoundary>
-          <Switch>
-            <Route exact path="/:block(\d+)?" component={HomePage} />
-            <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
-            <Route exact path="/ftc/:block(\d+)?" component={HomePage} />
-            <Route exact path="/ltc/:block(\d+)?" component={HomePage} />
+          <Header />
+          <ErrorBoundary>
+            <Switch>
+              <Route exact path="/:block(\d+)?" component={HomePage} />
+              <Route exact path="/testnet/:block(\d+)?" component={HomePage} />
 
-            <Route path="/tx/:tx" component={TransactionDetail} />
-            <Route path="/testnet/tx/:tx" component={TransactionDetail} />
-            <Route path="/ftc/tx/:tx" component={TransactionDetail} />
-            <Route path="/ltc/tx/:tx" component={TransactionDetail} />
+              <Route path="/tx/:tx" component={TransactionDetail} />
+              <Route path="/testnet/tx/:tx" component={TransactionDetail} />
 
-            <Route path="/transactions/unconfirmed" component={Transactions} />
-            <Route
-              path="/testnet/transactions/unconfirmed"
-              component={Transactions}
-            />
-            <Route
-              path="/ftc/transactions/unconfirmed"
-              component={Transactions}
-            />
-            <Route
-              path="/ltc/transactions/unconfirmed"
-              component={Transactions}
-            />
+              <Route
+                path="/transactions/unconfirmed"
+                component={Transactions}
+              />
+              <Route
+                path="/testnet/transactions/unconfirmed"
+                component={Transactions}
+              />
 
-            <Route path={`/testnet/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname} />
-            {/*<Route path={`/ftc/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname} />*/}
-            <Route path={`/${TXS_CLASS_AB}`} component={Transactions} key={location.pathname} />
+              <Route
+                path={`/testnet/${TXS_CLASS_AB}`}
+                component={Transactions}
+                key={location.pathname}
+              />
+              <Route
+                path={`/${TXS_CLASS_AB}`}
+                component={Transactions}
+                key={location.pathname}
+              />
 
-            <Route
-              path="/address/:address/:page(\d+)?"
-              component={AddressDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/testnet/address/:address/:page(\d+)?"
-              component={AddressDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/ftc/address/:address/:page(\d+)?"
-              component={AddressDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/ltc/address/:address/:page(\d+)?"
-              component={AddressDetail}
-              key={location.pathname}
-            />
+              <Route
+                path="/address/:address/:page(\d+)?"
+                component={AddressDetail}
+                key={location.pathname}
+              />
+              <Route
+                path="/testnet/address/:address/:page(\d+)?"
+                component={AddressDetail}
+                key={location.pathname}
+              />
 
-            <Route
-              path="/search/:query?"
-              component={Search}
-              key={location.pathname}
-            />
-            <Route
-              path="/testnet/search/:query"
-              component={Search}
-              key={location.pathname}
-            />
-            <Route
-              path="/ftc/search/:query"
-              component={Search}
-              key={location.pathname}
-            />
-            <Route
-              path="/ltc/search/:query"
-              component={Search}
-              key={location.pathname}
-            />
+              <Route
+                path="/search/:query?"
+                component={Search}
+                key={location.pathname}
+              />
+              <Route
+                path="/testnet/search/:query"
+                component={Search}
+                key={location.pathname}
+              />
 
-            <Route
-              path="/properties/:ecosystem"
-              component={Properties}
-              key={location.pathname}
-            />
-            <Route
-              path="/testnet/properties/:ecosystem"
-              component={Properties}
-              key={location.pathname}
-            />
-            <Route
-              path="/ftc/properties/:ecosystem"
-              component={Properties}
-              key={location.pathname}
-            />
-            <Route
-              path="/ltc/properties/:ecosystem"
-              component={Properties}
-              key={location.pathname}
-            />
+              <Route
+                path="/properties/:ecosystem"
+                component={Properties}
+                key={location.pathname}
+              />
+              <Route
+                path="/testnet/properties/:ecosystem"
+                component={Properties}
+                key={location.pathname}
+              />
 
-            <Route
-              path="/asset/:propertyid(\d+)"
-              component={AssetDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/testnet/asset/:propertyid(\d+)"
-              component={AssetDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/ftc/asset/:propertyid(\d+)"
-              component={AssetDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/ltc/asset/:propertyid(\d+)"
-              component={AssetDetail}
-              key={location.pathname}
-            />
+              <Route
+                path="/asset/:propertyid(\d+)"
+                component={AssetDetail}
+                key={location.pathname}
+              />
+              <Route
+                path="/testnet/asset/:propertyid(\d+)"
+                component={AssetDetail}
+                key={location.pathname}
+              />
 
-            <Route exact path="/crowdsales/:ecosystem" component={Crowdsales} />
-            <Route
-              exact
-              path="/testnet/crowdsales/:ecosystem"
-              component={Crowdsales}
-            />
-            <Route
-              exact
-              path="/ftc/crowdsales/:ecosystem"
-              component={Crowdsales}
-            />
-            <Route
-              exact
-              path="/ltc/crowdsales/:ecosystem"
-              component={Crowdsales}
-            />
+              <Route
+                exact
+                path="/crowdsales/:ecosystem"
+                component={Crowdsales}
+              />
+              <Route
+                exact
+                path="/testnet/crowdsales/:ecosystem"
+                component={Crowdsales}
+              />
 
-            <Route
-              path="/crowdsale/:crowdsaleid(\d+)"
-              component={CrowdsaleDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/testnet/crowdsale/:crowdsaleid(\d+)"
-              component={CrowdsaleDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/ftc/crowdsale/:crowdsaleid(\d+)"
-              component={CrowdsaleDetail}
-              key={location.pathname}
-            />
-            <Route
-              path="/ltc/crowdsale/:crowdsaleid(\d+)"
-              component={CrowdsaleDetail}
-              key={location.pathname}
-            />
+              <Route
+                path="/crowdsale/:crowdsaleid(\d+)"
+                component={CrowdsaleDetail}
+                key={location.pathname}
+              />
+              <Route
+                path="/testnet/crowdsale/:crowdsaleid(\d+)"
+                component={CrowdsaleDetail}
+                key={location.pathname}
+              />
 
-            <Route
-              exact
-              path="/block/:block(\d+)"
-              component={BlockDetail}
-              key={location.pathname}
-            />
-            <Route
-              exact
-              path="/testnet/block/:block(\d+)"
-              component={BlockDetail}
-              key={location.pathname}
-            />
-            <Route
-              exact
-              path="/ftc/block/:block(\d+)"
-              component={BlockDetail}
-              key={location.pathname}
-            />
-            <Route
-              exact
-              path="/ltc/block/:block(\d+)"
-              component={BlockDetail}
-              key={location.pathname}
-            />
+              <Route
+                exact
+                path="/block/:block(\d+)"
+                component={BlockDetail}
+                key={location.pathname}
+              />
+              <Route
+                exact
+                path="/testnet/block/:block(\d+)"
+                component={BlockDetail}
+                key={location.pathname}
+              />
 
-            <Route exact path="/submitfeedback" component={Feedback} />
+              <Route exact path="/submitfeedback" component={Feedback} />
 
-            {/* <Route exact path="/analytics" component={HistoryChart} /> */}
-            <Route exact path="/blocks/:block(\d+)?" component={FullBlockList} />
-            <Route
-              exact
-              path="/testnet/blocks/:block(\d+)?"
-              component={FullBlockList}
-            />
-            <Route
-              exact
-              path="/ftc/blocks/:block(\d+)?"
-              component={FullBlockList}
-            />
-            <Route
-              exact
-              path="/ltc/blocks/:block(\d+)?"
-              component={FullBlockList}
-            />
+              {/* <Route exact path="/analytics" component={HistoryChart} /> */}
+              <Route
+                exact
+                path="/blocks/:block(\d+)?"
+                component={FullBlockList}
+              />
+              <Route
+                exact
+                path="/testnet/blocks/:block(\d+)?"
+                component={FullBlockList}
+              />
 
-            <Route exact path="/activations" component={Activations} />
-            <Route exact path="/testnet/activations" component={Activations} />
-            <Route exact path="/ftc/activations" component={Activations} />
-            <Route exact path="/ltc/activations" component={Activations} />
+              <Route exact path="/activations" component={Activations} />
+              <Route
+                exact
+                path="/testnet/activations"
+                component={Activations}
+              />
 
-            <Route exact path="/testnet/exchange" component={Exchange} />
-            <Route exact path="/ftc/exchange" component={Exchange} />
-            <Route exact path="/ltc/exchange" component={Exchange} />
+              <Route exact path="/testnet/exchange" component={Exchange} />
 
-            <Route path="" component={NotFoundPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </ErrorBoundary>
+              <Route path="" component={NotFoundPage} />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </ErrorBoundary>
         </div>
         <Footer />
         {isTestnet && <TestnetMarquee />}

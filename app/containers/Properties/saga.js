@@ -1,12 +1,9 @@
 import { call, put, take } from 'redux-saga/effects';
 import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
-import isNil from 'lodash/isNil';
 
 // import { API_URL_BLOCKCHAIN_BTC_BALANCE, FN_API_URL_BLOCKCHAIR_BTC_BALANCE } from 'containers/App/constants';
 import getLocationPath from 'utils/getLocationPath';
-// import isFeatherCoin from 'utils/isOmniFeather';
-// import isLTC from 'utils/isLTC';
 import { LOAD_PROPERTIES } from './constants';
 import { propertiesLoaded } from './actions';
 

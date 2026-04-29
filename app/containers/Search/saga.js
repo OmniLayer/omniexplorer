@@ -3,10 +3,11 @@ import request from 'utils/request';
 import encoderURIParams from 'utils/encoderURIParams';
 import isNil from 'lodash/isNil';
 
-import { API_URL_BLOCKCHAIN_BTC_BALANCE, FN_API_URL_BLOCKCHAIR_BTC_BALANCE } from 'containers/App/constants';
+import {
+  API_URL_BLOCKCHAIN_BTC_BALANCE,
+  FN_API_URL_BLOCKCHAIR_BTC_BALANCE,
+} from 'containers/App/constants';
 import getLocationPath from 'utils/getLocationPath';
-import isFeatherCoin from 'utils/isOmniFeather';
-import isLTC from 'utils/isLTC';
 import { LOAD_SEARCH } from './constants';
 import { searchLoaded } from './actions';
 
@@ -24,7 +25,7 @@ export function* getSearch({ query }) {
 
   const search = yield call(request, requestURL, options);
   // if the query is an address get BTC balance from blockchain.info for the given wallet
-  if (!isNil(search.data.address) && isNil(search.data.address.error) && !isFeatherCoin && !isLTC) {
+  if (!isNil(search.data.address) && isNil(search.data.address.error)) {
     const wallet = search.data.address;
     const address = search.query;
 
@@ -34,11 +35,15 @@ export function* getSearch({ query }) {
     const urlBTCBalance = `${API_URL_BLOCKCHAIN_BTC_BALANCE}${address}`;
     try {
       btcBalance = yield call(request, urlBTCBalance);
-    } catch {
-    }
+      // eslint-disable-next-line no-empty
+    } catch {}
 
     // if there is a valid response use btc balance from blockchain.info response
-    if (btcBalance && btcBalance[address] && !isNil(btcBalance[address].final_balance)) {
+    if (
+      btcBalance &&
+      btcBalance[address] &&
+      !isNil(btcBalance[address].final_balance)
+    ) {
       btcBalanceValue = btcBalance[address].final_balance;
     } else {
       // if blockchain.info retrieves an error try with blockchair
@@ -50,11 +55,11 @@ export function* getSearch({ query }) {
         btcBalance = yield call(request, urlBTCBalanceAlternative);
         // use btc balance from blockchair.com response
         btcBalanceValue = btcBalance.data[address].address.balance;
-      } catch {
-      }
+        // eslint-disable-next-line no-empty
+      } catch {}
     }
 
-    const walletBTCBalance = (wallet.balance || []).find(x => x.id == 0);
+    const walletBTCBalance = (wallet.balance || []).find(x => x.id === 0);
     if (walletBTCBalance) walletBTCBalance.value = btcBalanceValue;
   }
 

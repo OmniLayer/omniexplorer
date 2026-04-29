@@ -1,13 +1,14 @@
 import { call, put, take } from 'redux-saga/effects';
 import { LOAD_ADDRESS } from 'containers/AddressDetail/constants';
-import { API_URL_BLOCKCHAIN_BTC_BALANCE, FN_API_URL_BLOCKCHAIR_BTC_BALANCE } from 'containers/App/constants';
+import {
+  API_URL_BLOCKCHAIN_BTC_BALANCE,
+  FN_API_URL_BLOCKCHAIR_BTC_BALANCE,
+} from 'containers/App/constants';
 import getLocationPath from 'utils/getLocationPath';
 import { updateFetch } from 'components/Token/actions';
 import { addressLoaded } from 'containers/AddressDetail/actions';
 import encoderURIParams from 'utils/encoderURIParams';
 import request from 'utils/request';
-import isFeatherCoin from 'utils/isOmniFeather';
-import isLTC from 'utils/isLTC';
 import isNil from 'lodash/isNil';
 
 export function* getAddress({ addr }) {
@@ -31,12 +32,7 @@ export function* getAddress({ addr }) {
   try {
     btcBalance = yield call(request, urlBTCBalance);
     // eslint-disable-next-line no-empty
-  } catch {
-  }
-  // let [wallet, btcBalance] = yield all([
-  //   call(request, requestURL, options),
-  //   call(request, urlBTCBalance),
-  // ]);
+  } catch {}
 
   /**
    // use btc balance from blockchain.info response
@@ -63,14 +59,11 @@ export function* getAddress({ addr }) {
       // use btc balance from blockchair.com response
       btcBalanceValue = btcBalance.data[addr].address.balance;
       // eslint-disable-next-line no-empty
-    } catch {
-    }
+    } catch {}
   }
 
-  if(!isFeatherCoin && !isLTC){
-    const walletBTCBalance = wallet.balance.find(x => x.id == 0);
-    if (walletBTCBalance) walletBTCBalance.value = btcBalanceValue;
-  }
+  const walletBTCBalance = wallet.balance.find(x => x.id === 0);
+  if (walletBTCBalance) walletBTCBalance.value = btcBalanceValue;
 
   yield put(addressLoaded(wallet));
   yield wallet.balance.map(property => put(updateFetch(property.propertyinfo)));

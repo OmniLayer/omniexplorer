@@ -38,7 +38,7 @@ import Timer from 'components/Timer';
 import ContainerBase from 'components/ContainerBase';
 import AssetLogo from 'components/AssetLogo';
 import AssetLink from 'components/AssetLink';
-import moment from 'moment/src/moment';
+import moment from 'moment';
 import { FactoryLinkPreview } from 'components/LinkPreview';
 
 import {
